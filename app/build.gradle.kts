@@ -121,6 +121,7 @@ androidComponents {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.2.21")
+    implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:2.2.21")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 
     implementation(files("$rootDir/libs/common-plugin-api.aar"))
