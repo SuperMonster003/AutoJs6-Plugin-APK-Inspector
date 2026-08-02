@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="action_inspect_android_package">检查 Android 软件包</string>
+    <string name="action_view_manifest">查看清单</string>
+    <string name="app_name">AutoJs6 插件 - APK 检查器</string>
+    <string name="components_aab">模块: %1$d\n%2$s</string>
+    <string name="components_apk">APK 条目: %1$d\n为此设备选择: %2$d\nOBB 资源: %3$d\n%4$s</string>
+    <string name="detail_device_sdk">设备 SDK: %1$d</string>
+    <string name="detail_file">文件: %1$s</string>
+    <string name="detail_format">格式: %1$s</string>
+    <string name="detail_label">标签: %1$s</string>
+    <string name="detail_mime">MIME: %1$s</string>
+    <string name="detail_package_name">软件包: %1$s</string>
+    <string name="detail_sdk">SDK: 最低 %1$s | 目标 %2$s | 最高 %3$s</string>
+    <string name="detail_sha256">SHA-256: %1$s</string>
+    <string name="detail_signature">签名方案: %1$s</string>
+    <string name="detail_size">大小: %1$s</string>
+    <string name="detail_version">版本: %1$s (%2$s)</string>
+    <string name="error_cannot_inspect">无法检查 Android 软件包</string>
+    <string name="error_cannot_read_package">无法安全读取 Android 软件包</string>
+    <string name="finding_aab_conversion">AAB 文件需要转换后才能安装</string>
+    <string name="finding_incompatible">所选软件包集与此设备不兼容</string>
+    <string name="finding_invalid">软件包集不完整或无效</string>
+    <string name="finding_none">未检测到结构或设备兼容性问题</string>
+    <string name="finding_obb">软件包包含 %1$d 个不属于 APK 集的 OBB 资源</string>
+    <string name="inspection_loading" tools:ignore="TypographyEllipsis">正在检查软件包...</string>
+    <string name="inspection_title">APK 检查器</string>
+    <string name="manifest_title">Android 清单</string>
+    <string name="package_icon_content_description">软件包图标</string>
+    <string name="plugin_description">无需安装即可检查 APK, APKS, XAPK, APKM, APKZ 和 AAB 文件</string>
+    <string name="section_components">组件</string>
+    <string name="section_findings">安全与兼容性发现</string>
+    <string name="section_package_details">软件包详情</string>
+    <string name="section_requested_permissions">请求的权限</string>
+    <string name="text_none">无</string>
+    <string name="text_unknown">未知</string>
+</resources>

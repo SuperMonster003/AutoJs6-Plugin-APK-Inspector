@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="action_inspect_android_package">Inspeccionar paquete Android</string>
+    <string name="action_view_manifest">Ver manifest</string>
+    <string name="app_name">AutoJs6 Plugin - APK Inspector</string>
+    <string name="components_aab">Módulos: %1$d\n%2$s</string>
+    <string name="components_apk">Entradas APK: %1$d\nSeleccionadas para este dispositivo: %2$d\nRecursos OBB: %3$d\n%4$s</string>
+    <string name="detail_device_sdk">SDK del dispositivo: %1$d</string>
+    <string name="detail_file">Archivo: %1$s</string>
+    <string name="detail_format">Formato: %1$s</string>
+    <string name="detail_label">Etiqueta: %1$s</string>
+    <string name="detail_mime">MIME: %1$s</string>
+    <string name="detail_package_name">Paquete: %1$s</string>
+    <string name="detail_sdk">SDK: mín %1$s | objetivo %2$s | máx %3$s</string>
+    <string name="detail_sha256">SHA-256: %1$s</string>
+    <string name="detail_signature">Esquemas de firma: %1$s</string>
+    <string name="detail_size">Tamaño: %1$s</string>
+    <string name="detail_version">Versión: %1$s (%2$s)</string>
+    <string name="error_cannot_inspect">No se pudo inspeccionar el paquete Android</string>
+    <string name="error_cannot_read_package">No se pudo leer el paquete Android de forma segura</string>
+    <string name="finding_aab_conversion">Los archivos AAB requieren conversión antes de la instalación</string>
+    <string name="finding_incompatible">El conjunto de paquetes seleccionado no es compatible con este dispositivo</string>
+    <string name="finding_invalid">El conjunto de paquetes está incompleto o no es válido</string>
+    <string name="finding_none">No se detectaron problemas estructurales ni de compatibilidad con el dispositivo</string>
+    <string name="finding_obb">El paquete contiene %1$d recursos OBB que no forman parte del conjunto APK</string>
+    <string name="inspection_loading" tools:ignore="TypographyEllipsis">Inspeccionando paquete...</string>
+    <string name="inspection_title">APK Inspector</string>
+    <string name="manifest_title">Manifest de Android</string>
+    <string name="package_icon_content_description">Icono del paquete</string>
+    <string name="plugin_description">Inspeccionar archivos APK, APKS, XAPK, APKM, APKZ y AAB sin instalarlos</string>
+    <string name="section_components">Componentes</string>
+    <string name="section_findings">Hallazgos de seguridad y compatibilidad</string>
+    <string name="section_package_details">Detalles del paquete</string>
+    <string name="section_requested_permissions">Permisos solicitados</string>
+    <string name="text_none">Ninguno</string>
+    <string name="text_unknown">Desconocido</string>
+</resources>

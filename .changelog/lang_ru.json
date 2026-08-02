@@ -1,0 +1,24 @@
+{
+  "changelog_label_hint": "Подсказка",
+  "changelog_label_feature": "Функция",
+  "changelog_label_fix": "Исправление",
+  "changelog_label_improvement": "Улучшение",
+  "changelog_label_dependency": "Зависимость",
+  "$data": {
+    "v1.0.0": {
+      "released_date": "2026/08/02",
+      "feature": [
+        "Плагин APK Inspector с ID `apk-inspector`, ID действия `inspect-android-package`, движком `explorer-action` и вариантом `default`",
+        "Основная проверка только для чтения по протоколу Explorer Action v2 для файлов APK, APKS, XAPK, APKM, APKZ и AAB",
+        "Декодирование только для чтения текстовых и бинарных manifest APK, protobuf manifest AAB и метаданных bundletool `toc.pb`",
+        "Сведения о пакете, запрошенные разрешения, компоненты, подходящие устройству split APK, ресурсы OBB, структурные находки, форматированный manifest и наличие подписей APK V1-V3",
+        "Раздельные защищенный шлюз Explorer и шлюз Android `ACTION_VIEW` с точным MIME, лимит 4 GiB и ограниченный приватный снимок только для чтения с SHA-256",
+        "Чистая реализация JVM без нативной библиотеки, неограниченные ABI через `supportedAbis = emptyArray()`, один независимый от ABI APK и требование AutoJs6 build 5269",
+        "Локализованные метаданные, интерфейс, инструкции, README и журналы на испанском, французском, русском, арабском, японском, корейском, английском, упрощенном китайском, традиционном китайском Гонконга и Тайваня"
+      ],
+      "dependency": [
+        "Добавлен Gson версии 2.13.2"
+      ]
+    }
+  }
+}

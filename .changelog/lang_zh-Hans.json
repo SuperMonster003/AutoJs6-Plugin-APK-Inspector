@@ -1,0 +1,24 @@
+{
+  "changelog_label_hint": "提示",
+  "changelog_label_feature": "新增",
+  "changelog_label_fix": "修复",
+  "changelog_label_improvement": "优化",
+  "changelog_label_dependency": "依赖",
+  "$data": {
+    "v1.0.0": {
+      "released_date": "2026/08/02",
+      "feature": [
+        "APK 检查器插件, 插件 ID 为 `apk-inspector`, 动作 ID 为 `inspect-android-package`, 引擎为 `explorer-action`, 变体为 `default`",
+        "通过 Explorer Action 协议 v2 为 APK, APKS, XAPK, APKM, APKZ 和 AAB 文件提供主要只读检查动作",
+        "只读解码文本和二进制 APK 清单, AAB protobuf 清单及 bundletool `toc.pb` 元数据",
+        "软件包详情, 请求权限, 组件, 设备匹配拆分, OBB 资源, 结构发现, 格式化清单查看和 APK V1-V3 签名方案存在性检测",
+        "相互分离的受保护文件浏览器入口和精确 MIME Android `ACTION_VIEW` 入口, 4 GiB 输入上限及计算 SHA-256 的有界私有只读快照",
+        "纯 JVM 实现且不包含原生库, 通过 `supportedAbis = emptyArray()` 声明 ABI 无限制, 发布单一 ABI 无关 APK, 要求 AutoJs6 宿主构建版本 5269",
+        "插件元数据, 界面文本, 使用说明, README 和 CHANGELOG 的多语言资源: 西班牙语/法语/俄语/阿拉伯语/日语/韩语/英语/简体中文/香港繁体/台湾繁体"
+      ],
+      "dependency": [
+        "附加 Gson 版本 2.13.2"
+      ]
+    }
+  }
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="action_inspect_android_package">Inspect Android package</string>
+    <string name="action_view_manifest">View manifest</string>
+    <string name="app_name">AutoJs6 Plugin - APK Inspector</string>
+    <string name="components_aab">Modules: %1$d\n%2$s</string>
+    <string name="components_apk">APK entries: %1$d\nSelected for this device: %2$d\nOBB assets: %3$d\n%4$s</string>
+    <string name="detail_device_sdk">Device SDK: %1$d</string>
+    <string name="detail_file">File: %1$s</string>
+    <string name="detail_format">Format: %1$s</string>
+    <string name="detail_label">Label: %1$s</string>
+    <string name="detail_mime">MIME: %1$s</string>
+    <string name="detail_package_name">Package: %1$s</string>
+    <string name="detail_sdk">SDK: min %1$s | target %2$s | max %3$s</string>
+    <string name="detail_sha256">SHA-256: %1$s</string>
+    <string name="detail_signature">Signature schemes: %1$s</string>
+    <string name="detail_size">Size: %1$s</string>
+    <string name="detail_version">Version: %1$s (%2$s)</string>
+    <string name="error_cannot_inspect">The Android package could not be inspected</string>
+    <string name="error_cannot_read_package">The Android package could not be read safely</string>
+    <string name="finding_aab_conversion">AAB files require conversion before installation</string>
+    <string name="finding_incompatible">The selected package set is incompatible with this device</string>
+    <string name="finding_invalid">The package set is incomplete or invalid</string>
+    <string name="finding_none">No structural or device compatibility problems were detected</string>
+    <string name="finding_obb">The package contains %1$d OBB assets that are not part of the APK set</string>
+    <string name="inspection_loading" tools:ignore="TypographyEllipsis">Inspecting package...</string>
+    <string name="inspection_title">APK Inspector</string>
+    <string name="manifest_title">Android Manifest</string>
+    <string name="package_icon_content_description">Package icon</string>
+    <string name="plugin_description">Inspect APK, APKS, XAPK, APKM, APKZ, and AAB files without installing them</string>
+    <string name="section_components">Components</string>
+    <string name="section_findings">Security and compatibility findings</string>
+    <string name="section_package_details">Package details</string>
+    <string name="section_requested_permissions">Requested permissions</string>
+    <string name="text_none">None</string>
+    <string name="text_unknown">Unknown</string>
+</resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="action_inspect_android_package">檢查 Android 套件</string>
+    <string name="action_view_manifest">檢視資訊清單</string>
+    <string name="app_name">AutoJs6 外掛程式 - APK 檢查器</string>
+    <string name="components_aab">模組: %1$d\n%2$s</string>
+    <string name="components_apk">APK 項目: %1$d\n為此裝置選取: %2$d\nOBB 資源: %3$d\n%4$s</string>
+    <string name="detail_device_sdk">裝置 SDK: %1$d</string>
+    <string name="detail_file">檔案: %1$s</string>
+    <string name="detail_format">格式: %1$s</string>
+    <string name="detail_label">標籤: %1$s</string>
+    <string name="detail_mime">MIME: %1$s</string>
+    <string name="detail_package_name">套件: %1$s</string>
+    <string name="detail_sdk">SDK: 最低 %1$s | 目標 %2$s | 最高 %3$s</string>
+    <string name="detail_sha256">SHA-256: %1$s</string>
+    <string name="detail_signature">簽章配置: %1$s</string>
+    <string name="detail_size">大小: %1$s</string>
+    <string name="detail_version">版本: %1$s (%2$s)</string>
+    <string name="error_cannot_inspect">無法檢查 Android 套件</string>
+    <string name="error_cannot_read_package">無法安全讀取 Android 套件</string>
+    <string name="finding_aab_conversion">AAB 檔案需要轉換後才能安裝</string>
+    <string name="finding_incompatible">選取的套件組合與此裝置不相容</string>
+    <string name="finding_invalid">套件組合不完整或無效</string>
+    <string name="finding_none">未偵測到結構或裝置相容性問題</string>
+    <string name="finding_obb">套件包含 %1$d 個不屬於 APK 組合的 OBB 資源</string>
+    <string name="inspection_loading" tools:ignore="TypographyEllipsis">正在檢查套件...</string>
+    <string name="inspection_title">APK 檢查器</string>
+    <string name="manifest_title">Android 資訊清單</string>
+    <string name="package_icon_content_description">套件圖示</string>
+    <string name="plugin_description">毋須安裝即可檢查 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案</string>
+    <string name="section_components">元件</string>
+    <string name="section_findings">安全和相容性發現</string>
+    <string name="section_package_details">套件詳情</string>
+    <string name="section_requested_permissions">要求的權限</string>
+    <string name="text_none">無</string>
+    <string name="text_unknown">未知</string>
+</resources>

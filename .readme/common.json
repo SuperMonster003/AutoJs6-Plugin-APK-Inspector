@@ -1,0 +1,16 @@
+{
+  "repo_url": "https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector",
+  "repo_slug": "SuperMonster003/AutoJs6-Plugin-APK-Inspector",
+  "docs_autojs6_url": "https://docs.autojs6.com",
+  "plugin_action": "org.autojs.plugin.EXPLORER_ACTION",
+  "plugin_execute_action": "org.autojs.plugin.EXPLORER_ACTION_EXECUTE",
+  "plugin_id": "apk-inspector",
+  "plugin_engine": "explorer-action",
+  "plugin_variant": "default",
+  "explorer_action_id": "inspect-android-package",
+  "mime_type": "Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types",
+  "required_host_build": "5269",
+  "supported_abis": "unrestricted (supportedAbis = emptyArray())",
+  "supported_formats": "APK, APKS, XAPK, APKM, APKZ, AAB",
+  "max_input_size": "4 GiB"
+}

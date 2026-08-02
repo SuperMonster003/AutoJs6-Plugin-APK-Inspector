@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="action_inspect_android_package">Androidパッケージを検査</string>
+    <string name="action_view_manifest">manifestを表示</string>
+    <string name="app_name">AutoJs6 Plugin - APK Inspector</string>
+    <string name="components_aab">モジュール: %1$d\n%2$s</string>
+    <string name="components_apk">APKエントリ: %1$d\nこの端末向けの選択: %2$d\nOBBアセット: %3$d\n%4$s</string>
+    <string name="detail_device_sdk">端末SDK: %1$d</string>
+    <string name="detail_file">ファイル: %1$s</string>
+    <string name="detail_format">形式: %1$s</string>
+    <string name="detail_label">ラベル: %1$s</string>
+    <string name="detail_mime">MIME: %1$s</string>
+    <string name="detail_package_name">パッケージ: %1$s</string>
+    <string name="detail_sdk">SDK: 最小 %1$s | ターゲット %2$s | 最大 %3$s</string>
+    <string name="detail_sha256">SHA-256: %1$s</string>
+    <string name="detail_signature">署名方式: %1$s</string>
+    <string name="detail_size">サイズ: %1$s</string>
+    <string name="detail_version">バージョン: %1$s (%2$s)</string>
+    <string name="error_cannot_inspect">Androidパッケージを検査できませんでした</string>
+    <string name="error_cannot_read_package">Androidパッケージを安全に読み取れませんでした</string>
+    <string name="finding_aab_conversion">AABファイルはインストール前に変換が必要です</string>
+    <string name="finding_incompatible">選択したパッケージセットはこの端末と互換性がありません</string>
+    <string name="finding_invalid">パッケージセットが不完全または無効です</string>
+    <string name="finding_none">構造または端末互換性の問題は検出されませんでした</string>
+    <string name="finding_obb">パッケージにはAPKセットに含まれないOBBアセットが%1$d個あります</string>
+    <string name="inspection_loading" tools:ignore="TypographyEllipsis">パッケージを検査中...</string>
+    <string name="inspection_title">APK Inspector</string>
+    <string name="manifest_title">Android Manifest</string>
+    <string name="package_icon_content_description">パッケージアイコン</string>
+    <string name="plugin_description">APK, APKS, XAPK, APKM, APKZ, AABファイルをインストールせずに検査</string>
+    <string name="section_components">コンポーネント</string>
+    <string name="section_findings">セキュリティと互換性の結果</string>
+    <string name="section_package_details">パッケージ詳細</string>
+    <string name="section_requested_permissions">要求権限</string>
+    <string name="text_none">なし</string>
+    <string name="text_unknown">不明</string>
+</resources>

@@ -1,0 +1,24 @@
+{
+  "changelog_label_hint": "تلميح",
+  "changelog_label_feature": "ميزة",
+  "changelog_label_fix": "إصلاح",
+  "changelog_label_improvement": "تحسين",
+  "changelog_label_dependency": "اعتماد",
+  "$data": {
+    "v1.0.0": {
+      "released_date": "2026/08/02",
+      "feature": [
+        "إضافة APK Inspector بمعرف `apk-inspector` ومعرف إجراء `inspect-android-package` ومحرك `explorer-action` ومتغير `default`",
+        "فحص أساسي للقراءة فقط ببروتوكول Explorer Action v2 لملفات APK وAPKS وXAPK وAPKM وAPKZ وAAB",
+        "فك ترميز للقراءة فقط لـ manifest النصي والثنائي في APK وmanifest بتنسيق protobuf في AAB وبيانات bundletool `toc.pb`",
+        "تفاصيل الحزمة والأذونات المطلوبة والمكونات والأجزاء المطابقة للجهاز وأصول OBB والنتائج البنيوية وعرض manifest منسق واكتشاف وجود توقيعات APK V1-V3",
+        "بوابتان منفصلتان لـ Explorer المحمي وAndroid `ACTION_VIEW` بنوع MIME دقيق مع حد 4 GiB ونسخة خاصة محدودة للقراءة فقط تحسب SHA-256",
+        "تنفيذ JVM خالص دون مكتبة أصلية وABI غير مقيد عبر `supportedAbis = emptyArray()` وملف APK واحد مستقل عن ABI مع اشتراط AutoJs6 build 5269",
+        "بيانات وصفية وواجهة وتعليمات وREADME وسجلات تغيير موطنة بالإسبانية والفرنسية والروسية والعربية واليابانية والكورية والإنجليزية والصينية المبسطة والصينية التقليدية لهونغ كونغ وتايوان"
+      ],
+      "dependency": [
+        "إضافة Gson الإصدار 2.13.2"
+      ]
+    }
+  }
+}

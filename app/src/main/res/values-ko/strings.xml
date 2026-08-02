@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="action_inspect_android_package">Android 패키지 검사</string>
+    <string name="action_view_manifest">manifest 보기</string>
+    <string name="app_name">AutoJs6 Plugin - APK Inspector</string>
+    <string name="components_aab">모듈: %1$d\n%2$s</string>
+    <string name="components_apk">APK 항목: %1$d\n이 기기에 선택됨: %2$d\nOBB 자산: %3$d\n%4$s</string>
+    <string name="detail_device_sdk">기기 SDK: %1$d</string>
+    <string name="detail_file">파일: %1$s</string>
+    <string name="detail_format">형식: %1$s</string>
+    <string name="detail_label">레이블: %1$s</string>
+    <string name="detail_mime">MIME: %1$s</string>
+    <string name="detail_package_name">패키지: %1$s</string>
+    <string name="detail_sdk">SDK: 최소 %1$s | 대상 %2$s | 최대 %3$s</string>
+    <string name="detail_sha256">SHA-256: %1$s</string>
+    <string name="detail_signature">서명 방식: %1$s</string>
+    <string name="detail_size">크기: %1$s</string>
+    <string name="detail_version">버전: %1$s (%2$s)</string>
+    <string name="error_cannot_inspect">Android 패키지를 검사할 수 없습니다</string>
+    <string name="error_cannot_read_package">Android 패키지를 안전하게 읽을 수 없습니다</string>
+    <string name="finding_aab_conversion">AAB 파일은 설치 전에 변환해야 합니다</string>
+    <string name="finding_incompatible">선택한 패키지 세트가 이 기기와 호환되지 않습니다</string>
+    <string name="finding_invalid">패키지 세트가 불완전하거나 잘못되었습니다</string>
+    <string name="finding_none">구조 또는 기기 호환성 문제가 감지되지 않았습니다</string>
+    <string name="finding_obb">패키지에 APK 세트에 포함되지 않은 OBB 자산 %1$d개가 있습니다</string>
+    <string name="inspection_loading" tools:ignore="TypographyEllipsis">패키지 검사 중...</string>
+    <string name="inspection_title">APK Inspector</string>
+    <string name="manifest_title">Android Manifest</string>
+    <string name="package_icon_content_description">패키지 아이콘</string>
+    <string name="plugin_description">APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사</string>
+    <string name="section_components">구성 요소</string>
+    <string name="section_findings">보안 및 호환성 결과</string>
+    <string name="section_package_details">패키지 세부 정보</string>
+    <string name="section_requested_permissions">요청 권한</string>
+    <string name="text_none">없음</string>
+    <string name="text_unknown">알 수 없음</string>
+</resources>
