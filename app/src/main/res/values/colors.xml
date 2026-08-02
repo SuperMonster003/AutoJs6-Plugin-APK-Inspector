@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="error_background">#CC3B1F1F</color>
+    <color name="error_text">#FFFFFFFF</color>
+    <color name="color_primary">#E88A00</color>
+    <color name="color_primary_dark">#A85A00</color>
+    <color name="color_secondary">#0097A7</color>
+    <color name="toolbar_text">#FFFFFFFF</color>
+    <color name="window_background">#FFFFFFFF</color>
+</resources>
