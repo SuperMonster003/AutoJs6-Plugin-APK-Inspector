@@ -4,6 +4,13 @@
 
 ******
 
+# v1.0.1
+
+###### 2026/08/08
+
+* `Corrección` Devolver un enlace válido al servicio Explorer Action al activarlo desde el centro de complementos
+* `Mejora` Acortar el nombre y la descripción del complemento y hacer más natural la documentación de usuario
+
 # v1.0.0
 
 ###### 2026/08/02
@@ -13,6 +20,5 @@
 * `Función` Decodificación de solo lectura de manifests APK de texto y binarios, manifests protobuf AAB y metadatos bundletool `toc.pb`
 * `Función` Detalles del paquete, permisos solicitados, componentes, APK divididos compatibles con el dispositivo, recursos OBB, hallazgos estructurales, manifest formateado y presencia de firmas APK V1-V3
 * `Función` Pasarelas separadas para Explorer protegido y Android `ACTION_VIEW` con MIME exacto, límite de 4 GiB y copia privada limitada de solo lectura calculada con SHA-256
-* `Función` Implementación JVM pura sin biblioteca nativa, ABI sin restricciones mediante `supportedAbis = emptyArray()`, un APK independiente de ABI y compilación 5269 de AutoJs6 requerida
 * `Función` Metadatos, interfaz, instrucciones, README e historiales localizados en español, francés, ruso, árabe, japonés, coreano, inglés, chino simplificado, chino tradicional de Hong Kong y chino tradicional de Taiwán
 * `Dependencia` Añadido Gson versión 2.13.2

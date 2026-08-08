@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">Android 패키지 검사</string>
     <string name="action_view_manifest">manifest 보기</string>
-    <string name="app_name">AutoJs6 Plugin - APK Inspector</string>
+    <string name="app_name">APK 검사기</string>
     <string name="components_aab">모듈: %1$d\n%2$s</string>
     <string name="components_apk">APK 항목: %1$d\n이 기기에 선택됨: %2$d\nOBB 자산: %3$d\n%4$s</string>
     <string name="detail_device_sdk">기기 SDK: %1$d</string>
@@ -27,7 +27,7 @@
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Android Manifest</string>
     <string name="package_icon_content_description">패키지 아이콘</string>
-    <string name="plugin_description">APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사</string>
+    <string name="plugin_description">파일 관리자 플러그인. APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사</string>
     <string name="section_components">구성 요소</string>
     <string name="section_findings">보안 및 호환성 결과</string>
     <string name="section_package_details">패키지 세부 정보</string>

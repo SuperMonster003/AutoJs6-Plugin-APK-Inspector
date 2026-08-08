@@ -10,7 +10,6 @@
   "explorer_action_id": "inspect-android-package",
   "mime_type": "Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types",
   "required_host_build": "5269",
-  "supported_abis": "unrestricted (supportedAbis = emptyArray())",
   "supported_formats": "APK, APKS, XAPK, APKM, APKZ, AAB",
   "max_input_size": "4 GiB"
 }

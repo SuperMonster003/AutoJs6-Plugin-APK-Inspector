@@ -2,7 +2,7 @@
 
 <div align="center">
   <p>
-    <img src="{{ repo_url }}/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    <img src="{{ repo_url }}/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="apk-inspector-ic-launcher" border="0" width="128" />
   </p>
 
   <p>{{ text_plugin_synopsis }}</p>
@@ -69,7 +69,6 @@ variant: {{ plugin_variant }}
 Explorer action id: {{ explorer_action_id }}
 MIME type: {{ mime_type }}
 required host build: {{ required_host_build }}
-supported ABIs: {{ supported_abis }}
 ```
 
 {{ p_plugin_scope }}

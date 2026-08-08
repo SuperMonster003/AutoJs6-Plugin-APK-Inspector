@@ -1,10 +1,10 @@
 # APK 檢查器
 
-APK 檢查器在 AutoJs6 主檔案瀏覽器中為 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案提供主要唯讀檢查動作.
+APK 檢查器在檔案管理器中為 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案提供主要唯讀檢查動作.
 
 它顯示套件詳細資料, 要求權限, 元件, 裝置相符分割, OBB 資源, 結構發現, APK V1-V3 簽章配置存在性和格式化 Android 資訊清單.
 
-外掛要求 AutoJs6 建置版本 5269+. 它完全以 JVM 實作且不受裝置 ABI 限制.
+外掛要求主程式建置版本 5269+.
 
 安全與隱私限制:
 

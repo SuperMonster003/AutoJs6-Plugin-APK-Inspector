@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">Androidパッケージを検査</string>
     <string name="action_view_manifest">manifestを表示</string>
-    <string name="app_name">AutoJs6 Plugin - APK Inspector</string>
+    <string name="app_name">APK インスペクター</string>
     <string name="components_aab">モジュール: %1$d\n%2$s</string>
     <string name="components_apk">APKエントリ: %1$d\nこの端末向けの選択: %2$d\nOBBアセット: %3$d\n%4$s</string>
     <string name="detail_device_sdk">端末SDK: %1$d</string>
@@ -27,7 +27,7 @@
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Android Manifest</string>
     <string name="package_icon_content_description">パッケージアイコン</string>
-    <string name="plugin_description">APK, APKS, XAPK, APKM, APKZ, AABファイルをインストールせずに検査</string>
+    <string name="plugin_description">ファイルマネージャープラグイン. APK, APKS, XAPK, APKM, APKZ, AAB ファイルをインストールせずに検査</string>
     <string name="section_components">コンポーネント</string>
     <string name="section_findings">セキュリティと互換性の結果</string>
     <string name="section_package_details">パッケージ詳細</string>

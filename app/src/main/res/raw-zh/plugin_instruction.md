@@ -1,10 +1,10 @@
 # APK 检查器
 
-APK 检查器在 AutoJs6 主文件浏览器中为 APK, APKS, XAPK, APKM, APKZ 和 AAB 文件提供主要只读检查动作.
+APK 检查器在文件管理器中为 APK, APKS, XAPK, APKM, APKZ 和 AAB 文件提供主要只读检查动作.
 
 它显示软件包详情, 请求权限, 组件, 设备匹配拆分, OBB 资源, 结构发现, APK V1-V3 签名方案存在性和格式化 Android 清单.
 
-插件要求 AutoJs6 构建版本 5269+. 它完全基于 JVM 实现且不受设备 ABI 限制.
+插件要求宿主构建版本 5269+.
 
 安全和隐私限制:
 

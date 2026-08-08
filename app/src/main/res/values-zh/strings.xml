@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">检查 Android 软件包</string>
     <string name="action_view_manifest">查看清单</string>
-    <string name="app_name">AutoJs6 插件 - APK 检查器</string>
+    <string name="app_name">APK 检查器</string>
     <string name="components_aab">模块: %1$d\n%2$s</string>
     <string name="components_apk">APK 条目: %1$d\n为此设备选择: %2$d\nOBB 资源: %3$d\n%4$s</string>
     <string name="detail_device_sdk">设备 SDK: %1$d</string>
@@ -27,7 +27,7 @@
     <string name="inspection_title">APK 检查器</string>
     <string name="manifest_title">Android 清单</string>
     <string name="package_icon_content_description">软件包图标</string>
-    <string name="plugin_description">无需安装即可检查 APK, APKS, XAPK, APKM, APKZ 和 AAB 文件</string>
+    <string name="plugin_description">文件管理器插件. 无需安装即可检查 APK, APKS, XAPK, APKM, APKZ 和 AAB 文件</string>
     <string name="section_components">组件</string>
     <string name="section_findings">安全与兼容性发现</string>
     <string name="section_package_details">软件包详情</string>

@@ -2,10 +2,10 @@
 
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="apk-inspector-ic-launcher" border="0" width="128" />
   </p>
 
-  <p>AutoJs6 Explorer에서 APK, 분할 패키지 컨테이너, Android App Bundle을 상세하게 읽기 전용으로 검사</p>
+  <p>파일 관리자 플러그인. APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -26,11 +26,11 @@
 - [繁體中文 (香港) [zh-Hant-HK]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-HK.md)
 - [繁體中文 (台灣) [zh-Hant-TW]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-TW.md)
 - [English [en]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-en.md)
-- [Francais [fr]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-fr.md)
-- [Espanol [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
+- [Français [fr]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-fr.md)
+- [Español [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
 - [日本語 [ja]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ja.md)
 - 한국어 [ko] # 현재
-- [Russkii [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
+- [Русский [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
 - [العربية [ar]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ar.md)
 
 ******
@@ -39,7 +39,7 @@
 
 ******
 
-AutoJs6 APK Inspector 플러그인은 기본 Explorer에서 Android 패키지 파일을 검사하는 기본 동작을 제공합니다. 크기가 제한된 앱 전용 스냅샷을 분석하며 원본 패키지를 수정하거나 설치하지 않습니다.
+APK Inspector는 파일 관리자에서 Android 패키지 파일을 검사하는 기본 동작을 제공합니다. 크기가 제한된 앱 전용 스냅샷을 분석하며 원본 패키지를 수정하거나 설치하지 않습니다.
 
 ******
 
@@ -72,7 +72,7 @@ APK, APKS, XAPK, APKM, APKZ, AAB
 
 ******
 
-AutoJs6는 다음 식별자로 플러그인을 찾고 실행합니다:
+호스트는 다음 식별자로 플러그인을 찾고 실행합니다:
 
 ```text
 service action: org.autojs.plugin.EXPLORER_ACTION
@@ -83,12 +83,11 @@ variant: default
 Explorer action id: inspect-android-package
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
 required host build: 5269
-supported ABIs: unrestricted (supportedAbis = emptyArray())
 ```
 
-버전 1은 검사만 수행합니다. 설치 버튼, 설치 권한, 패키지 설치 프로그램, 소스 편집, 디렉터리 열거 기능이 없습니다. 호스트 설치 흐름은 독립적으로 유지됩니다. 플러그인을 사용할 수 없으면 AutoJs6는 호스트 대체 동작을 사용합니다.
+버전 1은 검사만 수행합니다. 설치 버튼, 설치 권한, 패키지 설치 프로그램, 소스 편집, 디렉터리 열거 기능이 없습니다. 호스트 설치 흐름은 독립적으로 유지됩니다. 플러그인을 사용할 수 없으면 호스트는 대체 동작을 사용합니다.
 
-플러그인은 JVM으로만 구현되며 네이티브 라이브러리가 없습니다. supportedAbis = emptyArray()를 선언하고 ABI 독립 단일 APK로 배포됩니다. AutoJs6 호스트 빌드 5269 이상이 필요합니다.
+호스트 빌드 5269 이상이 필요합니다.
 
 ******
 
@@ -117,6 +116,13 @@ supported ABIs: unrestricted (supportedAbis = emptyArray())
 
 ******
 
+# v1.0.1
+
+###### 2026/08/08
+
+* `수정` 플러그인 센터에서 활성화할 때 유효한 Explorer Action 서비스 바인딩 반환
+* `개선` 플러그인 이름과 설명을 간결하게 하고 사용자 문서를 더 자연스럽게 정리
+
 # v1.0.0
 
 ###### 2026/08/02
@@ -126,7 +132,6 @@ supported ABIs: unrestricted (supportedAbis = emptyArray())
 * `기능` 텍스트 및 바이너리 APK manifest, AAB protobuf manifest, bundletool `toc.pb` 메타데이터의 읽기 전용 디코딩
 * `기능` 패키지 세부 정보, 요청 권한, 구성 요소, 기기에 맞는 분할 APK, OBB 자산, 구조 결과, 정리된 manifest 보기, APK V1-V3 서명 방식 존재 감지
 * `기능` 보호된 Explorer와 정확한 MIME Android `ACTION_VIEW`를 분리한 게이트웨이, 4 GiB 제한, SHA-256을 계산하는 제한된 비공개 읽기 전용 스냅샷
-* `기능` 네이티브 라이브러리가 없는 순수 JVM 구현, `supportedAbis = emptyArray()`로 제한 없는 ABI 선언, ABI 독립 단일 APK, AutoJs6 호스트 빌드 5269 이상 요구
 * `기능` 스페인어, 프랑스어, 러시아어, 아랍어, 일본어, 한국어, 영어, 중국어 간체, 홍콩 중국어 번체, 대만 중국어 번체로 현지화된 메타데이터, UI, 사용 안내, README, 변경 기록
 * `의존성` Gson 버전 2.13.2 추가
 

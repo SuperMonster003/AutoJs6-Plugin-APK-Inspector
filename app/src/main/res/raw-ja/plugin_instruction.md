@@ -1,10 +1,10 @@
 # APK Inspector
 
-APK InspectorはAutoJs6のメインExplorerでAPK, APKS, XAPK, APKM, APKZ, AABファイル向けの主要な読み取り専用検査アクションを提供します.
+APK InspectorはファイルマネージャーでAPK, APKS, XAPK, APKM, APKZ, AABファイル向けの主要な読み取り専用検査アクションを提供します.
 
 パッケージ詳細, 要求権限, コンポーネント, 端末に適合する分割APK, OBBアセット, 構造上の発見, APK V1-V3署名方式の存在, 整形したAndroid Manifestを表示します.
 
-プラグインにはAutoJs6ビルド5269以降が必要です. 完全にJVMで実装され, 端末ABIに依存しません.
+プラグインにはホストビルド5269以降が必要です.
 
 安全性とプライバシーの制限:
 

@@ -1,10 +1,19 @@
 {
-  "changelog_label_hint": "Conseil",
+  "changelog_label_hint": "Note",
   "changelog_label_feature": "Fonctionnalité",
-  "changelog_label_fix": "Correction",
+  "changelog_label_fix": "Correctif",
   "changelog_label_improvement": "Amélioration",
   "changelog_label_dependency": "Dépendance",
   "$data": {
+    "v1.0.1": {
+      "released_date": "2026/08/08",
+      "fix": [
+        "Renvoyer une liaison de service Explorer Action valide lors de l'activation depuis le centre des plugins"
+      ],
+      "improvement": [
+        "Raccourcir le nom et la description du plugin et rendre la documentation utilisateur plus naturelle"
+      ]
+    },
     "v1.0.0": {
       "released_date": "2026/08/02",
       "feature": [
@@ -13,7 +22,6 @@
         "Décodage en lecture seule des manifestes APK texte et binaires, des manifestes protobuf AAB et des métadonnées bundletool `toc.pb`",
         "Détails du paquet, autorisations demandées, composants, APK fractionnés adaptés à l'appareil, éléments OBB, constats structurels, manifeste formaté et présence des signatures APK V1-V3",
         "Passerelles distinctes pour Explorer protégé et Android `ACTION_VIEW` à MIME exact, avec limite de 4 GiB et instantané privé borné en lecture seule calculé avec SHA-256",
-        "Implémentation JVM pure sans bibliothèque native, ABI sans restriction via `supportedAbis = emptyArray()`, un APK indépendant de l'ABI et version hôte AutoJs6 5269 requise",
         "Métadonnées, interface, instructions, README et historiques localisés en espagnol, français, russe, arabe, japonais, coréen, anglais, chinois simplifié, chinois traditionnel de Hong Kong et chinois traditionnel de Taïwan"
       ],
       "dependency": [

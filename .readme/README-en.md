@@ -2,10 +2,10 @@
 
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="apk-inspector-ic-launcher" border="0" width="128" />
   </p>
 
-  <p>Deep read-only inspection for APK, split package containers, and Android App Bundles in AutoJs6 Explorer</p>
+  <p>File manager plugin. Inspect APK, APKS, XAPK, APKM, APKZ, and AAB files without installing them</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -26,11 +26,11 @@ The current README.md supports the following languages:
 - [繁體中文 (香港) [zh-Hant-HK]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-HK.md)
 - [繁體中文 (台灣) [zh-Hant-TW]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-TW.md)
 - English [en] # current
-- [Francais [fr]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-fr.md)
-- [Espanol [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
+- [Français [fr]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-fr.md)
+- [Español [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
 - [日本語 [ja]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ja.md)
 - [한국어 [ko]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ko.md)
-- [Russkii [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
+- [Русский [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
 - [العربية [ar]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ar.md)
 
 ******
@@ -39,7 +39,7 @@ The current README.md supports the following languages:
 
 ******
 
-The AutoJs6 APK Inspector plugin supplies the primary inspection action for Android package files in the main Explorer. It analyzes a bounded app-private snapshot and never modifies or installs the source package.
+APK Inspector provides the primary inspection action for Android package files in the file manager. It analyzes a bounded app-private snapshot and never modifies or installs the source package.
 
 ******
 
@@ -72,7 +72,7 @@ APK, APKS, XAPK, APKM, APKZ, AAB
 
 ******
 
-AutoJs6 discovers and executes the plugin with the following identities:
+The host discovers and executes the plugin with the following identities:
 
 ```text
 service action: org.autojs.plugin.EXPLORER_ACTION
@@ -83,12 +83,11 @@ variant: default
 Explorer action id: inspect-android-package
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
 required host build: 5269
-supported ABIs: unrestricted (supportedAbis = emptyArray())
 ```
 
-Version 1 performs inspection only. It has no install button, installation permission, package installer, source editor, or directory enumeration. Host installation flows remain independent. If the plugin is unavailable, AutoJs6 uses its host fallback.
+Version 1 performs inspection only. It has no install button, installation permission, package installer, source editor, or directory enumeration. Host installation flows remain independent. If the plugin is unavailable, the host uses its fallback action.
 
-The plugin is implemented entirely on the JVM and contains no native library. It declares supportedAbis = emptyArray() and is released as one ABI-independent APK. AutoJs6 host build 5269 or later is required.
+Host build 5269 or later is required.
 
 ******
 
@@ -117,6 +116,13 @@ The protected Explorer gateway validates protocol v2, the main-files surface, ac
 
 ******
 
+# v1.0.1
+
+###### 2026/08/08
+
+* `Fix` Return a valid Explorer Action service binding when enabled from Plugin Center
+* `Improvement` Use a shorter plugin name and description with more natural user documentation
+
 # v1.0.0
 
 ###### 2026/08/02
@@ -126,7 +132,6 @@ The protected Explorer gateway validates protocol v2, the main-files surface, ac
 * `Feature` Read-only decoding for text and binary APK manifests, AAB protobuf manifests, and bundletool `toc.pb` metadata
 * `Feature` Package details, requested permissions, components, device-matched splits, OBB assets, structural findings, formatted manifest viewing, and APK V1-V3 signature presence detection
 * `Feature` Separate protected Explorer and exact-MIME Android `ACTION_VIEW` gateways with a 4 GiB input limit and bounded private read-only snapshots calculated with SHA-256
-* `Feature` Pure JVM implementation with no native library, unrestricted ABIs declared by `supportedAbis = emptyArray()`, one ABI-independent APK, and required AutoJs6 host build 5269
 * `Feature` Localized metadata, interface text, usage instructions, README files, and changelogs in Spanish, French, Russian, Arabic, Japanese, Korean, English, Simplified Chinese, Hong Kong Traditional Chinese, and Taiwan Traditional Chinese
 * `Dependency` Added Gson version 2.13.2
 

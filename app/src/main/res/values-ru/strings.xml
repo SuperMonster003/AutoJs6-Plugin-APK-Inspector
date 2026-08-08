@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">Проверить пакет Android</string>
     <string name="action_view_manifest">Открыть manifest</string>
-    <string name="app_name">AutoJs6 Plugin - APK Inspector</string>
+    <string name="app_name">Инспектор APK</string>
     <string name="components_aab">Модули: %1$d\n%2$s</string>
     <string name="components_apk">Записи APK: %1$d\nВыбрано для устройства: %2$d\nРесурсы OBB: %3$d\n%4$s</string>
     <string name="detail_device_sdk">SDK устройства: %1$d</string>
@@ -27,7 +27,7 @@
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Manifest Android</string>
     <string name="package_icon_content_description">Значок пакета</string>
-    <string name="plugin_description">Проверка файлов APK, APKS, XAPK, APKM, APKZ и AAB без установки</string>
+    <string name="plugin_description">Плагин файлового менеджера. Проверка файлов APK, APKS, XAPK, APKM, APKZ и AAB без установки</string>
     <string name="section_components">Компоненты</string>
     <string name="section_findings">Безопасность и совместимость</string>
     <string name="section_package_details">Сведения о пакете</string>

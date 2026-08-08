@@ -2,10 +2,10 @@
 
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="apk-inspector-ic-launcher" border="0" width="128" />
   </p>
 
-  <p>Inspection approfondie et en lecture seule des APK, conteneurs de paquets fractionnes et Android App Bundles dans AutoJs6 Explorer</p>
+  <p>Plugin de gestionnaire de fichiers. Inspecter les fichiers APK, APKS, XAPK, APKM, APKZ et AAB sans les installer</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -26,11 +26,11 @@ Le fichier README.md actuel prend en charge les langues suivantes:
 - [繁體中文 (香港) [zh-Hant-HK]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-HK.md)
 - [繁體中文 (台灣) [zh-Hant-TW]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-TW.md)
 - [English [en]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-en.md)
-- Francais [fr] # actuel
-- [Espanol [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
+- Français [fr] # actuel
+- [Español [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
 - [日本語 [ja]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ja.md)
 - [한국어 [ko]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ko.md)
-- [Russkii [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
+- [Русский [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
 - [العربية [ar]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ar.md)
 
 ******
@@ -39,7 +39,7 @@ Le fichier README.md actuel prend en charge les langues suivantes:
 
 ******
 
-Le plugin AutoJs6 APK Inspector fournit l'action principale d'inspection des paquets Android dans la page principale des fichiers. Il analyse un instantane prive et borne sans modifier ni installer le fichier source.
+APK Inspector fournit l'action principale d'inspection des paquets Android dans le gestionnaire de fichiers. Il analyse un instantané privé et borné sans modifier ni installer le fichier source.
 
 ******
 
@@ -48,11 +48,11 @@ Le plugin AutoJs6 APK Inspector fournit l'action principale d'inspection des paq
 ******
 
 - Enregistre une action principale Explorer Action v2 pour APK, APKS, XAPK, APKM, APKZ et AAB.
-- Decode les Manifest APK texte ou binaires, les Manifest protobuf AAB et les metadonnees bundletool toc.pb.
-- Affiche l'identite, la version, les SDK, les permissions, les composants, les splits adaptes, les OBB et les problemes structurels.
-- Detecte la presence des schemas de signature APK V1, V2 et V3 sans affirmer leur validite cryptographique.
-- Affiche un Android Manifest formate dans une vue separee en lecture seule.
-- Fournit une passerelle ACTION_VIEW separee pour les types MIME Android dedies.
+- Décode les Manifest APK texte ou binaires, les Manifest protobuf AAB et les métadonnées bundletool toc.pb.
+- Affiche l'identité, la version, les SDK, les permissions, les composants, les splits adaptés, les OBB et les problèmes structurels.
+- Détecte la présence des schémas de signature APK V1, V2 et V3 sans affirmer leur validité cryptographique.
+- Affiche un Android Manifest formaté dans une vue séparée en lecture seule.
+- Fournit une passerelle ACTION_VIEW séparée pour les types MIME Android dédiés.
 
 ******
 
@@ -60,7 +60,7 @@ Le plugin AutoJs6 APK Inspector fournit l'action principale d'inspection des paq
 
 ******
 
-L'action principale Explorer correspond exactement a ces extensions:
+L'action principale de l'Explorateur correspond exactement à ces extensions:
 
 ```text
 APK, APKS, XAPK, APKM, APKZ, AAB
@@ -72,7 +72,7 @@ APK, APKS, XAPK, APKM, APKZ, AAB
 
 ******
 
-AutoJs6 decouvre et execute le plugin avec les identites suivantes:
+L'hôte découvre et exécute le plugin avec les identités suivantes:
 
 ```text
 service action: org.autojs.plugin.EXPLORER_ACTION
@@ -83,39 +83,45 @@ variant: default
 Explorer action id: inspect-android-package
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
 required host build: 5269
-supported ABIs: unrestricted (supportedAbis = emptyArray())
 ```
 
-La version 1 effectue uniquement l'inspection. Elle ne contient aucun bouton d'installation, permission d'installation, installateur, editeur de source ou enumeration de repertoire. Les flux d'installation de l'hote restent independants. Si le plugin est indisponible, AutoJs6 utilise son repli hote.
+La version 1 effectue uniquement l'inspection. Elle ne contient aucun bouton d'installation, permission d'installation, installateur, éditeur de source ou énumération de répertoire. Les flux d'installation de l'hôte restent indépendants. Si le plugin est indisponible, l'hôte utilise son action de repli.
 
-Le plugin est entierement implemente sur la JVM et ne contient aucune bibliotheque native. Il declare supportedAbis = emptyArray() et produit un APK independant de l'ABI. AutoJs6 build 5269 ou plus recent est requis.
-
-******
-
-### Securite
+La version 5269 ou ultérieure de l'hôte est requise.
 
 ******
 
-La passerelle Explorer protegee verifie le protocole v2, la surface principale, l'identifiant d'action, la hierarchie content URI, ClipData, le nom, l'extension, le type MIME, la taille et les autorisations en lecture seule. ACTION_VIEW accepte uniquement les MIME dedies. Une copie privee, bornee et en lecture seule est creee avec son SHA-256. Le parent URI n'est jamais enumere.
+### Sécurité
 
 ******
 
-### Limites de securite
+La passerelle Explorer protégée vérifie le protocole v2, la surface principale, l'identifiant d'action, la hiérarchie content URI, ClipData, le nom, l'extension, le type MIME, la taille et les autorisations en lecture seule. ACTION_VIEW accepte uniquement les MIME dédiés. Une copie privée, bornée et en lecture seule est créée avec son SHA-256. Le parent URI n'est jamais énuméré.
 
 ******
 
-- Taille maximale d'entree: 4 GiB.
-- Un fichier cible par action et une reserve de cache d'au moins 128 MiB.
-- Le nombre, les noms et tailles des entrees, l'analyse APK imbriquee, les metadonnees, protobuf et la sortie Manifest sont bornes.
-- ACTION_VIEW externe refuse application/zip, application/octet-stream et les autorisations d'ecriture, persistantes ou de prefixe.
-- V1-V3 indiquent seulement la presence d'un schema. V4 exige une entree idsig separee hors de ce protocole.
-- Le plugin n'installe jamais de paquet et ne demande aucune permission de stockage, reseau ou installation.
+### Limites de sécurité
+
+******
+
+- Taille maximale d'entrée: 4 GiB.
+- Un fichier cible par action et une réserve de cache d'au moins 128 MiB.
+- Le nombre, les noms et tailles des entrées, l'analyse APK imbriquée, les métadonnées, protobuf et la sortie Manifest sont bornés.
+- ACTION_VIEW externe refuse application/zip, application/octet-stream et les autorisations d'écriture, persistantes ou de préfixe.
+- V1-V3 indiquent seulement la présence d'un schéma. V4 exige une entrée idsig séparée hors de ce protocole.
+- Le plugin n'installe jamais de paquet et ne demande aucune permission de stockage, réseau ou installation.
 
 ******
 
 ### Historique des versions
 
 ******
+
+# v1.0.1
+
+###### 2026/08/08
+
+* `Correctif` Renvoyer une liaison de service Explorer Action valide lors de l'activation depuis le centre des plugins
+* `Amélioration` Raccourcir le nom et la description du plugin et rendre la documentation utilisateur plus naturelle
 
 # v1.0.0
 
@@ -126,7 +132,6 @@ La passerelle Explorer protegee verifie le protocole v2, la surface principale, 
 * `Fonctionnalité` Décodage en lecture seule des manifestes APK texte et binaires, des manifestes protobuf AAB et des métadonnées bundletool `toc.pb`
 * `Fonctionnalité` Détails du paquet, autorisations demandées, composants, APK fractionnés adaptés à l'appareil, éléments OBB, constats structurels, manifeste formaté et présence des signatures APK V1-V3
 * `Fonctionnalité` Passerelles distinctes pour Explorer protégé et Android `ACTION_VIEW` à MIME exact, avec limite de 4 GiB et instantané privé borné en lecture seule calculé avec SHA-256
-* `Fonctionnalité` Implémentation JVM pure sans bibliothèque native, ABI sans restriction via `supportedAbis = emptyArray()`, un APK indépendant de l'ABI et version hôte AutoJs6 5269 requise
 * `Fonctionnalité` Métadonnées, interface, instructions, README et historiques localisés en espagnol, français, russe, arabe, japonais, coréen, anglais, chinois simplifié, chinois traditionnel de Hong Kong et chinois traditionnel de Taïwan
 * `Dépendance` Ajout de Gson version 2.13.2
 
@@ -150,7 +155,7 @@ Construction de publication:
 .\gradlew.bat :app:assembleRelease
 ```
 
-Les parametres proviennent de version.properties. Le SDK minimal est 24 et le SDK cible est 36.
+Les paramètres proviennent de version.properties. Le SDK minimal est 24 et le SDK cible est 36.
 
 ******
 
@@ -167,7 +172,7 @@ app/src/main/res/values-*/strings.xml
 app/src/main/res/raw-*/plugin_instruction.md
 ```
 
-strings.xml localise les metadonnees et l'interface. plugin_instruction.md contient les instructions de l'hote. .python/generate_markdown.py genere les README et journaux localises depuis les sources JSON.
+strings.xml localise les métadonnées et l'interface. plugin_instruction.md contient les instructions de l'hôte. .python/generate_markdown.py génère les README et journaux localisés depuis les sources JSON.
 
 ******
 
@@ -176,4 +181,4 @@ strings.xml localise les metadonnees et l'interface. plugin_instruction.md conti
 ******
 
 - Documentation AutoJs6: https://docs.autojs6.com
-- Partage de fichiers securise Android: https://developer.android.com/training/secure-file-sharing
+- Partage de fichiers sécurisé Android: https://developer.android.com/training/secure-file-sharing

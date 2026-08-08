@@ -1,10 +1,10 @@
 # APK Inspector
 
-APK Inspector proporciona la acción principal de inspección de solo lectura en el Explorer principal de AutoJs6 para archivos APK, APKS, XAPK, APKM, APKZ y AAB.
+APK Inspector proporciona la acción principal de inspección de solo lectura en el gestor de archivos para archivos APK, APKS, XAPK, APKM, APKZ y AAB.
 
 Muestra detalles del paquete, permisos solicitados, componentes, APK divididos compatibles con el dispositivo, recursos OBB, hallazgos estructurales, presencia de firmas APK V1-V3 y un manifest Android formateado.
 
-El plugin requiere AutoJs6 build 5269+. Está implementado por completo en la JVM y no depende del ABI del dispositivo.
+El complemento requiere la compilación 5269 o posterior del host.
 
 Límites de seguridad y privacidad:
 

@@ -2,10 +2,10 @@
 
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="apk-inspector-ic-launcher" border="0" width="128" />
   </p>
 
-  <p>فحص عميق للقراءة فقط لملفات APK وحاويات الحزم المجزأة وAndroid App Bundle في AutoJs6 Explorer</p>
+  <p>ملحق مدير الملفات. فحص ملفات APK وAPKS وXAPK وAPKM وAPKZ وAAB دون تثبيتها</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -26,11 +26,11 @@
 - [繁體中文 (香港) [zh-Hant-HK]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-HK.md)
 - [繁體中文 (台灣) [zh-Hant-TW]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-TW.md)
 - [English [en]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-en.md)
-- [Francais [fr]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-fr.md)
-- [Espanol [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
+- [Français [fr]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-fr.md)
+- [Español [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
 - [日本語 [ja]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ja.md)
 - [한국어 [ko]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ko.md)
-- [Russkii [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
+- [Русский [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
 - العربية [ar] # الحالية
 
 ******
@@ -39,7 +39,7 @@
 
 ******
 
-توفر إضافة AutoJs6 APK Inspector إجراء الفحص الأساسي لملفات حزم Android في Explorer الرئيسي. تحلل نسخة خاصة بالتطبيق ذات حجم محدود ولا تعدل الحزمة المصدر أو تثبتها.
+يوفر APK Inspector إجراء الفحص الأساسي لملفات حزم Android في مدير الملفات. يحلل نسخة خاصة بالتطبيق ذات حجم محدود ولا يعدل الحزمة المصدر أو يثبتها.
 
 ******
 
@@ -72,7 +72,7 @@ APK, APKS, XAPK, APKM, APKZ, AAB
 
 ******
 
-يكتشف AutoJs6 الإضافة وينفذها بالهويات التالية:
+يكتشف المضيف الإضافة وينفذها بالهويات التالية:
 
 ```text
 service action: org.autojs.plugin.EXPLORER_ACTION
@@ -83,12 +83,11 @@ variant: default
 Explorer action id: inspect-android-package
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
 required host build: 5269
-supported ABIs: unrestricted (supportedAbis = emptyArray())
 ```
 
-الإصدار 1 مخصص للفحص فقط. لا يحتوي زر تثبيت أو إذن تثبيت أو مثبت حزم أو تحرير للمصدر أو استعراض للمجلد. تبقى مسارات التثبيت في التطبيق المضيف مستقلة. عند غياب الإضافة يستخدم AutoJs6 السلوك البديل في التطبيق المضيف.
+الإصدار 1 مخصص للفحص فقط. لا يحتوي زر تثبيت أو إذن تثبيت أو مثبت حزم أو تحرير للمصدر أو استعراض للمجلد. تبقى مسارات التثبيت في التطبيق المضيف مستقلة. عند غياب الإضافة يستخدم المضيف الإجراء البديل.
 
-الإضافة مكتوبة بالكامل على JVM ولا تحتوي مكتبة أصلية. تعلن supportedAbis = emptyArray() وتنشر كملف APK واحد مستقل عن ABI. يلزم AutoJs6 بالإصدار 5269 أو أحدث.
+يلزم الإصدار 5269 أو أحدث من المضيف.
 
 ******
 
@@ -117,6 +116,13 @@ supported ABIs: unrestricted (supportedAbis = emptyArray())
 
 ******
 
+# v1.0.1
+
+###### 2026/08/08
+
+* `إصلاح` إرجاع ارتباط صالح بخدمة Explorer Action عند التمكين من مركز المكونات الإضافية
+* `تحسين` اختصار اسم المكون الإضافي ووصفه وصياغة وثائق المستخدم بلغة أكثر طبيعية
+
 # v1.0.0
 
 ###### 2026/08/02
@@ -126,9 +132,8 @@ supported ABIs: unrestricted (supportedAbis = emptyArray())
 * `ميزة` فك ترميز للقراءة فقط لـ manifest النصي والثنائي في APK وmanifest بتنسيق protobuf في AAB وبيانات bundletool `toc.pb`
 * `ميزة` تفاصيل الحزمة والأذونات المطلوبة والمكونات والأجزاء المطابقة للجهاز وأصول OBB والنتائج البنيوية وعرض manifest منسق واكتشاف وجود توقيعات APK V1-V3
 * `ميزة` بوابتان منفصلتان لـ Explorer المحمي وAndroid `ACTION_VIEW` بنوع MIME دقيق مع حد 4 GiB ونسخة خاصة محدودة للقراءة فقط تحسب SHA-256
-* `ميزة` تنفيذ JVM خالص دون مكتبة أصلية وABI غير مقيد عبر `supportedAbis = emptyArray()` وملف APK واحد مستقل عن ABI مع اشتراط AutoJs6 build 5269
 * `ميزة` بيانات وصفية وواجهة وتعليمات وREADME وسجلات تغيير موطنة بالإسبانية والفرنسية والروسية والعربية واليابانية والكورية والإنجليزية والصينية المبسطة والصينية التقليدية لهونغ كونغ وتايوان
-* `اعتماد` إضافة Gson الإصدار 2.13.2
+* `تبعية` إضافة Gson الإصدار 2.13.2
 
 ##### لمزيد من الإصدارات
 

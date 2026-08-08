@@ -2,7 +2,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">Inspecter le paquet Android</string>
     <string name="action_view_manifest">Afficher le manifeste</string>
-    <string name="app_name">AutoJs6 Plugin - APK Inspector</string>
+    <string name="app_name">Inspecteur APK</string>
     <string name="components_aab">Modules: %1$d\n%2$s</string>
     <string name="components_apk">Entrées APK: %1$d\nSélectionnées pour cet appareil: %2$d\nRessources OBB: %3$d\n%4$s</string>
     <string name="detail_device_sdk">SDK de appareil: %1$d</string>
@@ -27,7 +27,7 @@
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Manifeste Android</string>
     <string name="package_icon_content_description">Icône du paquet</string>
-    <string name="plugin_description">Inspecter les fichiers APK, APKS, XAPK, APKM, APKZ et AAB sans les installer</string>
+    <string name="plugin_description">Plugin de gestionnaire de fichiers. Inspecter les fichiers APK, APKS, XAPK, APKM, APKZ et AAB sans les installer</string>
     <string name="section_components">Composants</string>
     <string name="section_findings">Constats de sécurité et de compatibilité</string>
     <string name="section_package_details">Détails du paquet</string>

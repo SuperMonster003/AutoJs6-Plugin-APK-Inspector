@@ -2,10 +2,10 @@
 
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="apk-inspector-ic-launcher" border="0" width="128" />
   </p>
 
-  <p>在 AutoJs6 檔案管理器中深度唯讀檢查 APK, 分割套件容器及 Android App Bundle</p>
+  <p>檔案管理器外掛程式. 毋須安裝即可檢查 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -26,11 +26,11 @@
 - 繁體中文 (香港) [zh-Hant-HK] # 目前
 - [繁體中文 (台灣) [zh-Hant-TW]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-TW.md)
 - [English [en]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-en.md)
-- [Francais [fr]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-fr.md)
-- [Espanol [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
+- [Français [fr]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-fr.md)
+- [Español [es]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-es.md)
 - [日本語 [ja]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ja.md)
 - [한국어 [ko]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ko.md)
-- [Russkii [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
+- [Русский [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
 - [العربية [ar]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ar.md)
 
 ******
@@ -39,7 +39,7 @@
 
 ******
 
-AutoJs6 APK Inspector 外掛程式為主檔案頁中的 Android 套件提供主要檢查動作. 外掛程式只分析有界的應用程式私人快照, 不修改或安裝來源檔案.
+APK 檢查器為檔案管理器中的 Android 套件提供主要檢查動作. 插件只分析有界的應用程式私人快照, 不修改或安裝來源檔案.
 
 ******
 
@@ -72,7 +72,7 @@ APK, APKS, XAPK, APKM, APKZ, AAB
 
 ******
 
-AutoJs6 使用以下識別發現並執行外掛程式:
+主程式使用以下識別發現並執行插件:
 
 ```text
 service action: org.autojs.plugin.EXPLORER_ACTION
@@ -83,12 +83,11 @@ variant: default
 Explorer action id: inspect-android-package
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
 required host build: 5269
-supported ABIs: unrestricted (supportedAbis = emptyArray())
 ```
 
-版本 1 只執行檢查. 外掛程式不包含安裝按鈕, 安裝權限, 套件安裝程式, 來源檔案編輯器或目錄列舉. 宿主安裝流程保持獨立. 外掛程式不可用時, AutoJs6 使用宿主降級動作.
+版本 1 只執行檢查. 插件不包含安裝按鈕, 安裝權限, 套件安裝程式, 來源檔案編輯器或目錄列舉. 主程式安裝流程保持獨立. 插件不可用時, 主程式使用降級動作.
 
-外掛程式完全使用 JVM 實作且不包含原生程式庫. 外掛程式宣告 supportedAbis = emptyArray(), 並發佈為一個 ABI 無關 APK. 需要 AutoJs6 宿主組建 5269 或更高版本.
+需要主程式組建版本 5269 或更高版本.
 
 ******
 
@@ -117,6 +116,13 @@ supported ABIs: unrestricted (supportedAbis = emptyArray())
 
 ******
 
+# v1.0.1
+
+###### 2026/08/08
+
+* `修復` 在插件中心啟用時傳回有效的 Explorer Action 服務綁定
+* `優化` 精簡插件名稱和描述, 並使用戶文件表達更自然
+
 # v1.0.0
 
 ###### 2026/08/02
@@ -126,7 +132,6 @@ supported ABIs: unrestricted (supportedAbis = emptyArray())
 * `新增` 唯讀解碼文字和二進制 APK 資訊清單, AAB protobuf 資訊清單及 bundletool `toc.pb` 中繼資料
 * `新增` 套件詳情, 要求權限, 元件, 裝置配對分割, OBB 資源, 結構發現, 格式化資訊清單檢視和 APK V1-V3 簽章配置存在性偵測
 * `新增` 互相分離的受保護檔案瀏覽器入口和精確 MIME Android `ACTION_VIEW` 入口, 4 GiB 輸入上限及計算 SHA-256 的有界私人唯讀快照
-* `新增` 純 JVM 實作且不包含原生程式庫, 透過 `supportedAbis = emptyArray()` 宣告 ABI 無限制, 發佈單一 ABI 無關 APK, 要求 AutoJs6 主程式組建版本 5269
 * `新增` 外掛程式中繼資料, 介面文字, 使用說明, README 和 CHANGELOG 的多語言資源: 西班牙文/法文/俄文/阿拉伯文/日文/韓文/英文/簡體中文/香港繁體/台灣繁體
 * `依賴` 附加 Gson 版本 2.13.2
 
