@@ -14,6 +14,7 @@
     "Version and compatibility: shows the package name, version name and code, and min/target/max SDK, compared against this device's Android version before you install.",
     "Permission transparency: requested permissions are grouped by protection level (runtime/dangerous, signature/protected, and normal), with runtime permissions highlighted first and explained in one line; unavailable levels stay visible and clearly labeled.",
     "Split analysis: lists every APK entry and OBB asset in a bundle and marks the splits selected for this device (base, language, screen density, ABI).",
+    "Resource-table identity fallback: when Android cannot load an AAB or an oversized bundle directly, resolves the app label and a raster icon for the current locale and density from AAB resources.pb or APK resources.arsc without extracting a whole nested APK.",
     "Manifest component exposure: counts activities/aliases, services, broadcast receivers, and content providers across selected APK splits or scanned AAB modules, grouping explicit android:exported values as exported, not exported, or unspecified/unresolved.",
     "Native-library overview: groups .so files from selected APK splits or AAB modules by ABI and uncompressed size, marking the preferred device ABI, supported fallbacks, and unsupported architectures without extracting library contents.",
     "DEX overview: lists naturally ordered standard classes*.dex files from selected APK splits or AAB modules with per-file and total uncompressed sizes, without extracting, decoding, or decompiling DEX contents.",
@@ -53,7 +54,7 @@
     },
     {
       "q": "Why do AAB files say they \"require conversion before installation\"?",
-      "a": "AAB is a distribution format aimed at app stores; Android devices cannot install it directly. The plugin can decode its protobuf manifest and module structure for viewing, but installation requires converting it to APK(s) first with a tool such as bundletool."
+      "a": "AAB is a distribution format aimed at app stores; Android devices cannot install it directly. The plugin can decode its protobuf manifest and module structure, and use resources.pb to resolve the localized app label and a density-matched raster icon for viewing, but installation still requires converting it to APK(s) first with a tool such as bundletool."
     }
   ],
   "h3_security": "Permissions and safety",
@@ -64,6 +65,7 @@
     "At most {{ max_archive_entries }} archive entries are parsed, at most {{ max_apk_entries }} APK entries are scanned per bundle, and entry names may be at most {{ max_entry_name_chars }} characters.",
     "Declared entry size may not exceed {{ max_declared_entry_size }}, and the declared total may not exceed {{ max_declared_total_size }}.",
     "Nested APK manifest scanning is capped at {{ max_nested_apk_scan }}, bundle metadata at {{ max_metadata_size }}, and the temporary APK used to load the icon and label at {{ max_display_apk_size }}.",
+    "Resource-table fallback reads at most {{ max_resource_table_size }} per table and {{ max_resource_icon_size }} per icon, with a shared {{ max_resource_nested_scan }} budget for locating a table and icon in a nested APK; a limit, malformed resource, or unresolved reference disables only that fallback and is clearly labeled.",
     "Permission classification scans at most {{ max_permission_scan }} requests, displays at most {{ max_permission_display }} safe unique names, and limits each loaded explanation to {{ max_permission_description_chars }} characters; omissions and unavailable protection levels are clearly labeled.",
     "Component statistics scan at most {{ max_manifest_components }} declarations per manifest and {{ max_aab_component_manifests }} AAB module manifests under a shared {{ max_aab_component_manifest_total }} input budget; omissions, unresolved exported values, and per-manifest failures are clearly labeled.",
     "Native-library statistics retain at most {{ max_native_library_entries }} .so entries and display {{ max_native_abi_display }} ABI directories. At most {{ max_native_apk_scans }} selected nested APKs are read under a shared {{ max_native_nested_apk_scan }} input budget while retaining no more than {{ max_native_central_directory }} of central-directory data per APK; limits and failures produce clearly labeled partial results.",
@@ -72,7 +74,7 @@
   "h3_plugin_interface": "Plugin interface",
   "p_plugin_interface": "The host (AutoJs6) discovers and invokes the plugin through the following identities, provided here for plugin and host developers",
   "p_plugin_scope": "The current version performs read-only inspection only: there is no install button, install permission, or package installer, the source file is never modified, and directories are never enumerated. V4 uses only the exact host-derived `.idsig` candidate, copies its bounded read-only descriptor into a private snapshot, and closes the host session immediately after staging. If the plugin is missing or disabled, the host silently falls back to its default action.",
-  "p_roadmap": "The capabilities above and the checked Roadmap items reflect what is implemented; planned work such as resource-table fallbacks and deeper bundle analysis is tracked in the Roadmap, and unchecked items are not current capabilities",
+  "p_roadmap": "The capabilities above and the checked Roadmap items reflect what is implemented; planned work such as deeper bundle analysis and device-configuration simulation is tracked in the Roadmap, and unchecked items are not current capabilities",
   "h3_release_history": "Release history",
   "h5_for_more_release_history": "Full history",
   "h3_build": "Build",

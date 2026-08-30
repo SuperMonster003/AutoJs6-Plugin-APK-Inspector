@@ -54,6 +54,14 @@
     <string name="finding_invalid">El conjunto de paquetes está incompleto o no es válido</string>
     <string name="finding_none">No se detectaron problemas estructurales ni de compatibilidad con el dispositivo</string>
     <string name="finding_obb">El paquete contiene %1$d recursos OBB que no forman parte del conjunto APK</string>
+    <string name="resource_fallback_table_missing">[i] La alternativa de nombre/icono mediante la tabla de recursos no está disponible: falta la tabla.</string>
+    <string name="resource_fallback_table_limit">[i] La alternativa de nombre/icono se detuvo porque la tabla de recursos supera el límite de seguridad.</string>
+    <string name="resource_fallback_scan_limit">[i] La alternativa de nombre/icono se detuvo al alcanzar el límite de análisis del APK anidado.</string>
+    <string name="resource_fallback_table_invalid">[i] No se pudo decodificar la tabla de recursos para obtener el nombre/icono alternativo.</string>
+    <string name="resource_fallback_label_unresolved">[i] No se pudo resolver el nombre de la aplicación en la tabla de recursos; se muestra el nombre del archivo.</string>
+    <string name="resource_fallback_icon_unresolved">[i] No se pudo resolver un icono rasterizado compatible en la tabla de recursos.</string>
+    <string name="resource_fallback_icon_limit">[i] El icono de la tabla de recursos supera el límite de seguridad y se omitió.</string>
+    <string name="resource_fallback_icon_invalid">[i] El icono de la tabla de recursos no es una imagen rasterizada compatible y se omitió.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Inspeccionando paquete...</string>
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Manifest de Android</string>

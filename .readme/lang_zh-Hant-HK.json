@@ -14,6 +14,7 @@
     "版本與相容性: 顯示套件名稱、版本名與版本號、最低/目標/最高 SDK, 並與目前裝置系統版本對照, 安裝前即可判斷相容性.",
     "權限透明: 按保護等級把要求的權限分為執行階段/危險、簽名/受保護和一般三組, 高亮置頂執行階段權限並附一句說明; 無法解析的等級仍會顯示並清楚標示.",
     "分包分析: 列出集合包內全部 APK 條目與 OBB 資料包, 標出為目前裝置選中的分包 (基礎包、語言、螢幕密度、架構等).",
+    "資源表身分回退: 當 Android 無法直接載入 AAB 或超限集合包時, 毋須提取整個巢狀 APK, 即可按目前裝置語言及密度從 AAB resources.pb 或 APK resources.arsc 解析應用程式名稱和點陣圖示.",
     "元件暴露概覽: 匯總已選 APK 分包或已掃描 AAB 模組中的 activity/別名、service、receiver 與 provider, 將明確 android:exported 分為已匯出、未匯出或未聲明/無法解析.",
     "原生程式庫概覽: 按 ABI 及未壓縮大小匯總已選 APK 分包或 AAB 模組中的 .so 檔案, 標示裝置首選 ABI、支援的後備 ABI 和不支援的架構, 全程不提取程式庫內容.",
     "DEX 概覽: 按自然順序列出已選 APK 分包或 AAB 模組中的標準 classes*.dex 檔案, 顯示每個檔案及未壓縮總大小, 不提取、解碼或反編譯 DEX 內容.",
@@ -53,7 +54,7 @@
     },
     {
       "q": "為甚麼 AAB 檔案會提示「需要轉換後才能安裝」?",
-      "a": "AAB 是面向應用商店的發佈格式, Android 裝置無法直接安裝. 插件可以解析它的 protobuf 清單與模組結構供檢視, 安裝則需要先用 bundletool 等工具轉換為 APK 或 APKS."
+      "a": "AAB 是面向應用商店的發佈格式, Android 裝置無法直接安裝. 插件可以解析它的 protobuf 清單與模組結構, 並透過 resources.pb 解析本地化應用程式名稱及密度配對的點陣圖示供檢視; 安裝仍需先用 bundletool 等工具轉換為 APK 或 APKS."
     }
   ],
   "h3_security": "權限與安全",
@@ -64,6 +65,7 @@
     "封存最多解析 {{ max_archive_entries }} 個條目, 集合包最多掃描 {{ max_apk_entries }} 個 APK 分包, 條目名稱最長 {{ max_entry_name_chars }} 字符.",
     "聲明的單條目大小不超過 {{ max_declared_entry_size }}, 聲明總大小不超過 {{ max_declared_total_size }}.",
     "巢狀 APK 清單掃描不超過 {{ max_nested_apk_scan }}, 集合包中繼資料不超過 {{ max_metadata_size }}, 用於載入圖示與標籤的臨時 APK 不超過 {{ max_display_apk_size }}.",
+    "資源表回退中每份資源表最多讀取 {{ max_resource_table_size }}, 每個圖示最多讀取 {{ max_resource_icon_size }}; 在巢狀 APK 中定位資源表及圖示共用 {{ max_resource_nested_scan }} 掃描預算. 超限、資源損壞或引用無法解析時只會停用相應回退並清楚標示.",
     "權限分類最多掃描 {{ max_permission_scan }} 項要求、顯示 {{ max_permission_display }} 個安全且去重的名稱, 每條系統說明最多 {{ max_permission_description_chars }} 個字元; 省略項目和無法取得的保護等級都會清楚標示.",
     "元件統計每份資訊清單最多掃描 {{ max_manifest_components }} 項聲明; AAB 最多掃描 {{ max_aab_component_manifests }} 份模組資訊清單, 共用 {{ max_aab_component_manifest_total }} 輸入預算. 省略項目、無法解析的 exported 值及單份資訊清單失敗都會清楚標示.",
     "原生程式庫統計最多保留 {{ max_native_library_entries }} 個 .so 條目並顯示 {{ max_native_abi_display }} 個 ABI 目錄; 最多讀取 {{ max_native_apk_scans }} 個已選巢狀 APK, 共用 {{ max_native_nested_apk_scan }} 輸入預算, 每個 APK 最多保留 {{ max_native_central_directory }} 中央目錄資料. 超限和失敗只會產生清楚標示的不完整結果.",
@@ -72,7 +74,7 @@
   "h3_plugin_interface": "插件介面",
   "p_plugin_interface": "宿主 (AutoJs6) 透過以下標識發現並調用插件, 供插件或宿主開發者參考",
   "p_plugin_scope": "目前版本只執行唯讀檢查: 沒有安裝按鈕、安裝權限或套件安裝器, 不修改來源檔案, 亦不枚舉目錄. V4 只使用宿主精確派生的 `.idsig` 候選, 將其有界唯讀描述符複製為私人快照, 並在暫存後立即關閉宿主會話. 插件未安裝或被停用時, 宿主自動回退到預設動作, 互不影響.",
-  "p_roadmap": "已實現能力以上文與 Roadmap 勾選條目為準; 資源表回退、集合包深化等後續計劃集中維護在 Roadmap 中, 未勾選條目不代表目前版本已支援",
+  "p_roadmap": "已實現能力以上文與 Roadmap 勾選條目為準; 集合包深化、裝置配置模擬等後續計劃集中維護在 Roadmap 中, 未勾選條目不代表目前版本已支援",
   "h3_release_history": "版本記錄",
   "h5_for_more_release_history": "完整記錄",
   "h3_build": "構建",

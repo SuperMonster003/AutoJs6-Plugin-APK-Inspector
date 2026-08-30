@@ -42,6 +42,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 - Version and compatibility: shows the package name, version name and code, and min/target/max SDK, compared against this device's Android version before you install.
 - Permission transparency: requested permissions are grouped by protection level (runtime/dangerous, signature/protected, and normal), with runtime permissions highlighted first and explained in one line; unavailable levels stay visible and clearly labeled.
 - Split analysis: lists every APK entry and OBB asset in a bundle and marks the splits selected for this device (base, language, screen density, ABI).
+- Resource-table identity fallback: when Android cannot load an AAB or an oversized bundle directly, resolves the app label and a raster icon for the current locale and density from AAB resources.pb or APK resources.arsc without extracting a whole nested APK.
 - Manifest component exposure: counts activities/aliases, services, broadcast receivers, and content providers across selected APK splits or scanned AAB modules, grouping explicit android:exported values as exported, not exported, or unspecified/unresolved.
 - Native-library overview: groups .so files from selected APK splits or AAB modules by ABI and uncompressed size, marking the preferred device ABI, supported fallbacks, and unsupported architectures without extracting library contents.
 - DEX overview: lists naturally ordered standard classes*.dex files from selected APK splits or AAB modules with per-file and total uncompressed sizes, without extracting, decoding, or decompiling DEX contents.
@@ -89,7 +90,7 @@ No. The plugin cryptographically verifies package integrity and signer proofs fo
 
 #### Why do AAB files say they "require conversion before installation"?
 
-AAB is a distribution format aimed at app stores; Android devices cannot install it directly. The plugin can decode its protobuf manifest and module structure for viewing, but installation requires converting it to APK(s) first with a tool such as bundletool.
+AAB is a distribution format aimed at app stores; Android devices cannot install it directly. The plugin can decode its protobuf manifest and module structure, and use resources.pb to resolve the localized app label and a density-matched raster icon for viewing, but installation still requires converting it to APK(s) first with a tool such as bundletool.
 
 ### Permissions and safety
 
@@ -101,6 +102,7 @@ To keep maliciously crafted files from exhausting device resources, parsing is b
 - At most 16384 archive entries are parsed, at most 512 APK entries are scanned per bundle, and entry names may be at most 1024 characters.
 - Declared entry size may not exceed 4 GiB, and the declared total may not exceed 8 GiB.
 - Nested APK manifest scanning is capped at 256 MiB, bundle metadata at 1 MiB, and the temporary APK used to load the icon and label at 512 MiB.
+- Resource-table fallback reads at most 32 MiB per table and 4 MiB per icon, with a shared 512 MiB budget for locating a table and icon in a nested APK; a limit, malformed resource, or unresolved reference disables only that fallback and is clearly labeled.
 - Permission classification scans at most 2048 requests, displays at most 512 safe unique names, and limits each loaded explanation to 240 characters; omissions and unavailable protection levels are clearly labeled.
 - Component statistics scan at most 4096 declarations per manifest and 128 AAB module manifests under a shared 16 MiB input budget; omissions, unresolved exported values, and per-manifest failures are clearly labeled.
 - Native-library statistics retain at most 4096 .so entries and display 64 ABI directories. At most 512 selected nested APKs are read under a shared 256 MiB input budget while retaining no more than 8 MiB of central-directory data per APK; limits and failures produce clearly labeled partial results.
@@ -125,7 +127,7 @@ The current version performs read-only inspection only: there is no install butt
 
 ### Roadmap
 
-The capabilities above and the checked Roadmap items reflect what is implemented; planned work such as resource-table fallbacks and deeper bundle analysis is tracked in the Roadmap, and unchecked items are not current capabilities.
+The capabilities above and the checked Roadmap items reflect what is implemented; planned work such as deeper bundle analysis and device-configuration simulation is tracked in the Roadmap, and unchecked items are not current capabilities.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -136,6 +138,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added bounded resource-table fallback for app labels and raster icons: AAB resources.pb and APK resources.arsc are resolved for the current locale and density without extracting oversized nested APKs; table, icon, and scan-limit failures remain isolated and clearly labeled
 - `Feature` Added long-press copying for primary package-detail values and exact plain-text report sharing through the Android Sharesheet; sharing stays memory-only, requests no storage permission, and creates no file
 - `Feature` Added a bounded DEX overview that naturally orders standard classes*.dex files from selected APK splits and AAB modules with per-file and total uncompressed sizes, sharing the native-library central-directory pass without extracting, decoding, or decompiling DEX contents
 - `Feature` Added a bounded native-library overview that groups .so files from selected APK splits and AAB modules by ABI and uncompressed size, marking preferred, fallback-compatible, and unsupported device ABIs without extracting library contents

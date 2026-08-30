@@ -129,6 +129,7 @@ dependencies {
 
     implementation(libs.activity.ktx)
     implementation(libs.appcompat)
+    implementation(libs.arsclib)
     implementation(libs.core.ktx)
     implementation(libs.gson)
     implementation(libs.material)

@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.PermissionInfo
+import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -20,6 +21,7 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toDrawable
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import io.github.supermonster003.autojs6.plugin.apkinspector.databinding.ActivityApkInspectorBinding
@@ -112,7 +114,8 @@ class ApkInspectorActivity : AppCompatActivity() {
         sha256: String,
         v4IdsigFile: File?,
     ): InspectionReport {
-        val archive = AndroidPackageArchiveInspector.inspect(packageFile, PackageDeviceSpec.from(this))
+        val deviceSpec = PackageDeviceSpec.from(this)
+        val archive = AndroidPackageArchiveInspector.inspect(packageFile, deviceSpec)
         val summary = archive.baseManifest
         val displayApk = when (archive.format) {
             AndroidPackageFormat.APK -> packageFile
@@ -147,6 +150,21 @@ class ApkInspectorActivity : AppCompatActivity() {
         } finally {
             temporaryDirectory?.deleteRecursively()
         }
+
+        val resourceFallback = PackageResourceFallbackInspector.inspect(
+            archive = archive,
+            device = deviceSpec,
+            needLabel = label == null,
+            needIcon = icon == null,
+        )
+        val fallbackIcon = resourceFallback.icon?.let(::decodeResourceIcon)
+        val resourceFallbackIssues = buildList {
+            addAll(resourceFallback.issues)
+            if (icon == null && resourceFallback.icon != null && fallbackIcon == null) {
+                add(PackageResourceFallbackIssue.ICON_INVALID)
+            }
+        }.distinct()
+        val resolvedIcon = icon ?: fallbackIcon
 
         val versionCode = packageInfo?.let { info ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) info.longVersionCode
@@ -183,7 +201,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         }.getOrNull()
 
         val unknown = getString(R.string.text_unknown)
-        val appLabel = label ?: summary?.applicationLabel ?: displayName
+        val appLabel = label ?: resourceFallback.label ?: displayName
         val archiveFormat = formatName(archive)
         val packageName = packageInfo?.packageName ?: summary?.packageName ?: unknown
         val versionName = packageInfo?.versionName ?: summary?.versionName ?: unknown
@@ -268,11 +286,14 @@ class ApkInspectorActivity : AppCompatActivity() {
             archive.problems.forEach { problem ->
                 add("${if (problem.blocking) "[!]" else "[i]"} ${problem.code}: ${problem.detail}")
             }
+            resourceFallbackIssues.forEach { issue ->
+                add(getString(resourceFallbackIssueString(issue)))
+            }
         }.distinct().ifEmpty { listOf(getString(R.string.finding_none)) }.joinToString("\n")
 
         return InspectionReport(
             appLabel = appLabel,
-            icon = icon,
+            icon = resolvedIcon,
             detailFields = detailFields,
             detailSupplement = detailSupplement,
             components = components,
@@ -280,6 +301,45 @@ class ApkInspectorActivity : AppCompatActivity() {
             findings = findings,
             manifestPath = manifestPath,
         )
+    }
+
+    private fun decodeResourceIcon(icon: PackageResourceIcon): Drawable? = runCatching {
+        val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+        BitmapFactory.decodeByteArray(icon.bytes, 0, icon.bytes.size, bounds)
+        if (bounds.outWidth <= 0 || bounds.outHeight <= 0) return@runCatching null
+        var sampleSize = 1
+        while (
+            bounds.outWidth / sampleSize > MAX_FALLBACK_ICON_DIMENSION ||
+            bounds.outHeight / sampleSize > MAX_FALLBACK_ICON_DIMENSION
+        ) {
+            sampleSize = Math.multiplyExact(sampleSize, 2)
+        }
+        val bitmap = BitmapFactory.decodeByteArray(
+            icon.bytes,
+            0,
+            icon.bytes.size,
+            BitmapFactory.Options().apply { inSampleSize = sampleSize },
+        ) ?: return@runCatching null
+        bitmap.toDrawable(resources)
+    }.getOrNull()
+
+    private fun resourceFallbackIssueString(issue: PackageResourceFallbackIssue): Int = when (issue) {
+        PackageResourceFallbackIssue.RESOURCE_TABLE_MISSING ->
+            R.string.resource_fallback_table_missing
+        PackageResourceFallbackIssue.RESOURCE_TABLE_LIMIT ->
+            R.string.resource_fallback_table_limit
+        PackageResourceFallbackIssue.NESTED_SCAN_LIMIT ->
+            R.string.resource_fallback_scan_limit
+        PackageResourceFallbackIssue.RESOURCE_TABLE_INVALID ->
+            R.string.resource_fallback_table_invalid
+        PackageResourceFallbackIssue.LABEL_UNRESOLVED ->
+            R.string.resource_fallback_label_unresolved
+        PackageResourceFallbackIssue.ICON_UNRESOLVED ->
+            R.string.resource_fallback_icon_unresolved
+        PackageResourceFallbackIssue.ICON_LIMIT ->
+            R.string.resource_fallback_icon_limit
+        PackageResourceFallbackIssue.ICON_INVALID ->
+            R.string.resource_fallback_icon_invalid
     }
 
     private fun getPackageInfo(apkFile: File): PackageInfo? = runCatching {
@@ -949,6 +1009,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         private const val FINGERPRINT_PREVIEW_CHARS = 12
         private const val LINEAGE_CAPABILITY_MASK = 0x1F
         private const val MAX_DECLARED_PERMISSION_DEFINITIONS = 2_048
+        private const val MAX_FALLBACK_ICON_DIMENSION = 512
         private val SHA256_PATTERN = Regex("[0-9a-f]{64}")
 
         internal fun createIntent(context: Context, staged: StagedPackage): Intent =

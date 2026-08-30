@@ -186,6 +186,8 @@ internal data class ManifestSummary(
     val targetSdk: Int?,
     val maxSdk: Int?,
     val applicationLabel: String?,
+    val applicationIcon: String?,
+    val applicationRoundIcon: String?,
     val requestedPermissions: List<String>,
     val usesSplits: List<String>,
     val declaredPermissionProtectionLevels: Map<String, Int> = emptyMap(),
@@ -969,6 +971,8 @@ internal object ManifestSummaryParser {
             targetSdk = sdkAttributes.value("targetSdkVersion")?.toIntFlexible(),
             maxSdk = sdkAttributes.value("maxSdkVersion")?.toIntFlexible(),
             applicationLabel = applicationAttributes.value("label")?.takeIf(String::isNotBlank),
+            applicationIcon = applicationAttributes.value("icon")?.takeIf(String::isNotBlank),
+            applicationRoundIcon = applicationAttributes.value("roundIcon")?.takeIf(String::isNotBlank),
             requestedPermissions = permissionTag.findAll(xml)
                 .mapNotNull { match -> parseAttributes(match.groupValues[1]).value("name") }
                 .filter(String::isNotBlank)

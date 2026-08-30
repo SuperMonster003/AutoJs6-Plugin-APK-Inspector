@@ -54,6 +54,14 @@
     <string name="finding_invalid">パッケージセットが不完全または無効です</string>
     <string name="finding_none">構造または端末互換性の問題は検出されませんでした</string>
     <string name="finding_obb">パッケージにはAPKセットに含まれないOBBアセットが%1$d個あります</string>
+    <string name="resource_fallback_table_missing">[i] リソーステーブルによるアプリ名/アイコンのフォールバックは利用できません: リソーステーブルがありません.</string>
+    <string name="resource_fallback_table_limit">[i] リソーステーブルが安全上限を超えたため, アプリ名/アイコンのフォールバックを停止しました.</string>
+    <string name="resource_fallback_scan_limit">[i] 入れ子APKの走査上限に達したため, アプリ名/アイコンのフォールバックを停止しました.</string>
+    <string name="resource_fallback_table_invalid">[i] アプリ名/アイコンのフォールバック用リソーステーブルをデコードできませんでした.</string>
+    <string name="resource_fallback_label_unresolved">[i] リソーステーブルからアプリ名を解決できないため, ファイル名を表示します.</string>
+    <string name="resource_fallback_icon_unresolved">[i] リソーステーブルから互換性のあるラスターアプリアイコンを解決できませんでした.</string>
+    <string name="resource_fallback_icon_limit">[i] リソーステーブルのアプリアイコンが安全上限を超えたため省略しました.</string>
+    <string name="resource_fallback_icon_invalid">[i] リソーステーブルのアプリアイコンは対応するラスター画像ではないため省略しました.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">パッケージを検査中...</string>
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Android Manifest</string>

@@ -54,6 +54,14 @@
     <string name="finding_invalid">Le jeu de paquets est incomplet ou non valide</string>
     <string name="finding_none">Aucun problème structurel ou de compatibilité avec appareil détecté</string>
     <string name="finding_obb">Le paquet contient %1$d ressources OBB hors du jeu APK</string>
+    <string name="resource_fallback_table_missing">[i] Le repli du nom/de l’icône via la table de ressources est indisponible: la table manque.</string>
+    <string name="resource_fallback_table_limit">[i] Le repli du nom/de l’icône s’est arrêté car la table de ressources dépasse la limite de sécurité.</string>
+    <string name="resource_fallback_scan_limit">[i] Le repli du nom/de l’icône s’est arrêté à la limite d’analyse de l’APK imbriqué.</string>
+    <string name="resource_fallback_table_invalid">[i] Impossible de décoder la table de ressources pour obtenir le nom/l’icône de repli.</string>
+    <string name="resource_fallback_label_unresolved">[i] Le nom de l’application n’a pas pu être résolu dans la table de ressources; le nom du fichier est affiché.</string>
+    <string name="resource_fallback_icon_unresolved">[i] Aucune icône matricielle compatible n’a pu être résolue dans la table de ressources.</string>
+    <string name="resource_fallback_icon_limit">[i] L’icône issue de la table de ressources dépasse la limite de sécurité et a été omise.</string>
+    <string name="resource_fallback_icon_invalid">[i] L’icône issue de la table de ressources n’est pas une image matricielle prise en charge et a été omise.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Inspection du paquet...</string>
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Manifeste Android</string>

@@ -54,6 +54,14 @@
     <string name="finding_invalid">Набор пакетов неполный или недействительный</string>
     <string name="finding_none">Структурные проблемы и проблемы совместимости с устройством не найдены</string>
     <string name="finding_obb">Пакет содержит %1$d ресурсов OBB вне набора APK</string>
+    <string name="resource_fallback_table_missing">[i] Резервное получение имени/значка из таблицы ресурсов недоступно: таблица отсутствует.</string>
+    <string name="resource_fallback_table_limit">[i] Резервное получение имени/значка остановлено: таблица ресурсов превышает безопасный лимит.</string>
+    <string name="resource_fallback_scan_limit">[i] Резервное получение имени/значка остановлено на лимите сканирования вложенного APK.</string>
+    <string name="resource_fallback_table_invalid">[i] Не удалось декодировать таблицу ресурсов для резервного получения имени/значка.</string>
+    <string name="resource_fallback_label_unresolved">[i] Не удалось определить имя приложения из таблицы ресурсов; вместо него показано имя файла.</string>
+    <string name="resource_fallback_icon_unresolved">[i] Не удалось определить совместимый растровый значок приложения из таблицы ресурсов.</string>
+    <string name="resource_fallback_icon_limit">[i] Значок из таблицы ресурсов превышает безопасный лимит и был пропущен.</string>
+    <string name="resource_fallback_icon_invalid">[i] Значок из таблицы ресурсов не является поддерживаемым растровым изображением и был пропущен.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Проверка пакета...</string>
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Manifest Android</string>

@@ -42,6 +42,7 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 - Version et compatibilité : nom du paquet, nom et code de version, SDK min/cible/max, comparés à la version Android de l'appareil avant toute installation.
 - Transparence des autorisations : regroupement par niveau de protection (exécution/dangereuses, signature/protégées et normales), avec les autorisations à l’exécution mises en avant et expliquées en une ligne ; les niveaux indisponibles restent visibles et signalés.
 - Analyse des splits : liste chaque entrée APK et chaque ressource OBB d'un bundle et marque les splits retenus pour cet appareil (base, langue, densité d'écran, ABI).
+- Repli d’identité via les ressources : quand Android ne peut pas charger directement un AAB ou un bundle trop volumineux, résout le libellé de l’application et une icône matricielle pour la langue et la densité actuelles depuis resources.pb (AAB) ou resources.arsc (APK), sans extraire tout l’APK imbriqué.
 - Exposition des composants du manifeste : compte les activités/alias, services, récepteurs de diffusion et fournisseurs de contenu dans les splits APK sélectionnés ou les modules AAB analysés, en regroupant les valeurs android:exported explicites comme exporté, non exporté ou non précisé/non résolu.
 - Vue des bibliothèques natives : regroupe les fichiers .so des splits APK sélectionnés ou modules AAB par ABI et taille non compressée, en signalant l’ABI préférée de l’appareil, les solutions de repli compatibles et les architectures non prises en charge, sans extraire leur contenu.
 - Vue DEX : liste dans l’ordre naturel les fichiers classes*.dex standard des splits APK sélectionnés ou modules AAB, avec les tailles non compressées par fichier et totale, sans extraire, décoder ni décompiler leur contenu.
@@ -89,7 +90,7 @@ Non. Le plugin vérifie cryptographiquement l'intégrité et les preuves du sign
 
 #### Pourquoi les fichiers AAB indiquent-ils qu'ils « nécessitent une conversion avant installation » ?
 
-L'AAB est un format de distribution destiné aux boutiques d'applications ; un appareil Android ne peut pas l'installer directement. Le plugin décode son manifeste protobuf et sa structure de modules pour consultation, mais l'installation exige d'abord une conversion en APK(s) avec un outil comme bundletool.
+L'AAB est un format de distribution destiné aux boutiques d'applications ; un appareil Android ne peut pas l'installer directement. Le plugin décode son manifeste protobuf et sa structure de modules, et utilise resources.pb pour résoudre le libellé localisé et une icône matricielle adaptée à la densité, mais l'installation exige toujours une conversion en APK(s) avec un outil comme bundletool.
 
 ### Autorisations et sécurité
 
@@ -101,6 +102,7 @@ Pour empêcher des fichiers forgés d'épuiser les ressources de l'appareil, l'a
 - Au plus 16384 entrées d'archive sont analysées, au plus 512 entrées APK par bundle sont parcourues, et les noms d'entrée sont limités à 1024 caractères.
 - La taille déclarée d'une entrée ne peut dépasser 4 GiB, et le total déclaré ne peut dépasser 8 GiB.
 - L'analyse des manifestes d'APK imbriqués est plafonnée à 256 MiB, les métadonnées de bundle à 1 MiB, et l'APK temporaire servant à charger l'icône et le libellé à 512 MiB.
+- Le repli via les ressources lit au plus 32 MiB par table et 4 MiB par icône, avec un budget partagé de 512 MiB pour localiser table et icône dans un APK imbriqué ; une limite, une ressource incorrecte ou une référence non résolue désactive uniquement ce repli et est clairement signalée.
 - La classification examine au plus 2048 demandes, affiche jusqu’à 512 noms sûrs et uniques et limite chaque explication chargée à 240 caractères ; les omissions et niveaux indisponibles sont clairement signalés.
 - Les statistiques de composants analysent au plus 4096 déclarations par manifeste et 128 manifestes de modules AAB avec un budget d’entrée partagé de 16 MiB ; les omissions, valeurs exported non résolues et échecs par manifeste sont clairement signalés.
 - Les statistiques natives conservent au plus 4096 entrées .so et affichent 64 répertoires ABI. Jusqu’à 512 APK imbriqués sélectionnés sont lus avec un budget partagé de 256 MiB, en retenant au plus 8 MiB de répertoire central par APK ; limites et échecs produisent des résultats partiels clairement signalés.
@@ -125,7 +127,7 @@ La version actuelle n'effectue qu'une inspection en lecture seule : aucun bouton
 
 ### Roadmap
 
-Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'existant ; les travaux prévus, tels que les solutions de repli via la table de ressources et l’analyse approfondie des bundles, sont suivis dans la Roadmap, et les éléments non cochés ne sont pas des capacités actuelles.
+Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'existant ; les travaux prévus, tels que l’analyse approfondie des bundles et la simulation de configuration d’appareil, sont suivis dans la Roadmap, et les éléments non cochés ne sont pas des capacités actuelles.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -136,6 +138,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout d’un repli borné pour le libellé et l’icône matricielle via resources.pb (AAB) et resources.arsc (APK), résolus selon la langue et la densité actuelles sans extraire les APK imbriqués trop volumineux ; les échecs de table, d’icône et de limite de parcours restent isolés et clairement signalés
 - `Fonctionnalité` Ajout de la copie par appui long des principales valeurs du paquet et du partage du rapport texte exact via la feuille de partage Android ; le contenu reste en mémoire, sans autorisation de stockage ni création de fichier
 - `Fonctionnalité` Ajout d’une vue DEX bornée qui liste dans l’ordre naturel les fichiers classes*.dex standard des splits APK sélectionnés et modules AAB, avec les tailles non compressées par fichier et totale, en partageant le parcours du répertoire central des bibliothèques natives sans extraire, décoder ni décompiler le contenu DEX
 - `Fonctionnalité` Ajout d’une vue bornée des bibliothèques natives regroupant les fichiers .so des splits APK sélectionnés et modules AAB par ABI et taille non compressée, avec marquage des ABI préférées, compatibles de repli et non prises en charge sans extraire leur contenu

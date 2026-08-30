@@ -14,6 +14,7 @@
     "버전과 호환성: 패키지 이름, 버전 이름과 코드, 최소/대상/최대 SDK를 표시하고 기기의 Android 버전과 대조해 설치 전에 호환성을 판단할 수 있습니다.",
     "권한 투명성: 요청 권한을 보호 수준(런타임/위험, 서명/보호, 일반)으로 분류하고 런타임 권한을 한 줄 설명과 함께 먼저 강조합니다. 확인할 수 없는 수준도 숨기지 않고 명확히 표시합니다.",
     "분할 APK 분석: 번들 안의 모든 APK 항목과 OBB 자산을 나열하고 이 기기용으로 선택되는 분할 (베이스, 언어, 화면 밀도, ABI) 을 표시합니다.",
+    "리소스 기반 앱 식별 대체 경로: Android가 AAB 또는 제한을 넘는 번들을 직접 불러오지 못하면 중첩 APK 전체를 추출하지 않고 AAB resources.pb 또는 APK resources.arsc에서 현재 언어와 밀도에 맞는 앱 이름과 래스터 아이콘을 해석합니다.",
     "manifest 구성 요소 공개 상태: 선택된 APK 분할 또는 스캔한 AAB 모듈의 activity/별칭, service, broadcast receiver, content provider를 집계하고 명시적 android:exported 값을 내보냄, 내보내지 않음, 미지정/미해결로 분류합니다.",
     "네이티브 라이브러리 개요: 선택된 APK 분할 또는 AAB 모듈의 .so 파일을 ABI와 압축 해제 크기별로 집계하고 기기 우선 ABI, 지원되는 대체 ABI, 미지원 아키텍처를 표시하며 라이브러리 내용은 추출하지 않습니다.",
     "DEX 개요: 선택된 APK 분할 또는 AAB 모듈의 표준 classes*.dex 파일을 자연 순서로 나열하고 파일별 및 전체 압축 해제 크기를 표시하며 DEX 내용은 추출, 디코딩 또는 디컴파일하지 않습니다.",
@@ -53,7 +54,7 @@
     },
     {
       "q": "AAB 파일에 \"설치하려면 변환이 필요합니다\"라고 표시되는 이유는 무엇인가요?",
-      "a": "AAB는 앱 스토어용 배포 형식이라 Android 기기에 직접 설치할 수 없습니다. 플러그인은 protobuf manifest와 모듈 구조를 디코딩해 보여줄 수 있지만, 설치하려면 먼저 bundletool 등으로 APK(S)로 변환해야 합니다."
+      "a": "AAB는 앱 스토어용 배포 형식이라 Android 기기에 직접 설치할 수 없습니다. 플러그인은 protobuf manifest와 모듈 구조를 디코딩하고 resources.pb에서 현지화된 앱 이름과 밀도에 맞는 래스터 아이콘을 해석해 보여줄 수 있지만, 설치하려면 여전히 bundletool 등으로 APK(S)로 변환해야 합니다."
     }
   ],
   "h3_security": "권한과 보안",
@@ -64,6 +65,7 @@
     "아카이브 항목은 최대 {{ max_archive_entries }} 개까지 해석하고, 번들당 APK 항목은 최대 {{ max_apk_entries }} 개까지 살피며, 항목 이름은 최대 {{ max_entry_name_chars }} 자입니다.",
     "선언된 단일 항목 크기는 {{ max_declared_entry_size }}, 선언된 총 크기는 {{ max_declared_total_size }} 를 넘을 수 없습니다.",
     "중첩 APK manifest 스캔은 {{ max_nested_apk_scan }}, 번들 메타데이터는 {{ max_metadata_size }}, 아이콘·라벨 로딩용 임시 APK는 {{ max_display_apk_size }} 까지로 제한됩니다.",
+    "리소스 대체 경로는 테이블당 최대 {{ max_resource_table_size }}, 아이콘당 최대 {{ max_resource_icon_size }}를 읽고, 중첩 APK 안에서 테이블과 아이콘을 찾을 때 공유 {{ max_resource_nested_scan }} 예산을 사용합니다. 한도 초과, 손상된 리소스, 미해결 참조는 해당 대체 경로만 비활성화하며 명확히 표시합니다.",
     "권한 분류는 최대 {{ max_permission_scan }}개 요청을 스캔하고 안전한 고유 이름을 최대 {{ max_permission_display }}개 표시하며, 불러온 설명은 각각 {{ max_permission_description_chars }}자로 제한합니다. 생략 항목과 확인할 수 없는 보호 수준은 명확히 표시됩니다.",
     "구성 요소 통계는 manifest마다 최대 {{ max_manifest_components }}개 선언을 스캔하고, AAB에서는 공유 입력 예산 {{ max_aab_component_manifest_total }} 안에서 최대 {{ max_aab_component_manifests }}개 모듈 manifest를 스캔합니다. 생략, 미해결 exported 값, manifest별 실패를 명확히 표시합니다.",
     "네이티브 통계는 최대 {{ max_native_library_entries }}개의 .so 항목을 유지하고 {{ max_native_abi_display }}개의 ABI 디렉터리를 표시합니다. 선택된 중첩 APK는 최대 {{ max_native_apk_scans }}개를 공유 입력 예산 {{ max_native_nested_apk_scan }} 안에서 읽고 APK별 중앙 디렉터리는 {{ max_native_central_directory }}까지만 유지합니다. 한도와 실패는 일부 결과로 명확히 표시합니다.",
@@ -72,7 +74,7 @@
   "h3_plugin_interface": "플러그인 인터페이스",
   "p_plugin_interface": "호스트 (AutoJs6) 는 다음 식별자로 플러그인을 발견하고 호출합니다. 플러그인·호스트 개발자를 위한 참고 정보입니다",
   "p_plugin_scope": "현재 버전은 읽기 전용 검사만 수행합니다. 설치 버튼, 설치 권한, 패키지 설치 관리자가 없고, 원본 파일을 수정하지 않으며, 디렉터리를 열거하지도 않습니다. V4는 호스트가 정확히 파생한 `.idsig` 후보만 사용하고 제한된 읽기 전용 디스크립터를 전용 스냅샷으로 복사한 직후 호스트 세션을 닫습니다. 플러그인이 없거나 비활성화되면 호스트는 기본 동작으로 자연스럽게 되돌아갑니다.",
-  "p_roadmap": "구현된 기능은 위 내용과 Roadmap의 체크된 항목이 기준입니다. 리소스 테이블 대체 경로와 심화 번들 분석 등의 계획은 Roadmap에서 관리하며, 체크되지 않은 항목은 현재 기능이 아닙니다",
+  "p_roadmap": "구현된 기능은 위 내용과 Roadmap의 체크된 항목이 기준입니다. 심화 번들 분석과 기기 구성 시뮬레이션 등의 계획은 Roadmap에서 관리하며, 체크되지 않은 항목은 현재 기능이 아닙니다",
   "h3_release_history": "릴리스 기록",
   "h5_for_more_release_history": "전체 기록",
   "h3_build": "빌드",

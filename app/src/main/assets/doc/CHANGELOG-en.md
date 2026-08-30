@@ -5,6 +5,7 @@
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added bounded resource-table fallback for app labels and raster icons: AAB resources.pb and APK resources.arsc are resolved for the current locale and density without extracting oversized nested APKs; table, icon, and scan-limit failures remain isolated and clearly labeled
 - `Feature` Added long-press copying for primary package-detail values and exact plain-text report sharing through the Android Sharesheet; sharing stays memory-only, requests no storage permission, and creates no file
 - `Feature` Added a bounded DEX overview that naturally orders standard classes*.dex files from selected APK splits and AAB modules with per-file and total uncompressed sizes, sharing the native-library central-directory pass without extracting, decoding, or decompiling DEX contents
 - `Feature` Added a bounded native-library overview that groups .so files from selected APK splits and AAB modules by ABI and uncompressed size, marking preferred, fallback-compatible, and unsupported device ABIs without extracting library contents

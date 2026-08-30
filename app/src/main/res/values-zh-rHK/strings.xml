@@ -54,6 +54,14 @@
     <string name="finding_invalid">套件組合不完整或無效</string>
     <string name="finding_none">未偵測到結構或裝置相容性問題</string>
     <string name="finding_obb">套件包含 %1$d 個不屬於 APK 組合的 OBB 資源</string>
+    <string name="resource_fallback_table_missing">[i] 資源表應用程式名稱/圖示後備不可用: 缺少資源表.</string>
+    <string name="resource_fallback_table_limit">[i] 資源表超出安全上限, 應用程式名稱/圖示後備已停止.</string>
+    <string name="resource_fallback_scan_limit">[i] 已達巢狀 APK 掃描上限, 資源表應用程式名稱/圖示後備已停止.</string>
+    <string name="resource_fallback_table_invalid">[i] 無法解碼資源表以後備應用程式名稱/圖示.</string>
+    <string name="resource_fallback_label_unresolved">[i] 無法從資源表解析應用程式名稱; 已改為顯示檔案名稱.</string>
+    <string name="resource_fallback_icon_unresolved">[i] 無法從資源表解析相容的點陣應用程式圖示.</string>
+    <string name="resource_fallback_icon_limit">[i] 資源表應用程式圖示超出安全上限, 已省略.</string>
+    <string name="resource_fallback_icon_invalid">[i] 資源表應用程式圖示不是支援的點陣圖像, 已省略.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">正在檢查套件...</string>
     <string name="inspection_title">APK 檢查器</string>
     <string name="manifest_title">Android 資訊清單</string>

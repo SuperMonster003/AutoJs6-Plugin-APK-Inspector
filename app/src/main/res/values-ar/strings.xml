@@ -54,6 +54,14 @@
     <string name="finding_invalid">مجموعة الحزم غير مكتملة أو غير صالحة</string>
     <string name="finding_none">لم يتم اكتشاف مشكلات بنيوية أو مشكلات توافق مع الجهاز</string>
     <string name="finding_obb">تحتوي الحزمة على %1$d من أصول OBB خارج مجموعة APK</string>
+    <string name="resource_fallback_table_missing">[i] تعذر استخدام الاسم/الأيقونة البديلة من جدول الموارد: جدول الموارد مفقود.</string>
+    <string name="resource_fallback_table_limit">[i] توقف استخراج الاسم/الأيقونة البديلة لأن جدول الموارد تجاوز حد الأمان.</string>
+    <string name="resource_fallback_scan_limit">[i] توقف استخراج الاسم/الأيقونة البديلة عند حد فحص APK المتداخل.</string>
+    <string name="resource_fallback_table_invalid">[i] تعذر فك ترميز جدول الموارد لاستخراج الاسم/الأيقونة البديلة.</string>
+    <string name="resource_fallback_label_unresolved">[i] تعذر استخراج اسم التطبيق من جدول الموارد؛ يُعرض اسم الملف بدلاً منه.</string>
+    <string name="resource_fallback_icon_unresolved">[i] تعذر استخراج أيقونة تطبيق نقطية متوافقة من جدول الموارد.</string>
+    <string name="resource_fallback_icon_limit">[i] تجاوزت أيقونة جدول الموارد حد الأمان وتم حذفها.</string>
+    <string name="resource_fallback_icon_invalid">[i] أيقونة جدول الموارد ليست صورة نقطية مدعومة وتم حذفها.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">جار فحص الحزمة...</string>
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Android Manifest</string>

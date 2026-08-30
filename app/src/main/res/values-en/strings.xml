@@ -54,6 +54,14 @@
     <string name="finding_invalid">The package set is incomplete or invalid</string>
     <string name="finding_none">No structural or device compatibility problems were detected</string>
     <string name="finding_obb">The package contains %1$d OBB assets that are not part of the APK set</string>
+    <string name="resource_fallback_table_missing">[i] Resource-table label/icon fallback is unavailable: the resource table is missing.</string>
+    <string name="resource_fallback_table_limit">[i] Resource-table label/icon fallback stopped because the resource table exceeds its safety limit.</string>
+    <string name="resource_fallback_scan_limit">[i] Resource-table label/icon fallback stopped at the nested APK scan limit.</string>
+    <string name="resource_fallback_table_invalid">[i] Resource-table label/icon fallback could not decode the resource table.</string>
+    <string name="resource_fallback_label_unresolved">[i] The application label could not be resolved from the resource table; the file name is shown instead.</string>
+    <string name="resource_fallback_icon_unresolved">[i] No compatible raster application icon could be resolved from the resource table.</string>
+    <string name="resource_fallback_icon_limit">[i] The resource-table application icon exceeds its safety limit and was omitted.</string>
+    <string name="resource_fallback_icon_invalid">[i] The resource-table application icon is not a supported raster image and was omitted.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Inspecting package...</string>
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Android Manifest</string>
