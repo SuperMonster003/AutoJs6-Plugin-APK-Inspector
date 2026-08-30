@@ -149,6 +149,7 @@ _2026/08/30_
 - `Fonctionnalité` Regroupement des autorisations demandées selon `protectionLevel` en exécution/dangereuses, signature/protégées et normales ; celles à l’exécution sont mises en avant avec une explication bornée sur une ligne, tandis que les niveaux indisponibles restent visibles et signalés
 - `Amélioration` Renforcement de la validation Explorer Action v22 et des instantanés privés immuables, avec limites de 4 GiB pour le paquet et 40 MiB pour idsig, contrôles d’identité et fermeture rapide de la session
 - `Amélioration` Ajout d’échantillons officiels Build Tools 37 `apksigner` couvrant signatures valides, altérées, multiples, rotations V3.1/V4.1, absences et formats incorrects
+- `Amélioration` Ajout d’une matrice d’isolation par section sur de vrais paquets, couvrant les limites de production des autorisations, composants de manifeste, bibliothèques natives et DEX, ainsi que les dépassements de table de ressources et les répertoires centraux imbriqués endommagés ; chaque échantillon vérifie que les sections non touchées restent complètes et que les avis partiels sont conservés dans le partage texte
 
 #### v1.0.1
 

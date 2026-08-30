@@ -76,4 +76,48 @@ class InspectionReportTextFormatterTest {
             text,
         )
     }
+
+    @Test
+    fun `exports partial notices without replacing unaffected sections`() {
+        val sections = listOf(
+            InspectionReportTextSection(
+                title = "Package details",
+                body = "Package: com.example\nVersion: 42",
+            ),
+            InspectionReportTextSection(
+                title = "Components",
+                body = "Services: 4096\n[i] Component scan stopped at 4096 entries\n\nDEX: 1 file",
+            ),
+            InspectionReportTextSection(
+                title = "Requested permissions",
+                body = "Normal (1)\n- android.permission.INTERNET",
+            ),
+            InspectionReportTextSection(
+                title = "Security and compatibility findings",
+                body = "No problems detected",
+            ),
+        )
+
+        val text = InspectionReportTextFormatter.format(
+            appLabel = "Isolation Demo",
+            fileSummary = "Size: 1 MB",
+            sections = sections,
+        )
+
+        sections.forEach { section ->
+            assertEquals(
+                1,
+                Regex(Regex.escape("${section.title}\n${section.body}"))
+                    .findAll(text)
+                    .count(),
+            )
+        }
+        assertEquals(
+            "Isolation Demo\nSize: 1 MB\n\n" +
+                sections.joinToString("\n\n") { section ->
+                    "${section.title}\n${section.body}"
+                },
+            text,
+        )
+    }
 }

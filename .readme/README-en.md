@@ -149,6 +149,7 @@ _2026/08/30_
 - `Feature` Grouped requested permissions by `protectionLevel` into runtime/dangerous, signature/protected, and normal sections; runtime permissions are highlighted first with bounded one-line descriptions, while unavailable levels remain visible and labeled
 - `Improvement` Hardened Explorer Action v22 request validation and immutable private snapshots, with a 4 GiB package limit, a 40 MiB idsig limit, identity checks, and prompt host-session closure
 - `Improvement` Added official Build Tools 37 `apksigner` fixtures for valid, tampered, multi-signer, V3.1 rotation, V4.1 rotation, missing, and malformed-signature cases
+- `Improvement` Added a real-package partition-isolation matrix for production permission, manifest-component, native-library, and DEX limits plus resource-table and malformed nested-directory failures; every sample asserts unaffected sections remain complete and partial notices survive plain-text sharing
 
 #### v1.0.1
 
