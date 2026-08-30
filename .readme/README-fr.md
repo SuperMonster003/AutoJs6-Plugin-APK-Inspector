@@ -45,6 +45,7 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 - Exposition des composants du manifeste : compte les activités/alias, services, récepteurs de diffusion et fournisseurs de contenu dans les splits APK sélectionnés ou les modules AAB analysés, en regroupant les valeurs android:exported explicites comme exporté, non exporté ou non précisé/non résolu.
 - Vue des bibliothèques natives : regroupe les fichiers .so des splits APK sélectionnés ou modules AAB par ABI et taille non compressée, en signalant l’ABI préférée de l’appareil, les solutions de repli compatibles et les architectures non prises en charge, sans extraire leur contenu.
 - Vue DEX : liste dans l’ordre naturel les fichiers classes*.dex standard des splits APK sélectionnés ou modules AAB, avec les tailles non compressées par fichier et totale, sans extraire, décoder ni décompiler leur contenu.
+- Réutilisation du rapport : appuyez longuement sur une ligne principale des détails du paquet pour copier sa valeur brute, ou partagez le texte exact affiché en `text/plain` via la feuille de partage Android ; le texte reste en mémoire, sans fichier ni autorisation de stockage.
 - Vérification des signatures et certificats : vérifie cryptographiquement les schémas APK V2, V3 et V3.1 ; signale la présence de V1 ; affiche chaque certificat actuel et la lignée de rotation vérifiée avec les rôles ancien/nouveau et les empreintes SHA-256.
 - Vérification des fichiers annexes V4/V4.1 : AutoJs6 dérive uniquement le fichier voisin exact `<nom de l’APK>.idsig` et accorde un descripteur borné en lecture seule ; le plugin vérifie les données signées, le certificat et la clé publique, le condensat APK V2/V3 correspondant, la racine fs-verity, l’arbre de Merkle intégré et tout signataire de rotation V3.1.
 - Manifestes lisibles : les manifestes APK binaires et les manifestes protobuf AAB sont décodés en XML lisible, dans une visionneuse séparée en lecture seule.
@@ -57,7 +58,8 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 2. Ouvrez le gestionnaire de fichiers d'AutoJs6 et repérez le paquet à examiner (APK, APKS, XAPK, APKM, APKZ ou AAB).
 3. Touchez le fichier, ou choisissez « Inspecter le paquet Android » dans son menu ; le rapport apparaît après un instant.
 4. Parcourez le rapport de haut en bas : icône et nom de l'application, détails du paquet, composants, autorisations demandées, constats de sécurité et de compatibilité.
-5. Touchez « Afficher le manifeste » pour lire l'AndroidManifest complet, puis revenez en arrière pour retrouver le gestionnaire de fichiers.
+5. Appuyez longuement sur une ligne des « Détails du paquet » pour copier sa valeur, ou touchez « Partager le rapport » dans la barre d’outils pour envoyer le texte exact affiché via la feuille de partage Android.
+6. Touchez « Afficher le manifeste » pour lire l'AndroidManifest complet, puis revenez en arrière pour retrouver le gestionnaire de fichiers.
 
 > D'autres applications peuvent aussi confier un paquet à APK Inspector via « Ouvrir avec » (ACTION_VIEW), à condition d'utiliser une URI content avec un type MIME de paquet Android dédié. Le plugin est strictement en lecture seule et n'offre aucun point d'entrée d'installation.
 
@@ -123,7 +125,7 @@ La version actuelle n'effectue qu'une inspection en lecture seule : aucun bouton
 
 ### Roadmap
 
-Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'existant ; les travaux prévus, tels que l'export de rapport et l'analyse des ressources et bibliothèques natives, sont suivis dans la Roadmap, et les éléments non cochés ne sont pas des capacités actuelles.
+Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'existant ; les travaux prévus, tels que les solutions de repli via la table de ressources et l’analyse approfondie des bundles, sont suivis dans la Roadmap, et les éléments non cochés ne sont pas des capacités actuelles.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -134,6 +136,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout de la copie par appui long des principales valeurs du paquet et du partage du rapport texte exact via la feuille de partage Android ; le contenu reste en mémoire, sans autorisation de stockage ni création de fichier
 - `Fonctionnalité` Ajout d’une vue DEX bornée qui liste dans l’ordre naturel les fichiers classes*.dex standard des splits APK sélectionnés et modules AAB, avec les tailles non compressées par fichier et totale, en partageant le parcours du répertoire central des bibliothèques natives sans extraire, décoder ni décompiler le contenu DEX
 - `Fonctionnalité` Ajout d’une vue bornée des bibliothèques natives regroupant les fichiers .so des splits APK sélectionnés et modules AAB par ABI et taille non compressée, avec marquage des ABI préférées, compatibles de repli et non prises en charge sans extraire leur contenu
 - `Fonctionnalité` Ajout de statistiques bornées des composants du manifeste pour les activités/alias, services, récepteurs de diffusion et fournisseurs de contenu dans les splits APK sélectionnés et modules AAB analysés, regroupées par état android:exported explicite avec signalement des résultats partiels

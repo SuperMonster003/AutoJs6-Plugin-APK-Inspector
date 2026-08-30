@@ -1,5 +1,7 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
@@ -15,6 +17,8 @@ import android.text.format.Formatter
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -36,12 +40,19 @@ class ApkInspectorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityApkInspectorBinding
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var shareableReport: ShareableReport? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityApkInspectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbar.setNavigationOnClickListener { finish() }
+        binding.toolbar.menu.findItem(R.id.action_share_report).isEnabled = false
+        binding.toolbar.setOnMenuItemClickListener { item ->
+            if (item.itemId != R.id.action_share_report) return@setOnMenuItemClickListener false
+            shareableReport?.let(::shareReport)
+            true
+        }
 
         val packageFile = PackageCacheStager.resolveInternalFile(this, intent.getStringExtra(EXTRA_FILE_PATH))
         val displayName = PackageRequestPolicy.validateDisplayName(intent.getStringExtra(EXTRA_DISPLAY_NAME))
@@ -173,41 +184,51 @@ class ApkInspectorActivity : AppCompatActivity() {
 
         val unknown = getString(R.string.text_unknown)
         val appLabel = label ?: summary?.applicationLabel ?: displayName
-        val detailLines = listOf(
-            getString(R.string.detail_file, displayName),
-            getString(R.string.detail_format, formatName(archive)),
-            getString(R.string.detail_label, appLabel),
-            getString(R.string.detail_package_name, packageInfo?.packageName ?: summary?.packageName ?: unknown),
-            getString(
-                R.string.detail_version,
-                packageInfo?.versionName ?: summary?.versionName ?: unknown,
-                versionCode?.toString() ?: unknown,
+        val archiveFormat = formatName(archive)
+        val packageName = packageInfo?.packageName ?: summary?.packageName ?: unknown
+        val versionName = packageInfo?.versionName ?: summary?.versionName ?: unknown
+        val versionCodeText = versionCode?.toString() ?: unknown
+        val minSdk = packageInfo?.applicationInfo?.minSdkVersion?.takeIf { it > 0 }?.toString()
+            ?: summary?.minSdk?.toString() ?: unknown
+        val targetSdk = packageInfo?.applicationInfo?.targetSdkVersion?.takeIf { it > 0 }?.toString()
+            ?: summary?.targetSdk?.toString() ?: unknown
+        val maxSdk = summary?.maxSdk?.toString() ?: unknown
+        val signatureSummary = signatureVerification?.let(::formatSignatureVerification) ?: unknown
+        val certificateCount = signingCertificates.size.takeIf { it > 0 }?.toString() ?: unknown
+        val formattedSize = Formatter.formatFileSize(this, byteSize)
+        val detailFields = listOf(
+            CopyableReportField(getString(R.string.detail_file, displayName), displayName),
+            CopyableReportField(getString(R.string.detail_format, archiveFormat), archiveFormat),
+            CopyableReportField(getString(R.string.detail_label, appLabel), appLabel),
+            CopyableReportField(getString(R.string.detail_package_name, packageName), packageName),
+            CopyableReportField(
+                getString(R.string.detail_version, versionName, versionCodeText),
+                "$versionName ($versionCodeText)",
             ),
-            getString(
-                R.string.detail_sdk,
-                packageInfo?.applicationInfo?.minSdkVersion?.takeIf { it > 0 }?.toString()
-                    ?: summary?.minSdk?.toString() ?: unknown,
-                packageInfo?.applicationInfo?.targetSdkVersion?.takeIf { it > 0 }?.toString()
-                    ?: summary?.targetSdk?.toString() ?: unknown,
-                summary?.maxSdk?.toString() ?: unknown,
+            CopyableReportField(
+                getString(R.string.detail_sdk, minSdk, targetSdk, maxSdk),
+                "$minSdk | $targetSdk | $maxSdk",
             ),
-            getString(R.string.detail_device_sdk, Build.VERSION.SDK_INT),
-            getString(
-                R.string.detail_signature,
-                signatureVerification?.let(::formatSignatureVerification) ?: unknown,
+            CopyableReportField(
+                getString(R.string.detail_device_sdk, Build.VERSION.SDK_INT),
+                Build.VERSION.SDK_INT.toString(),
             ),
-            getString(
-                R.string.detail_signing_certificates,
-                signingCertificates.size.takeIf { it > 0 }?.toString() ?: unknown,
+            CopyableReportField(
+                getString(R.string.detail_signature, signatureSummary),
+                signatureSummary,
             ),
-            getString(R.string.detail_size, Formatter.formatFileSize(this, byteSize)),
-            getString(R.string.detail_sha256, sha256),
-        ).joinToString("\n")
+            CopyableReportField(
+                getString(R.string.detail_signing_certificates, certificateCount),
+                certificateCount,
+            ),
+            CopyableReportField(getString(R.string.detail_size, formattedSize), formattedSize),
+            CopyableReportField(getString(R.string.detail_sha256, sha256), sha256),
+        )
         val certificateDetails = formatSigningCertificates(signingCertificates)
         val lineageDetails = signatureVerification?.lineage
             ?.let(::formatSigningCertificateLineage)
             .orEmpty()
-        val details = listOf(detailLines, certificateDetails, lineageDetails)
+        val detailSupplement = listOf(certificateDetails, lineageDetails)
             .filter(String::isNotEmpty)
             .joinToString("\n\n")
 
@@ -252,7 +273,8 @@ class ApkInspectorActivity : AppCompatActivity() {
         return InspectionReport(
             appLabel = appLabel,
             icon = icon,
-            details = details,
+            detailFields = detailFields,
+            detailSupplement = detailSupplement,
             components = components,
             permissions = permissionAnalysis,
             findings = findings,
@@ -478,14 +500,81 @@ class ApkInspectorActivity : AppCompatActivity() {
         binding.content.isVisible = true
         binding.appLabel.text = report.appLabel
         report.icon?.let(binding.appIcon::setImageDrawable)
-        binding.packageDetails.text = report.details
+        binding.packageFields.removeAllViews()
+        report.detailFields.forEach { field ->
+            val fieldView = layoutInflater.inflate(
+                R.layout.item_copyable_report_field,
+                binding.packageFields,
+                false,
+            ) as TextView
+            fieldView.text = field.displayText
+            fieldView.contentDescription = getString(
+                R.string.report_field_copy_description,
+                field.displayText,
+            )
+            fieldView.setOnLongClickListener {
+                copyReportField(field)
+                true
+            }
+            binding.packageFields.addView(fieldView)
+        }
+        binding.packageDetails.text = report.detailSupplement
+        binding.packageDetails.isVisible = report.detailSupplement.isNotEmpty()
         binding.components.text = report.components
-        binding.permissions.text = formatRequestedPermissions(report.permissions)
+        val permissionsText = formatRequestedPermissions(report.permissions)
+        binding.permissions.text = permissionsText
         binding.findings.text = report.findings
         binding.viewManifest.isVisible = report.manifestPath != null
         binding.viewManifest.isEnabled = report.manifestPath != null
         binding.viewManifest.setOnClickListener {
             report.manifestPath?.let { path -> startActivity(ManifestViewerActivity.createIntent(this, path)) }
+        }
+        shareableReport = ShareableReport(
+            subject = getString(R.string.report_share_subject, report.appLabel),
+            text = InspectionReportTextFormatter.format(
+                appLabel = binding.appLabel.text,
+                fileSummary = binding.fileSummary.text,
+                sections = listOf(
+                    InspectionReportTextSection(
+                        getString(R.string.section_package_details),
+                        report.details,
+                    ),
+                    InspectionReportTextSection(
+                        getString(R.string.section_components),
+                        binding.components.text,
+                    ),
+                    InspectionReportTextSection(
+                        getString(R.string.section_requested_permissions),
+                        binding.permissions.text,
+                    ),
+                    InspectionReportTextSection(
+                        getString(R.string.section_findings),
+                        binding.findings.text,
+                    ),
+                ),
+            ),
+        )
+        binding.toolbar.menu.findItem(R.id.action_share_report).isEnabled = true
+    }
+
+    private fun copyReportField(field: CopyableReportField) {
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText(getString(R.string.app_name), field.copyValue))
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            Toast.makeText(this, R.string.report_field_copied, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun shareReport(report: ShareableReport) {
+        val sendIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_SUBJECT, report.subject)
+            putExtra(Intent.EXTRA_TEXT, report.text)
+        }
+        try {
+            startActivity(Intent.createChooser(sendIntent, getString(R.string.action_share_report)))
+        } catch (_: RuntimeException) {
+            Toast.makeText(this, R.string.error_cannot_share_report, Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -813,6 +902,8 @@ class ApkInspectorActivity : AppCompatActivity() {
     }
 
     private fun showError(message: String) {
+        shareableReport = null
+        binding.toolbar.menu.findItem(R.id.action_share_report)?.isEnabled = false
         binding.progress.isVisible = false
         binding.content.isVisible = false
         binding.error.text = message
@@ -827,11 +918,22 @@ class ApkInspectorActivity : AppCompatActivity() {
     private data class InspectionReport(
         val appLabel: String,
         val icon: Drawable?,
-        val details: String,
+        val detailFields: List<CopyableReportField>,
+        val detailSupplement: String,
         val components: String,
         val permissions: RequestedPermissionAnalysis,
         val findings: String,
         val manifestPath: String?,
+    ) {
+        val details: String = listOf(
+            detailFields.joinToString("\n", transform = CopyableReportField::displayText),
+            detailSupplement,
+        ).filter(String::isNotEmpty).joinToString("\n\n")
+    }
+
+    private data class ShareableReport(
+        val subject: String,
+        val text: String,
     )
 
     companion object {

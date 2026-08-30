@@ -45,6 +45,7 @@ APK Inspector는 AutoJs6 파일 관리자의 확장 플러그인입니다. 파�
 - manifest 구성 요소 공개 상태: 선택된 APK 분할 또는 스캔한 AAB 모듈의 activity/별칭, service, broadcast receiver, content provider를 집계하고 명시적 android:exported 값을 내보냄, 내보내지 않음, 미지정/미해결로 분류합니다.
 - 네이티브 라이브러리 개요: 선택된 APK 분할 또는 AAB 모듈의 .so 파일을 ABI와 압축 해제 크기별로 집계하고 기기 우선 ABI, 지원되는 대체 ABI, 미지원 아키텍처를 표시하며 라이브러리 내용은 추출하지 않습니다.
 - DEX 개요: 선택된 APK 분할 또는 AAB 모듈의 표준 classes*.dex 파일을 자연 순서로 나열하고 파일별 및 전체 압축 해제 크기를 표시하며 DEX 내용은 추출, 디코딩 또는 디컴파일하지 않습니다.
+- 보고서 재사용: 패키지 세부 정보의 주요 행을 길게 누르면 값만 복사할 수 있고 Android 공유 시트로 화면과 동일한 `text/plain` 보고서를 공유할 수 있습니다. 텍스트는 메모리에만 유지되며 파일 생성이나 저장소 권한이 필요하지 않습니다.
 - 서명 및 인증서 검증: APK V2 / V3 / V3.1 서명을 암호학적으로 검증하고 V1 존재 여부를 보고합니다. 현재 서명 인증서를 각각 표시하며, 검증된 교체 계보의 이전/현재 관계와 SHA-256 지문도 보여 줍니다.
 - V4 / V4.1 사이드카 검증: AutoJs6는 정확한 `<APK 파일 이름>.idsig`만 파생해 제한된 읽기 전용 디스크립터를 부여합니다. 플러그인은 서명 데이터, 인증서와 공개 키, 대응하는 V2 / V3 APK 다이제스트, fs-verity 루트, 포함된 Merkle 트리 및 V3.1 교체 서명자를 검증합니다.
 - manifest 가독화: 바이너리 APK manifest와 AAB protobuf manifest를 읽기 쉬운 XML로 디코딩해 독립된 읽기 전용 뷰어에 표시합니다.
@@ -57,7 +58,8 @@ APK Inspector는 AutoJs6 파일 관리자의 확장 플러그인입니다. 파�
 2. AutoJs6 파일 관리자를 열고 확인할 패키지 파일 (APK, APKS, XAPK, APKM, APKZ, AAB) 을 찾습니다.
 3. 파일을 탭하거나 파일 메뉴에서 "Android 패키지 검사"를 선택하면 잠시 후 검사 보고서가 나타납니다.
 4. 앱 아이콘과 이름, 패키지 세부 정보, 구성 요소, 요청 권한, 보안 및 호환성 결과를 위에서부터 차례로 확인합니다.
-5. "manifest 보기"를 탭하면 AndroidManifest 전문을 읽을 수 있으며, 뒤로 가기를 누르면 파일 관리자로 돌아갑니다.
+5. "패키지 세부 정보"의 행을 길게 눌러 값을 복사하거나 도구 모음의 "보고서 공유"를 탭해 화면과 동일한 텍스트를 Android 공유 시트로 전송합니다.
+6. "manifest 보기"를 탭하면 AndroidManifest 전문을 읽을 수 있으며, 뒤로 가기를 누르면 파일 관리자로 돌아갑니다.
 
 > 다른 앱도 content URI와 전용 Android 패키지 MIME 유형을 사용하면 시스템 "연결 프로그램" (ACTION_VIEW) 을 통해 APK Inspector로 패키지를 전달할 수 있습니다. 플러그인은 항상 읽기 전용이며 설치 수단을 전혀 제공하지 않습니다.
 
@@ -123,7 +125,7 @@ required host build: 5277
 
 ### Roadmap
 
-구현된 기능은 위 내용과 Roadmap의 체크된 항목이 기준입니다. 보고서 내보내기, 리소스·네이티브 라이브러리 분석 등의 계획은 Roadmap에서 관리하며, 체크되지 않은 항목은 현재 기능이 아닙니다.
+구현된 기능은 위 내용과 Roadmap의 체크된 항목이 기준입니다. 리소스 테이블 대체 경로와 심화 번들 분석 등의 계획은 Roadmap에서 관리하며, 체크되지 않은 항목은 현재 기능이 아닙니다.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -134,6 +136,7 @@ required host build: 5277
 _2026/08/30_
 
 - `힌트` Explorer Action 프로토콜 v22와 제한된 V4 사이드카 접근에는 AutoJs6 버전 코드 5277 이상이 필요합니다
+- `기능` 패키지 세부 정보의 주요 값을 길게 눌러 복사하고 화면과 동일한 일반 텍스트 보고서를 Android 공유 시트로 보낼 수 있습니다. 내용은 메모리에만 유지되며 저장소 권한을 요청하거나 파일을 만들지 않습니다
 - `기능` 선택된 APK 분할과 AAB 모듈의 표준 classes*.dex 파일을 자연 순서로 나열하고 파일별 및 전체 압축 해제 크기를 보여 주는 제한된 DEX 개요를 추가했습니다. 네이티브 라이브러리 중앙 디렉터리 순회를 공유하며 DEX 내용은 추출, 디코딩 또는 디컴파일하지 않습니다
 - `기능` 선택된 APK 분할과 AAB 모듈의 .so 파일을 ABI와 압축 해제 크기별로 집계하고 기기 우선, 대체 호환, 미지원 ABI를 표시하는 제한된 네이티브 라이브러리 개요를 추가했습니다. 라이브러리 내용은 추출하지 않습니다
 - `기능` 선택된 APK 분할과 스캔한 AAB 모듈의 activity/별칭, service, broadcast receiver, content provider를 명시적 android:exported 상태별로 집계하고 일부 결과를 표시하는 제한된 manifest 구성 요소 통계를 추가했습니다

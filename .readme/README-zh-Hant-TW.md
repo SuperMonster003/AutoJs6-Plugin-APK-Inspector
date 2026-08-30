@@ -45,6 +45,7 @@ APK 檢查器 (APK Inspector) 是 AutoJs6 檔案管理器的配套外掛. 在檔
 - 元件暴露概覽: 彙整已選 APK 分包或已掃描 AAB 模組中的 activity/別名、service、receiver 與 provider, 將明確 android:exported 分為已匯出、未匯出或未宣告/無法解析.
 - 原生程式庫概覽: 依 ABI 與未壓縮大小彙整已選 APK 分包或 AAB 模組中的 .so 檔案, 標示裝置首選 ABI、支援的後備 ABI 與不支援的架構, 全程不提取程式庫內容.
 - DEX 概覽: 依自然順序列出已選 APK 分包或 AAB 模組中的標準 classes*.dex 檔案, 顯示各檔案與未壓縮總大小, 不提取、解碼或反編譯 DEX 內容.
+- 報告重用: 長按套件詳細資料中的任一核心欄位可複製原始值; 也可透過 Android 系統分享面板傳送與畫面一致的 `text/plain` 報告, 文字只留在記憶體, 不建立檔案或要求儲存權限.
 - 簽章與憑證驗證: 對 APK V2 / V3 / V3.1 簽章執行真正密碼學驗證, 報告 V1 是否存在; 逐一顯示目前簽章憑證, 並標註已驗證輪替鏈中的新舊關係與 SHA-256 指紋.
 - V4 / V4.1 同層簽章驗證: AutoJs6 僅衍生精確同層檔案 `<APK 檔名>.idsig` 並授予有界唯讀描述元; 外掛驗證簽署資料、憑證與公開金鑰、對應 V2 / V3 APK 摘要、fs-verity 根、內嵌 Merkle 樹及 V3.1 輪替簽署者.
 - 資訊清單可讀化: 自動把二進位 APK 清單與 AAB protobuf 清單解碼為可讀 XML, 在獨立唯讀頁面隨時檢視.
@@ -57,7 +58,8 @@ APK 檢查器 (APK Inspector) 是 AutoJs6 檔案管理器的配套外掛. 在檔
 2. 開啟 AutoJs6 的檔案管理器, 找到想檢視的安裝包檔案 (APK, APKS, XAPK, APKM, APKZ 或 AAB).
 3. 點擊該檔案, 或在檔案選單中選擇「檢查 Android 套件」, 稍候片刻即可看到檢查報告.
 4. 自上而下檢視應用圖示與名稱、套件詳細資料、元件、要求的權限, 以及安全與相容性發現.
-5. 點按「檢視資訊清單」可閱讀完整的 AndroidManifest; 看完後按返回鍵即可回到檔案管理器.
+5. 長按「套件詳細資料」中的任一欄位可複製其值; 點選工具列的「分享報告」可透過 Android 系統分享面板傳送與畫面一致的文字.
+6. 點按「檢視資訊清單」可閱讀完整的 AndroidManifest; 看完後按返回鍵即可回到檔案管理器.
 
 > 其他應用也可以透過系統「開啟方式」(ACTION_VIEW) 呼叫 APK 檢查器, 前提是以 content 位址與專用安裝包 MIME 類型發起請求. 外掛始終唯讀, 不提供任何安裝入口.
 
@@ -123,7 +125,7 @@ required host build: 5277
 
 ### Roadmap
 
-已實現能力以上文與 Roadmap 勾選條目為準; 報告匯出、資源與原生函式庫分析等後續計畫集中維護在 Roadmap 中, 未勾選條目不代表目前版本已支援.
+已實現能力以上文與 Roadmap 勾選條目為準; 資源表備援、集合包深化等後續計畫集中維護在 Roadmap 中, 未勾選條目不代表目前版本已支援.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -134,6 +136,7 @@ required host build: 5277
 _2026/08/30_
 
 - `提示` Explorer Action 協定 v22 與有界 V4 同層檔案存取要求 AutoJs6 版本代碼不低於 5277
+- `新增` 新增長按複製套件詳細資料核心欄位的原始值, 並透過 Android 系統分享面板傳送與畫面一致的純文字報告; 分享內容只留在記憶體, 不要求儲存權限或建立檔案
 - `新增` 新增有界 DEX 概覽: 依自然順序列出已選 APK 分包與 AAB 模組中的標準 classes*.dex 檔案及其個別與未壓縮總大小, 與原生程式庫共用中央目錄掃描, 不提取、解碼或反編譯 DEX 內容
 - `新增` 新增有界原生程式庫概覽: 依 ABI 與未壓縮大小彙整已選 APK 分包和 AAB 模組中的 .so 檔案, 標示裝置首選、後備相容與不支援的 ABI, 全程不提取程式庫內容
 - `新增` 新增有界資訊清單元件統計: 彙整已選 APK 分包和已掃描 AAB 模組中的 activity/別名、service、receiver 與 provider, 依明確 android:exported 狀態分組並標示不完整結果

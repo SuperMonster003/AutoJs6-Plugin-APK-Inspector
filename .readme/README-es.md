@@ -45,6 +45,7 @@ El informe tiene cuatro secciones: «Detalles del paquete» muestra el nombre de
 - Visibilidad de componentes del manifest: cuenta actividades/alias, servicios, receptores de difusión y proveedores de contenido en los splits APK seleccionados o módulos AAB examinados, agrupando los valores explícitos de android:exported como exportado, no exportado o sin especificar/resolver.
 - Resumen de bibliotecas nativas: agrupa los archivos .so de splits APK seleccionados o módulos AAB por ABI y tamaño sin comprimir, marcando la ABI preferida del dispositivo, las alternativas compatibles y las arquitecturas no compatibles, sin extraer el contenido.
 - Resumen DEX: enumera en orden natural los archivos classes*.dex estándar de splits APK seleccionados o módulos AAB, con los tamaños sin comprimir por archivo y total, sin extraer, decodificar ni descompilar su contenido.
+- Reutilización del informe: mantén pulsada cualquier fila principal de detalles del paquete para copiar su valor sin etiqueta, o comparte el informe exacto de la pantalla como `text/plain` mediante el panel de Android; el texto permanece en memoria y no crea archivos ni requiere permiso de almacenamiento.
 - Verificación de firmas y certificados: verifica criptográficamente los esquemas V2, V3 y V3.1 del APK; informa de la presencia de V1; muestra cada certificado de firma actual y el linaje de rotación verificado, con funciones antiguas/nuevas y huellas SHA-256.
 - Verificación de archivos auxiliares V4/V4.1: AutoJs6 deriva únicamente el archivo adyacente exacto `<nombre del APK>.idsig` y concede un descriptor de solo lectura acotado; el plugin verifica los datos firmados, el certificado y la clave pública, el resumen APK V2/V3 correspondiente, la raíz fs-verity, el árbol Merkle incrustado y cualquier firmante de rotación V3.1.
 - Manifests legibles: los manifests binarios de APK y los manifests protobuf de AAB se decodifican a XML legible y se muestran en un visor independiente de solo lectura.
@@ -57,7 +58,8 @@ El informe tiene cuatro secciones: «Detalles del paquete» muestra el nombre de
 2. Abre el gestor de archivos de AutoJs6 y localiza el paquete que quieras examinar (APK, APKS, XAPK, APKM, APKZ o AAB).
 3. Toca el archivo o elige «Inspeccionar paquete Android» en su menú; el informe aparece tras un instante.
 4. Recorre el informe de arriba abajo: icono y nombre de la aplicación, detalles del paquete, componentes, permisos solicitados y hallazgos de seguridad y compatibilidad.
-5. Toca «Ver manifest» para leer el AndroidManifest completo y pulsa atrás para volver al gestor de archivos.
+5. Mantén pulsada una fila de «Detalles del paquete» para copiar su valor o toca «Compartir informe» en la barra para enviar el texto exacto de la pantalla mediante el panel de Android.
+6. Toca «Ver manifest» para leer el AndroidManifest completo y pulsa atrás para volver al gestor de archivos.
 
 > Otras aplicaciones también pueden entregar un paquete a APK Inspector mediante «Abrir con» (ACTION_VIEW), siempre que usen una URI content con un tipo MIME de paquete Android dedicado. El plugin es estrictamente de solo lectura y no ofrece ningún punto de instalación.
 
@@ -123,7 +125,7 @@ La versión actual solo realiza inspección de solo lectura: no hay botón de in
 
 ### Roadmap
 
-Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo implementado; el trabajo previsto, como la exportación de informes y el análisis de recursos y bibliotecas nativas, se registra en la Roadmap, y los elementos sin marcar no son capacidades actuales.
+Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo implementado; el trabajo previsto, como alternativas basadas en tablas de recursos y un análisis más profundo de bundles, se registra en la Roadmap, y los elementos sin marcar no son capacidades actuales.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -134,6 +136,7 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 _2026/08/30_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadió la copia mediante pulsación prolongada de los valores principales del paquete y el envío del informe de texto exacto mediante el panel de Android; el contenido permanece en memoria, no solicita permiso de almacenamiento ni crea archivos
 - `Función` Se añadió un resumen DEX acotado que enumera en orden natural los archivos classes*.dex estándar de splits APK seleccionados y módulos AAB, con tamaños sin comprimir por archivo y total, compartiendo el recorrido del directorio central de bibliotecas nativas sin extraer, decodificar ni descompilar el contenido DEX
 - `Función` Se añadió un resumen acotado de bibliotecas nativas que agrupa los archivos .so de splits APK seleccionados y módulos AAB por ABI y tamaño sin comprimir, marcando las ABI preferidas, alternativas compatibles y no compatibles sin extraer su contenido
 - `Función` Se añadieron estadísticas acotadas de componentes del manifest para actividades/alias, servicios, receptores de difusión y proveedores de contenido en splits APK seleccionados y módulos AAB examinados, agrupadas por estado android:exported explícito y con etiquetas para resultados parciales

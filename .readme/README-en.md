@@ -45,6 +45,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 - Manifest component exposure: counts activities/aliases, services, broadcast receivers, and content providers across selected APK splits or scanned AAB modules, grouping explicit android:exported values as exported, not exported, or unspecified/unresolved.
 - Native-library overview: groups .so files from selected APK splits or AAB modules by ABI and uncompressed size, marking the preferred device ABI, supported fallbacks, and unsupported architectures without extracting library contents.
 - DEX overview: lists naturally ordered standard classes*.dex files from selected APK splits or AAB modules with per-file and total uncompressed sizes, without extracting, decoding, or decompiling DEX contents.
+- Report reuse: long-press any primary package-detail row to copy its raw value, or share the exact on-screen report as `text/plain` through the Android Sharesheet; sharing stays in memory and creates no file or storage-permission requirement.
 - Signature and certificate verification: cryptographically verifies APK Signature Scheme V2, V3, and V3.1; reports V1 presence; lists current signing certificates and the verified certificate-rotation lineage with old/new roles and SHA-256 fingerprints.
 - V4/V4.1 sidecar verification: AutoJs6 derives only the exact `<APK name>.idsig` sibling and grants a bounded read-only descriptor; the plugin verifies the signed data, certificate and public key, complementary V2/V3 APK digest, fs-verity root, embedded Merkle tree, and any V3.1 rotation signer.
 - Readable manifests: binary APK manifests and AAB protobuf manifests are decoded into readable XML, shown in a separate read-only viewer.
@@ -57,7 +58,8 @@ The report has four sections: "Package details" shows the app name, icon, packag
 2. Open the AutoJs6 file manager and locate the package file you want to examine (APK, APKS, XAPK, APKM, APKZ, or AAB).
 3. Tap the file, or choose "Inspect Android package" from its menu; the inspection report appears after a moment.
 4. Read the report from top to bottom: app icon and name, package details, components, requested permissions, and security and compatibility findings.
-5. Tap "View manifest" to read the full AndroidManifest, then press back to return to the file manager.
+5. Long-press a row in "Package details" to copy its value, or tap "Share report" in the toolbar to send the exact on-screen text through the Android Sharesheet.
+6. Tap "View manifest" to read the full AndroidManifest, then press back to return to the file manager.
 
 > Other apps can also hand a package to APK Inspector through the system "Open with" dialog (ACTION_VIEW), as long as they use a content URI with a dedicated Android package MIME type. The plugin is strictly read-only and offers no install entry point.
 
@@ -123,7 +125,7 @@ The current version performs read-only inspection only: there is no install butt
 
 ### Roadmap
 
-The capabilities above and the checked Roadmap items reflect what is implemented; planned work such as report export and resource/native library analysis is tracked in the Roadmap, and unchecked items are not current capabilities.
+The capabilities above and the checked Roadmap items reflect what is implemented; planned work such as resource-table fallbacks and deeper bundle analysis is tracked in the Roadmap, and unchecked items are not current capabilities.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -134,6 +136,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added long-press copying for primary package-detail values and exact plain-text report sharing through the Android Sharesheet; sharing stays memory-only, requests no storage permission, and creates no file
 - `Feature` Added a bounded DEX overview that naturally orders standard classes*.dex files from selected APK splits and AAB modules with per-file and total uncompressed sizes, sharing the native-library central-directory pass without extracting, decoding, or decompiling DEX contents
 - `Feature` Added a bounded native-library overview that groups .so files from selected APK splits and AAB modules by ABI and uncompressed size, marking preferred, fallback-compatible, and unsupported device ABIs without extracting library contents
 - `Feature` Added bounded manifest component statistics for activities/aliases, services, broadcast receivers, and content providers across selected APK splits and scanned AAB modules, grouped by explicit android:exported state with partial-result labels

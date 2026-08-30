@@ -11,6 +11,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/color_primary"
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+        app:menu="@menu/menu_apk_inspector"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:title="@string/inspection_title"
         app:titleTextColor="@color/toolbar_text" />
@@ -91,6 +92,13 @@
                 android:text="@string/section_package_details"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/package_fields"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical" />
 
             <TextView
                 android:id="@+id/package_details"

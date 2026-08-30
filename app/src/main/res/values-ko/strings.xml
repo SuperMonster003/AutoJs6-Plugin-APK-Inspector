@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">Android 패키지 검사</string>
+    <string name="action_share_report">보고서 공유</string>
+    <string name="error_cannot_share_report">이 보고서를 공유할 수 있는 앱이 없습니다</string>
+    <string name="report_field_copied">클립보드에 복사됨</string>
+    <string name="report_field_copy_description">%1$s. 길게 눌러 이 값을 복사하세요.</string>
+    <string name="report_share_subject">APK 검사 보고서: %1$s</string>
     <string name="action_view_manifest">manifest 보기</string>
     <string name="app_name">APK 검사기</string>
     <string name="components_aab">모듈: %1$d\n%2$s</string>

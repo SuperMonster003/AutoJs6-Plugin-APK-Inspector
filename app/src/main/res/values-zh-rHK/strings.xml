@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">檢查 Android 套件</string>
+    <string name="action_share_report">分享報告</string>
+    <string name="error_cannot_share_report">沒有可分享此報告的應用程式</string>
+    <string name="report_field_copied">已複製到剪貼簿</string>
+    <string name="report_field_copy_description">%1$s。長按可複製此值。</string>
+    <string name="report_share_subject">APK 檢查報告：%1$s</string>
     <string name="action_view_manifest">檢視資訊清單</string>
     <string name="app_name">APK 檢查器</string>
     <string name="components_aab">模組: %1$d\n%2$s</string>

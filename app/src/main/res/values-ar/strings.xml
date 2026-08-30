@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">فحص حزمة Android</string>
+    <string name="action_share_report">مشاركة التقرير</string>
+    <string name="error_cannot_share_report">لا يوجد تطبيق متاح لمشاركة هذا التقرير</string>
+    <string name="report_field_copied">تم النسخ إلى الحافظة</string>
+    <string name="report_field_copy_description">%1$s. اضغط مطولًا لنسخ هذه القيمة.</string>
+    <string name="report_share_subject">تقرير فحص APK: %1$s</string>
     <string name="action_view_manifest">عرض manifest</string>
     <string name="app_name">فاحص APK</string>
     <string name="components_aab">الوحدات: %1$d\n%2$s</string>

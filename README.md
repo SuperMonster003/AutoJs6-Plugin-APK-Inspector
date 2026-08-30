@@ -45,6 +45,7 @@ APK 检查器 (APK Inspector) 是 AutoJs6 文件管理器的配套插件. 在文
 - 组件暴露概览: 汇总已选 APK 分包或已扫描 AAB 模块中的 activity/别名、service、receiver 与 provider, 将显式 android:exported 分为已导出、未导出或未声明/无法解析.
 - 原生库概览: 按 ABI 与未压缩体积汇总已选 APK 分包或 AAB 模块中的 .so 文件, 标出设备首选 ABI、支持的后备 ABI 与不支持的架构, 全程不提取库内容.
 - DEX 概览: 按自然顺序列出已选 APK 分包或 AAB 模块中的标准 classes*.dex 文件, 显示单文件与未压缩总体积, 不提取、解码或反编译 DEX 内容.
+- 报告复用: 长按软件包详情中的任一核心字段可复制其原始值; 也可通过 Android 系统分享面板发送与屏幕一致的 `text/plain` 报告, 文本只驻留内存, 不创建文件或申请存储权限.
 - 签名与证书验证: 对 APK V2 / V3 / V3.1 签名执行真实密码学验证, 报告 V1 是否存在; 逐一展示当前签名证书, 并标注已验证轮换链中的新旧关系与 SHA-256 指纹.
 - V4 / V4.1 同级签名验证: AutoJs6 只派生精确同级文件 `<APK 文件名>.idsig` 并授予有界只读描述符; 插件验证签名数据、证书与公钥、对应 V2 / V3 APK 摘要、fs-verity 根、内嵌 Merkle 树及 V3.1 轮换签名者.
 - 清单可读化: 自动把二进制 APK 清单与 AAB protobuf 清单解码为可读 XML, 在独立只读页面随时查看.
@@ -57,7 +58,8 @@ APK 检查器 (APK Inspector) 是 AutoJs6 文件管理器的配套插件. 在文
 2. 打开 AutoJs6 的文件管理器, 找到想查看的安装包文件 (APK, APKS, XAPK, APKM, APKZ 或 AAB).
 3. 点击该文件, 或在文件菜单中选择 “检查 Android 软件包”, 稍候片刻即可看到检查报告.
 4. 自上而下查看应用图标与名称、软件包详情、组件、请求的权限, 以及安全与兼容性发现.
-5. 点按 “查看清单” 可阅读完整的 AndroidManifest; 看完后按返回键即可回到文件管理器.
+5. 长按“软件包详情”中的任一字段可复制其值; 点按工具栏中的“分享报告”可通过 Android 系统分享面板发送与屏幕一致的文本.
+6. 点按 “查看清单” 可阅读完整的 AndroidManifest; 看完后按返回键即可回到文件管理器.
 
 > 其他应用也可以通过系统 “打开方式” (ACTION_VIEW) 调起 APK 检查器, 前提是以 content 地址与专用安装包 MIME 类型发起请求. 插件始终只读, 不提供任何安装入口.
 
@@ -123,7 +125,7 @@ required host build: 5277
 
 ### Roadmap
 
-已实现能力以上文与 Roadmap 勾选条目为准; 报告导出、资源与原生库分析等后续计划集中维护在 Roadmap 中, 未勾选条目不代表当前版本已支持.
+已实现能力以上文与 Roadmap 勾选条目为准; 资源表回退、集合包深化等后续计划集中维护在 Roadmap 中, 未勾选条目不代表当前版本已支持.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -134,6 +136,7 @@ required host build: 5277
 _2026/08/30_
 
 - `提示` Explorer Action 协议 v22 与有界 V4 同级文件访问要求 AutoJs6 版本代码不低于 5277
+- `新增` 新增长按复制软件包详情核心字段原始值, 并通过 Android 系统分享面板发送与屏幕一致的纯文本报告; 分享内容只驻留内存, 不申请存储权限或创建文件
 - `新增` 新增有界 DEX 概览: 按自然顺序列出已选 APK 分包和 AAB 模块中的标准 classes*.dex 文件及其单项与未压缩总体积, 与原生库共用中央目录扫描, 不提取、解码或反编译 DEX 内容
 - `新增` 新增有界原生库概览: 按 ABI 与未压缩体积汇总已选 APK 分包和 AAB 模块中的 .so 文件, 标出设备首选、后备兼容与不支持的 ABI, 全程不提取库内容
 - `新增` 新增有界清单组件统计: 汇总已选 APK 分包和已扫描 AAB 模块中的 activity/别名、service、receiver 与 provider, 按显式 android:exported 状态分组并标注不完整结果

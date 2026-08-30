@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">Inspeccionar paquete Android</string>
+    <string name="action_share_report">Compartir informe</string>
+    <string name="error_cannot_share_report">Ninguna aplicación puede compartir este informe</string>
+    <string name="report_field_copied">Copiado al portapapeles</string>
+    <string name="report_field_copy_description">%1$s. Mantén pulsado para copiar este valor.</string>
+    <string name="report_share_subject">Informe de inspección de APK: %1$s</string>
     <string name="action_view_manifest">Ver manifest</string>
     <string name="app_name">Inspector de APK</string>
     <string name="components_aab">Módulos: %1$d\n%2$s</string>

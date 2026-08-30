@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">Проверить пакет Android</string>
+    <string name="action_share_report">Поделиться отчётом</string>
+    <string name="error_cannot_share_report">Нет приложения для отправки этого отчёта</string>
+    <string name="report_field_copied">Скопировано в буфер обмена</string>
+    <string name="report_field_copy_description">%1$s. Нажмите и удерживайте, чтобы скопировать значение.</string>
+    <string name="report_share_subject">Отчёт о проверке APK: %1$s</string>
     <string name="action_view_manifest">Открыть manifest</string>
     <string name="app_name">Инспектор APK</string>
     <string name="components_aab">Модули: %1$d\n%2$s</string>

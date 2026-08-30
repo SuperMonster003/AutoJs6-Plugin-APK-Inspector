@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="action_inspect_android_package">Androidパッケージを検査</string>
+    <string name="action_share_report">レポートを共有</string>
+    <string name="error_cannot_share_report">このレポートを共有できるアプリがありません</string>
+    <string name="report_field_copied">クリップボードにコピーしました</string>
+    <string name="report_field_copy_description">%1$s。長押ししてこの値をコピーします。</string>
+    <string name="report_share_subject">APK検査レポート: %1$s</string>
     <string name="action_view_manifest">manifestを表示</string>
     <string name="app_name">APK インスペクター</string>
     <string name="components_aab">モジュール: %1$d\n%2$s</string>
