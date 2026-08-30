@@ -89,4 +89,12 @@
     <string name="native_library_apk_partial">[i] 選択済みAPKのネイティブ走査失敗: %1$d | 未走査: %2$d. 結果は一部のみです.</string>
     <string name="native_library_nested_limit">[i] ネストAPK走査上限に達しました (共有APK入力: %1$s; APKごとの中央ディレクトリ: %2$s). 結果は一部のみです.</string>
     <string name="native_library_invalid_entries">[i] 無効または解決不能なネイティブライブラリエントリを無視: %1$d.</string>
+    <string name="dex_file_heading">DEXファイル (非圧縮サイズ)</string>
+    <string name="dex_file_summary">DEXエントリ数: %1$d | 合計: %2$s</string>
+    <string name="dex_file_line">- %1$s | %2$s</string>
+    <string name="dex_file_none">完了した走査では標準のclasses*.dexファイルが見つかりませんでした.</string>
+    <string name="dex_file_entry_limit">[i] DEX表示上限: %2$d | 省略エントリ: %1$d. 合計には省略分も含まれます.</string>
+    <string name="dex_file_apk_partial">[i] 選択済みAPKのDEX走査失敗: %1$d | 未走査: %2$d. 結果は一部のみです.</string>
+    <string name="dex_file_nested_limit">[i] ネストAPK走査上限に達しました (共有APK入力: %1$s; APKごとの中央ディレクトリ: %2$s). 結果は一部のみです.</string>
+    <string name="dex_file_invalid_entries">[i] 無効または解決不能なDEXエントリを無視: %1$d.</string>
 </resources>

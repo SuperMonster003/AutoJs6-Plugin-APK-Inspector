@@ -11,6 +11,7 @@
         "Explorer Action 協定 v22 與有界 V4 同層檔案存取要求 AutoJs6 版本代碼不低於 5277"
       ],
       "feature": [
+        "新增有界 DEX 概覽: 依自然順序列出已選 APK 分包與 AAB 模組中的標準 classes*.dex 檔案及其個別與未壓縮總大小, 與原生程式庫共用中央目錄掃描, 不提取、解碼或反編譯 DEX 內容",
         "新增有界原生程式庫概覽: 依 ABI 與未壓縮大小彙整已選 APK 分包和 AAB 模組中的 .so 檔案, 標示裝置首選、後備相容與不支援的 ABI, 全程不提取程式庫內容",
         "新增有界資訊清單元件統計: 彙整已選 APK 分包和已掃描 AAB 模組中的 activity/別名、service、receiver 與 provider, 依明確 android:exported 狀態分組並標示不完整結果",
         "新增 APK V2、V3、V3.1、V4 與 V4.1 的裝置端密碼學驗證, 涵蓋內容摘要、簽署者證明、fs-verity 根、內嵌 Merkle 樹及互補簽章方案比對",

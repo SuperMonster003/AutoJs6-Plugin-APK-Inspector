@@ -89,4 +89,12 @@
     <string name="native_library_apk_partial">[i] 선택된 APK 네이티브 스캔 실패: %1$d | 미스캔: %2$d. 결과는 일부만 반영합니다.</string>
     <string name="native_library_nested_limit">[i] 중첩 APK 스캔 한도에 도달했습니다 (공유 APK 입력: %1$s; APK별 중앙 디렉터리: %2$s). 결과는 일부만 반영합니다.</string>
     <string name="native_library_invalid_entries">[i] 유효하지 않거나 확인할 수 없는 네이티브 라이브러리 항목 무시: %1$d.</string>
+    <string name="dex_file_heading">DEX 파일 (압축 해제 크기)</string>
+    <string name="dex_file_summary">DEX 항목 수: %1$d | 합계: %2$s</string>
+    <string name="dex_file_line">- %1$s | %2$s</string>
+    <string name="dex_file_none">완료된 스캔에서 표준 classes*.dex 파일을 찾지 못했습니다.</string>
+    <string name="dex_file_entry_limit">[i] DEX 표시 한도: %2$d | 생략 항목: %1$d. 합계에는 생략된 항목도 포함됩니다.</string>
+    <string name="dex_file_apk_partial">[i] 선택된 APK DEX 스캔 실패: %1$d | 미스캔: %2$d. 결과는 일부만 반영합니다.</string>
+    <string name="dex_file_nested_limit">[i] 중첩 APK 스캔 한도에 도달했습니다 (공유 APK 입력: %1$s; APK별 중앙 디렉터리: %2$s). 결과는 일부만 반영합니다.</string>
+    <string name="dex_file_invalid_entries">[i] 유효하지 않거나 확인할 수 없는 DEX 항목 무시: %1$d.</string>
 </resources>

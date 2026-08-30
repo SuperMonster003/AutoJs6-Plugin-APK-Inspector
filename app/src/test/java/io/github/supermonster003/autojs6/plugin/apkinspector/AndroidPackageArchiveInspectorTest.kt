@@ -32,6 +32,7 @@ class AndroidPackageArchiveInspectorTest {
             apk,
             "AndroidManifest.xml" to manifest(),
             "lib/arm64-v8a/libdemo.so" to byteArrayOf(1, 2, 3, 4),
+            "classes.dex" to byteArrayOf(5, 6, 7, 8, 9),
         )
 
         val archive = AndroidPackageArchiveInspector.inspect(apk, arm64Device)
@@ -42,6 +43,9 @@ class AndroidPackageArchiveInspectorTest {
         assertEquals(24, archive.baseManifest?.minSdk)
         assertEquals(1, archive.nativeLibraries.totalLibraryCount)
         assertEquals(4L, archive.nativeLibraries.totalUncompressedBytes)
+        assertEquals(1, archive.dexFiles.totalFileCount)
+        assertEquals(5L, archive.dexFiles.totalUncompressedBytes)
+        assertEquals("classes.dex", archive.dexFiles.files.single().path)
         assertEquals(ArchiveInspectionState.COMPATIBLE, archive.inspectionState)
     }
 
@@ -126,21 +130,24 @@ class AndroidPackageArchiveInspectorTest {
     }
 
     @Test
-    fun nativeLibrariesAreAggregatedOnlyAcrossSelectedApks() {
+    fun codeMetadataIsAggregatedOnlyAcrossSelectedApks() {
         val apkm = temporaryFolder.newFile("native-libraries.apkm")
         writeZip(
             apkm,
             "base.apk" to nestedApk(
                 manifest(),
                 "lib/arm64-v8a/libbase.so" to byteArrayOf(1, 2, 3),
+                "classes.dex" to byteArrayOf(1, 2),
             ),
             "split_config.arm64_v8a.apk" to nestedApk(
                 manifest(split = "config.arm64_v8a"),
                 "lib/arm64-v8a/libfeature.so" to byteArrayOf(4, 5, 6, 7),
+                "classes2.dex" to byteArrayOf(3, 4, 5),
             ),
             "split_config.x86.apk" to nestedApk(
                 manifest(split = "config.x86"),
                 "lib/x86/libunused.so" to ByteArray(100),
+                "classes.dex" to ByteArray(100),
             ),
         )
 
@@ -153,6 +160,15 @@ class AndroidPackageArchiveInspectorTest {
         assertEquals(
             NativeAbiCompatibility.PREFERRED,
             archive.nativeLibraries.abiGroups.single().compatibility,
+        )
+        assertEquals(2, archive.dexFiles.totalFileCount)
+        assertEquals(5L, archive.dexFiles.totalUncompressedBytes)
+        assertEquals(
+            listOf(
+                "base.apk!/classes.dex",
+                "split_config.arm64_v8a.apk!/classes2.dex",
+            ),
+            archive.dexFiles.files.map(DexFileEntrySummary::path),
         )
     }
 
@@ -170,6 +186,8 @@ class AndroidPackageArchiveInspectorTest {
         assertEquals("com.example.demo", archive.baseManifest?.packageName)
         assertEquals(1, archive.nativeLibraries.failedApkCount)
         assertEquals(0, archive.nativeLibraries.totalLibraryCount)
+        assertEquals(1, archive.dexFiles.failedApkCount)
+        assertEquals(0, archive.dexFiles.totalFileCount)
     }
 
     @Test

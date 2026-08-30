@@ -33,7 +33,7 @@ This README is available in the following languages:
 
 APK Inspector is a companion plugin for the AutoJs6 file manager. Tap an APK, APKS, XAPK, APKM, APKZ, or AAB file in the file manager and an inspection report opens right away: what the app is called, which version it is, which permissions it wants, and whether it can be installed on this device, all on one screen. The package is never installed, and the source file is never modified.
 
-The report has four sections: "Package details" shows the app name, icon, package name, version, SDK range, signature verification and signing-certificate lineage, file size, and SHA-256 checksum; "Components" lists every APK split and OBB asset inside the package, marks the parts that match this device (for AAB files it lists the modules), groups manifest-declared activities/aliases, services, receivers, and providers by count and explicit exported state, and summarizes native .so libraries by ABI, uncompressed size, and device match; "Requested permissions" groups system permissions by protection level and highlights runtime/dangerous permissions first with a short explanation; "Security and compatibility findings" summarizes structural problems and the device compatibility verdict. The "View manifest" button opens the full formatted AndroidManifest.
+The report has four sections: "Package details" shows the app name, icon, package name, version, SDK range, signature verification and signing-certificate lineage, file size, and SHA-256 checksum; "Components" lists every APK split and OBB asset inside the package, marks the parts that match this device (for AAB files it lists the modules), groups manifest-declared activities/aliases, services, receivers, and providers by count and explicit exported state, summarizes native .so libraries by ABI, uncompressed size, and device match, and lists standard classes*.dex files with their uncompressed sizes; "Requested permissions" groups system permissions by protection level and highlights runtime/dangerous permissions first with a short explanation; "Security and compatibility findings" summarizes structural problems and the device compatibility verdict. The "View manifest" button opens the full formatted AndroidManifest.
 
 ### Highlights
 
@@ -44,6 +44,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 - Split analysis: lists every APK entry and OBB asset in a bundle and marks the splits selected for this device (base, language, screen density, ABI).
 - Manifest component exposure: counts activities/aliases, services, broadcast receivers, and content providers across selected APK splits or scanned AAB modules, grouping explicit android:exported values as exported, not exported, or unspecified/unresolved.
 - Native-library overview: groups .so files from selected APK splits or AAB modules by ABI and uncompressed size, marking the preferred device ABI, supported fallbacks, and unsupported architectures without extracting library contents.
+- DEX overview: lists naturally ordered standard classes*.dex files from selected APK splits or AAB modules with per-file and total uncompressed sizes, without extracting, decoding, or decompiling DEX contents.
 - Signature and certificate verification: cryptographically verifies APK Signature Scheme V2, V3, and V3.1; reports V1 presence; lists current signing certificates and the verified certificate-rotation lineage with old/new roles and SHA-256 fingerprints.
 - V4/V4.1 sidecar verification: AutoJs6 derives only the exact `<APK name>.idsig` sibling and grants a bounded read-only descriptor; the plugin verifies the signed data, certificate and public key, complementary V2/V3 APK digest, fs-verity root, embedded Merkle tree, and any V3.1 rotation signer.
 - Readable manifests: binary APK manifests and AAB protobuf manifests are decoded into readable XML, shown in a separate read-only viewer.
@@ -101,6 +102,7 @@ To keep maliciously crafted files from exhausting device resources, parsing is b
 - Permission classification scans at most 2048 requests, displays at most 512 safe unique names, and limits each loaded explanation to 240 characters; omissions and unavailable protection levels are clearly labeled.
 - Component statistics scan at most 4096 declarations per manifest and 128 AAB module manifests under a shared 16 MiB input budget; omissions, unresolved exported values, and per-manifest failures are clearly labeled.
 - Native-library statistics retain at most 4096 .so entries and display 64 ABI directories. At most 512 selected nested APKs are read under a shared 256 MiB input budget while retaining no more than 8 MiB of central-directory data per APK; limits and failures produce clearly labeled partial results.
+- DEX statistics count every standard entry encountered but display at most 128 naturally ordered paths; they share the native-library overview's bounded central-directory pass, so DEX contents are never extracted, decoded, or decompiled.
 
 ### Plugin interface
 
@@ -132,6 +134,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added a bounded DEX overview that naturally orders standard classes*.dex files from selected APK splits and AAB modules with per-file and total uncompressed sizes, sharing the native-library central-directory pass without extracting, decoding, or decompiling DEX contents
 - `Feature` Added a bounded native-library overview that groups .so files from selected APK splits and AAB modules by ABI and uncompressed size, marking preferred, fallback-compatible, and unsupported device ABIs without extracting library contents
 - `Feature` Added bounded manifest component statistics for activities/aliases, services, broadcast receivers, and content providers across selected APK splits and scanned AAB modules, grouped by explicit android:exported state with partial-result labels
 - `Feature` Added on-device cryptographic verification for APK Signature Scheme V2, V3, V3.1, V4, and V4.1, including content digests, signer proofs, fs-verity roots, embedded Merkle trees, and complementary-scheme matching

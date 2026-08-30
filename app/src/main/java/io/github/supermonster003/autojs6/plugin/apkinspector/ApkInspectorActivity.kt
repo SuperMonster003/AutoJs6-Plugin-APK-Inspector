@@ -232,6 +232,7 @@ class ApkInspectorActivity : AppCompatActivity() {
             packageComponents,
             formatManifestComponents(archive),
             formatNativeLibraries(archive.nativeLibraries),
+            formatDexFiles(archive.dexFiles),
         ).joinToString("\n\n")
 
         val findings = buildList {
@@ -641,6 +642,80 @@ class ApkInspectorActivity : AppCompatActivity() {
                 add(
                     getString(
                         R.string.native_library_invalid_entries,
+                        summary.invalidEntryCount,
+                    ),
+                )
+            }
+        }.joinToString("\n")
+
+    private fun formatDexFiles(summary: DexFileSummary): String =
+        buildList {
+            add(getString(R.string.dex_file_heading))
+            if (summary.totalFileCount == 0) {
+                add(getString(R.string.dex_file_none))
+            } else {
+                add(
+                    getString(
+                        R.string.dex_file_summary,
+                        summary.totalFileCount,
+                        Formatter.formatFileSize(
+                            this@ApkInspectorActivity,
+                            summary.totalUncompressedBytes,
+                        ),
+                    ),
+                )
+                summary.files.forEach { file ->
+                    add(
+                        getString(
+                            R.string.dex_file_line,
+                            file.path,
+                            Formatter.formatFileSize(
+                                this@ApkInspectorActivity,
+                                file.uncompressedBytes,
+                            ),
+                        ),
+                    )
+                }
+            }
+            if (summary.omittedFileCount > 0) {
+                add(
+                    getString(
+                        R.string.dex_file_entry_limit,
+                        summary.omittedFileCount,
+                        DexFileSummary.MAX_DISPLAYED_FILES,
+                    ),
+                )
+            }
+            if (summary.failedApkCount > 0 || summary.omittedApkCount > 0) {
+                add(
+                    getString(
+                        R.string.dex_file_apk_partial,
+                        summary.failedApkCount,
+                        summary.omittedApkCount,
+                    ),
+                )
+            }
+            if (summary.nestedScanLimitReached) {
+                add(
+                    getString(
+                        R.string.dex_file_nested_limit,
+                        Formatter.formatFileSize(
+                            this@ApkInspectorActivity,
+                            NativeLibraryInspector.MAX_NESTED_APK_SCAN_BYTES,
+                        ),
+                        Formatter.formatFileSize(
+                            this@ApkInspectorActivity,
+                            NativeLibraryInspector
+                                .MAX_NESTED_APK_CENTRAL_DIRECTORY_BYTES
+                                .toLong(),
+                        ),
+                    ),
+                )
+            }
+            if (summary.invalidEntryCount > 0) {
+                add(
+                    getString(
+                        R.string.dex_file_invalid_entries,
                         summary.invalidEntryCount,
                     ),
                 )

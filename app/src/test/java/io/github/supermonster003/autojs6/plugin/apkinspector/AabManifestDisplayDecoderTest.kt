@@ -79,12 +79,14 @@ class AabManifestDisplayDecoderTest {
     }
 
     @Test
-    fun aabNativeLibrariesIncludeAllModulesAndMarkDeviceMatch() {
+    fun aabCodeMetadataIncludesAllModulesAndMarksDeviceMatch() {
         val aab = createAab(
             "base/manifest/AndroidManifest.xml" to manifest("com.example.app"),
             "base/lib/arm64-v8a/libbase.so" to byteArrayOf(1, 2, 3),
             "feature/lib/arm64-v8a/libfeature.so" to byteArrayOf(4, 5, 6, 7),
             "base/lib/x86/libbase.so" to byteArrayOf(8, 9, 10, 11, 12),
+            "base/dex/classes.dex" to byteArrayOf(1, 2),
+            "feature/dex/classes2.dex" to byteArrayOf(3, 4, 5),
         )
 
         val archive = AndroidPackageArchiveInspector.inspect(aab, testDevice)
@@ -100,6 +102,12 @@ class AabManifestDisplayDecoderTest {
         assertEquals(
             NativeAbiCompatibility.UNSUPPORTED,
             archive.nativeLibraries.abiGroups[1].compatibility,
+        )
+        assertEquals(2, archive.dexFiles.totalFileCount)
+        assertEquals(5L, archive.dexFiles.totalUncompressedBytes)
+        assertEquals(
+            listOf("base/dex/classes.dex", "feature/dex/classes2.dex"),
+            archive.dexFiles.files.map(DexFileEntrySummary::path),
         )
     }
 

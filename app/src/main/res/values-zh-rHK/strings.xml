@@ -89,4 +89,12 @@
     <string name="native_library_apk_partial">[i] 已選 APK 原生程式庫掃描失敗: %1$d | 未掃描: %2$d. 現時結果並不完整.</string>
     <string name="native_library_nested_limit">[i] 已達到巢狀 APK 掃描上限 (共用 APK 輸入: %1$s; 每個 APK 的中央目錄: %2$s). 現時結果並不完整.</string>
     <string name="native_library_invalid_entries">[i] 已忽略無效或無法解析的原生程式庫條目: %1$d.</string>
+    <string name="dex_file_heading">DEX 檔案 (未壓縮大小)</string>
+    <string name="dex_file_summary">DEX 條目數: %1$d | 總計: %2$s</string>
+    <string name="dex_file_line">- %1$s | %2$s</string>
+    <string name="dex_file_none">在已完成的掃描中未發現標準 classes*.dex 檔案.</string>
+    <string name="dex_file_entry_limit">[i] DEX 顯示上限: %2$d | 已省略條目: %1$d. 總計包含已省略條目.</string>
+    <string name="dex_file_apk_partial">[i] 已選 APK DEX 掃描失敗: %1$d | 未掃描: %2$d. 現時結果並不完整.</string>
+    <string name="dex_file_nested_limit">[i] 已達到巢狀 APK 掃描上限 (共用 APK 輸入: %1$s; 每個 APK 的中央目錄: %2$s). 現時結果並不完整.</string>
+    <string name="dex_file_invalid_entries">[i] 已忽略無效或無法解析的 DEX 條目: %1$d.</string>
 </resources>

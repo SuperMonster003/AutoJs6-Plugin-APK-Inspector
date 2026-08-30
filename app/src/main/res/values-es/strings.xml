@@ -89,4 +89,12 @@
     <string name="native_library_apk_partial">[i] Exámenes nativos de APK seleccionados fallidos: %1$d | no examinados: %2$d. Los resultados son parciales.</string>
     <string name="native_library_nested_limit">[i] Se alcanzó el límite de APK anidados (entrada APK compartida: %1$s; directorio central por APK: %2$s). Los resultados son parciales.</string>
     <string name="native_library_invalid_entries">[i] Entradas de bibliotecas nativas no válidas o no resueltas ignoradas: %1$d.</string>
+    <string name="dex_file_heading">Archivos DEX (tamaños sin comprimir)</string>
+    <string name="dex_file_summary">Cantidad de entradas DEX: %1$d | total: %2$s</string>
+    <string name="dex_file_line">- %1$s | %2$s</string>
+    <string name="dex_file_none">No se encontraron archivos classes*.dex estándar en los exámenes completados.</string>
+    <string name="dex_file_entry_limit">[i] Límite de visualización DEX: %2$d | entradas omitidas: %1$d. Los totales incluyen las entradas omitidas.</string>
+    <string name="dex_file_apk_partial">[i] Exámenes DEX de APK seleccionados fallidos: %1$d | no examinados: %2$d. Los resultados son parciales.</string>
+    <string name="dex_file_nested_limit">[i] Se alcanzó el límite de APK anidados (entrada APK compartida: %1$s; directorio central por APK: %2$s). Los resultados son parciales.</string>
+    <string name="dex_file_invalid_entries">[i] Entradas DEX no válidas o no resueltas ignoradas: %1$d.</string>
 </resources>

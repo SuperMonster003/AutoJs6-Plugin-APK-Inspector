@@ -94,7 +94,7 @@ class NativeLibrarySummaryTest {
     }
 
     @Test
-    fun nestedApkInputBudgetProducesAnOmittedPartialResult() {
+    fun nestedCodeInputBudgetMarksBothSectionsPartial() {
         val nestedApk = zipBytes(
             "AndroidManifest.xml" to "<manifest />".toByteArray(),
             "lib/arm64-v8a/libalpha.so" to ByteArray(512) { 0x41 },
@@ -103,16 +103,19 @@ class NativeLibrarySummaryTest {
             maxNestedApkScanBytes = nestedApk.size.toLong() - 1L,
         )
 
-        val summary = NativeLibraryInspector.inspectNestedApk(
+        val codeSummary = NativeLibraryInspector.inspectNestedPackageCode(
             input = ByteArrayInputStream(nestedApk),
             deviceAbis = listOf("arm64-v8a"),
             limits = limits,
         )
+        val summary = codeSummary.nativeLibraries
 
         assertEquals(0, summary.totalLibraryCount)
         assertEquals(0, summary.failedApkCount)
         assertEquals(1, summary.omittedApkCount)
         assertTrue(summary.nestedScanLimitReached)
+        assertEquals(1, codeSummary.dexFiles.omittedApkCount)
+        assertTrue(codeSummary.dexFiles.nestedScanLimitReached)
     }
 
     @Test
@@ -150,15 +153,18 @@ class NativeLibrarySummaryTest {
         )
         val limits = NativeLibraryInspector.Limits(maxNestedApkEntries = 1)
 
-        val summary = NativeLibraryInspector.inspectNestedApk(
+        val codeSummary = NativeLibraryInspector.inspectNestedPackageCode(
             input = ByteArrayInputStream(nestedApk),
             deviceAbis = listOf("arm64-v8a"),
             limits = limits,
         )
+        val summary = codeSummary.nativeLibraries
 
         assertEquals(0, summary.totalLibraryCount)
         assertTrue(summary.nestedScanLimitReached)
         assertTrue(summary.hasPartialResults)
+        assertTrue(codeSummary.dexFiles.nestedScanLimitReached)
+        assertTrue(codeSummary.dexFiles.hasPartialResults)
     }
 
     private fun entry(name: String, size: Long): ZipEntry =

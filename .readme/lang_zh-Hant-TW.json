@@ -6,7 +6,7 @@
   "p_languages_all_supported_for_readme": "README 提供以下語言版本",
   "h3_introduction": "專案簡介",
   "p_introduction": "APK 檢查器 (APK Inspector) 是 AutoJs6 檔案管理器的配套外掛. 在檔案管理器中點擊 APK, APKS, XAPK, APKM, APKZ 或 AAB 檔案, 即可直接開啟一份安裝包檢查報告: 應用叫什麼、是什麼版本、要哪些權限、能否在目前裝置安裝, 一畫面看清. 全程無須安裝該套件, 外掛也絕不修改原始檔案.",
-  "p_introduction_report": "檢查報告分為四個部分: 「套件詳細資料」顯示應用名稱、圖示、套件名稱、版本、SDK 範圍、簽章驗證與簽章憑證輪替鏈、檔案大小及 SHA-256 校驗值; 「元件」列出包內全部 APK 分包與 OBB 資源, 標出與目前裝置配對的部分 (AAB 則列出模組), 依 activity/別名、service、receiver 與 provider 分組統計資訊清單宣告及其明確 exported 狀態, 並依 ABI 彙整原生 .so 程式庫的未壓縮大小與裝置配對情況; 「要求的權限」依保護層級分組列出應用申請的系統權限, 將執行階段危險權限置頂並附簡短說明; 「安全與相容性發現」給出結構問題與裝置相容性結論. 報告頁的「檢視資訊清單」按鈕還可開啟格式化後的 AndroidManifest 全文.",
+  "p_introduction_report": "檢查報告分為四個部分: 「套件詳細資料」顯示應用名稱、圖示、套件名稱、版本、SDK 範圍、簽章驗證與簽章憑證輪替鏈、檔案大小及 SHA-256 校驗值; 「元件」列出包內全部 APK 分包與 OBB 資源, 標出與目前裝置配對的部分 (AAB 則列出模組), 依 activity/別名、service、receiver 與 provider 分組統計資訊清單宣告及其明確 exported 狀態, 依 ABI 彙整原生 .so 程式庫的未壓縮大小與裝置配對情況, 並列出標準 classes*.dex 檔案及其未壓縮大小; 「要求的權限」依保護層級分組列出應用申請的系統權限, 將執行階段危險權限置頂並附簡短說明; 「安全與相容性發現」給出結構問題與裝置相容性結論. 報告頁的「檢視資訊清單」按鈕還可開啟格式化後的 AndroidManifest 全文.",
   "h3_functions": "功能亮點",
   "features": [
     "點擊即查: 在 AutoJs6 檔案管理器中點擊安裝包檔案即可開啟檢查報告, 無須安裝、解壓縮或連網.",
@@ -16,6 +16,7 @@
     "分包分析: 列出集合包內全部 APK 條目與 OBB 資料包, 標出為目前裝置選中的分包 (基礎包、語言、螢幕密度、架構等).",
     "元件暴露概覽: 彙整已選 APK 分包或已掃描 AAB 模組中的 activity/別名、service、receiver 與 provider, 將明確 android:exported 分為已匯出、未匯出或未宣告/無法解析.",
     "原生程式庫概覽: 依 ABI 與未壓縮大小彙整已選 APK 分包或 AAB 模組中的 .so 檔案, 標示裝置首選 ABI、支援的後備 ABI 與不支援的架構, 全程不提取程式庫內容.",
+    "DEX 概覽: 依自然順序列出已選 APK 分包或 AAB 模組中的標準 classes*.dex 檔案, 顯示各檔案與未壓縮總大小, 不提取、解碼或反編譯 DEX 內容.",
     "簽章與憑證驗證: 對 APK V2 / V3 / V3.1 簽章執行真正密碼學驗證, 報告 V1 是否存在; 逐一顯示目前簽章憑證, 並標註已驗證輪替鏈中的新舊關係與 SHA-256 指紋.",
     "V4 / V4.1 同層簽章驗證: AutoJs6 僅衍生精確同層檔案 `<APK 檔名>.idsig` 並授予有界唯讀描述元; 外掛驗證簽署資料、憑證與公開金鑰、對應 V2 / V3 APK 摘要、fs-verity 根、內嵌 Merkle 樹及 V3.1 輪替簽署者.",
     "資訊清單可讀化: 自動把二進位 APK 清單與 AAB protobuf 清單解碼為可讀 XML, 在獨立唯讀頁面隨時檢視.",
@@ -63,7 +64,8 @@
     "巢狀 APK 清單掃描不超過 {{ max_nested_apk_scan }}, 集合包中繼資料不超過 {{ max_metadata_size }}, 用於載入圖示與標籤的臨時 APK 不超過 {{ max_display_apk_size }}.",
     "權限分類最多掃描 {{ max_permission_scan }} 項要求、顯示 {{ max_permission_display }} 個安全且去重的名稱, 每則系統說明最多 {{ max_permission_description_chars }} 個字元; 省略項目和無法取得的保護層級都會清楚標示.",
     "元件統計每份資訊清單最多掃描 {{ max_manifest_components }} 項宣告; AAB 最多掃描 {{ max_aab_component_manifests }} 份模組資訊清單, 共用 {{ max_aab_component_manifest_total }} 輸入預算. 省略項目、無法解析的 exported 值與單份資訊清單失敗都會清楚標示.",
-    "原生程式庫統計最多保留 {{ max_native_library_entries }} 個 .so 項目並顯示 {{ max_native_abi_display }} 個 ABI 目錄; 最多讀取 {{ max_native_apk_scans }} 個已選巢狀 APK, 共用 {{ max_native_nested_apk_scan }} 輸入預算, 每個 APK 最多保留 {{ max_native_central_directory }} 中央目錄資料. 超限與失敗只會產生清楚標示的不完整結果."
+    "原生程式庫統計最多保留 {{ max_native_library_entries }} 個 .so 項目並顯示 {{ max_native_abi_display }} 個 ABI 目錄; 最多讀取 {{ max_native_apk_scans }} 個已選巢狀 APK, 共用 {{ max_native_nested_apk_scan }} 輸入預算, 每個 APK 最多保留 {{ max_native_central_directory }} 中央目錄資料. 超限與失敗只會產生清楚標示的不完整結果.",
+    "DEX 統計會計入已掃描的全部標準項目, 但最多顯示 {{ max_dex_file_display }} 條自然排序路徑; 與原生程式庫概覽共用同一次有界中央目錄掃描, 不提取、解碼或反編譯 DEX 內容."
   ],
   "h3_plugin_interface": "外掛程式介面",
   "p_plugin_interface": "主程式 (AutoJs6) 透過以下識別探索並執行外掛, 供外掛或主程式開發者參考",

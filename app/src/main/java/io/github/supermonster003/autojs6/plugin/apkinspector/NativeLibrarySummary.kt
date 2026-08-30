@@ -41,12 +41,12 @@ internal data class NativeLibrarySummary(
 }
 
 /**
- * Collects native-library metadata without inflating library contents.
+ * Collects native-library and DEX metadata without inflating their contents.
  *
  * Direct APK and AAB inputs use their already-validated ZIP directory entries. APKs nested in a
  * package container are streamed once and retain only a bounded tail containing the ZIP central
- * directory. This keeps native-library inspection independent from manifest parsing and lets this
- * section degrade without invalidating the rest of the report.
+ * directory. The two report sections therefore share one pass and can degrade without invalidating
+ * the manifest, signature, or compatibility results.
  */
 internal object NativeLibraryInspector {
 
@@ -59,6 +59,7 @@ internal object NativeLibraryInspector {
     internal data class Limits(
         val maxNativeLibraryEntries: Int = MAX_NATIVE_LIBRARY_ENTRIES,
         val maxDisplayedAbis: Int = MAX_DISPLAYED_NATIVE_ABIS,
+        val maxDisplayedDexFiles: Int = DexFileSummary.MAX_DISPLAYED_FILES,
         val maxSelectedApkScans: Int = MAX_SELECTED_APK_SCANS,
         val maxNestedApkScanBytes: Long = MAX_NESTED_APK_SCAN_BYTES,
         val maxNestedApkCentralDirectoryBytes: Int =
@@ -69,6 +70,7 @@ internal object NativeLibraryInspector {
         init {
             require(maxNativeLibraryEntries > 0)
             require(maxDisplayedAbis > 0)
+            require(maxDisplayedDexFiles > 0)
             require(maxSelectedApkScans > 0)
             require(maxNestedApkScanBytes > 0L)
             require(maxNestedApkCentralDirectoryBytes > 0)
@@ -85,34 +87,65 @@ internal object NativeLibraryInspector {
         entries: Iterable<ZipEntry>,
         deviceAbis: List<String>,
         limits: Limits = Limits(),
-    ): NativeLibrarySummary {
-        val accumulator = Accumulator(deviceAbis, limits)
-        entries.forEach { entry ->
-            accumulator.inspectEntry(
-                path = entry.name,
-                size = entry.size,
-                isDirectory = entry.isDirectory,
-                layout = NativeLibraryLayout.APK,
-            )
-        }
-        return accumulator.build()
-    }
+    ): NativeLibrarySummary = inspectApkCodeEntries(entries, deviceAbis, limits).nativeLibraries
+
+    fun inspectApkCodeEntries(
+        entries: Iterable<ZipEntry>,
+        deviceAbis: List<String>,
+        limits: Limits = Limits(),
+    ): PackageCodeSummary = inspectCodeEntries(
+        entries = entries,
+        deviceAbis = deviceAbis,
+        nativeLayout = NativeLibraryLayout.APK,
+        dexLayout = DexFileLayout.APK,
+        limits = limits,
+    )
 
     fun inspectAabEntries(
         entries: Iterable<ZipEntry>,
         deviceAbis: List<String>,
         limits: Limits = Limits(),
-    ): NativeLibrarySummary {
-        val accumulator = Accumulator(deviceAbis, limits)
+    ): NativeLibrarySummary = inspectAabCodeEntries(entries, deviceAbis, limits).nativeLibraries
+
+    fun inspectAabCodeEntries(
+        entries: Iterable<ZipEntry>,
+        deviceAbis: List<String>,
+        limits: Limits = Limits(),
+    ): PackageCodeSummary = inspectCodeEntries(
+        entries = entries,
+        deviceAbis = deviceAbis,
+        nativeLayout = NativeLibraryLayout.AAB,
+        dexLayout = DexFileLayout.AAB,
+        limits = limits,
+    )
+
+    private fun inspectCodeEntries(
+        entries: Iterable<ZipEntry>,
+        deviceAbis: List<String>,
+        nativeLayout: NativeLibraryLayout,
+        dexLayout: DexFileLayout,
+        limits: Limits,
+    ): PackageCodeSummary {
+        val nativeAccumulator = Accumulator(deviceAbis, limits)
+        val dexAccumulator = DexFileAccumulator(limits.maxDisplayedDexFiles)
         entries.forEach { entry ->
-            accumulator.inspectEntry(
+            nativeAccumulator.inspectEntry(
                 path = entry.name,
                 size = entry.size,
                 isDirectory = entry.isDirectory,
-                layout = NativeLibraryLayout.AAB,
+                layout = nativeLayout,
+            )
+            dexAccumulator.inspectEntry(
+                path = entry.name,
+                size = entry.size,
+                isDirectory = entry.isDirectory,
+                layout = dexLayout,
             )
         }
-        return accumulator.build()
+        return PackageCodeSummary(
+            nativeLibraries = nativeAccumulator.build(),
+            dexFiles = dexAccumulator.build(),
+        )
     }
 
     fun inspectNestedApks(
@@ -121,26 +154,46 @@ internal object NativeLibraryInspector {
         entriesByPath: Map<String, ZipEntry>,
         deviceAbis: List<String>,
         limits: Limits = Limits(),
-    ): NativeLibrarySummary {
-        val accumulator = Accumulator(deviceAbis, limits)
+    ): NativeLibrarySummary = inspectNestedPackageCode(
+        zip = zip,
+        selectedApks = selectedApks,
+        entriesByPath = entriesByPath,
+        deviceAbis = deviceAbis,
+        limits = limits,
+    ).nativeLibraries
+
+    fun inspectNestedPackageCode(
+        zip: ZipFile,
+        selectedApks: List<ArchiveApkEntry>,
+        entriesByPath: Map<String, ZipEntry>,
+        deviceAbis: List<String>,
+        limits: Limits = Limits(),
+    ): PackageCodeSummary {
+        val nativeAccumulator = Accumulator(deviceAbis, limits)
+        val dexAccumulator = DexFileAccumulator(limits.maxDisplayedDexFiles)
         val selectedPaths = selectedApks.asSequence()
             .map(ArchiveApkEntry::archivePath)
             .distinct()
             .toList()
         val pathsToScan = selectedPaths.take(limits.maxSelectedApkScans)
-        accumulator.recordOmittedApks(selectedPaths.size - pathsToScan.size)
+        val initiallyOmitted = selectedPaths.size - pathsToScan.size
+        nativeAccumulator.recordOmittedApks(initiallyOmitted)
+        dexAccumulator.recordOmittedApks(initiallyOmitted)
         val budget = ScanBudget(limits.maxNestedApkScanBytes)
         val centralDirectoryTail = createCentralDirectoryTail(limits)
 
         pathsToScan.forEach { path ->
             val entry = entriesByPath[path]
             if (entry == null || entry.isDirectory) {
-                accumulator.recordFailedApk()
+                nativeAccumulator.recordFailedApk()
+                dexAccumulator.recordFailedApk()
                 return@forEach
             }
             if (entry.size > budget.remaining) {
-                accumulator.recordOmittedApks(1)
-                accumulator.markNestedScanLimit()
+                nativeAccumulator.recordOmittedApks(1)
+                nativeAccumulator.markNestedScanLimit()
+                dexAccumulator.recordOmittedApks(1)
+                dexAccumulator.markNestedScanLimit()
                 return@forEach
             }
             try {
@@ -148,56 +201,83 @@ internal object NativeLibraryInspector {
                     scanNestedApkCentralDirectory(
                         input = input,
                         budget = budget,
-                        accumulator = accumulator,
+                        nativeAccumulator = nativeAccumulator,
+                        dexAccumulator = dexAccumulator,
+                        sourcePath = path,
                         limits = limits,
                         tail = centralDirectoryTail,
                     )
                 }
                 if (outcome.entryLimitReached) {
-                    accumulator.markNestedScanLimit()
+                    nativeAccumulator.markNestedScanLimit()
+                    dexAccumulator.markNestedScanLimit()
                 }
-            } catch (_: NativeLibraryScanLimitException) {
-                accumulator.recordOmittedApks(1)
-                accumulator.markNestedScanLimit()
+            } catch (_: PackageCodeScanLimitException) {
+                nativeAccumulator.recordOmittedApks(1)
+                nativeAccumulator.markNestedScanLimit()
+                dexAccumulator.recordOmittedApks(1)
+                dexAccumulator.markNestedScanLimit()
             } catch (_: IOException) {
-                accumulator.recordFailedApk()
+                nativeAccumulator.recordFailedApk()
+                dexAccumulator.recordFailedApk()
             }
         }
-        return accumulator.build()
+        return PackageCodeSummary(
+            nativeLibraries = nativeAccumulator.build(),
+            dexFiles = dexAccumulator.build(),
+        )
     }
 
     internal fun inspectNestedApk(
         input: InputStream,
         deviceAbis: List<String>,
         limits: Limits = Limits(),
-    ): NativeLibrarySummary {
-        val accumulator = Accumulator(deviceAbis, limits)
+    ): NativeLibrarySummary = inspectNestedPackageCode(input, deviceAbis, limits).nativeLibraries
+
+    internal fun inspectNestedPackageCode(
+        input: InputStream,
+        deviceAbis: List<String>,
+        limits: Limits = Limits(),
+    ): PackageCodeSummary {
+        val nativeAccumulator = Accumulator(deviceAbis, limits)
+        val dexAccumulator = DexFileAccumulator(limits.maxDisplayedDexFiles)
         val budget = ScanBudget(limits.maxNestedApkScanBytes)
         val centralDirectoryTail = createCentralDirectoryTail(limits)
         try {
             val outcome = scanNestedApkCentralDirectory(
                 input = input,
                 budget = budget,
-                accumulator = accumulator,
+                nativeAccumulator = nativeAccumulator,
+                dexAccumulator = dexAccumulator,
+                sourcePath = null,
                 limits = limits,
                 tail = centralDirectoryTail,
             )
             if (outcome.entryLimitReached) {
-                accumulator.markNestedScanLimit()
+                nativeAccumulator.markNestedScanLimit()
+                dexAccumulator.markNestedScanLimit()
             }
-        } catch (_: NativeLibraryScanLimitException) {
-            accumulator.recordOmittedApks(1)
-            accumulator.markNestedScanLimit()
+        } catch (_: PackageCodeScanLimitException) {
+            nativeAccumulator.recordOmittedApks(1)
+            nativeAccumulator.markNestedScanLimit()
+            dexAccumulator.recordOmittedApks(1)
+            dexAccumulator.markNestedScanLimit()
         } catch (_: IOException) {
-            accumulator.recordFailedApk()
+            nativeAccumulator.recordFailedApk()
+            dexAccumulator.recordFailedApk()
         }
-        return accumulator.build()
+        return PackageCodeSummary(
+            nativeLibraries = nativeAccumulator.build(),
+            dexFiles = dexAccumulator.build(),
+        )
     }
 
     private fun scanNestedApkCentralDirectory(
         input: InputStream,
         budget: ScanBudget,
-        accumulator: Accumulator,
+        nativeAccumulator: Accumulator,
+        dexAccumulator: DexFileAccumulator,
+        sourcePath: String?,
         limits: Limits,
         tail: TailBuffer,
     ): NestedApkScanOutcome {
@@ -237,7 +317,7 @@ internal object NativeLibraryInspector {
             throw IOException("ZIP64 nested APK inspection is not supported")
         }
         if (centralDirectorySize > limits.maxNestedApkCentralDirectoryBytes) {
-            throw NativeLibraryScanLimitException()
+            throw PackageCodeScanLimitException()
         }
 
         val eocdAbsoluteOffset = Math.addExact(tailStart, eocdOffset.toLong())
@@ -249,7 +329,7 @@ internal object NativeLibraryInspector {
             throw IOException("Nested APK central directory exceeds the EOCD boundary")
         }
         if (centralDirectoryOffset < tailStart) {
-            throw NativeLibraryScanLimitException()
+            throw PackageCodeScanLimitException()
         }
         val centralOffsetInTail = (centralDirectoryOffset - tailStart).toInt()
         val centralEndInTail = Math.addExact(
@@ -299,20 +379,40 @@ internal object NativeLibraryInspector {
                     nameLength,
                     StandardCharsets.ISO_8859_1,
                 )
-                accumulator.inspectEntry(
+                val declaredSize = uncompressedSize.takeUnless { it == ZIP_UINT32_MAX } ?: -1L
+                val isDirectory = path.endsWith('/')
+                nativeAccumulator.inspectEntry(
                     path = path,
-                    size = uncompressedSize.takeUnless { it == ZIP_UINT32_MAX } ?: -1L,
-                    isDirectory = path.endsWith('/'),
+                    size = declaredSize,
+                    isDirectory = isDirectory,
                     layout = NativeLibraryLayout.APK,
                 )
-            } else if (
-                looksLikeOversizedApkNativeLibrary(
-                    bytes = bytes,
-                    offset = nameOffset,
-                    length = nameLength,
+                dexAccumulator.inspectEntry(
+                    path = path,
+                    size = declaredSize,
+                    isDirectory = isDirectory,
+                    layout = DexFileLayout.APK,
+                    sourcePath = sourcePath,
                 )
-            ) {
-                accumulator.recordInvalidEntry()
+            } else {
+                if (
+                    looksLikeOversizedApkNativeLibrary(
+                        bytes = bytes,
+                        offset = nameOffset,
+                        length = nameLength,
+                    )
+                ) {
+                    nativeAccumulator.recordInvalidEntry()
+                }
+                if (
+                    looksLikeOversizedApkDexFile(
+                        bytes = bytes,
+                        offset = nameOffset,
+                        length = nameLength,
+                    )
+                ) {
+                    dexAccumulator.recordInvalidEntry()
+                }
             }
             offset = nextOffset
         }
@@ -494,7 +594,7 @@ internal object NativeLibraryInspector {
         fun read(input: InputStream, buffer: ByteArray): Int {
             if (remaining == 0L) {
                 if (input.read() < 0) return -1
-                throw NativeLibraryScanLimitException()
+                throw PackageCodeScanLimitException()
             }
             val maximum = minOf(buffer.size.toLong(), remaining).toInt()
             val read = input.read(buffer, 0, maximum)
@@ -614,7 +714,7 @@ internal object NativeLibraryInspector {
         val entryLimitReached: Boolean,
     )
 
-    private class NativeLibraryScanLimitException : IOException()
+    private class PackageCodeScanLimitException : IOException()
 
     private val ABI_NAME = Regex("""[A-Za-z0-9][A-Za-z0-9._+-]{0,63}""")
     private val APK_NATIVE_PREFIX = "lib/".toByteArray(StandardCharsets.US_ASCII)
@@ -646,8 +746,8 @@ internal object NativeLibraryInspector {
     private const val ZIP_UINT32_MAX = 0xFFFF_FFFFL
 }
 
-private fun saturatingAddInt(left: Int, right: Int): Int =
+internal fun saturatingAddInt(left: Int, right: Int): Int =
     (left.toLong() + right.toLong()).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
 
-private fun saturatingAddLong(left: Long, right: Long): Long =
+internal fun saturatingAddLong(left: Long, right: Long): Long =
     if (right > Long.MAX_VALUE - left) Long.MAX_VALUE else left + right

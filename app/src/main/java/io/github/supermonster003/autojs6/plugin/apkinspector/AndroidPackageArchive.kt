@@ -31,6 +31,7 @@ internal data class AndroidPackageArchive(
     val baseManifest: ManifestSummary?,
     val manifestComponents: ManifestComponentSummary,
     val nativeLibraries: NativeLibrarySummary,
+    val dexFiles: DexFileSummary,
     val problems: List<ArchiveProblem>,
 ) {
 
@@ -245,6 +246,10 @@ internal object AndroidPackageArchiveInspector {
                     size = file.length(),
                     manifest = summary,
                 )
+                val codeSummary = NativeLibraryInspector.inspectApkCodeEntries(
+                    entries = entries,
+                    deviceAbis = device.abis,
+                )
                 return AndroidPackageArchive(
                     sourceFile = file,
                     format = AndroidPackageFormat.APK,
@@ -255,10 +260,8 @@ internal object AndroidPackageArchiveInspector {
                     aabModules = emptyList(),
                     baseManifest = summary,
                     manifestComponents = summary.manifestComponents,
-                    nativeLibraries = NativeLibraryInspector.inspectApkEntries(
-                        entries = entries,
-                        deviceAbis = device.abis,
-                    ),
+                    nativeLibraries = codeSummary.nativeLibraries,
+                    dexFiles = codeSummary.dexFiles,
                     problems = validateSelected(listOf(entry), device),
                 )
             }
@@ -289,6 +292,10 @@ internal object AndroidPackageArchiveInspector {
                     displayManifestEntry = displayManifestEntry,
                     displayManifestSummary = summary.manifestComponents,
                 )
+                val codeSummary = NativeLibraryInspector.inspectAabCodeEntries(
+                    entries = entries,
+                    deviceAbis = device.abis,
+                )
                 return AndroidPackageArchive(
                     sourceFile = file,
                     format = format,
@@ -299,10 +306,8 @@ internal object AndroidPackageArchiveInspector {
                     aabModules = modules,
                     baseManifest = summary,
                     manifestComponents = manifestComponents,
-                    nativeLibraries = NativeLibraryInspector.inspectAabEntries(
-                        entries = entries,
-                        deviceAbis = device.abis,
-                    ),
+                    nativeLibraries = codeSummary.nativeLibraries,
+                    dexFiles = codeSummary.dexFiles,
                     problems = emptyList(),
                 )
             }
@@ -381,6 +386,12 @@ internal object AndroidPackageArchiveInspector {
             problems += selection.problems
             val selectedApks = selection.entries
             problems += validateSelected(selectedApks, device)
+            val codeSummary = NativeLibraryInspector.inspectNestedPackageCode(
+                zip = zip,
+                selectedApks = selectedApks,
+                entriesByPath = entriesByPath,
+                deviceAbis = device.abis,
+            )
 
             AndroidPackageArchive(
                 sourceFile = file,
@@ -395,12 +406,8 @@ internal object AndroidPackageArchiveInspector {
                 manifestComponents = ManifestComponentSummary.aggregate(
                     selectedApks.map { apk -> apk.manifest.manifestComponents },
                 ),
-                nativeLibraries = NativeLibraryInspector.inspectNestedApks(
-                    zip = zip,
-                    selectedApks = selectedApks,
-                    entriesByPath = entriesByPath,
-                    deviceAbis = device.abis,
-                ),
+                nativeLibraries = codeSummary.nativeLibraries,
+                dexFiles = codeSummary.dexFiles,
                 problems = problems.distinctBy { Triple(it.code, it.detail, it.blocking) },
             )
         }

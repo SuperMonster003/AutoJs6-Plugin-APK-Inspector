@@ -89,4 +89,12 @@
     <string name="native_library_apk_partial">[i] فشل فحص APK المحدد: %1$d | غير مفحوص: %2$d. النتائج جزئية.</string>
     <string name="native_library_nested_limit">[i] تم بلوغ حد فحص APK المتداخل (إدخال APK المشترك: %1$s؛ الدليل المركزي لكل APK: %2$s). النتائج جزئية.</string>
     <string name="native_library_invalid_entries">[i] مدخلات مكتبات أصلية غير صالحة أو غير محلولة تم تجاهلها: %1$d.</string>
+    <string name="dex_file_heading">ملفات DEX (الأحجام غير المضغوطة)</string>
+    <string name="dex_file_summary">عدد مدخلات DEX: %1$d | الإجمالي: %2$s</string>
+    <string name="dex_file_line">- %1$s | %2$s</string>
+    <string name="dex_file_none">لم يتم العثور على ملفات classes*.dex قياسية في عمليات الفحص المكتملة.</string>
+    <string name="dex_file_entry_limit">[i] حد عرض DEX: %2$d | المدخلات المحذوفة: %1$d. تشمل الإجماليات المدخلات المحذوفة.</string>
+    <string name="dex_file_apk_partial">[i] فشل فحص DEX لملفات APK المحددة: %1$d | غير مفحوص: %2$d. النتائج جزئية.</string>
+    <string name="dex_file_nested_limit">[i] تم بلوغ حد فحص APK المتداخل (إدخال APK المشترك: %1$s؛ الدليل المركزي لكل APK: %2$s). النتائج جزئية.</string>
+    <string name="dex_file_invalid_entries">[i] تم تجاهل مدخلات DEX غير الصالحة أو غير المحلولة: %1$d.</string>
 </resources>

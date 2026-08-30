@@ -89,4 +89,12 @@
     <string name="native_library_apk_partial">[i] Selected APK native scans failed: %1$d | not scanned: %2$d. Results are partial.</string>
     <string name="native_library_nested_limit">[i] Nested APK scan limit reached (shared APK input: %1$s; central directory per APK: %2$s). Results are partial.</string>
     <string name="native_library_invalid_entries">[i] Invalid or unresolved native-library entries ignored: %1$d.</string>
+    <string name="dex_file_heading">DEX files (uncompressed sizes)</string>
+    <string name="dex_file_summary">DEX entry count: %1$d | total: %2$s</string>
+    <string name="dex_file_line">- %1$s | %2$s</string>
+    <string name="dex_file_none">No standard classes*.dex files found in completed scans.</string>
+    <string name="dex_file_entry_limit">[i] DEX display limit: %2$d | omitted entries: %1$d. Totals include omitted entries.</string>
+    <string name="dex_file_apk_partial">[i] Selected APK DEX scans failed: %1$d | not scanned: %2$d. Results are partial.</string>
+    <string name="dex_file_nested_limit">[i] Nested APK scan limit reached (shared APK input: %1$s; central directory per APK: %2$s). Results are partial.</string>
+    <string name="dex_file_invalid_entries">[i] Invalid or unresolved DEX entries ignored: %1$d.</string>
 </resources>

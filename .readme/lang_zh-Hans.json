@@ -6,7 +6,7 @@
   "p_languages_all_supported_for_readme": "README 提供以下语言版本",
   "h3_introduction": "项目简介",
   "p_introduction": "APK 检查器 (APK Inspector) 是 AutoJs6 文件管理器的配套插件. 在文件管理器中点击 APK, APKS, XAPK, APKM, APKZ 或 AAB 文件, 即可直接打开一份安装包检查报告: 应用叫什么、是什么版本、要哪些权限、能否在当前设备安装, 一屏看清. 全程无需安装该软件包, 插件也绝不修改原文件.",
-  "p_introduction_report": "检查报告分为四个部分: “软件包详情” 显示应用名称、图标、包名、版本、SDK 范围、签名验证与签名证书轮换链、文件大小及 SHA-256 校验值; “组件” 列出包内全部 APK 分包与 OBB 资源, 标出与当前设备匹配的部分 (AAB 则列出模块), 按 activity/别名、service、receiver 与 provider 分组统计清单声明及其显式 exported 状态, 并按 ABI 汇总原生 .so 库的未压缩体积与设备匹配情况; “请求的权限” 按保护级别分组列出应用申请的系统权限, 将运行时危险权限置顶并附简短说明; “安全与兼容性发现” 给出结构问题与设备兼容性结论. 报告页的 “查看清单” 按钮还可打开格式化后的 AndroidManifest 全文.",
+  "p_introduction_report": "检查报告分为四个部分: “软件包详情” 显示应用名称、图标、包名、版本、SDK 范围、签名验证与签名证书轮换链、文件大小及 SHA-256 校验值; “组件” 列出包内全部 APK 分包与 OBB 资源, 标出与当前设备匹配的部分 (AAB 则列出模块), 按 activity/别名、service、receiver 与 provider 分组统计清单声明及其显式 exported 状态, 按 ABI 汇总原生 .so 库的未压缩体积与设备匹配情况, 并列出标准 classes*.dex 文件及其未压缩体积; “请求的权限” 按保护级别分组列出应用申请的系统权限, 将运行时危险权限置顶并附简短说明; “安全与兼容性发现” 给出结构问题与设备兼容性结论. 报告页的 “查看清单” 按钮还可打开格式化后的 AndroidManifest 全文.",
   "h3_functions": "功能亮点",
   "features": [
     "点击即查: 在 AutoJs6 文件管理器中点击安装包文件即可打开检查报告, 无需安装、解压或联网.",
@@ -16,6 +16,7 @@
     "分包分析: 列出集合包内全部 APK 条目与 OBB 数据包, 标出为当前设备选中的分包 (基础包、语言、屏幕密度、架构等).",
     "组件暴露概览: 汇总已选 APK 分包或已扫描 AAB 模块中的 activity/别名、service、receiver 与 provider, 将显式 android:exported 分为已导出、未导出或未声明/无法解析.",
     "原生库概览: 按 ABI 与未压缩体积汇总已选 APK 分包或 AAB 模块中的 .so 文件, 标出设备首选 ABI、支持的后备 ABI 与不支持的架构, 全程不提取库内容.",
+    "DEX 概览: 按自然顺序列出已选 APK 分包或 AAB 模块中的标准 classes*.dex 文件, 显示单文件与未压缩总体积, 不提取、解码或反编译 DEX 内容.",
     "签名与证书验证: 对 APK V2 / V3 / V3.1 签名执行真实密码学验证, 报告 V1 是否存在; 逐一展示当前签名证书, 并标注已验证轮换链中的新旧关系与 SHA-256 指纹.",
     "V4 / V4.1 同级签名验证: AutoJs6 只派生精确同级文件 `<APK 文件名>.idsig` 并授予有界只读描述符; 插件验证签名数据、证书与公钥、对应 V2 / V3 APK 摘要、fs-verity 根、内嵌 Merkle 树及 V3.1 轮换签名者.",
     "清单可读化: 自动把二进制 APK 清单与 AAB protobuf 清单解码为可读 XML, 在独立只读页面随时查看.",
@@ -63,7 +64,8 @@
     "嵌套 APK 清单扫描不超过 {{ max_nested_apk_scan }}, 集合包元数据不超过 {{ max_metadata_size }}, 用于加载图标与标签的临时 APK 不超过 {{ max_display_apk_size }}.",
     "权限分类最多扫描 {{ max_permission_scan }} 项请求、显示 {{ max_permission_display }} 个安全且去重的名称, 每条系统说明最多 {{ max_permission_description_chars }} 个字符; 省略项和无法获取的保护级别都会明确标注.",
     "组件统计每份清单最多扫描 {{ max_manifest_components }} 项声明; AAB 最多扫描 {{ max_aab_component_manifests }} 份模块清单, 共享 {{ max_aab_component_manifest_total }} 输入预算. 省略项、无法解析的 exported 值与单份清单失败都会明确标注.",
-    "原生库统计最多保留 {{ max_native_library_entries }} 个 .so 条目并显示 {{ max_native_abi_display }} 个 ABI 目录; 最多读取 {{ max_native_apk_scans }} 个已选嵌套 APK, 共享 {{ max_native_nested_apk_scan }} 输入预算, 每个 APK 最多保留 {{ max_native_central_directory }} 中央目录数据. 超限与失败只产生明确标注的不完整结果."
+    "原生库统计最多保留 {{ max_native_library_entries }} 个 .so 条目并显示 {{ max_native_abi_display }} 个 ABI 目录; 最多读取 {{ max_native_apk_scans }} 个已选嵌套 APK, 共享 {{ max_native_nested_apk_scan }} 输入预算, 每个 APK 最多保留 {{ max_native_central_directory }} 中央目录数据. 超限与失败只产生明确标注的不完整结果.",
+    "DEX 统计会计入已扫描的全部标准条目, 但最多显示 {{ max_dex_file_display }} 条自然排序路径; 与原生库概览共用同一次有界中央目录扫描, 不提取、解码或反编译 DEX 内容."
   ],
   "h3_plugin_interface": "插件接口",
   "p_plugin_interface": "宿主 (AutoJs6) 通过以下标识发现并调用插件, 供插件或宿主开发者参考",

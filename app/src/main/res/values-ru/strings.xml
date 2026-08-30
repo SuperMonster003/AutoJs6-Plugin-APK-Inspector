@@ -89,4 +89,12 @@
     <string name="native_library_apk_partial">[i] Ошибок сканирования выбранных APK: %1$d | не просканировано: %2$d. Результаты частичные.</string>
     <string name="native_library_nested_limit">[i] Достигнут предел вложенных APK (общий ввод APK: %1$s; центральный каталог на APK: %2$s). Результаты частичные.</string>
     <string name="native_library_invalid_entries">[i] Пропущено недопустимых или неразрешённых записей нативных библиотек: %1$d.</string>
+    <string name="dex_file_heading">Файлы DEX (размер без сжатия)</string>
+    <string name="dex_file_summary">Количество записей DEX: %1$d | всего: %2$s</string>
+    <string name="dex_file_line">- %1$s | %2$s</string>
+    <string name="dex_file_none">В завершённых сканированиях стандартные файлы classes*.dex не найдены.</string>
+    <string name="dex_file_entry_limit">[i] Предел отображения DEX: %2$d | пропущено записей: %1$d. Итоги включают пропущенные записи.</string>
+    <string name="dex_file_apk_partial">[i] Ошибок сканирования DEX выбранных APK: %1$d | не просканировано: %2$d. Результаты частичные.</string>
+    <string name="dex_file_nested_limit">[i] Достигнут предел вложенных APK (общий ввод APK: %1$s; центральный каталог на APK: %2$s). Результаты частичные.</string>
+    <string name="dex_file_invalid_entries">[i] Пропущено недопустимых или неразрешённых записей DEX: %1$d.</string>
 </resources>
