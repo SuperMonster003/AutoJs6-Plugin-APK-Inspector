@@ -26,5 +26,10 @@
   "max_permission_description_chars": "240",
   "max_manifest_components": "4096",
   "max_aab_component_manifests": "128",
-  "max_aab_component_manifest_total": "16 MiB"
+  "max_aab_component_manifest_total": "16 MiB",
+  "max_native_library_entries": "4096",
+  "max_native_abi_display": "64",
+  "max_native_apk_scans": "512",
+  "max_native_nested_apk_scan": "256 MiB",
+  "max_native_central_directory": "8 MiB"
 }

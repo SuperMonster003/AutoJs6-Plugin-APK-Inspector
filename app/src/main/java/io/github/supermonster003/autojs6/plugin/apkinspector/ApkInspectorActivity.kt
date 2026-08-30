@@ -231,6 +231,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         val components = listOf(
             packageComponents,
             formatManifestComponents(archive),
+            formatNativeLibraries(archive.nativeLibraries),
         ).joinToString("\n\n")
 
         val findings = buildList {
@@ -550,6 +551,101 @@ class ApkInspectorActivity : AppCompatActivity() {
             }
         }.joinToString("\n")
     }
+
+    private fun formatNativeLibraries(summary: NativeLibrarySummary): String =
+        buildList {
+            add(getString(R.string.native_library_heading))
+            if (summary.totalLibraryCount == 0) {
+                add(getString(R.string.native_library_none))
+            } else {
+                add(
+                    getString(
+                        R.string.native_library_summary,
+                        summary.totalLibraryCount,
+                        Formatter.formatFileSize(
+                            this@ApkInspectorActivity,
+                            summary.totalUncompressedBytes,
+                        ),
+                    ),
+                )
+                summary.abiGroups.forEach { group ->
+                    val compatibility = getString(
+                        when (group.compatibility) {
+                            NativeAbiCompatibility.PREFERRED ->
+                                R.string.native_library_status_preferred
+                            NativeAbiCompatibility.COMPATIBLE ->
+                                R.string.native_library_status_compatible
+                            NativeAbiCompatibility.UNSUPPORTED ->
+                                R.string.native_library_status_unsupported
+                        },
+                    )
+                    add(
+                        getString(
+                            R.string.native_library_line,
+                            group.abi,
+                            group.libraryCount,
+                            Formatter.formatFileSize(
+                                this@ApkInspectorActivity,
+                                group.uncompressedBytes,
+                            ),
+                            compatibility,
+                        ),
+                    )
+                }
+            }
+            if (summary.omittedLibraryCount > 0) {
+                add(
+                    getString(
+                        R.string.native_library_entry_limit,
+                        summary.omittedLibraryCount,
+                        NativeLibraryInspector.MAX_NATIVE_LIBRARY_ENTRIES,
+                    ),
+                )
+            }
+            if (summary.omittedAbiCount > 0) {
+                add(
+                    getString(
+                        R.string.native_library_abi_limit,
+                        summary.omittedAbiCount,
+                        NativeLibraryInspector.MAX_DISPLAYED_NATIVE_ABIS,
+                    ),
+                )
+            }
+            if (summary.failedApkCount > 0 || summary.omittedApkCount > 0) {
+                add(
+                    getString(
+                        R.string.native_library_apk_partial,
+                        summary.failedApkCount,
+                        summary.omittedApkCount,
+                    ),
+                )
+            }
+            if (summary.nestedScanLimitReached) {
+                add(
+                    getString(
+                        R.string.native_library_nested_limit,
+                        Formatter.formatFileSize(
+                            this@ApkInspectorActivity,
+                            NativeLibraryInspector.MAX_NESTED_APK_SCAN_BYTES,
+                        ),
+                        Formatter.formatFileSize(
+                            this@ApkInspectorActivity,
+                            NativeLibraryInspector
+                                .MAX_NESTED_APK_CENTRAL_DIRECTORY_BYTES
+                                .toLong(),
+                        ),
+                    ),
+                )
+            }
+            if (summary.invalidEntryCount > 0) {
+                add(
+                    getString(
+                        R.string.native_library_invalid_entries,
+                        summary.invalidEntryCount,
+                    ),
+                )
+            }
+        }.joinToString("\n")
 
     private fun formatRequestedPermissions(
         analysis: RequestedPermissionAnalysis,

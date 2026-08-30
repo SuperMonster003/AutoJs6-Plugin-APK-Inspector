@@ -77,4 +77,16 @@
     <string name="component_stats_scan_limit">[i] Se alcanzó el límite de seguridad por manifest; máximo examinado: %1$d. Los recuentos son parciales.</string>
     <string name="component_stats_manifest_limit">[i] Límite de manifests de módulos AAB: %2$d | omitidos: %1$d. Los recuentos son parciales.</string>
     <string name="component_stats_manifest_failure">[i] Exámenes de componentes que fallaron por decodificación, estructura o límite de entrada: %1$d. Los recuentos son parciales.</string>
+    <string name="native_library_heading">Bibliotecas nativas por ABI (tamaños sin comprimir)</string>
+    <string name="native_library_summary">Archivos .so examinados: %1$d | total: %2$s</string>
+    <string name="native_library_line">- %1$s: %2$d archivos | %3$s | %4$s</string>
+    <string name="native_library_status_preferred">ABI preferida del dispositivo</string>
+    <string name="native_library_status_compatible">ABI alternativa compatible</string>
+    <string name="native_library_status_unsupported">no compatible con este dispositivo</string>
+    <string name="native_library_none">No se encontraron bibliotecas nativas en los exámenes completados.</string>
+    <string name="native_library_entry_limit">[i] Límite de entradas de bibliotecas nativas: %2$d | omitidas: %1$d. Los resultados son parciales.</string>
+    <string name="native_library_abi_limit">[i] Límite de ABI mostradas: %2$d | directorios ABI omitidos: %1$d.</string>
+    <string name="native_library_apk_partial">[i] Exámenes nativos de APK seleccionados fallidos: %1$d | no examinados: %2$d. Los resultados son parciales.</string>
+    <string name="native_library_nested_limit">[i] Se alcanzó el límite de APK anidados (entrada APK compartida: %1$s; directorio central por APK: %2$s). Los resultados son parciales.</string>
+    <string name="native_library_invalid_entries">[i] Entradas de bibliotecas nativas no válidas o no resueltas ignoradas: %1$d.</string>
 </resources>

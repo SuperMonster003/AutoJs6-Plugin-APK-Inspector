@@ -77,4 +77,16 @@
     <string name="component_stats_scan_limit">[i] تم بلوغ حد أمان المكونات لكل manifest؛ الحد الأقصى المفحوص: %1$d. الأعداد جزئية.</string>
     <string name="component_stats_manifest_limit">[i] حد أمان manifests لوحدات AAB: %2$d | المحذوفة: %1$d. الأعداد جزئية.</string>
     <string name="component_stats_manifest_failure">[i] عمليات فحص مكونات manifest التي فشلت بسبب فك الترميز أو البنية أو حد الإدخال: %1$d. الأعداد جزئية.</string>
+    <string name="native_library_heading">المكتبات الأصلية حسب ABI (الأحجام غير المضغوطة)</string>
+    <string name="native_library_summary">ملفات .so المفحوصة: %1$d | الإجمالي: %2$s</string>
+    <string name="native_library_line">- %1$s: %2$d ملفات | %3$s | %4$s</string>
+    <string name="native_library_status_preferred">ABI المفضل للجهاز</string>
+    <string name="native_library_status_compatible">ABI احتياطي مدعوم</string>
+    <string name="native_library_status_unsupported">غير مدعوم على هذا الجهاز</string>
+    <string name="native_library_none">لم تُعثر على مكتبات أصلية في عمليات الفحص المكتملة.</string>
+    <string name="native_library_entry_limit">[i] حد مدخلات المكتبات الأصلية: %2$d | المحذوفة: %1$d. النتائج جزئية.</string>
+    <string name="native_library_abi_limit">[i] حد عرض ABI: %2$d | أدلة ABI المحذوفة: %1$d.</string>
+    <string name="native_library_apk_partial">[i] فشل فحص APK المحدد: %1$d | غير مفحوص: %2$d. النتائج جزئية.</string>
+    <string name="native_library_nested_limit">[i] تم بلوغ حد فحص APK المتداخل (إدخال APK المشترك: %1$s؛ الدليل المركزي لكل APK: %2$s). النتائج جزئية.</string>
+    <string name="native_library_invalid_entries">[i] مدخلات مكتبات أصلية غير صالحة أو غير محلولة تم تجاهلها: %1$d.</string>
 </resources>

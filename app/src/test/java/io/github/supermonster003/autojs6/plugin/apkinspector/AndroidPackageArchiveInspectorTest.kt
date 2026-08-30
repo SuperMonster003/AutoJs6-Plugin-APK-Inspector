@@ -28,7 +28,11 @@ class AndroidPackageArchiveInspectorTest {
     @Test
     fun singleApkIsDetectedFromContentsAndParsed() {
         val apk = temporaryFolder.newFile("renamed.bin")
-        writeZip(apk, "AndroidManifest.xml" to manifest())
+        writeZip(
+            apk,
+            "AndroidManifest.xml" to manifest(),
+            "lib/arm64-v8a/libdemo.so" to byteArrayOf(1, 2, 3, 4),
+        )
 
         val archive = AndroidPackageArchiveInspector.inspect(apk, arm64Device)
 
@@ -36,6 +40,8 @@ class AndroidPackageArchiveInspectorTest {
         assertEquals("com.example.demo", archive.baseManifest?.packageName)
         assertEquals(42L, archive.baseManifest?.versionCode)
         assertEquals(24, archive.baseManifest?.minSdk)
+        assertEquals(1, archive.nativeLibraries.totalLibraryCount)
+        assertEquals(4L, archive.nativeLibraries.totalUncompressedBytes)
         assertEquals(ArchiveInspectionState.COMPATIBLE, archive.inspectionState)
     }
 
@@ -117,6 +123,53 @@ class AndroidPackageArchiveInspectorTest {
         assertEquals(1, archive.manifestComponents.services.notExported)
         assertEquals(1, archive.manifestComponents.receivers.exportedUnspecified)
         assertEquals(1, archive.manifestComponents.providers.exported)
+    }
+
+    @Test
+    fun nativeLibrariesAreAggregatedOnlyAcrossSelectedApks() {
+        val apkm = temporaryFolder.newFile("native-libraries.apkm")
+        writeZip(
+            apkm,
+            "base.apk" to nestedApk(
+                manifest(),
+                "lib/arm64-v8a/libbase.so" to byteArrayOf(1, 2, 3),
+            ),
+            "split_config.arm64_v8a.apk" to nestedApk(
+                manifest(split = "config.arm64_v8a"),
+                "lib/arm64-v8a/libfeature.so" to byteArrayOf(4, 5, 6, 7),
+            ),
+            "split_config.x86.apk" to nestedApk(
+                manifest(split = "config.x86"),
+                "lib/x86/libunused.so" to ByteArray(100),
+            ),
+        )
+
+        val archive = AndroidPackageArchiveInspector.inspect(apkm, arm64Device)
+
+        assertEquals(2, archive.selectedApks.size)
+        assertEquals(2, archive.nativeLibraries.totalLibraryCount)
+        assertEquals(7L, archive.nativeLibraries.totalUncompressedBytes)
+        assertEquals(listOf("arm64-v8a"), archive.nativeLibraries.abiGroups.map { it.abi })
+        assertEquals(
+            NativeAbiCompatibility.PREFERRED,
+            archive.nativeLibraries.abiGroups.single().compatibility,
+        )
+    }
+
+    @Test
+    fun malformedNestedCentralDirectoryDoesNotInvalidateOtherReportSections() {
+        val apkm = temporaryFolder.newFile("native-directory-damaged.apkm")
+        val damagedApk = nestedApk(manifest()).also { bytes ->
+            bytes[bytes.size - ZIP_EOCD_MIN_BYTES] = 0
+        }
+        writeZip(apkm, "base.apk" to damagedApk)
+
+        val archive = AndroidPackageArchiveInspector.inspect(apkm, arm64Device)
+
+        assertEquals(ArchiveInspectionState.COMPATIBLE, archive.inspectionState)
+        assertEquals("com.example.demo", archive.baseManifest?.packageName)
+        assertEquals(1, archive.nativeLibraries.failedApkCount)
+        assertEquals(0, archive.nativeLibraries.totalLibraryCount)
     }
 
     @Test
@@ -254,12 +307,20 @@ class AndroidPackageArchiveInspectorTest {
         """.trimIndent().toByteArray()
     }
 
-    private fun nestedApk(manifest: ByteArray): ByteArray =
+    private fun nestedApk(
+        manifest: ByteArray,
+        vararg entries: Pair<String, ByteArray>,
+    ): ByteArray =
         ByteArrayOutputStream().use { output ->
             ZipOutputStream(output).use { zip ->
                 zip.putNextEntry(ZipEntry("AndroidManifest.xml"))
                 zip.write(manifest)
                 zip.closeEntry()
+                entries.forEach { (name, bytes) ->
+                    zip.putNextEntry(ZipEntry(name))
+                    zip.write(bytes)
+                    zip.closeEntry()
+                }
             }
             output.toByteArray()
         }
@@ -300,6 +361,10 @@ class AndroidPackageArchiveInspectorTest {
             return
         }
         throw AssertionError("Expected IOException")
+    }
+
+    private companion object {
+        const val ZIP_EOCD_MIN_BYTES = 22
     }
 
     private class ProtoWriter {

@@ -79,6 +79,31 @@ class AabManifestDisplayDecoderTest {
     }
 
     @Test
+    fun aabNativeLibrariesIncludeAllModulesAndMarkDeviceMatch() {
+        val aab = createAab(
+            "base/manifest/AndroidManifest.xml" to manifest("com.example.app"),
+            "base/lib/arm64-v8a/libbase.so" to byteArrayOf(1, 2, 3),
+            "feature/lib/arm64-v8a/libfeature.so" to byteArrayOf(4, 5, 6, 7),
+            "base/lib/x86/libbase.so" to byteArrayOf(8, 9, 10, 11, 12),
+        )
+
+        val archive = AndroidPackageArchiveInspector.inspect(aab, testDevice)
+
+        assertEquals(3, archive.nativeLibraries.totalLibraryCount)
+        assertEquals(12L, archive.nativeLibraries.totalUncompressedBytes)
+        assertEquals(listOf("arm64-v8a", "x86"), archive.nativeLibraries.abiGroups.map { it.abi })
+        assertEquals(2, archive.nativeLibraries.abiGroups[0].libraryCount)
+        assertEquals(
+            NativeAbiCompatibility.PREFERRED,
+            archive.nativeLibraries.abiGroups[0].compatibility,
+        )
+        assertEquals(
+            NativeAbiCompatibility.UNSUPPORTED,
+            archive.nativeLibraries.abiGroups[1].compatibility,
+        )
+    }
+
+    @Test
     fun malformedFeatureManifestOnlyMarksComponentSummaryPartial() {
         val aab = createAab(
             "base/manifest/AndroidManifest.xml" to manifest(

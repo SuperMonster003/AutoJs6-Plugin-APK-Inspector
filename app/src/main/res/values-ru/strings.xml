@@ -77,4 +77,16 @@
     <string name="component_stats_scan_limit">[i] Достигнут безопасный предел компонентов на манифест; максимум просканировано: %1$d. Подсчёт частичный.</string>
     <string name="component_stats_manifest_limit">[i] Предел манифестов модулей AAB: %2$d | пропущено: %1$d. Подсчёт частичный.</string>
     <string name="component_stats_manifest_failure">[i] Сканирований компонентов, завершившихся ошибкой декодирования, структуры или лимита ввода: %1$d. Подсчёт частичный.</string>
+    <string name="native_library_heading">Нативные библиотеки по ABI (размер без сжатия)</string>
+    <string name="native_library_summary">Просканировано файлов .so: %1$d | всего: %2$s</string>
+    <string name="native_library_line">- %1$s: файлов %2$d | %3$s | %4$s</string>
+    <string name="native_library_status_preferred">предпочтительный ABI устройства</string>
+    <string name="native_library_status_compatible">поддерживаемый резервный ABI</string>
+    <string name="native_library_status_unsupported">не поддерживается этим устройством</string>
+    <string name="native_library_none">В завершённых сканированиях нативные библиотеки не найдены.</string>
+    <string name="native_library_entry_limit">[i] Предел записей нативных библиотек: %2$d | пропущено: %1$d. Результаты частичные.</string>
+    <string name="native_library_abi_limit">[i] Предел отображения ABI: %2$d | пропущено каталогов ABI: %1$d.</string>
+    <string name="native_library_apk_partial">[i] Ошибок сканирования выбранных APK: %1$d | не просканировано: %2$d. Результаты частичные.</string>
+    <string name="native_library_nested_limit">[i] Достигнут предел вложенных APK (общий ввод APK: %1$s; центральный каталог на APK: %2$s). Результаты частичные.</string>
+    <string name="native_library_invalid_entries">[i] Пропущено недопустимых или неразрешённых записей нативных библиотек: %1$d.</string>
 </resources>

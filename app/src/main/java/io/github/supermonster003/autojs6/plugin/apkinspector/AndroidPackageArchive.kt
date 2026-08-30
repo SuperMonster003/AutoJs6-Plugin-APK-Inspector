@@ -30,6 +30,7 @@ internal data class AndroidPackageArchive(
     val aabModules: List<String>,
     val baseManifest: ManifestSummary?,
     val manifestComponents: ManifestComponentSummary,
+    val nativeLibraries: NativeLibrarySummary,
     val problems: List<ArchiveProblem>,
 ) {
 
@@ -254,6 +255,10 @@ internal object AndroidPackageArchiveInspector {
                     aabModules = emptyList(),
                     baseManifest = summary,
                     manifestComponents = summary.manifestComponents,
+                    nativeLibraries = NativeLibraryInspector.inspectApkEntries(
+                        entries = entries,
+                        deviceAbis = device.abis,
+                    ),
                     problems = validateSelected(listOf(entry), device),
                 )
             }
@@ -294,6 +299,10 @@ internal object AndroidPackageArchiveInspector {
                     aabModules = modules,
                     baseManifest = summary,
                     manifestComponents = manifestComponents,
+                    nativeLibraries = NativeLibraryInspector.inspectAabEntries(
+                        entries = entries,
+                        deviceAbis = device.abis,
+                    ),
                     problems = emptyList(),
                 )
             }
@@ -385,6 +394,12 @@ internal object AndroidPackageArchiveInspector {
                 baseManifest = selectedApks.firstOrNull { it.manifest.splitName.isNullOrBlank() }?.manifest,
                 manifestComponents = ManifestComponentSummary.aggregate(
                     selectedApks.map { apk -> apk.manifest.manifestComponents },
+                ),
+                nativeLibraries = NativeLibraryInspector.inspectNestedApks(
+                    zip = zip,
+                    selectedApks = selectedApks,
+                    entriesByPath = entriesByPath,
+                    deviceAbis = device.abis,
                 ),
                 problems = problems.distinctBy { Triple(it.code, it.detail, it.blocking) },
             )

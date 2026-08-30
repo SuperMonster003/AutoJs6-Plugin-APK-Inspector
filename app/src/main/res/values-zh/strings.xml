@@ -77,4 +77,16 @@
     <string name="component_stats_scan_limit">[i] 已达到单份清单的组件安全上限；最多扫描: %1$d。当前统计不完整。</string>
     <string name="component_stats_manifest_limit">[i] AAB 模块清单安全上限: %2$d | 已省略: %1$d。当前统计不完整。</string>
     <string name="component_stats_manifest_failure">[i] 因解码、结构或输入上限失败的清单组件扫描: %1$d。当前统计不完整。</string>
+    <string name="native_library_heading">按 ABI 统计原生库 (未压缩体积)</string>
+    <string name="native_library_summary">已扫描 .so 文件: %1$d | 总计: %2$s</string>
+    <string name="native_library_line">- %1$s: %2$d 个文件 | %3$s | %4$s</string>
+    <string name="native_library_status_preferred">设备首选 ABI</string>
+    <string name="native_library_status_compatible">设备支持的后备 ABI</string>
+    <string name="native_library_status_unsupported">当前设备不支持</string>
+    <string name="native_library_none">在已完成的扫描中未发现原生库.</string>
+    <string name="native_library_entry_limit">[i] 原生库条目上限: %2$d | 已省略: %1$d. 当前结果不完整.</string>
+    <string name="native_library_abi_limit">[i] ABI 显示上限: %2$d | 已省略 ABI 目录: %1$d.</string>
+    <string name="native_library_apk_partial">[i] 所选 APK 原生库扫描失败: %1$d | 未扫描: %2$d. 当前结果不完整.</string>
+    <string name="native_library_nested_limit">[i] 已达到嵌套 APK 扫描上限 (共享 APK 输入: %1$s; 每个 APK 的中央目录: %2$s). 当前结果不完整.</string>
+    <string name="native_library_invalid_entries">[i] 已忽略无效或无法解析的原生库条目: %1$d.</string>
 </resources>

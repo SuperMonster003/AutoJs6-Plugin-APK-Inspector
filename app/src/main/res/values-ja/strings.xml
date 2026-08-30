@@ -77,4 +77,16 @@
     <string name="component_stats_scan_limit">[i] manifestごとのコンポーネント安全上限に達しました。最大走査数: %1$d。件数は一部のみです。</string>
     <string name="component_stats_manifest_limit">[i] AABモジュールmanifestの安全上限: %2$d | 省略: %1$d。件数は一部のみです。</string>
     <string name="component_stats_manifest_failure">[i] デコード、構造、入力上限により失敗したmanifestコンポーネント走査: %1$d。件数は一部のみです。</string>
+    <string name="native_library_heading">ABI別ネイティブライブラリ (非圧縮サイズ)</string>
+    <string name="native_library_summary">走査済み.soファイル: %1$d | 合計: %2$s</string>
+    <string name="native_library_line">- %1$s: %2$dファイル | %3$s | %4$s</string>
+    <string name="native_library_status_preferred">端末の優先ABI</string>
+    <string name="native_library_status_compatible">対応する代替ABI</string>
+    <string name="native_library_status_unsupported">この端末では非対応</string>
+    <string name="native_library_none">完了した走査ではネイティブライブラリが見つかりませんでした.</string>
+    <string name="native_library_entry_limit">[i] ネイティブライブラリエントリ上限: %2$d | 省略: %1$d. 結果は一部のみです.</string>
+    <string name="native_library_abi_limit">[i] ABI表示上限: %2$d | 省略したABIディレクトリ: %1$d.</string>
+    <string name="native_library_apk_partial">[i] 選択済みAPKのネイティブ走査失敗: %1$d | 未走査: %2$d. 結果は一部のみです.</string>
+    <string name="native_library_nested_limit">[i] ネストAPK走査上限に達しました (共有APK入力: %1$s; APKごとの中央ディレクトリ: %2$s). 結果は一部のみです.</string>
+    <string name="native_library_invalid_entries">[i] 無効または解決不能なネイティブライブラリエントリを無視: %1$d.</string>
 </resources>

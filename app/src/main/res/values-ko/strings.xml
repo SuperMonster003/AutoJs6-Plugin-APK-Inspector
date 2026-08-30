@@ -77,4 +77,16 @@
     <string name="component_stats_scan_limit">[i] manifest별 구성 요소 안전 한도에 도달했습니다. 최대 스캔 수: %1$d. 집계는 일부만 반영합니다.</string>
     <string name="component_stats_manifest_limit">[i] AAB 모듈 manifest 안전 한도: %2$d | 생략: %1$d. 집계는 일부만 반영합니다.</string>
     <string name="component_stats_manifest_failure">[i] 디코딩, 구조 또는 입력 한도로 실패한 manifest 구성 요소 스캔: %1$d. 집계는 일부만 반영합니다.</string>
+    <string name="native_library_heading">ABI별 네이티브 라이브러리 (압축 해제 크기)</string>
+    <string name="native_library_summary">스캔한 .so 파일: %1$d | 합계: %2$s</string>
+    <string name="native_library_line">- %1$s: %2$d개 파일 | %3$s | %4$s</string>
+    <string name="native_library_status_preferred">기기 우선 ABI</string>
+    <string name="native_library_status_compatible">지원되는 대체 ABI</string>
+    <string name="native_library_status_unsupported">이 기기에서 지원되지 않음</string>
+    <string name="native_library_none">완료된 스캔에서 네이티브 라이브러리를 찾지 못했습니다.</string>
+    <string name="native_library_entry_limit">[i] 네이티브 라이브러리 항목 한도: %2$d | 생략: %1$d. 결과는 일부만 반영합니다.</string>
+    <string name="native_library_abi_limit">[i] ABI 표시 한도: %2$d | 생략한 ABI 디렉터리: %1$d.</string>
+    <string name="native_library_apk_partial">[i] 선택된 APK 네이티브 스캔 실패: %1$d | 미스캔: %2$d. 결과는 일부만 반영합니다.</string>
+    <string name="native_library_nested_limit">[i] 중첩 APK 스캔 한도에 도달했습니다 (공유 APK 입력: %1$s; APK별 중앙 디렉터리: %2$s). 결과는 일부만 반영합니다.</string>
+    <string name="native_library_invalid_entries">[i] 유효하지 않거나 확인할 수 없는 네이티브 라이브러리 항목 무시: %1$d.</string>
 </resources>

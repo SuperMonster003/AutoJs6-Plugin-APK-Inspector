@@ -77,4 +77,16 @@
     <string name="component_stats_scan_limit">[i] 已達到每份資訊清單的元件安全上限；最多掃描: %1$d。現時統計並不完整。</string>
     <string name="component_stats_manifest_limit">[i] AAB 模組資訊清單安全上限: %2$d | 已省略: %1$d。現時統計並不完整。</string>
     <string name="component_stats_manifest_failure">[i] 因解碼、結構或輸入上限失敗的資訊清單元件掃描: %1$d。現時統計並不完整。</string>
+    <string name="native_library_heading">按 ABI 統計原生程式庫 (未壓縮大小)</string>
+    <string name="native_library_summary">已掃描 .so 檔案: %1$d | 總計: %2$s</string>
+    <string name="native_library_line">- %1$s: %2$d 個檔案 | %3$s | %4$s</string>
+    <string name="native_library_status_preferred">裝置首選 ABI</string>
+    <string name="native_library_status_compatible">裝置支援的後備 ABI</string>
+    <string name="native_library_status_unsupported">目前裝置不支援</string>
+    <string name="native_library_none">在已完成的掃描中未發現原生程式庫.</string>
+    <string name="native_library_entry_limit">[i] 原生程式庫條目上限: %2$d | 已省略: %1$d. 現時結果並不完整.</string>
+    <string name="native_library_abi_limit">[i] ABI 顯示上限: %2$d | 已省略 ABI 目錄: %1$d.</string>
+    <string name="native_library_apk_partial">[i] 已選 APK 原生程式庫掃描失敗: %1$d | 未掃描: %2$d. 現時結果並不完整.</string>
+    <string name="native_library_nested_limit">[i] 已達到巢狀 APK 掃描上限 (共用 APK 輸入: %1$s; 每個 APK 的中央目錄: %2$s). 現時結果並不完整.</string>
+    <string name="native_library_invalid_entries">[i] 已忽略無效或無法解析的原生程式庫條目: %1$d.</string>
 </resources>
