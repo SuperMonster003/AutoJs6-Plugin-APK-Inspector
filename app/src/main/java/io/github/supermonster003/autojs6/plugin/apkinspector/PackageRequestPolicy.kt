@@ -4,11 +4,17 @@ import android.content.ClipData
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
+import android.os.Bundle
 import org.autojs.plugin.explorer.api.ExplorerActionIntentExtras
 import org.autojs.plugin.explorer.api.ExplorerActionIntentValues
+import org.autojs.plugin.explorer.api.ExplorerActionHostSessionKeys
 import org.autojs.plugin.explorer.api.ExplorerActionPluginActions
 import org.autojs.plugin.explorer.api.ExplorerActionProtocol
+import org.autojs.plugin.explorer.api.ExplorerActionTargetKeys
+import org.autojs.plugin.explorer.api.ExplorerActionValues
+import org.autojs.plugin.explorer.api.IExplorerActionHostSession
 import java.util.Locale
+import java.util.UUID
 
 internal data class PackageInputSeed(
     val targetUri: Uri,
@@ -16,6 +22,8 @@ internal data class PackageInputSeed(
     val declaredSize: Long?,
     val mimeType: String,
     val fromExplorer: Boolean,
+    val targetId: String? = null,
+    val hostSession: IExplorerActionHostSession? = null,
 )
 
 /** Validates every value crossing the exported Explorer Action and ACTION_VIEW boundaries. */
@@ -38,68 +46,111 @@ internal object PackageRequestPolicy {
     val supportedExtensions: Set<String> = mimeTypesByExtension.keys
     val supportedExternalMimeTypes: Set<String> = mimeTypesByExtension.values.flatten().toSet()
 
-    fun resolveExplorer(intent: Intent?): PackageInputSeed? = try {
-        intent ?: return null
-        if (intent.action != ExplorerActionPluginActions.EXECUTE) return null
-        if (intent.getStringExtra(ExplorerActionIntentExtras.ACTION_ID) != ApkInspectorPlugin.ACTION_ID) {
-            return null
-        }
-        if (
-            intent.getIntExtra(ExplorerActionIntentExtras.PROTOCOL_VERSION, Int.MIN_VALUE) !=
-            ExplorerActionProtocol.VERSION
-        ) {
-            return null
-        }
-        if (
-            intent.getStringExtra(ExplorerActionIntentExtras.SOURCE_SURFACE) !=
-            ExplorerActionIntentValues.SOURCE_SURFACE_MAIN
-        ) {
-            return null
-        }
-        if (intent.flags and Intent.FLAG_GRANT_READ_URI_PERMISSION == 0) return null
-        if (intent.flags and FORBIDDEN_EXPLORER_GRANTS != 0) return null
+    fun resolveExplorer(intent: Intent?): PackageInputSeed? {
+        return try {
+            intent ?: return null
+            if (intent.action != ExplorerActionPluginActions.EXECUTE) return null
+            if (intent.getStringExtra(ExplorerActionIntentExtras.ACTION_ID) != ApkInspectorPlugin.ACTION_ID) {
+                return null
+            }
+            if (
+                intent.getIntExtra(ExplorerActionIntentExtras.PROTOCOL_VERSION, Int.MIN_VALUE) !=
+                ExplorerActionProtocol.VERSION
+            ) {
+                return null
+            }
+            if (
+                intent.getStringExtra(ExplorerActionIntentExtras.SOURCE_SURFACE) !=
+                ExplorerActionIntentValues.SOURCE_SURFACE_MAIN
+            ) {
+                return null
+            }
+            if (intent.flags and Intent.FLAG_GRANT_READ_URI_PERMISSION == 0) return null
+            if (intent.flags and FORBIDDEN_EXPLORER_GRANTS != 0) return null
+            if (!isCanonicalUuid(intent.getStringExtra(ExplorerActionIntentExtras.REQUEST_ID))) return null
+            if (
+                !intent.hasExtra(ExplorerActionIntentExtras.HOST_VERSION_CODE) ||
+                intent.getLongExtra(ExplorerActionIntentExtras.HOST_VERSION_CODE, -1L) <
+                ApkInspectorPlugin.REQUIRED_HOST_VERSION
+            ) {
+                return null
+            }
 
-        val targetUri = intent.data?.takeIf(::isPlainContentUri) ?: return null
-        val parentUri = intent.parcelableUriExtra(ExplorerActionIntentExtras.PARENT_URI)
-            ?.takeIf(::isPlainContentUri)
-            ?: return null
-        if (!isStrictDescendant(parentUri, targetUri)) return null
+            val targetUri = intent.data?.takeIf(::isPlainContentUri) ?: return null
+            val parentUri = intent.parcelableUriExtra(ExplorerActionIntentExtras.PARENT_URI)
+                ?.takeIf(::isPlainContentUri)
+                ?: return null
+            if (!isStrictDescendant(parentUri, targetUri)) return null
 
-        val clipData = intent.clipData ?: return null
-        if (clipData.itemCount != REQUIRED_EXPLORER_CLIP_ITEM_COUNT) return null
-        if (!clipData.getItemAt(ExplorerActionIntentValues.CLIP_ITEM_TARGET_INDEX).isExactUri(targetUri)) {
-            return null
+            val clipData = intent.clipData ?: return null
+            if (clipData.itemCount != REQUIRED_EXPLORER_CLIP_ITEM_COUNT) return null
+            if (!clipData.getItemAt(ExplorerActionIntentValues.CLIP_ITEM_TARGET_INDEX).isExactUri(targetUri)) {
+                return null
+            }
+            val displayName = validateDisplayName(
+                intent.getStringExtra(ExplorerActionIntentExtras.DISPLAY_NAME),
+            ) ?: return null
+            if (targetUri.pathSegments.lastOrNull() != displayName) return null
+            if (!intent.hasExtra(ExplorerActionIntentExtras.SIZE)) return null
+            val declaredSize = intent.getLongExtra(ExplorerActionIntentExtras.SIZE, -1L)
+                .takeIf(::isDeclaredSizeAccepted) ?: return null
+            val mimeType = normalizeMimeType(intent.type) ?: return null
+            if (!isExplorerMimeAccepted(mimeType)) return null
+            val targets = intent.bundleListExtra(ExplorerActionIntentExtras.TARGETS)
+                ?.takeIf { it.size == 1 }
+                ?: return null
+            val target = targets.single()
+            val targetId = target.getString(ExplorerActionTargetKeys.ID)
+                ?.takeIf(::isValidTargetId)
+                ?: return null
+            if (target.parcelableUri(ExplorerActionTargetKeys.URI) != targetUri) return null
+            if (target.getString(ExplorerActionTargetKeys.DISPLAY_NAME) != displayName) return null
+            if (target.getInt(ExplorerActionTargetKeys.KIND, 0) != ExplorerActionValues.TARGET_FILE) return null
+            if (normalizeMimeType(target.getString(ExplorerActionTargetKeys.MIME_TYPE)) != mimeType) return null
+            if (!target.containsKey(ExplorerActionTargetKeys.SIZE) ||
+                target.getLong(ExplorerActionTargetKeys.SIZE, -1L) != declaredSize
+            ) {
+                return null
+            }
+            if (!target.containsKey(ExplorerActionTargetKeys.LAST_MODIFIED)) return null
+            val hostSession = intent.getBundleExtra(ExplorerActionIntentExtras.HOST_SESSION)
+                ?.getBinder(ExplorerActionHostSessionKeys.BINDER)
+                ?.let(IExplorerActionHostSession.Stub::asInterface)
+                ?: return null
+
+            PackageInputSeed(
+                targetUri = targetUri,
+                displayName = displayName,
+                declaredSize = declaredSize,
+                mimeType = mimeType,
+                fromExplorer = true,
+                targetId = targetId,
+                hostSession = hostSession,
+            )
+        } catch (_: RuntimeException) {
+            null
         }
-        if (!clipData.getItemAt(ExplorerActionIntentValues.CLIP_ITEM_PARENT_INDEX).isExactUri(parentUri)) {
-            return null
-        }
-
-        val displayName = validateDisplayName(
-            intent.getStringExtra(ExplorerActionIntentExtras.DISPLAY_NAME),
-        ) ?: return null
-        if (targetUri.pathSegments.lastOrNull() != displayName) return null
-        if (!intent.hasExtra(ExplorerActionIntentExtras.SIZE)) return null
-        val declaredSize = intent.getLongExtra(ExplorerActionIntentExtras.SIZE, -1L)
-            .takeIf(::isDeclaredSizeAccepted) ?: return null
-        val mimeType = normalizeMimeType(intent.type) ?: return null
-        if (!isExplorerMimeAccepted(mimeType)) return null
-
-        PackageInputSeed(targetUri, displayName, declaredSize, mimeType, true)
-    } catch (_: RuntimeException) {
-        null
     }
 
-    fun resolveExternal(intent: Intent?): PackageInputSeed? = try {
-        intent ?: return null
-        if (intent.action != Intent.ACTION_VIEW) return null
-        if (!hasReadOnlyExternalGrant(intent)) return null
-        val targetUri = intent.data?.takeIf(::isPlainContentUri) ?: return null
-        val mimeType = normalizeMimeType(intent.type)
-            ?.takeIf(supportedExternalMimeTypes::contains)
-            ?: return null
-        PackageInputSeed(targetUri, null, null, mimeType, false)
-    } catch (_: RuntimeException) {
-        null
+    fun resolveExternal(intent: Intent?): PackageInputSeed? {
+        return try {
+            intent ?: return null
+            if (intent.action != Intent.ACTION_VIEW) return null
+            if (!hasReadOnlyExternalGrant(intent)) return null
+            val targetUri = intent.data?.takeIf(::isPlainContentUri) ?: return null
+            val mimeType = normalizeMimeType(intent.type)
+                ?.takeIf(supportedExternalMimeTypes::contains)
+                ?: return null
+            PackageInputSeed(
+                targetUri = targetUri,
+                displayName = null,
+                declaredSize = null,
+                mimeType = mimeType,
+                fromExplorer = false,
+            )
+        } catch (_: RuntimeException) {
+            null
+        }
     }
 
     fun normalizeMimeType(value: String?): String? {
@@ -190,10 +241,26 @@ internal object PackageRequestPolicy {
     @Suppress("DEPRECATION")
     private fun Intent.parcelableUriExtra(name: String): Uri? = getParcelableExtra(name)
 
+    @Suppress("DEPRECATION")
+    private fun Intent.bundleListExtra(name: String): ArrayList<Bundle>? =
+        getParcelableArrayListExtra(name)
+
+    @Suppress("DEPRECATION")
+    private fun Bundle.parcelableUri(name: String): Uri? = getParcelable(name)
+
+    private fun isValidTargetId(value: String): Boolean =
+        value.length in 1..ExplorerActionProtocol.MAX_TARGET_ID_LENGTH &&
+            value.none { it.isWhitespace() || it.isISOControl() }
+
+    private fun isCanonicalUuid(value: String?): Boolean {
+        val parsed = runCatching { UUID.fromString(value) }.getOrNull() ?: return false
+        return parsed.toString().equals(value, ignoreCase = true)
+    }
+
     private const val GLOBAL_WILDCARD_MIME = "*/*"
     private const val GENERIC_BINARY_MIME = "application/octet-stream"
     private const val GENERIC_ZIP_MIME = "application/zip"
-    private const val REQUIRED_EXPLORER_CLIP_ITEM_COUNT = 2
+    private const val REQUIRED_EXPLORER_CLIP_ITEM_COUNT = 1
     private const val FORBIDDEN_EXPLORER_GRANTS =
         Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
     private const val FORBIDDEN_EXTERNAL_GRANTS =

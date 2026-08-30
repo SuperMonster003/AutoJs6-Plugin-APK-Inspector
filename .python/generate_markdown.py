@@ -59,6 +59,14 @@ def bullet_list(items):
     return "\n".join(f"- {item}" for item in items)
 
 
+def numbered_list(items):
+    return "\n".join(f"{index}. {item}" for index, item in enumerate(items, start=1))
+
+
+def faq_list(items):
+    return "\n\n".join(f"#### {item['q']}\n\n{item['a']}" for item in items)
+
+
 def markdown_link(label, url):
     return f"[{label}]({url})"
 
@@ -82,21 +90,22 @@ def load_languages():
     return languages, changelogs
 
 
-def format_changelog_items(changelog, limit=None):
+def format_changelog_items(changelog, limit=None, heading_level=2):
     values = changelog["values"]
     chunks = []
+    heading = "#" * heading_level
     for index, (version_name, item) in enumerate(changelog["data"].items()):
         if limit is not None and index >= limit:
             break
         lines = [
-            f"# {version_name}",
+            f"{heading} {version_name}",
             "",
-            f"###### {item['released_date']}",
+            f"_{item['released_date']}_",
             "",
         ]
         for category in ["hint", "feature", "fix", "improvement", "dependency"]:
             for text in item.get(category, []):
-                lines.append(f"* `{values[f'changelog_label_{category}']}` {text}")
+                lines.append(f"- `{values[f'changelog_label_{category}']}` {text}")
         chunks.append("\n".join(lines).rstrip())
     return "\n\n".join(chunks).rstrip() + "\n"
 
@@ -119,10 +128,13 @@ def build_readme_values(code, languages, changelogs):
     repo_url = content["repo_url"]
     content["placeholder_ul_languages_all_supported"] = build_language_list(code, languages)
     content["placeholder_features"] = bullet_list(content["features"])
+    content["placeholder_usage_steps"] = numbered_list(content["usage_steps"])
     content["placeholder_security_limits"] = bullet_list(content["security_limits"])
+    content["placeholder_faq"] = faq_list(content["faq"])
     content["placeholder_latest_release_history"] = format_changelog_items(
         changelogs[code],
         limit=3,
+        heading_level=4,
     ).rstrip()
     content["placeholder_read_more_in_changelog_md"] = markdown_link(
         f"CHANGELOG-{code}.md",
@@ -150,7 +162,10 @@ def generate_changelogs(languages, changelogs):
     template = (CHANGELOG_DIR / "template_changelog.md").read_text(encoding="utf-8")
     for code in LANGUAGE_CODES:
         values = dict(languages[code])
-        values["placeholder_release_history"] = format_changelog_items(changelogs[code]).rstrip()
+        values["placeholder_release_history"] = format_changelog_items(
+            changelogs[code],
+            heading_level=2,
+        ).rstrip()
         output = render_template(template, values)
         for name in ANDROID_CHANGELOG_ALIASES.get(code, [code]):
             write_text(ANDROID_CHANGELOG_DIR / f"CHANGELOG-{name}.md", output)

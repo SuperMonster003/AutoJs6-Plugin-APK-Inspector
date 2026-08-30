@@ -1,11 +1,11 @@
-<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
-
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="apk-inspector-ic-launcher" border="0" width="128" />
+    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
   </p>
 
-  <p>檔案管理器外掛程式. 毋須安裝即可檢查 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案</p>
+  <h1>APK Inspector</h1>
+
+  <p>AutoJs6 檔案管理器插件: 毋須安裝, 點開即可看清 APK 與 AAB 安裝包的版本、權限、簽署與裝置相容性</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -14,13 +14,9 @@
   </p>
 </div>
 
-******
+### 語言 (Languages)
 
-### 語言
-
-******
-
-目前 README.md 支援以下語言:
+README 提供以下語言版本:
 
 - [简体中文 [zh-Hans]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hans.md)
 - 繁體中文 (香港) [zh-Hant-HK] # 目前
@@ -33,46 +29,77 @@
 - [Русский [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
 - [العربية [ar]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ar.md)
 
-******
+### 項目簡介
 
-### 簡介
+APK 檢查器 (APK Inspector) 是 AutoJs6 檔案管理器的配套插件. 在檔案管理器中點擊 APK, APKS, XAPK, APKM, APKZ 或 AAB 檔案, 即可直接開啟一份安裝包檢查報告: 應用叫甚麼、是甚麼版本、要哪些權限、能否在目前裝置安裝, 一屏看清. 全程毋須安裝該套件, 插件亦絕不修改原始檔案.
 
-******
+檢查報告分為四個部分: 「套件詳情」顯示應用名稱、圖示、套件名稱、版本、SDK 範圍、簽署驗證與簽署證書輪換鏈、檔案大小及 SHA-256 校驗值; 「元件」列出包內全部 APK 分包與 OBB 資源, 並標出與目前裝置匹配的部分 (AAB 則列出模組); 「要求的權限」完整列出應用申請的系統權限; 「安全和相容性發現」給出結構問題與裝置相容性結論. 報告頁的「檢視資訊清單」按鈕還可開啟格式化後的 AndroidManifest 全文.
 
-APK 檢查器為檔案管理器中的 Android 套件提供主要檢查動作. 插件只分析有界的應用程式私人快照, 不修改或安裝來源檔案.
+### 功能亮點
 
-******
+- 點擊即查: 在 AutoJs6 檔案管理器中點擊安裝包檔案即可開啟檢查報告, 毋須安裝、解壓或連網.
+- 六種格式: 支援標準 APK、多分包集合格式 (APKS, XAPK, APKM, APKZ) 以及應用商店發佈格式 AAB; APKS 同時兼容 bundletool 與 SAI 兩種匯出.
+- 版本與相容性: 顯示套件名稱、版本名與版本號、最低/目標/最高 SDK, 並與目前裝置系統版本對照, 安裝前即可判斷相容性.
+- 權限透明: 完整列出應用要求的全部系統權限, 自動排序去重, 安裝前心中有數.
+- 分包分析: 列出集合包內全部 APK 條目與 OBB 資料包, 標出為目前裝置選中的分包 (基礎包、語言、螢幕密度、架構等).
+- 簽署與證書驗證: 對 APK V2 / V3 / V3.1 簽署執行真正密碼學驗證, 報告 V1 是否存在; 逐一顯示目前簽署證書, 並標註已驗證輪換鏈中的新舊關係與 SHA-256 指紋.
+- V4 / V4.1 同級簽署驗證: AutoJs6 只派生精確同級檔案 `<APK 檔案名稱>.idsig` 並授予有界唯讀描述符; 插件驗證簽署資料、證書與公鑰、對應 V2 / V3 APK 摘要、fs-verity 根、內嵌 Merkle 樹及 V3.1 輪換簽署者.
+- 資訊清單可讀化: 自動把二進制 APK 清單與 AAB protobuf 清單解碼為可讀 XML, 在獨立唯讀頁面隨時檢視.
+- 完整性核對: 讀取檔案的同時計算 SHA-256, 方便與官方發佈的校驗值比對.
+- 結構體檢: 自動發現缺失基礎包、分包重複或依賴缺失、版本與套件名稱不一致等結構問題, 並區分阻斷性 [!] 與提示性 [i].
 
-### 功能
+### 使用方法
 
-******
+1. 從 Releases 下載並安裝 APK 檢查器, 然後在 AutoJs6 的插件中心啟用它 (需要 AutoJs6 版本代碼 5277 或更高).
+2. 開啟 AutoJs6 的檔案管理器, 找到想檢視的安裝包檔案 (APK, APKS, XAPK, APKM, APKZ 或 AAB).
+3. 點擊該檔案, 或在檔案選單中選擇「檢查 Android 套件」, 稍候片刻即可看到檢查報告.
+4. 自上而下檢視應用圖示與名稱、套件詳情、元件、要求的權限, 以及安全和相容性發現.
+5. 點按「檢視資訊清單」可閱讀完整的 AndroidManifest; 看完後按返回鍵即可回到檔案管理器.
 
-- 為 APK, APKS, XAPK, APKM, APKZ 及 AAB 註冊 Explorer Action v2 主要動作.
-- 解析 APK 文字或二進制 Manifest, AAB protobuf Manifest 及 bundletool toc.pb 中繼資料.
-- 顯示套件識別, 版本, SDK 範圍, 要求權限, 元件, 裝置配對 split, OBB 資源及結構問題.
-- 偵測 APK V1, V2 及 V3 簽署方案是否存在, 不宣稱完成密碼學有效性驗證.
-- 在獨立唯讀頁面顯示格式化 Android Manifest.
-- 為精確 Android 套件 MIME 類型提供獨立 ACTION_VIEW 閘道.
-
-******
+> 其他應用亦可以透過系統「開啟方式」(ACTION_VIEW) 調起 APK 檢查器, 前提是以 content 位址與專用安裝包 MIME 類型發起請求. 插件始終唯讀, 不提供任何安裝入口.
 
 ### 支援格式
 
-******
-
-Explorer 主要動作精確配對以下副檔名:
+檔案管理器主要動作精確匹配以下副檔名 (不區分大小寫):
 
 ```text
 APK, APKS, XAPK, APKM, APKZ, AAB
 ```
 
-******
+其中 APKS, XAPK, APKM 與 APKZ 是包含多個分包 APK 的集合格式; AAB 是提交應用商店的 App Bundle 格式, 只能檢視內容, 需經 bundletool 等工具轉換後才能安裝.
 
-### 外掛程式介面
+### 常見問題
 
-******
+#### 這個插件能安裝 APK 嗎?
 
-主程式使用以下識別發現並執行插件:
+不能, 這是刻意的設計. 插件不申請安裝權限, 介面中沒有任何安裝入口, 它的定位是在安裝前幫你看清安裝包內容. 安裝請繼續使用系統安裝器或宿主自身的流程.
+
+#### 為甚麼某些檔案無法檢查?
+
+常見原因包括: 檔案超過 4 GiB 上限; 裝置快取空間不足 (需預留至少 128 MiB); 集合包條目數量或體積超出解析上限; 檔案在讀取過程中被其他應用改動; 或檔案本身結構損壞. 錯誤提示會說明具體原因.
+
+#### 簽署檢測結果能證明安裝包安全嗎?
+
+不能. 插件會驗證 V2 / V3 / V3.1 / V4 / V4.1 的套件完整性與簽署者證明, 並顯示證書指紋和輪換鏈; 但有效簽署只能證明檔案自該簽署者簽署後未被修改, 不能證明簽署者或應用本身可信. 請再與官方下載渠道公布的證書指紋和 SHA-256 對照.
+
+#### 為甚麼 AAB 檔案會提示「需要轉換後才能安裝」?
+
+AAB 是面向應用商店的發佈格式, Android 裝置無法直接安裝. 插件可以解析它的 protobuf 清單與模組結構供檢視, 安裝則需要先用 bundletool 等工具轉換為 APK 或 APKS.
+
+### 權限與安全
+
+插件不申請儲存、網絡或安裝套件權限. 目標套件只能透過宿主授予的臨時唯讀 content 位址存取; 可選 `.idsig` 只能透過宿主為精確 `<APK 檔案名稱>.idsig` 派生的有界唯讀描述符存取, 不提供目錄清單或任意同級路徑. 檢查開始前, 兩份輸入都會被複製為應用私人快取中的唯讀快照 (複製套件的同時計算 SHA-256), 全部解析只發生在快照上; `.idsig` 上限為 40 MiB, 過期快照最遲 24 小時後自動清理. 來自檔案管理器的請求會逐項校驗協議版本、請求與動作標識、目標中繼資料、宿主版本、URI 結構、檔案名稱、大小、唯讀授權及宿主會話 Binder, 任一不符即拒絕; 來自其他應用的「開啟方式」請求只接受專用套件 MIME 類型, 拒絕 application/zip、application/octet-stream 以及任何寫入、持久化或前綴授權.
+
+為防止惡意構造的檔案耗盡裝置資源, 解析設有以下上限, 超限檔案會被拒絕並給出提示:
+
+- 單個檔案最大 4 GiB, 複製時快取至少保留 128 MiB 可用空間; 每次動作只處理一個目標檔案.
+- 封存最多解析 16384 個條目, 集合包最多掃描 512 個 APK 分包, 條目名稱最長 1024 字符.
+- 聲明的單條目大小不超過 4 GiB, 聲明總大小不超過 8 GiB.
+- 巢狀 APK 清單掃描不超過 256 MiB, 集合包中繼資料不超過 1 MiB, 用於載入圖示與標籤的臨時 APK 不超過 512 MiB.
+
+### 插件介面
+
+宿主 (AutoJs6) 透過以下標識發現並調用插件, 供插件或宿主開發者參考:
 
 ```text
 service action: org.autojs.plugin.EXPLORER_ACTION
@@ -82,103 +109,71 @@ engine: explorer-action
 variant: default
 Explorer action id: inspect-android-package
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
-required host build: 5269
+required host build: 5277
 ```
 
-版本 1 只執行檢查. 插件不包含安裝按鈕, 安裝權限, 套件安裝程式, 來源檔案編輯器或目錄列舉. 主程式安裝流程保持獨立. 插件不可用時, 主程式使用降級動作.
+目前版本只執行唯讀檢查: 沒有安裝按鈕、安裝權限或套件安裝器, 不修改來源檔案, 亦不枚舉目錄. V4 只使用宿主精確派生的 `.idsig` 候選, 將其有界唯讀描述符複製為私人快照, 並在暫存後立即關閉宿主會話. 插件未安裝或被停用時, 宿主自動回退到預設動作, 互不影響.
 
-需要主程式組建版本 5269 或更高版本.
+### Roadmap
 
-******
+已實現能力以上文與 Roadmap 勾選條目為準; 報告匯出、資源與原生庫分析等後續計劃集中維護在 Roadmap 中, 未勾選條目不代表目前版本已支援.
 
-### 安全性
-
-******
-
-受保護 Explorer 閘道驗證協定 v2, 主檔案頁 surface, 動作 ID, content URI 階層, 精確 ClipData, 檔案名稱, 副檔名, MIME 類型, 大小及唯讀授權. 公開 ACTION_VIEW 閘道只接收專用套件 MIME 類型. 輸入只複製一次到有界的唯讀私人快照, 同時計算 SHA-256. 外掛程式不會列舉協定中的父 URI.
-
-******
-
-### 安全限制
-
-******
-
-- 最大輸入大小: 4 GiB.
-- 每次動作只接收一個目標檔案, 並保留至少 128 MiB 快取空間.
-- 封存項目數, 名稱, 宣告大小, 總大小, 巢狀 APK 掃描, 中繼資料, protobuf 及 Manifest 輸出均有上限.
-- 外部 ACTION_VIEW 拒絕 application/zip, application/octet-stream, 寫入, 永久及前綴授權.
-- V1-V3 只偵測簽署方案是否存在. V4 需要獨立 idsig 輸入, 不屬於目前協定.
-- 外掛程式從不安裝套件, 且不要求儲存空間, 網絡或套件安裝權限.
-
-******
+- [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
 ### 版本記錄
 
-******
+#### v1.1.0
 
-# v1.0.1
+_2026/08/30_
 
-###### 2026/08/08
+- `提示` Explorer Action 協議 v22 與有界 V4 同級檔案存取要求 AutoJs6 版本代碼不低於 5277
+- `新增` 新增 APK V2、V3、V3.1、V4 與 V4.1 的裝置端密碼學驗證, 覆蓋內容摘要、簽署者證明、fs-verity 根、內嵌 Merkle 樹及互補簽署方案配對
+- `新增` 新增詳細簽署證書欄位與已驗證證書輪換鏈, 顯示舊/目前角色、能力標誌和 SHA-256 指紋
+- `新增` 新增透過宿主精確派生唯讀描述符暫存 `.idsig` 的有界鏈路; 仍不提供目錄枚舉或任意同級檔案存取
+- `優化` 強化 Explorer Action v22 請求校驗與不可變私人快照, 設定 4 GiB 套件上限、40 MiB idsig 上限、檔案身分複核並及時關閉宿主會話
+- `優化` 新增由 Build Tools 37 `apksigner` 產生的有效、破壞、多簽署者、V3.1 輪換、V4.1 輪換、缺失及格式損壞樣本矩陣
 
-* `修復` 在插件中心啟用時傳回有效的 Explorer Action 服務綁定
-* `優化` 精簡插件名稱和描述, 並使用戶文件表達更自然
+#### v1.0.1
 
-# v1.0.0
+_2026/08/08_
 
-###### 2026/08/02
+- `修復` 修復插件在插件中心啟用後宿主無法綁定服務的問題; 現在啟用後「檢查 Android 套件」動作立即可用
+- `優化` 精簡插件名稱與描述, 使用戶文檔表述更自然易讀
 
-* `新增` APK 檢查器外掛程式, 外掛程式 ID 為 `apk-inspector`, 動作 ID 為 `inspect-android-package`, 引擎為 `explorer-action`, 變體為 `default`
-* `新增` 透過 Explorer Action 通訊協定 v2 為 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案提供主要唯讀檢查動作
-* `新增` 唯讀解碼文字和二進制 APK 資訊清單, AAB protobuf 資訊清單及 bundletool `toc.pb` 中繼資料
-* `新增` 套件詳情, 要求權限, 元件, 裝置配對分割, OBB 資源, 結構發現, 格式化資訊清單檢視和 APK V1-V3 簽章配置存在性偵測
-* `新增` 互相分離的受保護檔案瀏覽器入口和精確 MIME Android `ACTION_VIEW` 入口, 4 GiB 輸入上限及計算 SHA-256 的有界私人唯讀快照
-* `新增` 外掛程式中繼資料, 介面文字, 使用說明, README 和 CHANGELOG 的多語言資源: 西班牙文/法文/俄文/阿拉伯文/日文/韓文/英文/簡體中文/香港繁體/台灣繁體
-* `依賴` 附加 Gson 版本 2.13.2
+#### v1.0.0
 
-##### 查看更多版本
+_2026/08/02_
 
-* [CHANGELOG-zh-Hant-HK.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/assets/doc/CHANGELOG-zh-Hant-HK.md)
+- `提示` 首個公開版本, 需要 AutoJs6 版本代碼 5269 或更高
+- `新增` 在 AutoJs6 檔案管理器中點擊 APK, APKS, XAPK, APKM, APKZ 或 AAB 檔案, 即可開啟唯讀檢查報告 (插件 ID `apk-inspector`, 動作 ID `inspect-android-package`)
+- `新增` 檢查報告展示應用名稱與圖示、套件名稱、版本、SDK 範圍、要求的權限、分包與 OBB 資源、結構問題, 以及 V1-V3 簽署方案存在性
+- `新增` 自動解碼文字與二進制 APK 清單、AAB protobuf 清單及 bundletool `toc.pb` 中繼資料, 並提供格式化清單的獨立檢視頁面
+- `新增` 支援其他應用透過系統「開啟方式」(ACTION_VIEW) 以專用安裝包 MIME 類型調起檢查
+- `新增` 檢查前先把檔案複製為帶 SHA-256 校驗的唯讀私人快照 (上限 4 GiB); 插件不申請儲存、網絡或安裝套件權限
+- `新增` 內置 10 種語言的介面文字、使用說明、README 與 CHANGELOG: 簡體中文、香港繁體、台灣繁體、英語、法語、西班牙語、日語、韓語、俄語、阿拉伯語
+- `依賴` 引入 Gson 2.13.2
 
-******
+##### 完整記錄
 
-### 組建
+- [CHANGELOG-zh-Hant-HK.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/assets/doc/CHANGELOG-zh-Hant-HK.md)
 
-******
+### 構建
 
 ```powershell
 .\gradlew.bat :app:assembleDebug
 ```
 
-發佈組建:
+Release 構建:
 
 ```powershell
 .\gradlew.bat :app:assembleRelease
 ```
 
-組建參數來自 version.properties. 目前最低 SDK 為 24, 目標 SDK 為 36.
+構建與簽署參數由 version.properties 與 sign.properties 控制; 目前最低支援 Android 7.0 (SDK 24), 目標 SDK 36.
 
-******
+README 與 CHANGELOG 均由 .python/generate_markdown.py 依據 .readme/ 與 .changelog/ 下的 JSON 語言資源和模板生成 (共 10 種語言). 修改文檔請編輯對應 JSON 後重新運行腳本, 不要直接改動生成的 Markdown.
 
-### 資源結構
+### 相關連結
 
-******
-
-```text
-.readme/lang_*.json
-.changelog/lang_*.json
-.python/generate_markdown.py
-app/src/main/assets/doc/CHANGELOG-*.md
-app/src/main/res/values-*/strings.xml
-app/src/main/res/raw-*/plugin_instruction.md
-```
-
-strings.xml 本地化外掛程式中繼資料與介面文字. plugin_instruction.md 提供宿主顯示的使用說明. .python/generate_markdown.py 根據 JSON 來源產生多語言 README 及更新日誌.
-
-******
-
-### 連結
-
-******
-
-- AutoJs6 文件: https://docs.autojs6.com
+- AutoJs6 文檔: https://docs.autojs6.com
 - Android 安全檔案分享: https://developer.android.com/training/secure-file-sharing

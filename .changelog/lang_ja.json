@@ -5,27 +5,45 @@
   "changelog_label_improvement": "改善",
   "changelog_label_dependency": "依存関係",
   "$data": {
+    "v1.1.0": {
+      "released_date": "2026/08/30",
+      "hint": [
+        "Explorer Actionプロトコルv22と上限付きV4サイドカーアクセスにはAutoJs6バージョンコード5277以降が必要です"
+      ],
+      "feature": [
+        "APK V2 / V3 / V3.1 / V4 / V4.1の端末上暗号学的検証を追加し, コンテンツダイジェスト, 署名者証明, fs-verityルート, 内蔵Merkleツリー, 補完署名方式との照合に対応",
+        "詳細な署名証明書情報と検証済みローテーション系譜を追加し, 旧/現在の役割, 能力フラグ, SHA-256指紋を表示",
+        "ホストが正確に派生した読み取り専用ディスクリプターから`.idsig`を上限付きで一時保存; ディレクトリ列挙や任意の同一フォルダーファイルへのアクセスは提供しません"
+      ],
+      "improvement": [
+        "Explorer Action v22リクエスト検証と不変の専用スナップショットを強化し, パッケージ4 GiB, idsig 40 MiBの上限, ファイル識別確認, 迅速なホストセッション終了を追加",
+        "Build Tools 37 `apksigner`による有効, 改変, 複数署名者, V3.1/V4.1ローテーション, 欠落, 不正形式の公式サンプル行列を追加"
+      ]
+    },
     "v1.0.1": {
       "released_date": "2026/08/08",
       "fix": [
-        "プラグインセンターで有効化したときに有効な Explorer Action サービスバインディングを返す"
+        "プラグインセンターで有効化した後にホストがサービスへバインドできない問題を修正. 有効化後すぐに「Androidパッケージを検査」アクションが使えるようになりました"
       ],
       "improvement": [
-        "プラグイン名と説明を簡潔にし, ユーザー向けドキュメントをより自然な表現に調整"
+        "プラグイン名と説明を簡潔にし, ユーザードキュメントをより自然な表現に改善"
       ]
     },
     "v1.0.0": {
       "released_date": "2026/08/02",
+      "hint": [
+        "初回公開バージョン. AutoJs6バージョンコード5269以降が必要です"
+      ],
       "feature": [
-        "プラグインID `apk-inspector`, アクションID `inspect-android-package`, エンジン `explorer-action`, バリアント `default` のAPK Inspectorプラグイン",
-        "APK, APKS, XAPK, APKM, APKZ, AABファイル向けExplorer Actionプロトコルv2の主要な読み取り専用検査",
-        "テキスト形式とバイナリ形式のAPK manifest, AAB protobuf manifest, bundletool `toc.pb`メタデータの読み取り専用デコード",
-        "パッケージ詳細, 要求権限, コンポーネント, 端末に適合する分割APK, OBBアセット, 構造上の発見, 整形manifest表示, APK V1-V3署名方式の存在検出",
-        "保護されたExplorerと正確なMIMEのAndroid `ACTION_VIEW`を分離したゲートウェイ, 4 GiB上限, SHA-256を計算する制限付きプライベート読み取り専用スナップショット",
-        "スペイン語, フランス語, ロシア語, アラビア語, 日本語, 韓国語, 英語, 簡体字中国語, 香港繁体字中国語, 台湾繁体字中国語のメタデータ, UI, 使用説明, README, 変更履歴"
+        "AutoJs6ファイルマネージャーでAPK, APKS, XAPK, APKM, APKZ, AABファイルをタップすると読み取り専用の検査レポートを開けます (プラグインID `apk-inspector`, アクションID `inspect-android-package`)",
+        "レポートにはアプリ名とアイコン, パッケージ名, バージョン, SDK範囲, 要求権限, 分割APKとOBBアセット, 構造上の問題, V1-V3署名方式の有無が表示されます",
+        "テキスト/バイナリAPK manifest, AAB protobuf manifest, bundletool `toc.pb` メタデータを自動デコードし, 整形済みmanifestの専用ビューアーを提供",
+        "他のアプリからも専用のAndroidパッケージMIMEタイプを使い, システムの「他のアプリで開く」(ACTION_VIEW) 経由で検査を起動できます",
+        "検査前にファイルをSHA-256計算付きの読み取り専用プライベートスナップショットへコピー (上限4 GiB). プラグインはストレージ, ネットワーク, インストールのいずれの権限も要求しません",
+        "UIテキスト, 使用説明, README, CHANGELOGを10言語で同梱: 簡体字中国語, 繁体字中国語 (香港/台湾), 英語, フランス語, スペイン語, 日本語, 韓国語, ロシア語, アラビア語"
       ],
       "dependency": [
-        "Gsonバージョン2.13.2を追加"
+        "Gson 2.13.2 を追加"
       ]
     }
   }

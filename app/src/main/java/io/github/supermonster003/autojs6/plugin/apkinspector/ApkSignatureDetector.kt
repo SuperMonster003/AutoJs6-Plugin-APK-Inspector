@@ -12,7 +12,8 @@ import java.util.jar.JarFile
 /**
  * Detects the presence of APK signature schemes without pulling the full Android apksig verifier
  * into the plugin. This intentionally reports V1-V3 scheme presence, not cryptographic validity.
- * V4 uses a separate idsig input and is outside the single-file Explorer Action protocol.
+ * Full V4 verification requires the separately authorized idsig input and is handled by
+ * [ApkSignatureVerifier]; this lightweight detector never reads that sidecar.
  */
 object ApkSignatureDetector {
 

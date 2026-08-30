@@ -4,7 +4,7 @@ APK Inspector proporciona la acción principal de inspección de solo lectura en
 
 Muestra detalles del paquete, permisos solicitados, componentes, APK divididos compatibles con el dispositivo, recursos OBB, hallazgos estructurales, presencia de firmas APK V1-V3 y un manifest Android formateado.
 
-El complemento requiere la compilación 5269 o posterior del host.
+El complemento requiere la compilación 5277 o posterior del host.
 
 Límites de seguridad y privacidad:
 

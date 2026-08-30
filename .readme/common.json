@@ -9,7 +9,16 @@
   "plugin_variant": "default",
   "explorer_action_id": "inspect-android-package",
   "mime_type": "Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types",
-  "required_host_build": "5269",
+  "required_host_build": "5277",
   "supported_formats": "APK, APKS, XAPK, APKM, APKZ, AAB",
-  "max_input_size": "4 GiB"
+  "max_input_size": "4 GiB",
+  "min_free_cache": "128 MiB",
+  "max_archive_entries": "16384",
+  "max_apk_entries": "512",
+  "max_entry_name_chars": "1024",
+  "max_declared_entry_size": "4 GiB",
+  "max_declared_total_size": "8 GiB",
+  "max_nested_apk_scan": "256 MiB",
+  "max_metadata_size": "1 MiB",
+  "max_display_apk_size": "512 MiB"
 }

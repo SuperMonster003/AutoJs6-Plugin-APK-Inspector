@@ -26,7 +26,13 @@ class ExplorerActionActivity : Activity() {
 
     private fun stageAndOpen(seed: PackageInputSeed) {
         scope.launch {
-            val staged = withContext(Dispatchers.IO) { PackageCacheStager.stage(this@ExplorerActionActivity, seed) }
+            val staged = try {
+                withContext(Dispatchers.IO) {
+                    PackageCacheStager.stage(this@ExplorerActionActivity, seed)
+                }
+            } finally {
+                runCatching { seed.hostSession?.close() }
+            }
             if (staged != null && !isFinishing && !isDestroyed) {
                 runCatching { startActivity(ApkInspectorActivity.createIntent(this@ExplorerActionActivity, staged)) }
                     .onFailure { Toast.makeText(this@ExplorerActionActivity, R.string.error_cannot_inspect, Toast.LENGTH_LONG).show() }

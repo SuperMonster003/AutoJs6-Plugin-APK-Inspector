@@ -1,24 +1,32 @@
-******
+# Historial de versiones
 
-### Historial de versiones
+## v1.1.0
 
-******
+_2026/08/30_
 
-# v1.0.1
+- `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadió verificación criptográfica en el dispositivo para los esquemas APK V2, V3, V3.1, V4 y V4.1, incluidos resúmenes de contenido, pruebas del firmante, raíces fs-verity, árboles Merkle incrustados y coincidencia con el esquema complementario
+- `Función` Se añadieron campos detallados de certificados y linajes de rotación verificados con funciones antiguas/actuales, indicadores de capacidad y huellas SHA-256
+- `Función` Se añadió el almacenamiento temporal acotado de `.idsig` mediante un descriptor de solo lectura derivado exactamente por el anfitrión; no se permite enumerar directorios ni acceder a archivos adyacentes arbitrarios
+- `Mejora` Se reforzaron la validación de solicitudes Explorer Action v22 y las instantáneas privadas inmutables, con límites de 4 GiB para el paquete y 40 MiB para idsig, comprobaciones de identidad y cierre inmediato de la sesión
+- `Mejora` Se añadieron muestras oficiales de `apksigner` de Build Tools 37 para firmas válidas, alteradas, múltiples, con rotación V3.1/V4.1, ausentes y mal formadas
 
-###### 2026/08/08
+## v1.0.1
 
-* `Corrección` Devolver un enlace válido al servicio Explorer Action al activarlo desde el centro de complementos
-* `Mejora` Acortar el nombre y la descripción del complemento y hacer más natural la documentación de usuario
+_2026/08/08_
 
-# v1.0.0
+- `Corrección` Corregido que el anfitrión no pudiera vincularse al servicio del plugin tras activarlo en el centro de plugins; la acción «Inspeccionar paquete Android» ahora funciona inmediatamente después de activarlo
+- `Mejora` Nombre y descripción del plugin simplificados, con una documentación de usuario más natural de leer
 
-###### 2026/08/02
+## v1.0.0
 
-* `Función` Plugin APK Inspector con ID `apk-inspector`, ID de acción `inspect-android-package`, motor `explorer-action` y variante `default`
-* `Función` Inspección principal de solo lectura mediante Explorer Action v2 para archivos APK, APKS, XAPK, APKM, APKZ y AAB
-* `Función` Decodificación de solo lectura de manifests APK de texto y binarios, manifests protobuf AAB y metadatos bundletool `toc.pb`
-* `Función` Detalles del paquete, permisos solicitados, componentes, APK divididos compatibles con el dispositivo, recursos OBB, hallazgos estructurales, manifest formateado y presencia de firmas APK V1-V3
-* `Función` Pasarelas separadas para Explorer protegido y Android `ACTION_VIEW` con MIME exacto, límite de 4 GiB y copia privada limitada de solo lectura calculada con SHA-256
-* `Función` Metadatos, interfaz, instrucciones, README e historiales localizados en español, francés, ruso, árabe, japonés, coreano, inglés, chino simplificado, chino tradicional de Hong Kong y chino tradicional de Taiwán
-* `Dependencia` Añadido Gson versión 2.13.2
+_2026/08/02_
+
+- `Aviso` Primera versión pública; requiere AutoJs6 con código de versión 5269 o superior
+- `Función` Toca un archivo APK, APKS, XAPK, APKM, APKZ o AAB en el gestor de archivos de AutoJs6 para abrir un informe de inspección de solo lectura (ID de plugin `apk-inspector`, ID de acción `inspect-android-package`)
+- `Función` El informe muestra el nombre y el icono de la aplicación, el nombre del paquete, la versión, el rango de SDK, los permisos solicitados, los splits y recursos OBB, los problemas estructurales y la presencia de los esquemas de firma V1-V3
+- `Función` Los manifests APK de texto y binarios, los manifests protobuf de AAB y los metadatos `toc.pb` de bundletool se decodifican automáticamente, con un visor aparte para el manifest formateado
+- `Función` Otras aplicaciones pueden entregar un paquete mediante «Abrir con» (ACTION_VIEW) usando los tipos MIME dedicados de paquetes Android
+- `Función` Antes de la inspección, el archivo se copia a una instantánea privada de solo lectura con cálculo de SHA-256 (límite de 4 GiB); el plugin no solicita permisos de almacenamiento, red ni instalación
+- `Función` Incluye 10 idiomas para la interfaz, las instrucciones, el README y el CHANGELOG: chino simplificado, chino tradicional (Hong Kong y Taiwán), inglés, francés, español, japonés, coreano, ruso y árabe
+- `Dependencia` Añadido Gson 2.13.2

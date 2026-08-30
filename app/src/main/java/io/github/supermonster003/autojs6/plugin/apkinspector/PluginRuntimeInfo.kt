@@ -15,7 +15,7 @@ internal object ApkInspectorPlugin {
     const val ID = "apk-inspector"
     const val ACTION_ID = "inspect-android-package"
     const val VARIANT = "default"
-    const val REQUIRED_HOST_VERSION = 5269L
+    const val REQUIRED_HOST_VERSION = 5277L
     const val LABEL_RESOURCE_NAME = "action_inspect_android_package"
     const val LABEL_FALLBACK = "Inspect Android package"
     const val ACTIVITY_CLASS_NAME =
@@ -67,6 +67,10 @@ internal fun apkInspectorActionCatalog(): Bundle {
         putStringArrayList(
             ExplorerActionCatalogKeys.EXTENSIONS,
             ArrayList(ApkInspectorPlugin.EXTENSIONS.asList()),
+        )
+        putStringArrayList(
+            ExplorerActionCatalogKeys.RELATED_FILE_SUFFIXES,
+            arrayListOf(".idsig"),
         )
     }
     return Bundle().apply {

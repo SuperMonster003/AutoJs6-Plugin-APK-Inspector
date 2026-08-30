@@ -1,45 +1,76 @@
 {
   "$name": "繁體中文 (香港)",
   "text_current_lowercase": "目前",
-  "text_plugin_synopsis": "檔案管理器外掛程式. 毋須安裝即可檢查 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案",
-  "h3_languages_with_ascii": "語言",
-  "p_languages_all_supported_for_readme": "目前 README.md 支援以下語言",
-  "h3_introduction": "簡介",
-  "p_introduction": "APK 檢查器為檔案管理器中的 Android 套件提供主要檢查動作. 插件只分析有界的應用程式私人快照, 不修改或安裝來源檔案.",
-  "h3_functions": "功能",
+  "text_plugin_synopsis": "AutoJs6 檔案管理器插件: 毋須安裝, 點開即可看清 APK 與 AAB 安裝包的版本、權限、簽署與裝置相容性",
+  "h3_languages_with_ascii": "語言 (Languages)",
+  "p_languages_all_supported_for_readme": "README 提供以下語言版本",
+  "h3_introduction": "項目簡介",
+  "p_introduction": "APK 檢查器 (APK Inspector) 是 AutoJs6 檔案管理器的配套插件. 在檔案管理器中點擊 APK, APKS, XAPK, APKM, APKZ 或 AAB 檔案, 即可直接開啟一份安裝包檢查報告: 應用叫甚麼、是甚麼版本、要哪些權限、能否在目前裝置安裝, 一屏看清. 全程毋須安裝該套件, 插件亦絕不修改原始檔案.",
+  "p_introduction_report": "檢查報告分為四個部分: 「套件詳情」顯示應用名稱、圖示、套件名稱、版本、SDK 範圍、簽署驗證與簽署證書輪換鏈、檔案大小及 SHA-256 校驗值; 「元件」列出包內全部 APK 分包與 OBB 資源, 並標出與目前裝置匹配的部分 (AAB 則列出模組); 「要求的權限」完整列出應用申請的系統權限; 「安全和相容性發現」給出結構問題與裝置相容性結論. 報告頁的「檢視資訊清單」按鈕還可開啟格式化後的 AndroidManifest 全文.",
+  "h3_functions": "功能亮點",
   "features": [
-    "為 APK, APKS, XAPK, APKM, APKZ 及 AAB 註冊 Explorer Action v2 主要動作.",
-    "解析 APK 文字或二進制 Manifest, AAB protobuf Manifest 及 bundletool toc.pb 中繼資料.",
-    "顯示套件識別, 版本, SDK 範圍, 要求權限, 元件, 裝置配對 split, OBB 資源及結構問題.",
-    "偵測 APK V1, V2 及 V3 簽署方案是否存在, 不宣稱完成密碼學有效性驗證.",
-    "在獨立唯讀頁面顯示格式化 Android Manifest.",
-    "為精確 Android 套件 MIME 類型提供獨立 ACTION_VIEW 閘道."
+    "點擊即查: 在 AutoJs6 檔案管理器中點擊安裝包檔案即可開啟檢查報告, 毋須安裝、解壓或連網.",
+    "六種格式: 支援標準 APK、多分包集合格式 (APKS, XAPK, APKM, APKZ) 以及應用商店發佈格式 AAB; APKS 同時兼容 bundletool 與 SAI 兩種匯出.",
+    "版本與相容性: 顯示套件名稱、版本名與版本號、最低/目標/最高 SDK, 並與目前裝置系統版本對照, 安裝前即可判斷相容性.",
+    "權限透明: 完整列出應用要求的全部系統權限, 自動排序去重, 安裝前心中有數.",
+    "分包分析: 列出集合包內全部 APK 條目與 OBB 資料包, 標出為目前裝置選中的分包 (基礎包、語言、螢幕密度、架構等).",
+    "簽署與證書驗證: 對 APK V2 / V3 / V3.1 簽署執行真正密碼學驗證, 報告 V1 是否存在; 逐一顯示目前簽署證書, 並標註已驗證輪換鏈中的新舊關係與 SHA-256 指紋.",
+    "V4 / V4.1 同級簽署驗證: AutoJs6 只派生精確同級檔案 `<APK 檔案名稱>.idsig` 並授予有界唯讀描述符; 插件驗證簽署資料、證書與公鑰、對應 V2 / V3 APK 摘要、fs-verity 根、內嵌 Merkle 樹及 V3.1 輪換簽署者.",
+    "資訊清單可讀化: 自動把二進制 APK 清單與 AAB protobuf 清單解碼為可讀 XML, 在獨立唯讀頁面隨時檢視.",
+    "完整性核對: 讀取檔案的同時計算 SHA-256, 方便與官方發佈的校驗值比對.",
+    "結構體檢: 自動發現缺失基礎包、分包重複或依賴缺失、版本與套件名稱不一致等結構問題, 並區分阻斷性 [!] 與提示性 [i]."
   ],
+  "h3_usage": "使用方法",
+  "usage_steps": [
+    "從 Releases 下載並安裝 APK 檢查器, 然後在 AutoJs6 的插件中心啟用它 (需要 AutoJs6 版本代碼 {{ required_host_build }} 或更高).",
+    "開啟 AutoJs6 的檔案管理器, 找到想檢視的安裝包檔案 (APK, APKS, XAPK, APKM, APKZ 或 AAB).",
+    "點擊該檔案, 或在檔案選單中選擇「檢查 Android 套件」, 稍候片刻即可看到檢查報告.",
+    "自上而下檢視應用圖示與名稱、套件詳情、元件、要求的權限, 以及安全和相容性發現.",
+    "點按「檢視資訊清單」可閱讀完整的 AndroidManifest; 看完後按返回鍵即可回到檔案管理器."
+  ],
+  "p_usage_note": "其他應用亦可以透過系統「開啟方式」(ACTION_VIEW) 調起 APK 檢查器, 前提是以 content 位址與專用安裝包 MIME 類型發起請求. 插件始終唯讀, 不提供任何安裝入口.",
   "h3_supported_formats": "支援格式",
-  "p_supported_formats": "Explorer 主要動作精確配對以下副檔名",
-  "h3_plugin_interface": "外掛程式介面",
-  "p_plugin_interface": "主程式使用以下識別發現並執行插件",
-  "p_plugin_scope": "版本 1 只執行檢查. 插件不包含安裝按鈕, 安裝權限, 套件安裝程式, 來源檔案編輯器或目錄列舉. 主程式安裝流程保持獨立. 插件不可用時, 主程式使用降級動作.",
-  "p_plugin_packaging": "需要主程式組建版本 5269 或更高版本.",
-  "h3_security": "安全性",
-  "p_security": "受保護 Explorer 閘道驗證協定 v2, 主檔案頁 surface, 動作 ID, content URI 階層, 精確 ClipData, 檔案名稱, 副檔名, MIME 類型, 大小及唯讀授權. 公開 ACTION_VIEW 閘道只接收專用套件 MIME 類型. 輸入只複製一次到有界的唯讀私人快照, 同時計算 SHA-256. 外掛程式不會列舉協定中的父 URI.",
-  "h3_security_limits": "安全限制",
-  "security_limits": [
-    "最大輸入大小: {{ max_input_size }}.",
-    "每次動作只接收一個目標檔案, 並保留至少 128 MiB 快取空間.",
-    "封存項目數, 名稱, 宣告大小, 總大小, 巢狀 APK 掃描, 中繼資料, protobuf 及 Manifest 輸出均有上限.",
-    "外部 ACTION_VIEW 拒絕 application/zip, application/octet-stream, 寫入, 永久及前綴授權.",
-    "V1-V3 只偵測簽署方案是否存在. V4 需要獨立 idsig 輸入, 不屬於目前協定.",
-    "外掛程式從不安裝套件, 且不要求儲存空間, 網絡或套件安裝權限."
+  "p_supported_formats": "檔案管理器主要動作精確匹配以下副檔名 (不區分大小寫)",
+  "p_supported_formats_note": "其中 APKS, XAPK, APKM 與 APKZ 是包含多個分包 APK 的集合格式; AAB 是提交應用商店的 App Bundle 格式, 只能檢視內容, 需經 bundletool 等工具轉換後才能安裝.",
+  "h3_faq": "常見問題",
+  "faq": [
+    {
+      "q": "這個插件能安裝 APK 嗎?",
+      "a": "不能, 這是刻意的設計. 插件不申請安裝權限, 介面中沒有任何安裝入口, 它的定位是在安裝前幫你看清安裝包內容. 安裝請繼續使用系統安裝器或宿主自身的流程."
+    },
+    {
+      "q": "為甚麼某些檔案無法檢查?",
+      "a": "常見原因包括: 檔案超過 {{ max_input_size }} 上限; 裝置快取空間不足 (需預留至少 {{ min_free_cache }}); 集合包條目數量或體積超出解析上限; 檔案在讀取過程中被其他應用改動; 或檔案本身結構損壞. 錯誤提示會說明具體原因."
+    },
+    {
+      "q": "簽署檢測結果能證明安裝包安全嗎?",
+      "a": "不能. 插件會驗證 V2 / V3 / V3.1 / V4 / V4.1 的套件完整性與簽署者證明, 並顯示證書指紋和輪換鏈; 但有效簽署只能證明檔案自該簽署者簽署後未被修改, 不能證明簽署者或應用本身可信. 請再與官方下載渠道公布的證書指紋和 SHA-256 對照."
+    },
+    {
+      "q": "為甚麼 AAB 檔案會提示「需要轉換後才能安裝」?",
+      "a": "AAB 是面向應用商店的發佈格式, Android 裝置無法直接安裝. 插件可以解析它的 protobuf 清單與模組結構供檢視, 安裝則需要先用 bundletool 等工具轉換為 APK 或 APKS."
+    }
   ],
+  "h3_security": "權限與安全",
+  "p_security": "插件不申請儲存、網絡或安裝套件權限. 目標套件只能透過宿主授予的臨時唯讀 content 位址存取; 可選 `.idsig` 只能透過宿主為精確 `<APK 檔案名稱>.idsig` 派生的有界唯讀描述符存取, 不提供目錄清單或任意同級路徑. 檢查開始前, 兩份輸入都會被複製為應用私人快取中的唯讀快照 (複製套件的同時計算 SHA-256), 全部解析只發生在快照上; `.idsig` 上限為 40 MiB, 過期快照最遲 24 小時後自動清理. 來自檔案管理器的請求會逐項校驗協議版本、請求與動作標識、目標中繼資料、宿主版本、URI 結構、檔案名稱、大小、唯讀授權及宿主會話 Binder, 任一不符即拒絕; 來自其他應用的「開啟方式」請求只接受專用套件 MIME 類型, 拒絕 application/zip、application/octet-stream 以及任何寫入、持久化或前綴授權.",
+  "p_security_bounds_intro": "為防止惡意構造的檔案耗盡裝置資源, 解析設有以下上限, 超限檔案會被拒絕並給出提示",
+  "security_limits": [
+    "單個檔案最大 {{ max_input_size }}, 複製時快取至少保留 {{ min_free_cache }} 可用空間; 每次動作只處理一個目標檔案.",
+    "封存最多解析 {{ max_archive_entries }} 個條目, 集合包最多掃描 {{ max_apk_entries }} 個 APK 分包, 條目名稱最長 {{ max_entry_name_chars }} 字符.",
+    "聲明的單條目大小不超過 {{ max_declared_entry_size }}, 聲明總大小不超過 {{ max_declared_total_size }}.",
+    "巢狀 APK 清單掃描不超過 {{ max_nested_apk_scan }}, 集合包中繼資料不超過 {{ max_metadata_size }}, 用於載入圖示與標籤的臨時 APK 不超過 {{ max_display_apk_size }}."
+  ],
+  "h3_plugin_interface": "插件介面",
+  "p_plugin_interface": "宿主 (AutoJs6) 透過以下標識發現並調用插件, 供插件或宿主開發者參考",
+  "p_plugin_scope": "目前版本只執行唯讀檢查: 沒有安裝按鈕、安裝權限或套件安裝器, 不修改來源檔案, 亦不枚舉目錄. V4 只使用宿主精確派生的 `.idsig` 候選, 將其有界唯讀描述符複製為私人快照, 並在暫存後立即關閉宿主會話. 插件未安裝或被停用時, 宿主自動回退到預設動作, 互不影響.",
+  "p_roadmap": "已實現能力以上文與 Roadmap 勾選條目為準; 報告匯出、資源與原生庫分析等後續計劃集中維護在 Roadmap 中, 未勾選條目不代表目前版本已支援",
   "h3_release_history": "版本記錄",
-  "h5_for_more_release_history": "查看更多版本",
-  "h3_build": "組建",
-  "text_release_build": "發佈組建",
-  "p_build_params": "組建參數來自 version.properties. 目前最低 SDK 為 24, 目標 SDK 為 36",
-  "h3_resource_layout": "資源結構",
-  "p_resource_layout": "strings.xml 本地化外掛程式中繼資料與介面文字. plugin_instruction.md 提供宿主顯示的使用說明. .python/generate_markdown.py 根據 JSON 來源產生多語言 README 及更新日誌",
-  "h3_links": "連結",
-  "text_link_autojs6_docs": "AutoJs6 文件",
+  "h5_for_more_release_history": "完整記錄",
+  "h3_build": "構建",
+  "text_release_build": "Release 構建",
+  "p_build_params": "構建與簽署參數由 version.properties 與 sign.properties 控制; 目前最低支援 Android 7.0 (SDK 24), 目標 SDK 36",
+  "p_resource_layout": "README 與 CHANGELOG 均由 .python/generate_markdown.py 依據 .readme/ 與 .changelog/ 下的 JSON 語言資源和模板生成 (共 10 種語言). 修改文檔請編輯對應 JSON 後重新運行腳本, 不要直接改動生成的 Markdown",
+  "h3_links": "相關連結",
+  "text_link_autojs6_docs": "AutoJs6 文檔",
   "text_link_android_secure_file_sharing": "Android 安全檔案分享"
 }

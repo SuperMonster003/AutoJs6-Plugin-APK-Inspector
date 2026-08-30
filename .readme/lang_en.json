@@ -1,44 +1,75 @@
 {
   "$name": "English",
   "text_current_lowercase": "current",
-  "text_plugin_synopsis": "File manager plugin. Inspect APK, APKS, XAPK, APKM, APKZ, and AAB files without installing them",
+  "text_plugin_synopsis": "AutoJs6 file manager plugin: tap any APK or AAB file to see its version, permissions, signatures, and device compatibility, without installing it",
   "h3_languages_with_ascii": "Languages",
-  "p_languages_all_supported_for_readme": "The current README.md supports the following languages",
+  "p_languages_all_supported_for_readme": "This README is available in the following languages",
   "h3_introduction": "Introduction",
-  "p_introduction": "APK Inspector provides the primary inspection action for Android package files in the file manager. It analyzes a bounded app-private snapshot and never modifies or installs the source package.",
-  "h3_functions": "Features",
+  "p_introduction": "APK Inspector is a companion plugin for the AutoJs6 file manager. Tap an APK, APKS, XAPK, APKM, APKZ, or AAB file in the file manager and an inspection report opens right away: what the app is called, which version it is, which permissions it wants, and whether it can be installed on this device, all on one screen. The package is never installed, and the source file is never modified.",
+  "p_introduction_report": "The report has four sections: \"Package details\" shows the app name, icon, package name, version, SDK range, signature verification and signing-certificate lineage, file size, and SHA-256 checksum; \"Components\" lists every APK split and OBB asset inside the package and marks the parts that match this device (for AAB files it lists the modules); \"Requested permissions\" lists every system permission the app asks for; \"Security and compatibility findings\" summarizes structural problems and the device compatibility verdict. The \"View manifest\" button opens the full formatted AndroidManifest.",
+  "h3_functions": "Highlights",
   "features": [
-    "Registers an Explorer Action protocol v2 primary action for APK, APKS, XAPK, APKM, APKZ, and AAB files.",
-    "Decodes text and binary APK manifests, AAB protobuf manifests, and bundletool toc.pb metadata.",
-    "Reports package identity, version, SDK range, requested permissions, components, device-matched splits, OBB assets, and structural problems.",
-    "Detects the presence of APK V1, V2, and V3 signature schemes without claiming cryptographic validity.",
-    "Displays a formatted Android Manifest in a separate read-only viewer.",
-    "Provides a separate Android ACTION_VIEW gateway for exact Android package MIME types."
+    "One tap to inspect: open a report straight from the AutoJs6 file manager, with no installation, extraction, or network access.",
+    "Six formats: standard APK, multi-split bundle formats (APKS, XAPK, APKM, APKZ), and the store distribution format AAB; APKS covers both bundletool and SAI exports.",
+    "Version and compatibility: shows the package name, version name and code, and min/target/max SDK, compared against this device's Android version before you install.",
+    "Permission transparency: the complete list of requested system permissions, sorted and de-duplicated, before anything is installed.",
+    "Split analysis: lists every APK entry and OBB asset in a bundle and marks the splits selected for this device (base, language, screen density, ABI).",
+    "Signature and certificate verification: cryptographically verifies APK Signature Scheme V2, V3, and V3.1; reports V1 presence; lists current signing certificates and the verified certificate-rotation lineage with old/new roles and SHA-256 fingerprints.",
+    "V4/V4.1 sidecar verification: AutoJs6 derives only the exact `<APK name>.idsig` sibling and grants a bounded read-only descriptor; the plugin verifies the signed data, certificate and public key, complementary V2/V3 APK digest, fs-verity root, embedded Merkle tree, and any V3.1 rotation signer.",
+    "Readable manifests: binary APK manifests and AAB protobuf manifests are decoded into readable XML, shown in a separate read-only viewer.",
+    "Integrity check: SHA-256 is calculated while the file is read, ready to compare against officially published checksums.",
+    "Structural checkup: detects a missing base APK, duplicate or unresolved splits, version or package mismatches, and marks each finding as blocking [!] or informational [i]."
   ],
+  "h3_usage": "How to use",
+  "usage_steps": [
+    "Download and install APK Inspector, then enable it in the AutoJs6 plugin center (AutoJs6 version code {{ required_host_build }} or later is required).",
+    "Open the AutoJs6 file manager and locate the package file you want to examine (APK, APKS, XAPK, APKM, APKZ, or AAB).",
+    "Tap the file, or choose \"Inspect Android package\" from its menu; the inspection report appears after a moment.",
+    "Read the report from top to bottom: app icon and name, package details, components, requested permissions, and security and compatibility findings.",
+    "Tap \"View manifest\" to read the full AndroidManifest, then press back to return to the file manager."
+  ],
+  "p_usage_note": "Other apps can also hand a package to APK Inspector through the system \"Open with\" dialog (ACTION_VIEW), as long as they use a content URI with a dedicated Android package MIME type. The plugin is strictly read-only and offers no install entry point.",
   "h3_supported_formats": "Supported formats",
-  "p_supported_formats": "The Explorer primary action matches these extensions exactly",
-  "h3_plugin_interface": "Plugin interface",
-  "p_plugin_interface": "The host discovers and executes the plugin with the following identities",
-  "p_plugin_scope": "Version 1 performs inspection only. It has no install button, installation permission, package installer, source editor, or directory enumeration. Host installation flows remain independent. If the plugin is unavailable, the host uses its fallback action.",
-  "p_plugin_packaging": "Host build 5269 or later is required.",
-  "h3_security": "Security",
-  "p_security": "The protected Explorer gateway validates protocol v2, the main-files surface, action ID, content URI ancestry, exact ClipData, display name, extension, MIME type, size, and read-only grants. The public ACTION_VIEW gateway accepts only dedicated package MIME types. Input is copied once into a bounded, read-only private snapshot while SHA-256 is calculated. The protocol parent URI is never enumerated.",
-  "h3_security_limits": "Safety limits",
-  "security_limits": [
-    "Maximum input size: {{ max_input_size }}.",
-    "One target file per action and at least 128 MiB of cache reserve.",
-    "Archive entry count, entry name, declared size, total size, nested APK scan, metadata, protobuf, and manifest output are bounded.",
-    "External ACTION_VIEW rejects application/zip, application/octet-stream, write, persistable, and prefix grants.",
-    "V1-V3 signature schemes are presence checks only. V4 requires a separate idsig input and is outside this protocol.",
-    "The plugin never installs packages and requests no storage, network, or package installation permission."
+  "p_supported_formats": "The file manager primary action matches these extensions exactly (case-insensitive)",
+  "p_supported_formats_note": "APKS, XAPK, APKM, and APKZ are container formats that bundle multiple split APKs; AAB is the App Bundle format submitted to app stores, which can be inspected here but must be converted with a tool such as bundletool before it can be installed.",
+  "h3_faq": "FAQ",
+  "faq": [
+    {
+      "q": "Can this plugin install APKs?",
+      "a": "No, and that is deliberate. The plugin requests no install permission and has no install button anywhere; its job is to let you see what is inside a package before you install it. Installation stays with the system installer or the host's own flow."
+    },
+    {
+      "q": "Why can't some files be inspected?",
+      "a": "Common reasons: the file exceeds the {{ max_input_size }} limit; the device cache is low on space (at least {{ min_free_cache }} must stay free); the bundle exceeds the parsing bounds on entry count or size; the file was modified by another app while being read; or the file itself is structurally broken. The error message states the specific reason."
+    },
+    {
+      "q": "Does the signature check prove a package is safe?",
+      "a": "No. The plugin cryptographically verifies package integrity and signer proofs for V2, V3, V3.1, V4, and V4.1 and shows certificate fingerprints and rotation lineage, but a valid signature only proves that the package has not changed since that signer signed it; it does not establish that the signer or app is trustworthy. Compare the fingerprint and SHA-256 with an official source."
+    },
+    {
+      "q": "Why do AAB files say they \"require conversion before installation\"?",
+      "a": "AAB is a distribution format aimed at app stores; Android devices cannot install it directly. The plugin can decode its protobuf manifest and module structure for viewing, but installation requires converting it to APK(s) first with a tool such as bundletool."
+    }
   ],
+  "h3_security": "Permissions and safety",
+  "p_security": "The plugin requests no storage, network, or package installation permission. It reaches the selected package only through the temporary read-only content URI granted by the host; an optional `.idsig` is available only through a bounded host descriptor for the exact host-derived `<APK name>.idsig` sibling, with no directory listing or arbitrary sibling path. Before inspection starts, both inputs are copied into read-only snapshots in the app-private cache (SHA-256 is calculated while copying the package), and all parsing happens on those snapshots; `.idsig` is limited to 40 MiB and stale snapshots are cleaned up within 24 hours. File-manager requests are validated field by field, including protocol version, request and action IDs, target metadata, host version, URI shape, file name, size, read-only grants, and the host-session Binder. \"Open with\" requests from other apps are accepted only with dedicated package MIME types; application/zip, application/octet-stream, and any write, persistable, or prefix grant are refused.",
+  "p_security_bounds_intro": "To keep maliciously crafted files from exhausting device resources, parsing is bounded as follows, and files over a bound are rejected with a message",
+  "security_limits": [
+    "A single file may be at most {{ max_input_size }}, at least {{ min_free_cache }} of cache space must remain free during the copy, and each action handles exactly one target file.",
+    "At most {{ max_archive_entries }} archive entries are parsed, at most {{ max_apk_entries }} APK entries are scanned per bundle, and entry names may be at most {{ max_entry_name_chars }} characters.",
+    "Declared entry size may not exceed {{ max_declared_entry_size }}, and the declared total may not exceed {{ max_declared_total_size }}.",
+    "Nested APK manifest scanning is capped at {{ max_nested_apk_scan }}, bundle metadata at {{ max_metadata_size }}, and the temporary APK used to load the icon and label at {{ max_display_apk_size }}."
+  ],
+  "h3_plugin_interface": "Plugin interface",
+  "p_plugin_interface": "The host (AutoJs6) discovers and invokes the plugin through the following identities, provided here for plugin and host developers",
+  "p_plugin_scope": "The current version performs read-only inspection only: there is no install button, install permission, or package installer, the source file is never modified, and directories are never enumerated. V4 uses only the exact host-derived `.idsig` candidate, copies its bounded read-only descriptor into a private snapshot, and closes the host session immediately after staging. If the plugin is missing or disabled, the host silently falls back to its default action.",
+  "p_roadmap": "The capabilities above and the checked Roadmap items reflect what is implemented; planned work such as report export and resource/native library analysis is tracked in the Roadmap, and unchecked items are not current capabilities",
   "h3_release_history": "Release history",
-  "h5_for_more_release_history": "For more releases",
+  "h5_for_more_release_history": "Full history",
   "h3_build": "Build",
   "text_release_build": "Release build",
-  "p_build_params": "Build parameters come from version.properties. The current minimum SDK is 24 and the target SDK is 36",
-  "h3_resource_layout": "Resource layout",
-  "p_resource_layout": "strings.xml localizes plugin metadata and UI text. plugin_instruction.md provides instructions shown by the host. .python/generate_markdown.py generates localized README and changelog files from JSON sources",
+  "p_build_params": "Build and signing parameters come from version.properties and sign.properties; the current minimum is Android 7.0 (SDK 24) with target SDK 36",
+  "p_resource_layout": "The README and CHANGELOG files are generated by .python/generate_markdown.py from the JSON language sources and templates under .readme/ and .changelog/ (10 languages). To change the documentation, edit the JSON sources and re-run the script instead of editing the generated Markdown",
   "h3_links": "Links",
   "text_link_autojs6_docs": "AutoJs6 documentation",
   "text_link_android_secure_file_sharing": "Android secure file sharing"

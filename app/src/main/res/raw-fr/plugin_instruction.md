@@ -4,7 +4,7 @@ APK Inspector fournit l'action principale de vérification en lecture seule dans
 
 Il affiche les détails du paquet, les autorisations demandées, les composants, les APK fractionnés adaptés à appareil, les ressources OBB, les constats structurels, la présence des signatures APK V1-V3 et un manifeste Android formaté.
 
-Le plugin exige la version 5269 ou ultérieure de l'hôte.
+Le plugin exige la version 5277 ou ultérieure de l'hôte.
 
 Limites de sécurité et de confidentialité:
 

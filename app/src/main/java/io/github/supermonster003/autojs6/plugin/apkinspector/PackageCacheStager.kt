@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.os.ParcelFileDescriptor
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.ensureActive
@@ -22,6 +23,7 @@ internal data class StagedPackage(
     val byteSize: Long,
     val mimeType: String,
     val sha256: String,
+    val v4IdsigFile: File?,
 )
 
 /** Creates a bounded immutable app-private snapshot before any archive parser sees untrusted data. */
@@ -32,86 +34,103 @@ internal object PackageCacheStager {
     private const val MINIMUM_FREE_CACHE_BYTES = 128L * 1024L * 1024L
     private const val STALE_SESSION_AGE_MILLIS = 24L * 60L * 60L * 1000L
 
-    suspend fun stage(context: Context, seed: PackageInputSeed): StagedPackage? = try {
-        val resolver = context.contentResolver
-        val resolverMime = resolver.getType(seed.targetUri)?.let(PackageRequestPolicy::normalizeMimeType)
-        if (
-            resolverMime != null &&
-            !PackageRequestPolicy.mimeTypesAreCompatible(seed.mimeType, resolverMime, seed.fromExplorer)
-        ) {
-            return null
-        }
+    suspend fun stage(context: Context, seed: PackageInputSeed): StagedPackage? {
+        return try {
+            val resolver = context.contentResolver
+            val resolverMime = resolver.getType(seed.targetUri)?.let(PackageRequestPolicy::normalizeMimeType)
+            if (
+                resolverMime != null &&
+                !PackageRequestPolicy.mimeTypesAreCompatible(seed.mimeType, resolverMime, seed.fromExplorer)
+            ) {
+                return null
+            }
 
-        val displayName = resolveDisplayName(resolver, seed) ?: return null
-        if (!seed.fromExplorer && !PackageRequestPolicy.isExternalMimeCompatible(displayName, seed.mimeType)) {
-            return null
-        }
+            val displayName = resolveDisplayName(resolver, seed) ?: return null
+            if (!seed.fromExplorer && !PackageRequestPolicy.isExternalMimeCompatible(displayName, seed.mimeType)) {
+                return null
+            }
 
-        val queriedSize = queryLong(resolver, seed.targetUri, OpenableColumns.SIZE)
-            ?.takeIf(PackageRequestPolicy::isDeclaredSizeAccepted)
-        val descriptorSize = resolver.openAssetFileDescriptor(seed.targetUri, "r")?.use { descriptor ->
-            descriptor.length.takeIf { it >= 0L }
-        }
-        val expectedSize = seed.declaredSize ?: queriedSize ?: descriptorSize
-        if (expectedSize != null && !PackageRequestPolicy.isDeclaredSizeAccepted(expectedSize)) return null
-        if (seed.fromExplorer && seed.declaredSize != null) {
-            if (queriedSize != null && queriedSize != seed.declaredSize) return null
-            if (descriptorSize != null && descriptorSize != seed.declaredSize) return null
-        }
+            val queriedSize = queryLong(resolver, seed.targetUri, OpenableColumns.SIZE)
+                ?.takeIf(PackageRequestPolicy::isDeclaredSizeAccepted)
+            val descriptorSize = resolver.openAssetFileDescriptor(seed.targetUri, "r")?.use { descriptor ->
+                descriptor.length.takeIf { it >= 0L }
+            }
+            val expectedSize = seed.declaredSize ?: queriedSize ?: descriptorSize
+            if (expectedSize != null && !PackageRequestPolicy.isDeclaredSizeAccepted(expectedSize)) return null
+            if (seed.fromExplorer && seed.declaredSize != null) {
+                if (queriedSize != null && queriedSize != seed.declaredSize) return null
+                if (descriptorSize != null && descriptorSize != seed.declaredSize) return null
+            }
 
-        val cacheRoot = File(context.cacheDir, CACHE_DIRECTORY).apply {
-            if (!exists() && !mkdirs()) throw IOException("Unable to create inspection cache")
-        }
-        cleanupStaleSessions(cacheRoot)
-        val storageBound = cacheRoot.usableSpace.takeIf { it > 0L }?.let { usable ->
-            (usable - MINIMUM_FREE_CACHE_BYTES).coerceAtLeast(0L)
-        } ?: PackageRequestPolicy.MAX_PACKAGE_BYTES
-        val copyLimit = minOf(PackageRequestPolicy.MAX_PACKAGE_BYTES, storageBound)
-        if (expectedSize != null && expectedSize > copyLimit) return null
+            val cacheRoot = File(context.cacheDir, CACHE_DIRECTORY).apply {
+                if (!exists() && !mkdirs()) throw IOException("Unable to create inspection cache")
+            }
+            cleanupStaleSessions(cacheRoot)
+            val storageBound = cacheRoot.usableSpace.takeIf { it > 0L }?.let { usable ->
+                (usable - MINIMUM_FREE_CACHE_BYTES).coerceAtLeast(0L)
+            } ?: PackageRequestPolicy.MAX_PACKAGE_BYTES
+            val copyLimit = minOf(PackageRequestPolicy.MAX_PACKAGE_BYTES, storageBound)
+            if (expectedSize != null && expectedSize > copyLimit) return null
 
-        val sessionDirectory = File(cacheRoot, "$SESSION_PREFIX${UUID.randomUUID()}")
-        if (!sessionDirectory.mkdir()) throw IOException("Unable to create inspection session")
-        val extension = PackageRequestPolicy.extensionOf(displayName)
-        val snapshot = File(sessionDirectory, "input.$extension")
-        try {
-            val digest = MessageDigest.getInstance("SHA-256")
-            val byteSize = resolver.openInputStream(seed.targetUri)?.use { rawInput ->
-                BufferedInputStream(rawInput).use { input ->
-                    BufferedOutputStream(FileOutputStream(snapshot)).use { output ->
-                        copyBounded(input, output, digest, copyLimit)
+            val sessionDirectory = File(cacheRoot, "$SESSION_PREFIX${UUID.randomUUID()}")
+            if (!sessionDirectory.mkdir()) throw IOException("Unable to create inspection session")
+            val extension = PackageRequestPolicy.extensionOf(displayName)
+            val snapshot = File(sessionDirectory, "input.$extension")
+            try {
+                val digest = MessageDigest.getInstance("SHA-256")
+                val byteSize = resolver.openInputStream(seed.targetUri)?.use { rawInput ->
+                    BufferedInputStream(rawInput).use { input ->
+                        BufferedOutputStream(FileOutputStream(snapshot)).use { output ->
+                            copyBounded(input, output, digest, copyLimit)
+                        }
                     }
+                } ?: throw IOException("Unable to open package content")
+                if (expectedSize != null && byteSize != expectedSize) {
+                    throw IOException("Package size changed while it was copied")
                 }
-            } ?: throw IOException("Unable to open package content")
-            if (expectedSize != null && byteSize != expectedSize) {
-                throw IOException("Package size changed while it was copied")
+                if (!snapshot.setReadOnly()) {
+                    throw IOException("Unable to make package snapshot read-only")
+                }
+                currentCoroutineContext().ensureActive()
+                val v4IdsigFile = if (
+                    extension == "apk" && seed.hostSession != null && seed.targetId != null
+                ) {
+                    stageV4Idsig(seed.hostSession, seed.targetId, sessionDirectory)
+                } else {
+                    null
+                }
+                currentCoroutineContext().ensureActive()
+                sessionDirectory.setLastModified(System.currentTimeMillis())
+                StagedPackage(
+                    file = snapshot,
+                    displayName = displayName,
+                    byteSize = byteSize,
+                    mimeType = resolverMime ?: seed.mimeType,
+                    sha256 = digest.digest().joinToString("") { byte ->
+                        "%02x".format(byte.toInt() and 0xFF)
+                    },
+                    v4IdsigFile = v4IdsigFile,
+                )
+            } catch (error: Throwable) {
+                sessionDirectory.deleteRecursively()
+                throw error
             }
-            if (!snapshot.setReadOnly()) {
-                throw IOException("Unable to make package snapshot read-only")
-            }
-            sessionDirectory.setLastModified(System.currentTimeMillis())
-            StagedPackage(
-                file = snapshot,
-                displayName = displayName,
-                byteSize = byteSize,
-                mimeType = resolverMime ?: seed.mimeType,
-                sha256 = digest.digest().joinToString("") { byte ->
-                    "%02x".format(byte.toInt() and 0xFF)
-                },
-            )
-        } catch (error: Throwable) {
-            sessionDirectory.deleteRecursively()
+        } catch (error: CancellationException) {
             throw error
+        } catch (_: Exception) {
+            null
         }
-    } catch (error: CancellationException) {
-        throw error
-    } catch (_: Exception) {
-        null
     }
 
     fun resolveInternalFile(context: Context, path: String?): File? {
         val candidate = resolveSessionFile(context, path) ?: return null
         if (!candidate.name.startsWith("input.")) return null
-        return candidate
+        return candidate.takeIf { PackageRequestPolicy.extensionOf(it.name) in PackageRequestPolicy.supportedExtensions }
+    }
+
+    fun resolveV4IdsigFile(context: Context, path: String?): File? {
+        val candidate = resolveSessionFile(context, path) ?: return null
+        return candidate.takeIf { it.name == V4_IDSIG_SNAPSHOT_NAME }
     }
 
     fun resolveManifestFile(context: Context, path: String?): File? {
@@ -166,6 +185,41 @@ internal object PackageCacheStager {
         return total
     }
 
+    private suspend fun stageV4Idsig(
+        hostSession: org.autojs.plugin.explorer.api.IExplorerActionHostSession,
+        targetId: String,
+        sessionDirectory: File,
+    ): File? {
+        val descriptor = hostSession.openRelatedFile(targetId, V4_IDSIG_SUFFIX) ?: return null
+        if (descriptor.statSize > MAX_V4_IDSIG_BYTES) {
+            descriptor.close()
+            throw IOException("V4 idsig exceeds the inspection size limit")
+        }
+        val snapshot = File(sessionDirectory, V4_IDSIG_SNAPSHOT_NAME)
+        try {
+            ParcelFileDescriptor.AutoCloseInputStream(descriptor).use { rawInput ->
+                BufferedInputStream(rawInput).use { input ->
+                    BufferedOutputStream(FileOutputStream(snapshot)).use { output ->
+                        copyBounded(
+                            input = input,
+                            output = output,
+                            digest = MessageDigest.getInstance("SHA-256"),
+                            maxBytes = MAX_V4_IDSIG_BYTES,
+                        )
+                    }
+                }
+            }
+            if (!snapshot.setReadOnly()) {
+                throw IOException("Unable to make V4 idsig snapshot read-only")
+            }
+            return snapshot
+        } catch (error: Throwable) {
+            snapshot.delete()
+            runCatching { descriptor.close() }
+            throw error
+        }
+    }
+
     private fun cleanupStaleSessions(cacheRoot: File, now: Long = System.currentTimeMillis()) {
         cacheRoot.listFiles()?.forEach { child ->
             if (
@@ -198,4 +252,8 @@ internal object PackageCacheStager {
             if (index < 0) null else read(cursor, index)
         }
     }.getOrNull()
+
+    private const val V4_IDSIG_SUFFIX = ".idsig"
+    private const val V4_IDSIG_SNAPSHOT_NAME = "input.apk.idsig"
+    internal const val MAX_V4_IDSIG_BYTES = 40L * 1024L * 1024L
 }

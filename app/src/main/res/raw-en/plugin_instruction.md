@@ -4,7 +4,7 @@ APK Inspector supplies the primary read-only inspection action in the file manag
 
 It reports package details, requested permissions, components, device-matched splits, OBB assets, structural findings, APK V1-V3 signature presence, and a formatted Android Manifest.
 
-The plugin requires host build 5269+.
+The plugin requires host build 5277+.
 
 Safety and privacy limits:
 

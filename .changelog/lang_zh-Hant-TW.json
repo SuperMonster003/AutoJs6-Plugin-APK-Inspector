@@ -5,27 +5,45 @@
   "changelog_label_improvement": "優化",
   "changelog_label_dependency": "相依性",
   "$data": {
+    "v1.1.0": {
+      "released_date": "2026/08/30",
+      "hint": [
+        "Explorer Action 協定 v22 與有界 V4 同層檔案存取要求 AutoJs6 版本代碼不低於 5277"
+      ],
+      "feature": [
+        "新增 APK V2、V3、V3.1、V4 與 V4.1 的裝置端密碼學驗證, 涵蓋內容摘要、簽署者證明、fs-verity 根、內嵌 Merkle 樹及互補簽章方案比對",
+        "新增詳細簽章憑證欄位與已驗證憑證輪替鏈, 顯示舊/目前角色、能力旗標和 SHA-256 指紋",
+        "新增透過主程式精確衍生唯讀描述元暫存 `.idsig` 的有界鏈路; 仍不提供目錄列舉或任意同層檔案存取"
+      ],
+      "improvement": [
+        "強化 Explorer Action v22 請求校驗與不可變私有快照, 設定 4 GiB 套件上限、40 MiB idsig 上限、檔案身分複核並及時關閉主程式工作階段",
+        "新增由 Build Tools 37 `apksigner` 產生的有效、破壞、多簽署者、V3.1 輪替、V4.1 輪替、缺失及格式損壞樣本矩陣"
+      ]
+    },
     "v1.0.1": {
       "released_date": "2026/08/08",
       "fix": [
-        "在外掛中心啟用時回傳有效的 Explorer Action 服務綁定"
+        "修復外掛在外掛中心啟用後主程式無法繫結服務的問題; 現在啟用後「檢查 Android 套件」動作立即可用"
       ],
       "improvement": [
-        "精簡外掛名稱和描述, 並讓使用者文件表達更自然"
+        "精簡外掛名稱與描述, 使用者文件表述更自然易讀"
       ]
     },
     "v1.0.0": {
       "released_date": "2026/08/02",
+      "hint": [
+        "首個公開版本, 需要 AutoJs6 版本代碼 5269 或更高"
+      ],
       "feature": [
-        "APK 檢查器外掛, 外掛 ID 為 `apk-inspector`, 動作 ID 為 `inspect-android-package`, 引擎為 `explorer-action`, 變體為 `default`",
-        "透過 Explorer Action 通訊協定 v2 為 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案提供主要唯讀檢查動作",
-        "唯讀解碼文字和二進位 APK 資訊清單, AAB protobuf 資訊清單及 bundletool `toc.pb` 中繼資料",
-        "套件詳細資料, 要求權限, 元件, 裝置相符分割, OBB 資源, 結構發現, 格式化資訊清單檢視和 APK V1-V3 簽章配置存在性偵測",
-        "相互分離的受保護檔案瀏覽器入口和精確 MIME Android `ACTION_VIEW` 入口, 4 GiB 輸入上限及計算 SHA-256 的有界私人唯讀快照",
-        "外掛中繼資料, 介面文字, 使用說明, README 和 CHANGELOG 的多語言資源: 西班牙文/法文/俄文/阿拉伯文/日文/韓文/英文/簡體中文/香港繁體/台灣繁體"
+        "在 AutoJs6 檔案管理器中點擊 APK, APKS, XAPK, APKM, APKZ 或 AAB 檔案, 即可開啟唯讀檢查報告 (外掛 ID `apk-inspector`, 動作 ID `inspect-android-package`)",
+        "檢查報告展示應用名稱與圖示、套件名稱、版本、SDK 範圍、要求的權限、分包與 OBB 資源、結構問題, 以及 V1-V3 簽章方案存在性",
+        "自動解碼文字與二進位 APK 清單、AAB protobuf 清單及 bundletool `toc.pb` 中繼資料, 並提供格式化清單的獨立檢視頁面",
+        "支援其他應用透過系統「開啟方式」(ACTION_VIEW) 以專用安裝包 MIME 類型呼叫檢查",
+        "檢查前先把檔案複製為帶 SHA-256 校驗的唯讀私有快照 (上限 4 GiB); 外掛不申請儲存、網路或安裝套件權限",
+        "內建 10 種語言的介面文字、使用說明、README 與 CHANGELOG: 簡體中文、香港繁體、台灣繁體、英語、法語、西班牙語、日語、韓語、俄語、阿拉伯語"
       ],
       "dependency": [
-        "附加 Gson 版本 2.13.2"
+        "引入 Gson 2.13.2"
       ]
     }
   }

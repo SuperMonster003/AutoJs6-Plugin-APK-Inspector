@@ -1,11 +1,11 @@
-<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
-
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="apk-inspector-ic-launcher" border="0" width="128" />
+    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
   </p>
 
-  <p>Complemento del gestor de archivos. Inspeccionar archivos APK, APKS, XAPK, APKM, APKZ y AAB sin instalarlos</p>
+  <h1>APK Inspector</h1>
+
+  <p>Plugin del gestor de archivos de AutoJs6: toca un archivo APK o AAB para ver su versión, permisos, firmas y compatibilidad con el dispositivo, sin instalarlo</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -14,13 +14,9 @@
   </p>
 </div>
 
-******
+### Idiomas (Languages)
 
-### Idiomas
-
-******
-
-El README.md actual admite los siguientes idiomas:
+Este README está disponible en los siguientes idiomas:
 
 - [简体中文 [zh-Hans]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hans.md)
 - [繁體中文 (香港) [zh-Hant-HK]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-HK.md)
@@ -33,46 +29,77 @@ El README.md actual admite los siguientes idiomas:
 - [Русский [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
 - [العربية [ar]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ar.md)
 
-******
+### Presentación
 
-### Introducción
+APK Inspector es un plugin complementario del gestor de archivos de AutoJs6. Toca un archivo APK, APKS, XAPK, APKM, APKZ o AAB en el gestor de archivos y se abrirá al instante un informe de inspección que muestra, en una sola pantalla, cómo se llama la aplicación, qué versión es, qué permisos solicita y si puede instalarse en este dispositivo. El paquete nunca se instala y el archivo original nunca se modifica.
 
-******
+El informe tiene cuatro secciones: «Detalles del paquete» muestra el nombre de la aplicación, el icono, el nombre del paquete, la versión, el rango de SDK, la verificación de firmas y el linaje de certificados de firma, el tamaño del archivo y la suma SHA-256; «Componentes» enumera cada APK dividido (split) y cada recurso OBB del paquete y marca las partes que coinciden con este dispositivo (en un AAB, los módulos); «Permisos solicitados» enumera todos los permisos del sistema que pide la aplicación; «Hallazgos de seguridad y compatibilidad» resume los problemas estructurales y el veredicto de compatibilidad. El botón «Ver manifest» abre el AndroidManifest completo y formateado.
 
-APK Inspector proporciona la acción principal de inspección para paquetes Android en el gestor de archivos. Analiza una instantánea privada y limitada sin modificar ni instalar el archivo de origen.
+### Puntos destacados
 
-******
+- Un toque para inspeccionar: el informe se abre directamente desde el gestor de archivos de AutoJs6, sin instalación, extracción ni acceso a la red.
+- Seis formatos: APK estándar, formatos de varios splits (APKS, XAPK, APKM, APKZ) y el formato de distribución de tiendas AAB; APKS cubre las exportaciones de bundletool y de SAI.
+- Versión y compatibilidad: muestra el nombre del paquete, el nombre y código de versión y el SDK mínimo/objetivo/máximo, comparados con la versión de Android del dispositivo antes de instalar.
+- Transparencia de permisos: la lista completa de permisos del sistema solicitados, ordenada y sin duplicados, antes de instalar nada.
+- Análisis de splits: enumera cada entrada APK y cada recurso OBB de un bundle y marca los splits seleccionados para este dispositivo (base, idioma, densidad de pantalla, ABI).
+- Verificación de firmas y certificados: verifica criptográficamente los esquemas V2, V3 y V3.1 del APK; informa de la presencia de V1; muestra cada certificado de firma actual y el linaje de rotación verificado, con funciones antiguas/nuevas y huellas SHA-256.
+- Verificación de archivos auxiliares V4/V4.1: AutoJs6 deriva únicamente el archivo adyacente exacto `<nombre del APK>.idsig` y concede un descriptor de solo lectura acotado; el plugin verifica los datos firmados, el certificado y la clave pública, el resumen APK V2/V3 correspondiente, la raíz fs-verity, el árbol Merkle incrustado y cualquier firmante de rotación V3.1.
+- Manifests legibles: los manifests binarios de APK y los manifests protobuf de AAB se decodifican a XML legible y se muestran en un visor independiente de solo lectura.
+- Comprobación de integridad: el SHA-256 se calcula mientras se lee el archivo, listo para compararlo con las sumas publicadas oficialmente.
+- Chequeo estructural: detecta la falta del APK base, splits duplicados o sin dependencias, incoherencias de versión o de paquete, y marca cada hallazgo como bloqueante [!] o informativo [i].
 
-### Funciones
+### Cómo usarlo
 
-******
+1. Descarga e instala APK Inspector y actívalo en el centro de plugins de AutoJs6 (se requiere AutoJs6 con código de versión 5277 o superior).
+2. Abre el gestor de archivos de AutoJs6 y localiza el paquete que quieras examinar (APK, APKS, XAPK, APKM, APKZ o AAB).
+3. Toca el archivo o elige «Inspeccionar paquete Android» en su menú; el informe aparece tras un instante.
+4. Recorre el informe de arriba abajo: icono y nombre de la aplicación, detalles del paquete, componentes, permisos solicitados y hallazgos de seguridad y compatibilidad.
+5. Toca «Ver manifest» para leer el AndroidManifest completo y pulsa atrás para volver al gestor de archivos.
 
-- Registra una acción principal Explorer Action v2 para APK, APKS, XAPK, APKM, APKZ y AAB.
-- Decodifica Manifest APK de texto o binarios, Manifest protobuf AAB y metadatos bundletool toc.pb.
-- Muestra identidad, versión, SDK, permisos, componentes, splits para el dispositivo, recursos OBB y problemas estructurales.
-- Detecta la presencia de esquemas de firma APK V1, V2 y V3 sin afirmar validez criptográfica.
-- Muestra un Android Manifest formateado en un visor separado de solo lectura.
-- Proporciona una puerta ACTION_VIEW separada para tipos MIME dedicados de paquetes Android.
-
-******
+> Otras aplicaciones también pueden entregar un paquete a APK Inspector mediante «Abrir con» (ACTION_VIEW), siempre que usen una URI content con un tipo MIME de paquete Android dedicado. El plugin es estrictamente de solo lectura y no ofrece ningún punto de instalación.
 
 ### Formatos compatibles
 
-******
-
-La acción principal de Explorer coincide exactamente con estas extensiones:
+La acción principal del gestor de archivos coincide exactamente con estas extensiones (sin distinguir mayúsculas):
 
 ```text
 APK, APKS, XAPK, APKM, APKZ, AAB
 ```
 
-******
+APKS, XAPK, APKM y APKZ son formatos contenedores que agrupan varios APK divididos; AAB es el formato App Bundle que se envía a las tiendas de aplicaciones: aquí puede inspeccionarse, pero debe convertirse con una herramienta como bundletool antes de poder instalarse.
+
+### Preguntas frecuentes
+
+#### ¿Puede este plugin instalar APKs?
+
+No, y es deliberado. El plugin no solicita permiso de instalación y no tiene ningún botón de instalar; su función es mostrarte el contenido de un paquete antes de instalarlo. La instalación sigue a cargo del instalador del sistema o del flujo propio del anfitrión.
+
+#### ¿Por qué algunos archivos no se pueden inspeccionar?
+
+Motivos habituales: el archivo supera el límite de 4 GiB; la caché del dispositivo tiene poco espacio (deben quedar libres al menos 128 MiB); el bundle supera los límites de análisis en número o tamaño de entradas; otra aplicación modificó el archivo durante la lectura; o el archivo está estructuralmente dañado. El mensaje de error indica el motivo concreto.
+
+#### ¿La detección de firmas demuestra que un paquete es seguro?
+
+No. El plugin verifica criptográficamente la integridad y las pruebas del firmante para V2, V3, V3.1, V4 y V4.1, y muestra las huellas y el linaje de rotación; pero una firma válida solo demuestra que el paquete no ha cambiado desde que ese firmante lo firmó, no que el firmante o la aplicación sean fiables. Compara la huella y el SHA-256 con una fuente oficial.
+
+#### ¿Por qué los archivos AAB indican que «requieren conversión antes de instalarse»?
+
+AAB es un formato de distribución pensado para las tiendas de aplicaciones; un dispositivo Android no puede instalarlo directamente. El plugin decodifica su manifest protobuf y su estructura de módulos para consultarlos, pero instalarlo exige convertirlo antes a APK(s) con una herramienta como bundletool.
+
+### Permisos y seguridad
+
+El plugin no solicita permisos de almacenamiento, red ni instalación de paquetes. Solo accede al paquete seleccionado mediante la URI content temporal de solo lectura concedida por el anfitrión; un `.idsig` opcional solo está disponible mediante un descriptor acotado del anfitrión para el archivo exacto `<nombre del APK>.idsig`, sin enumeración del directorio ni rutas adyacentes arbitrarias. Antes de la inspección, ambas entradas se copian a instantáneas de solo lectura en la caché privada de la aplicación (el SHA-256 se calcula al copiar el paquete), y todo el análisis ocurre sobre ellas; `.idsig` está limitado a 40 MiB y las instantáneas caducadas se limpian en un máximo de 24 horas. Las solicitudes del gestor de archivos se validan campo a campo, incluida la versión del protocolo, los identificadores de solicitud y acción, los metadatos del objetivo, la versión del anfitrión, la forma de la URI, el nombre, el tamaño, las concesiones de solo lectura y el Binder de sesión. Las solicitudes «Abrir con» solo se aceptan con tipos MIME de paquete dedicados; se rechazan application/zip, application/octet-stream y cualquier concesión de escritura, persistente o por prefijo.
+
+Para evitar que archivos manipulados agoten los recursos del dispositivo, el análisis está acotado como sigue, y los archivos que superan un límite se rechazan con un mensaje:
+
+- Un archivo puede ocupar como máximo 4 GiB, durante la copia deben quedar libres al menos 128 MiB de caché, y cada acción procesa exactamente un archivo objetivo.
+- Se analizan como máximo 16384 entradas de archivo, se examinan como máximo 512 entradas APK por bundle, y los nombres de entrada se limitan a 1024 caracteres.
+- El tamaño declarado de una entrada no puede superar 4 GiB, y el total declarado no puede superar 8 GiB.
+- El examen de manifests de APK anidados se limita a 256 MiB, los metadatos del bundle a 1 MiB, y el APK temporal usado para cargar el icono y la etiqueta a 512 MiB.
 
 ### Interfaz del plugin
 
-******
-
-El host descubre y ejecuta el complemento con las siguientes identidades:
+El anfitrión (AutoJs6) descubre e invoca el plugin mediante las siguientes identidades, indicadas aquí para desarrolladores de plugins y de anfitriones:
 
 ```text
 service action: org.autojs.plugin.EXPLORER_ACTION
@@ -82,103 +109,71 @@ engine: explorer-action
 variant: default
 Explorer action id: inspect-android-package
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
-required host build: 5269
+required host build: 5277
 ```
 
-La versión 1 solo inspecciona. No incluye botón o permiso de instalación, instalador, editor de origen ni enumeración de directorios. Los flujos de instalación del host permanecen separados. Si el complemento no está disponible, el host usa su acción alternativa.
+La versión actual solo realiza inspección de solo lectura: no hay botón de instalación, permiso de instalación ni instalador de paquetes, el archivo original nunca se modifica y no se enumeran directorios. V4 usa únicamente el candidato `.idsig` exacto derivado por el anfitrión, copia su descriptor acotado de solo lectura a una instantánea privada y cierra la sesión del anfitrión inmediatamente después. Si el plugin falta o está desactivado, el anfitrión recurre en silencio a su acción predeterminada.
 
-Se requiere la compilación 5269 o posterior del host.
+### Roadmap
 
-******
+Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo implementado; el trabajo previsto, como la exportación de informes y el análisis de recursos y bibliotecas nativas, se registra en la Roadmap, y los elementos sin marcar no son capacidades actuales.
 
-### Seguridad
-
-******
-
-La puerta Explorer protegida valida el protocolo v2, la superficie principal, ID de acción, jerarquía content URI, ClipData exacto, nombre, extensión, MIME, tamaño y permisos de solo lectura. ACTION_VIEW acepta solo MIME dedicados. La entrada se copia una vez a una instantánea privada, limitada y de solo lectura mientras se calcula SHA-256. El URI padre nunca se enumera.
-
-******
-
-### Límites de seguridad
-
-******
-
-- Tamaño máximo de entrada: 4 GiB.
-- Un archivo de destino por acción y al menos 128 MiB de reserva de caché.
-- El número, nombre y tamaño de entradas, el análisis APK anidado, metadatos, protobuf y salida Manifest tienen límites.
-- ACTION_VIEW externo rechaza application/zip, application/octet-stream y permisos de escritura, persistentes o de prefijo.
-- V1-V3 solo comprueban presencia. V4 requiere una entrada idsig separada fuera de este protocolo.
-- El plugin nunca instala paquetes ni solicita permisos de almacenamiento, red o instalación.
-
-******
+- [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
 ### Historial de versiones
 
-******
+#### v1.1.0
 
-# v1.0.1
+_2026/08/30_
 
-###### 2026/08/08
+- `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadió verificación criptográfica en el dispositivo para los esquemas APK V2, V3, V3.1, V4 y V4.1, incluidos resúmenes de contenido, pruebas del firmante, raíces fs-verity, árboles Merkle incrustados y coincidencia con el esquema complementario
+- `Función` Se añadieron campos detallados de certificados y linajes de rotación verificados con funciones antiguas/actuales, indicadores de capacidad y huellas SHA-256
+- `Función` Se añadió el almacenamiento temporal acotado de `.idsig` mediante un descriptor de solo lectura derivado exactamente por el anfitrión; no se permite enumerar directorios ni acceder a archivos adyacentes arbitrarios
+- `Mejora` Se reforzaron la validación de solicitudes Explorer Action v22 y las instantáneas privadas inmutables, con límites de 4 GiB para el paquete y 40 MiB para idsig, comprobaciones de identidad y cierre inmediato de la sesión
+- `Mejora` Se añadieron muestras oficiales de `apksigner` de Build Tools 37 para firmas válidas, alteradas, múltiples, con rotación V3.1/V4.1, ausentes y mal formadas
 
-* `Corrección` Devolver un enlace válido al servicio Explorer Action al activarlo desde el centro de complementos
-* `Mejora` Acortar el nombre y la descripción del complemento y hacer más natural la documentación de usuario
+#### v1.0.1
 
-# v1.0.0
+_2026/08/08_
 
-###### 2026/08/02
+- `Corrección` Corregido que el anfitrión no pudiera vincularse al servicio del plugin tras activarlo en el centro de plugins; la acción «Inspeccionar paquete Android» ahora funciona inmediatamente después de activarlo
+- `Mejora` Nombre y descripción del plugin simplificados, con una documentación de usuario más natural de leer
 
-* `Función` Plugin APK Inspector con ID `apk-inspector`, ID de acción `inspect-android-package`, motor `explorer-action` y variante `default`
-* `Función` Inspección principal de solo lectura mediante Explorer Action v2 para archivos APK, APKS, XAPK, APKM, APKZ y AAB
-* `Función` Decodificación de solo lectura de manifests APK de texto y binarios, manifests protobuf AAB y metadatos bundletool `toc.pb`
-* `Función` Detalles del paquete, permisos solicitados, componentes, APK divididos compatibles con el dispositivo, recursos OBB, hallazgos estructurales, manifest formateado y presencia de firmas APK V1-V3
-* `Función` Pasarelas separadas para Explorer protegido y Android `ACTION_VIEW` con MIME exacto, límite de 4 GiB y copia privada limitada de solo lectura calculada con SHA-256
-* `Función` Metadatos, interfaz, instrucciones, README e historiales localizados en español, francés, ruso, árabe, japonés, coreano, inglés, chino simplificado, chino tradicional de Hong Kong y chino tradicional de Taiwán
-* `Dependencia` Añadido Gson versión 2.13.2
+#### v1.0.0
 
-##### Para más versiones
+_2026/08/02_
 
-* [CHANGELOG-es.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/assets/doc/CHANGELOG-es.md)
+- `Aviso` Primera versión pública; requiere AutoJs6 con código de versión 5269 o superior
+- `Función` Toca un archivo APK, APKS, XAPK, APKM, APKZ o AAB en el gestor de archivos de AutoJs6 para abrir un informe de inspección de solo lectura (ID de plugin `apk-inspector`, ID de acción `inspect-android-package`)
+- `Función` El informe muestra el nombre y el icono de la aplicación, el nombre del paquete, la versión, el rango de SDK, los permisos solicitados, los splits y recursos OBB, los problemas estructurales y la presencia de los esquemas de firma V1-V3
+- `Función` Los manifests APK de texto y binarios, los manifests protobuf de AAB y los metadatos `toc.pb` de bundletool se decodifican automáticamente, con un visor aparte para el manifest formateado
+- `Función` Otras aplicaciones pueden entregar un paquete mediante «Abrir con» (ACTION_VIEW) usando los tipos MIME dedicados de paquetes Android
+- `Función` Antes de la inspección, el archivo se copia a una instantánea privada de solo lectura con cálculo de SHA-256 (límite de 4 GiB); el plugin no solicita permisos de almacenamiento, red ni instalación
+- `Función` Incluye 10 idiomas para la interfaz, las instrucciones, el README y el CHANGELOG: chino simplificado, chino tradicional (Hong Kong y Taiwán), inglés, francés, español, japonés, coreano, ruso y árabe
+- `Dependencia` Añadido Gson 2.13.2
 
-******
+##### Historial completo
+
+- [CHANGELOG-es.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/assets/doc/CHANGELOG-es.md)
 
 ### Compilación
-
-******
 
 ```powershell
 .\gradlew.bat :app:assembleDebug
 ```
 
-Compilación de lanzamiento:
+Compilación release:
 
 ```powershell
 .\gradlew.bat :app:assembleRelease
 ```
 
-Los parámetros proceden de version.properties. El SDK mínimo es 24 y el SDK objetivo es 36.
+Los parámetros de compilación y firma provienen de version.properties y sign.properties; el mínimo actual es Android 7.0 (SDK 24) con SDK objetivo 36.
 
-******
-
-### Estructura de recursos
-
-******
-
-```text
-.readme/lang_*.json
-.changelog/lang_*.json
-.python/generate_markdown.py
-app/src/main/assets/doc/CHANGELOG-*.md
-app/src/main/res/values-*/strings.xml
-app/src/main/res/raw-*/plugin_instruction.md
-```
-
-strings.xml localiza metadatos e interfaz. plugin_instruction.md contiene instrucciones para el host. .python/generate_markdown.py genera README y registros localizados desde JSON.
-
-******
+Los archivos README y CHANGELOG se generan con .python/generate_markdown.py a partir de las fuentes JSON y plantillas de .readme/ y .changelog/ (10 idiomas). Para cambiar la documentación, edita las fuentes JSON y vuelve a ejecutar el script en lugar de editar el Markdown generado.
 
 ### Enlaces
 
-******
-
 - Documentación de AutoJs6: https://docs.autojs6.com
-- Uso compartido seguro de archivos en Android: https://developer.android.com/training/secure-file-sharing
+- Compartición segura de archivos en Android: https://developer.android.com/training/secure-file-sharing

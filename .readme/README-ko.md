@@ -1,11 +1,11 @@
-<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
-
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="apk-inspector-ic-launcher" border="0" width="128" />
+    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
   </p>
 
-  <p>파일 관리자 플러그인. APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사</p>
+  <h1>APK Inspector</h1>
+
+  <p>AutoJs6 파일 관리자 플러그인: APK나 AAB 파일을 탭하기만 하면 설치 없이 버전, 권한, 서명, 기기 호환성을 확인</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -14,13 +14,9 @@
   </p>
 </div>
 
-******
-
 ### 언어 (Languages)
 
-******
-
-현재 README.md는 다음 언어를 지원합니다:
+이 README는 다음 언어로 제공됩니다:
 
 - [简体中文 [zh-Hans]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hans.md)
 - [繁體中文 (香港) [zh-Hant-HK]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-zh-Hant-HK.md)
@@ -33,46 +29,77 @@
 - [Русский [ru]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ru.md)
 - [العربية [ar]](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/.readme/README-ar.md)
 
-******
-
 ### 소개
 
-******
+APK Inspector는 AutoJs6 파일 관리자의 확장 플러그인입니다. 파일 관리자에서 APK, APKS, XAPK, APKM, APKZ, AAB 파일을 탭하면 검사 보고서가 바로 열립니다. 앱 이름, 버전, 요청 권한, 이 기기에 설치 가능한지 여부를 한 화면에서 확인할 수 있습니다. 패키지는 설치되지 않으며 원본 파일도 절대 수정되지 않습니다.
 
-APK Inspector는 파일 관리자에서 Android 패키지 파일을 검사하는 기본 동작을 제공합니다. 크기가 제한된 앱 전용 스냅샷을 분석하며 원본 패키지를 수정하거나 설치하지 않습니다.
+보고서는 네 부분으로 구성됩니다. "패키지 세부 정보"에는 앱 이름, 아이콘, 패키지 이름, 버전, SDK 범위, 서명 검증과 서명 인증서 교체 계보, 파일 크기, SHA-256 체크섬이 표시됩니다. "구성 요소"에는 패키지 안의 모든 분할 APK와 OBB 자산이 나열되고 이 기기와 일치하는 부분이 표시됩니다 (AAB는 모듈 목록). "요청 권한"에는 앱이 요청하는 시스템 권한이 모두 나열됩니다. "보안 및 호환성 결과"에는 구조적 문제와 기기 호환성 판정이 정리됩니다. "manifest 보기" 버튼으로 정형화된 AndroidManifest 전문도 볼 수 있습니다.
 
-******
+### 주요 기능
 
-### 기능
+- 탭 한 번으로 검사: AutoJs6 파일 관리자에서 바로 보고서를 엽니다. 설치, 압축 해제, 네트워크 접근이 필요 없습니다.
+- 여섯 가지 형식: 표준 APK, 다중 분할 번들 형식 (APKS, XAPK, APKM, APKZ), 스토어 배포 형식 AAB를 지원하며, APKS는 bundletool과 SAI 내보내기를 모두 처리합니다.
+- 버전과 호환성: 패키지 이름, 버전 이름과 코드, 최소/대상/최대 SDK를 표시하고 기기의 Android 버전과 대조해 설치 전에 호환성을 판단할 수 있습니다.
+- 권한 투명성: 앱이 요청하는 시스템 권한 전체를 정렬·중복 제거해 설치 전에 보여줍니다.
+- 분할 APK 분석: 번들 안의 모든 APK 항목과 OBB 자산을 나열하고 이 기기용으로 선택되는 분할 (베이스, 언어, 화면 밀도, ABI) 을 표시합니다.
+- 서명 및 인증서 검증: APK V2 / V3 / V3.1 서명을 암호학적으로 검증하고 V1 존재 여부를 보고합니다. 현재 서명 인증서를 각각 표시하며, 검증된 교체 계보의 이전/현재 관계와 SHA-256 지문도 보여 줍니다.
+- V4 / V4.1 사이드카 검증: AutoJs6는 정확한 `<APK 파일 이름>.idsig`만 파생해 제한된 읽기 전용 디스크립터를 부여합니다. 플러그인은 서명 데이터, 인증서와 공개 키, 대응하는 V2 / V3 APK 다이제스트, fs-verity 루트, 포함된 Merkle 트리 및 V3.1 교체 서명자를 검증합니다.
+- manifest 가독화: 바이너리 APK manifest와 AAB protobuf manifest를 읽기 쉬운 XML로 디코딩해 독립된 읽기 전용 뷰어에 표시합니다.
+- 무결성 대조: 파일을 읽는 동시에 SHA-256을 계산해 공식 배포처의 체크섬과 바로 비교할 수 있습니다.
+- 구조 점검: 베이스 APK 누락, 분할 중복이나 의존성 누락, 버전·패키지 불일치 등을 찾아내고, 차단 [!] 과 참고 [i] 를 구분해 표시합니다.
 
-******
+### 사용 방법
 
-- APK, APKS, XAPK, APKM, APKZ, AAB 파일에 Explorer Action 프로토콜 v2 기본 동작을 등록합니다.
-- 텍스트 및 바이너리 APK manifest, AAB protobuf manifest, bundletool toc.pb 메타데이터를 디코딩합니다.
-- 패키지 식별자, 버전, SDK 범위, 요청 권한, 구성 요소, 기기에 맞는 분할 APK, OBB 자산, 구조 문제를 표시합니다.
-- 암호학적 유효성을 단정하지 않고 APK V1, V2, V3 서명 방식의 존재를 감지합니다.
-- 정리된 Android Manifest를 별도의 읽기 전용 뷰어에 표시합니다.
-- 정확한 Android 패키지 MIME 형식을 위한 별도의 Android ACTION_VIEW 게이트웨이를 제공합니다.
+1. APK Inspector를 다운로드해 설치한 뒤 AutoJs6 플러그인 센터에서 활성화합니다 (AutoJs6 버전 코드 5277 이상 필요).
+2. AutoJs6 파일 관리자를 열고 확인할 패키지 파일 (APK, APKS, XAPK, APKM, APKZ, AAB) 을 찾습니다.
+3. 파일을 탭하거나 파일 메뉴에서 "Android 패키지 검사"를 선택하면 잠시 후 검사 보고서가 나타납니다.
+4. 앱 아이콘과 이름, 패키지 세부 정보, 구성 요소, 요청 권한, 보안 및 호환성 결과를 위에서부터 차례로 확인합니다.
+5. "manifest 보기"를 탭하면 AndroidManifest 전문을 읽을 수 있으며, 뒤로 가기를 누르면 파일 관리자로 돌아갑니다.
 
-******
+> 다른 앱도 content URI와 전용 Android 패키지 MIME 유형을 사용하면 시스템 "연결 프로그램" (ACTION_VIEW) 을 통해 APK Inspector로 패키지를 전달할 수 있습니다. 플러그인은 항상 읽기 전용이며 설치 수단을 전혀 제공하지 않습니다.
 
 ### 지원 형식
 
-******
-
-Explorer 기본 동작은 다음 확장자와 정확히 일치합니다:
+파일 관리자 기본 동작은 다음 확장자와 정확히 일치할 때 실행됩니다 (대소문자 구분 없음):
 
 ```text
 APK, APKS, XAPK, APKM, APKZ, AAB
 ```
 
-******
+APKS, XAPK, APKM, APKZ는 여러 분할 APK를 묶은 컨테이너 형식입니다. AAB는 앱 스토어 제출용 App Bundle 형식으로, 여기서 내용을 확인할 수 있지만 설치하려면 bundletool 등으로 APK(S)로 변환해야 합니다.
+
+### 자주 묻는 질문
+
+#### 이 플러그인으로 APK를 설치할 수 있나요?
+
+아니요, 의도된 설계입니다. 플러그인은 설치 권한을 요청하지 않으며 화면 어디에도 설치 버튼이 없습니다. 설치 전에 패키지 내용을 확인하는 것이 역할입니다. 설치는 시스템 설치 관리자나 호스트 자체 흐름을 이용하세요.
+
+#### 일부 파일은 왜 검사할 수 없나요?
+
+흔한 원인: 파일이 4 GiB 한도를 초과함, 기기 캐시 공간 부족 (최소 128 MiB 여유 필요), 번들의 항목 수나 크기가 해석 한도를 초과함, 읽는 도중 다른 앱이 파일을 변경함, 파일 자체의 구조 손상 등입니다. 오류 메시지에 구체적인 이유가 표시됩니다.
+
+#### 서명 감지 결과가 패키지의 안전을 증명하나요?
+
+아니요. 플러그인은 V2 / V3 / V3.1 / V4 / V4.1의 패키지 무결성과 서명자 증명을 암호학적으로 검증하고 인증서 지문과 교체 계보를 표시합니다. 하지만 유효한 서명이 증명하는 것은 해당 서명 이후 패키지가 바뀌지 않았다는 사실뿐이며 서명자나 앱 자체의 신뢰성은 아닙니다. 지문과 SHA-256을 공식 배포처와 대조하세요.
+
+#### AAB 파일에 "설치하려면 변환이 필요합니다"라고 표시되는 이유는 무엇인가요?
+
+AAB는 앱 스토어용 배포 형식이라 Android 기기에 직접 설치할 수 없습니다. 플러그인은 protobuf manifest와 모듈 구조를 디코딩해 보여줄 수 있지만, 설치하려면 먼저 bundletool 등으로 APK(S)로 변환해야 합니다.
+
+### 권한과 보안
+
+플러그인은 저장소, 네트워크, 패키지 설치 권한을 요청하지 않습니다. 선택한 패키지는 호스트가 부여한 임시 읽기 전용 content URI로만 접근하고, 선택적 `.idsig`는 호스트가 정확한 `<APK 파일 이름>.idsig`용으로 파생한 제한된 읽기 전용 디스크립터로만 접근합니다. 디렉터리 열거나 임의의 같은 폴더 경로를 제공하지 않습니다. 검사 전에 두 입력을 앱 전용 캐시의 읽기 전용 스냅샷으로 복사하고 (패키지 복사 중 SHA-256 계산), 모든 해석은 스냅샷에서만 수행합니다. `.idsig`는 40 MiB로 제한되며 만료된 스냅샷은 24시간 안에 정리됩니다. 파일 관리자 요청은 프로토콜 버전, 요청 및 동작 ID, 대상 메타데이터, 호스트 버전, URI 형식, 이름, 크기, 읽기 전용 권한, 세션 Binder를 항목별로 검증합니다. 다른 앱의 "연결 프로그램" 요청은 전용 패키지 MIME 유형만 허용하고 application/zip, application/octet-stream 및 쓰기·영구·접두사 권한을 거부합니다.
+
+조작된 파일이 기기 자원을 소진하지 못하도록 해석에는 다음 상한이 있으며, 상한을 넘는 파일은 사유와 함께 거부됩니다:
+
+- 파일 하나의 최대 크기는 4 GiB 이며, 복사 시 캐시에 128 MiB 이상의 여유가 있어야 하고, 한 번의 동작은 대상 파일 하나만 처리합니다.
+- 아카이브 항목은 최대 16384 개까지 해석하고, 번들당 APK 항목은 최대 512 개까지 살피며, 항목 이름은 최대 1024 자입니다.
+- 선언된 단일 항목 크기는 4 GiB, 선언된 총 크기는 8 GiB 를 넘을 수 없습니다.
+- 중첩 APK manifest 스캔은 256 MiB, 번들 메타데이터는 1 MiB, 아이콘·라벨 로딩용 임시 APK는 512 MiB 까지로 제한됩니다.
 
 ### 플러그인 인터페이스
 
-******
-
-호스트는 다음 식별자로 플러그인을 찾고 실행합니다:
+호스트 (AutoJs6) 는 다음 식별자로 플러그인을 발견하고 호출합니다. 플러그인·호스트 개발자를 위한 참고 정보입니다:
 
 ```text
 service action: org.autojs.plugin.EXPLORER_ACTION
@@ -82,68 +109,55 @@ engine: explorer-action
 variant: default
 Explorer action id: inspect-android-package
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
-required host build: 5269
+required host build: 5277
 ```
 
-버전 1은 검사만 수행합니다. 설치 버튼, 설치 권한, 패키지 설치 프로그램, 소스 편집, 디렉터리 열거 기능이 없습니다. 호스트 설치 흐름은 독립적으로 유지됩니다. 플러그인을 사용할 수 없으면 호스트는 대체 동작을 사용합니다.
+현재 버전은 읽기 전용 검사만 수행합니다. 설치 버튼, 설치 권한, 패키지 설치 관리자가 없고, 원본 파일을 수정하지 않으며, 디렉터리를 열거하지도 않습니다. V4는 호스트가 정확히 파생한 `.idsig` 후보만 사용하고 제한된 읽기 전용 디스크립터를 전용 스냅샷으로 복사한 직후 호스트 세션을 닫습니다. 플러그인이 없거나 비활성화되면 호스트는 기본 동작으로 자연스럽게 되돌아갑니다.
 
-호스트 빌드 5269 이상이 필요합니다.
+### Roadmap
 
-******
+구현된 기능은 위 내용과 Roadmap의 체크된 항목이 기준입니다. 보고서 내보내기, 리소스·네이티브 라이브러리 분석 등의 계획은 Roadmap에서 관리하며, 체크되지 않은 항목은 현재 기능이 아닙니다.
 
-### 보안
-
-******
-
-보호된 Explorer 게이트웨이는 프로토콜 v2, 기본 파일 화면, 동작 ID, content URI 계층, 정확한 ClipData, 표시 이름, 확장자, MIME 형식, 크기, 읽기 전용 grant를 검증합니다. 공개 ACTION_VIEW 게이트웨이는 전용 패키지 MIME 형식만 허용합니다. 입력은 SHA-256을 계산하며 크기가 제한된 읽기 전용 비공개 스냅샷으로 한 번 복사됩니다. 프로토콜의 상위 URI는 열거하지 않습니다.
-
-******
-
-### 안전 제한
-
-******
-
-- 최대 입력 크기: 4 GiB.
-- 동작당 대상 파일은 하나이며 캐시에 최소 128 MiB의 여유 공간이 필요합니다.
-- 아카이브 항목 수, 항목 이름, 선언 크기, 전체 크기, 중첩 APK 검색, 메타데이터, protobuf, manifest 출력에 제한이 적용됩니다.
-- 외부 ACTION_VIEW는 application/zip, application/octet-stream, 쓰기 grant, 영구 grant, prefix grant를 거부합니다.
-- V1에서 V3 서명 방식은 존재 여부만 확인합니다. V4에는 별도 idsig 입력이 필요하며 이 프로토콜 범위 밖입니다.
-- 플러그인은 패키지를 설치하지 않으며 저장소, 네트워크, 패키지 설치 권한을 요청하지 않습니다.
-
-******
+- [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
 ### 릴리스 기록
 
-******
+#### v1.1.0
 
-# v1.0.1
+_2026/08/30_
 
-###### 2026/08/08
+- `힌트` Explorer Action 프로토콜 v22와 제한된 V4 사이드카 접근에는 AutoJs6 버전 코드 5277 이상이 필요합니다
+- `기능` APK V2 / V3 / V3.1 / V4 / V4.1의 기기 내 암호학적 검증을 추가하여 콘텐츠 다이제스트, 서명자 증명, fs-verity 루트, 포함된 Merkle 트리 및 보완 서명 방식 일치를 확인합니다
+- `기능` 상세 서명 인증서 필드와 검증된 교체 계보를 추가하여 이전/현재 역할, 기능 플래그 및 SHA-256 지문을 표시합니다
+- `기능` 호스트가 정확히 파생한 읽기 전용 디스크립터로 `.idsig`를 제한적으로 스테이징합니다. 디렉터리 열거와 임의의 같은 폴더 파일 접근은 제공하지 않습니다
+- `개선` Explorer Action v22 요청 검증과 변경 불가 전용 스냅샷을 강화하고 패키지 4 GiB, idsig 40 MiB 제한, 파일 신원 확인 및 즉시 호스트 세션 종료를 추가했습니다
+- `개선` Build Tools 37 `apksigner`로 생성한 유효, 변조, 다중 서명자, V3.1/V4.1 교체, 누락 및 손상 서명 공식 샘플 행렬을 추가했습니다
 
-* `수정` 플러그인 센터에서 활성화할 때 유효한 Explorer Action 서비스 바인딩 반환
-* `개선` 플러그인 이름과 설명을 간결하게 하고 사용자 문서를 더 자연스럽게 정리
+#### v1.0.1
 
-# v1.0.0
+_2026/08/08_
 
-###### 2026/08/02
+- `수정` 플러그인 센터에서 활성화한 뒤 호스트가 플러그인 서비스에 바인딩하지 못하던 문제를 수정. 이제 활성화 직후 "Android 패키지 검사" 동작을 바로 사용할 수 있습니다
+- `개선` 플러그인 이름과 설명을 간결하게 다듬고 사용자 문서를 더 자연스럽게 개선
 
-* `기능` 플러그인 ID `apk-inspector`, 동작 ID `inspect-android-package`, 엔진 `explorer-action`, 변형 `default`를 사용하는 APK Inspector 플러그인
-* `기능` APK, APKS, XAPK, APKM, APKZ, AAB 파일을 위한 Explorer Action 프로토콜 v2 기본 읽기 전용 검사
-* `기능` 텍스트 및 바이너리 APK manifest, AAB protobuf manifest, bundletool `toc.pb` 메타데이터의 읽기 전용 디코딩
-* `기능` 패키지 세부 정보, 요청 권한, 구성 요소, 기기에 맞는 분할 APK, OBB 자산, 구조 결과, 정리된 manifest 보기, APK V1-V3 서명 방식 존재 감지
-* `기능` 보호된 Explorer와 정확한 MIME Android `ACTION_VIEW`를 분리한 게이트웨이, 4 GiB 제한, SHA-256을 계산하는 제한된 비공개 읽기 전용 스냅샷
-* `기능` 스페인어, 프랑스어, 러시아어, 아랍어, 일본어, 한국어, 영어, 중국어 간체, 홍콩 중국어 번체, 대만 중국어 번체로 현지화된 메타데이터, UI, 사용 안내, README, 변경 기록
-* `의존성` Gson 버전 2.13.2 추가
+#### v1.0.0
 
-##### 더 많은 릴리스
+_2026/08/02_
 
-* [CHANGELOG-ko.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/assets/doc/CHANGELOG-ko.md)
+- `힌트` 첫 공개 버전. AutoJs6 버전 코드 5269 이상이 필요합니다
+- `기능` AutoJs6 파일 관리자에서 APK, APKS, XAPK, APKM, APKZ, AAB 파일을 탭하면 읽기 전용 검사 보고서가 열립니다 (플러그인 ID `apk-inspector`, 동작 ID `inspect-android-package`)
+- `기능` 보고서에는 앱 이름과 아이콘, 패키지 이름, 버전, SDK 범위, 요청 권한, 분할 APK와 OBB 자산, 구조적 문제, V1-V3 서명 방식 존재 여부가 표시됩니다
+- `기능` 텍스트/바이너리 APK manifest, AAB protobuf manifest, bundletool `toc.pb` 메타데이터를 자동 디코딩하고 정형화된 manifest 전용 뷰어를 제공
+- `기능` 다른 앱도 전용 Android 패키지 MIME 유형으로 시스템 "연결 프로그램" (ACTION_VIEW) 을 통해 검사를 시작할 수 있습니다
+- `기능` 검사 전에 파일을 SHA-256 계산이 포함된 읽기 전용 비공개 스냅샷으로 복사 (상한 4 GiB). 플러그인은 저장소, 네트워크, 설치 권한을 요청하지 않습니다
+- `기능` UI 텍스트, 사용 설명, README, CHANGELOG를 10개 언어로 제공: 중국어 간체, 중국어 번체 (홍콩/대만), 영어, 프랑스어, 스페인어, 일본어, 한국어, 러시아어, 아랍어
+- `의존성` Gson 2.13.2 추가
 
-******
+##### 전체 기록
+
+- [CHANGELOG-ko.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/assets/doc/CHANGELOG-ko.md)
 
 ### 빌드
-
-******
 
 ```powershell
 .\gradlew.bat :app:assembleDebug
@@ -155,30 +169,11 @@ Release 빌드:
 .\gradlew.bat :app:assembleRelease
 ```
 
-빌드 매개변수는 version.properties에서 가져옵니다. 현재 최소 SDK는 24이고 대상 SDK는 36입니다.
+빌드와 서명 매개변수는 version.properties와 sign.properties가 관리합니다. 현재 최소 지원은 Android 7.0 (SDK 24), 대상 SDK는 36입니다.
 
-******
+README와 CHANGELOG는 .readme/ 와 .changelog/ 의 JSON 언어 소스와 템플릿을 바탕으로 .python/generate_markdown.py 가 생성합니다 (10개 언어). 문서를 수정할 때는 생성된 Markdown을 직접 고치지 말고 JSON 소스를 수정한 뒤 스크립트를 다시 실행하세요.
 
-### 리소스 구성
-
-******
-
-```text
-.readme/lang_*.json
-.changelog/lang_*.json
-.python/generate_markdown.py
-app/src/main/assets/doc/CHANGELOG-*.md
-app/src/main/res/values-*/strings.xml
-app/src/main/res/raw-*/plugin_instruction.md
-```
-
-strings.xml은 플러그인 메타데이터와 UI 텍스트를 현지화합니다. plugin_instruction.md는 호스트에 표시되는 안내를 제공합니다. .python/generate_markdown.py는 JSON 소스에서 현지화된 README와 변경 기록을 생성합니다.
-
-******
-
-### 링크
-
-******
+### 관련 링크
 
 - AutoJs6 문서: https://docs.autojs6.com
-- Android 보안 파일 공유: https://developer.android.com/training/secure-file-sharing
+- Android 안전한 파일 공유: https://developer.android.com/training/secure-file-sharing
