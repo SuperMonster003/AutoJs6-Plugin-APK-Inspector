@@ -20,5 +20,8 @@
   "max_declared_total_size": "8 GiB",
   "max_nested_apk_scan": "256 MiB",
   "max_metadata_size": "1 MiB",
-  "max_display_apk_size": "512 MiB"
+  "max_display_apk_size": "512 MiB",
+  "max_permission_scan": "2048",
+  "max_permission_display": "512",
+  "max_permission_description_chars": "240"
 }

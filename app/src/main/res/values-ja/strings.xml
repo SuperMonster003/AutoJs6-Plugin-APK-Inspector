@@ -60,4 +60,10 @@
     <string name="section_requested_permissions">要求権限</string>
     <string name="text_none">なし</string>
     <string name="text_unknown">不明</string>
+    <string name="permission_group_runtime">実行時 / 危険（%1$d）</string>
+    <string name="permission_group_signature">署名 / 保護（%1$d）</string>
+    <string name="permission_group_normal">通常（%1$d）</string>
+    <string name="permission_runtime_description_fallback">この権限は、ユーザーの承認後に機密データや操作へアクセスできます。</string>
+    <string name="permission_protection_unavailable">このデバイスでは保護レベルを取得できないため、未分類として表示しています。</string>
+    <string name="permission_omitted">安全上の上限（%2$d 件）により、追加の %1$d 件の権限を省略しました。</string>
 </resources>

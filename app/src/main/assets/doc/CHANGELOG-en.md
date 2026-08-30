@@ -8,6 +8,7 @@ _2026/08/30_
 - `Feature` Added on-device cryptographic verification for APK Signature Scheme V2, V3, V3.1, V4, and V4.1, including content digests, signer proofs, fs-verity roots, embedded Merkle trees, and complementary-scheme matching
 - `Feature` Added detailed signing-certificate fields and verified proof-of-rotation lineages with old/current roles, capability flags, and SHA-256 fingerprints
 - `Feature` Added bounded `.idsig` staging through an exact host-derived read-only descriptor; directory enumeration and arbitrary sibling access remain unavailable
+- `Feature` Grouped requested permissions by `protectionLevel` into runtime/dangerous, signature/protected, and normal sections; runtime permissions are highlighted first with bounded one-line descriptions, while unavailable levels remain visible and labeled
 - `Improvement` Hardened Explorer Action v22 request validation and immutable private snapshots, with a 4 GiB package limit, a 40 MiB idsig limit, identity checks, and prompt host-session closure
 - `Improvement` Added official Build Tools 37 `apksigner` fixtures for valid, tampered, multi-signer, V3.1 rotation, V4.1 rotation, missing, and malformed-signature cases
 

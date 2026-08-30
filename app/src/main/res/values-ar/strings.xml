@@ -60,4 +60,10 @@
     <string name="section_requested_permissions">الأذونات المطلوبة</string>
     <string name="text_none">لا شيء</string>
     <string name="text_unknown">غير معروف</string>
+    <string name="permission_group_runtime">وقت التشغيل / خطرة (%1$d)</string>
+    <string name="permission_group_signature">التوقيع / محمية (%1$d)</string>
+    <string name="permission_group_normal">عادية (%1$d)</string>
+    <string name="permission_runtime_description_fallback">يمكن لهذا الإذن الوصول إلى بيانات أو إجراءات حساسة بعد موافقة المستخدم.</string>
+    <string name="permission_protection_unavailable">مستوى الحماية غير متاح على هذا الجهاز؛ يُعرض هنا على أنه غير مصنف.</string>
+    <string name="permission_omitted">تم حذف %1$d إذنًا إضافيًا بسبب حد الأمان البالغ %2$d عنصرًا.</string>
 </resources>

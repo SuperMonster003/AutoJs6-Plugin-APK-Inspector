@@ -60,4 +60,10 @@
     <string name="section_requested_permissions">Autorisations demandées</string>
     <string name="text_none">Aucun</string>
     <string name="text_unknown">Inconnu</string>
+    <string name="permission_group_runtime">À l’exécution / dangereuses (%1$d)</string>
+    <string name="permission_group_signature">Signature / protégées (%1$d)</string>
+    <string name="permission_group_normal">Normales (%1$d)</string>
+    <string name="permission_runtime_description_fallback">Cette autorisation peut accéder à des données ou actions sensibles après l’approbation de l’utilisateur.</string>
+    <string name="permission_protection_unavailable">Le niveau de protection n’est pas disponible sur cet appareil ; l’autorisation est affichée comme non classée.</string>
+    <string name="permission_omitted">%1$d autorisations supplémentaires ont été omises par la limite de sécurité de %2$d éléments.</string>
 </resources>

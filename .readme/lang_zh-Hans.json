@@ -6,13 +6,13 @@
   "p_languages_all_supported_for_readme": "README 提供以下语言版本",
   "h3_introduction": "项目简介",
   "p_introduction": "APK 检查器 (APK Inspector) 是 AutoJs6 文件管理器的配套插件. 在文件管理器中点击 APK, APKS, XAPK, APKM, APKZ 或 AAB 文件, 即可直接打开一份安装包检查报告: 应用叫什么、是什么版本、要哪些权限、能否在当前设备安装, 一屏看清. 全程无需安装该软件包, 插件也绝不修改原文件.",
-  "p_introduction_report": "检查报告分为四个部分: “软件包详情” 显示应用名称、图标、包名、版本、SDK 范围、签名验证与签名证书轮换链、文件大小及 SHA-256 校验值; “组件” 列出包内全部 APK 分包与 OBB 资源, 并标出与当前设备匹配的部分 (AAB 则列出模块); “请求的权限” 完整列出应用申请的系统权限; “安全与兼容性发现” 给出结构问题与设备兼容性结论. 报告页的 “查看清单” 按钮还可打开格式化后的 AndroidManifest 全文.",
+  "p_introduction_report": "检查报告分为四个部分: “软件包详情” 显示应用名称、图标、包名、版本、SDK 范围、签名验证与签名证书轮换链、文件大小及 SHA-256 校验值; “组件” 列出包内全部 APK 分包与 OBB 资源, 并标出与当前设备匹配的部分 (AAB 则列出模块); “请求的权限” 按保护级别分组列出应用申请的系统权限, 将运行时危险权限置顶并附简短说明; “安全与兼容性发现” 给出结构问题与设备兼容性结论. 报告页的 “查看清单” 按钮还可打开格式化后的 AndroidManifest 全文.",
   "h3_functions": "功能亮点",
   "features": [
     "点击即查: 在 AutoJs6 文件管理器中点击安装包文件即可打开检查报告, 无需安装、解压或联网.",
     "六种格式: 支持标准 APK、多分包集合格式 (APKS, XAPK, APKM, APKZ) 以及应用商店分发格式 AAB; APKS 同时兼容 bundletool 与 SAI 两种导出.",
     "版本与兼容性: 显示包名、版本名与版本号、最低/目标/最高 SDK, 并与当前设备系统版本对照, 安装前即可判断兼容性.",
-    "权限透明: 完整列出应用请求的全部系统权限, 自动排序去重, 安装前心中有数.",
+    "权限透明: 按保护级别把请求权限分为运行时/危险、签名/受保护和普通三组, 高亮置顶运行时权限并附一句话说明; 无法解析的级别仍会显示并明确标注.",
     "分包分析: 列出集合包内全部 APK 条目与 OBB 数据包, 标出为当前设备选中的分包 (基础包、语言、屏幕密度、架构等).",
     "签名与证书验证: 对 APK V2 / V3 / V3.1 签名执行真实密码学验证, 报告 V1 是否存在; 逐一展示当前签名证书, 并标注已验证轮换链中的新旧关系与 SHA-256 指纹.",
     "V4 / V4.1 同级签名验证: AutoJs6 只派生精确同级文件 `<APK 文件名>.idsig` 并授予有界只读描述符; 插件验证签名数据、证书与公钥、对应 V2 / V3 APK 摘要、fs-verity 根、内嵌 Merkle 树及 V3.1 轮换签名者.",
@@ -58,7 +58,8 @@
     "单个文件最大 {{ max_input_size }}, 复制时缓存至少保留 {{ min_free_cache }} 可用空间; 每次动作只处理一个目标文件.",
     "归档最多解析 {{ max_archive_entries }} 个条目, 集合包最多扫描 {{ max_apk_entries }} 个 APK 分包, 条目名最长 {{ max_entry_name_chars }} 字符.",
     "声明的单条目大小不超过 {{ max_declared_entry_size }}, 声明总大小不超过 {{ max_declared_total_size }}.",
-    "嵌套 APK 清单扫描不超过 {{ max_nested_apk_scan }}, 集合包元数据不超过 {{ max_metadata_size }}, 用于加载图标与标签的临时 APK 不超过 {{ max_display_apk_size }}."
+    "嵌套 APK 清单扫描不超过 {{ max_nested_apk_scan }}, 集合包元数据不超过 {{ max_metadata_size }}, 用于加载图标与标签的临时 APK 不超过 {{ max_display_apk_size }}.",
+    "权限分类最多扫描 {{ max_permission_scan }} 项请求、显示 {{ max_permission_display }} 个安全且去重的名称, 每条系统说明最多 {{ max_permission_description_chars }} 个字符; 省略项和无法获取的保护级别都会明确标注."
   ],
   "h3_plugin_interface": "插件接口",
   "p_plugin_interface": "宿主 (AutoJs6) 通过以下标识发现并调用插件, 供插件或宿主开发者参考",

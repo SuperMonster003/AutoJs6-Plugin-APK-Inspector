@@ -185,6 +185,7 @@ internal data class ManifestSummary(
     val applicationLabel: String?,
     val requestedPermissions: List<String>,
     val usesSplits: List<String>,
+    val declaredPermissionProtectionLevels: Map<String, Int> = emptyMap(),
 )
 
 internal data class PackageDeviceSpec(
@@ -827,6 +828,8 @@ internal object ManifestSummaryParser {
     private val applicationTag = Regex("""<application\b([^>]*)/?>""", RegexOption.IGNORE_CASE)
     private val usesSdkTag = Regex("""<uses-sdk\b([^>]*)/?>""", RegexOption.IGNORE_CASE)
     private val permissionTag = Regex("""<uses-permission(?:-sdk-\d+)?\b([^>]*)/?>""", RegexOption.IGNORE_CASE)
+    private val declaredPermissionTag =
+        Regex("""<permission(?=\s|/?>)([^>]*)/?>""", RegexOption.IGNORE_CASE)
     private val usesSplitTag = Regex("""<uses-split\b([^>]*)/?>""", RegexOption.IGNORE_CASE)
     private val attribute = Regex("""(?:^|\s)([A-Za-z_][A-Za-z0-9_.-]*(?::[A-Za-z_][A-Za-z0-9_.-]*)?)\s*=\s*("([^"]*)"|'([^']*)')""")
 
@@ -871,6 +874,19 @@ internal object ManifestSummaryParser {
                 .distinct()
                 .sorted()
                 .toList(),
+            declaredPermissionProtectionLevels = declaredPermissionTag.findAll(xml)
+                .take(MAX_DECLARED_PERMISSIONS)
+                .mapNotNull { match ->
+                    val attributes = parseAttributes(match.groupValues[1])
+                    val name = attributes.value("name")?.takeIf(String::isNotBlank)
+                        ?: return@mapNotNull null
+                    val protectionLevel = attributes.value("protectionLevel")
+                        ?.toProtectionLevelFlexible()
+                        ?: if (attributes.value("protectionLevel") == null) 0 else return@mapNotNull null
+                    name to protectionLevel
+                }
+                .sortedBy { (name) -> name }
+                .toMap(),
         )
     }
 
@@ -889,6 +905,24 @@ internal object ManifestSummaryParser {
         this.equals("true", true) || this == "1" || this.equals("0xffffffff", true)
 
     private fun String.toIntFlexible(): Int? = toLongFlexible()?.takeIf { it in 0..Int.MAX_VALUE }?.toInt()
+
+    private fun String.toProtectionLevelFlexible(): Int? {
+        toIntFlexible()?.let { return it }
+        return split('|').asSequence()
+            .map { token -> token.trim().lowercase(Locale.ROOT).replace("_", "") }
+            .mapNotNull { token ->
+                when (token) {
+                    "normal" -> 0
+                    "dangerous" -> 1
+                    "signature" -> 2
+                    "signatureorsystem" -> 3
+                    "internal" -> 4
+                    else -> null
+                }
+            }
+            .distinct()
+            .singleOrNull()
+    }
 
     private fun String.toLongFlexible(): Long? {
         val value = trim()
@@ -921,4 +955,5 @@ internal object ManifestSummaryParser {
         }
 
     private val ENTITY = Regex("""&(#x?[0-9A-Fa-f]+|amp|lt|gt|quot|apos);""")
+    private const val MAX_DECLARED_PERMISSIONS = 2_048
 }

@@ -60,4 +60,10 @@
     <string name="section_requested_permissions">请求的权限</string>
     <string name="text_none">无</string>
     <string name="text_unknown">未知</string>
+    <string name="permission_group_runtime">运行时 / 危险（%1$d）</string>
+    <string name="permission_group_signature">签名 / 受保护（%1$d）</string>
+    <string name="permission_group_normal">普通（%1$d）</string>
+    <string name="permission_runtime_description_fallback">此权限经用户批准后可访问敏感数据或执行敏感操作。</string>
+    <string name="permission_protection_unavailable">此设备无法提供保护级别；该权限在此显示为未分类。</string>
+    <string name="permission_omitted">出于安全限制（最多显示 %2$d 项），已省略另外 %1$d 项权限。</string>
 </resources>

@@ -60,4 +60,10 @@
     <string name="section_requested_permissions">Requested permissions</string>
     <string name="text_none">None</string>
     <string name="text_unknown">Unknown</string>
+    <string name="permission_group_runtime">Runtime / dangerous (%1$d)</string>
+    <string name="permission_group_signature">Signature / protected (%1$d)</string>
+    <string name="permission_group_normal">Normal (%1$d)</string>
+    <string name="permission_runtime_description_fallback">This permission can access sensitive data or actions after user approval.</string>
+    <string name="permission_protection_unavailable">Protection level is unavailable on this device; shown here as unclassified.</string>
+    <string name="permission_omitted">Permission entries omitted by the safety limit (maximum shown: %2$d): %1$d</string>
 </resources>

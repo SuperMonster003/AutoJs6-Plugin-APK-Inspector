@@ -33,14 +33,14 @@ Ce README est disponible dans les langues suivantes:
 
 APK Inspector est un plugin compagnon du gestionnaire de fichiers AutoJs6. Touchez un fichier APK, APKS, XAPK, APKM, APKZ ou AAB dans le gestionnaire de fichiers : un rapport d'inspection s'ouvre aussitôt et montre, sur un seul écran, le nom de l'application, sa version, les autorisations demandées et si elle peut être installée sur cet appareil. Le paquet n'est jamais installé et le fichier source n'est jamais modifié.
 
-Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de l'application, l'icône, le nom du paquet, la version, la plage de SDK, la vérification des signatures et la lignée des certificats de signature, la taille du fichier et l'empreinte SHA-256 ; « Composants » liste chaque APK divisé (split) et chaque ressource OBB du paquet en marquant les parties correspondant à cet appareil (pour un AAB, les modules) ; « Autorisations demandées » liste toutes les autorisations système demandées ; « Constats de sécurité et de compatibilité » résume les problèmes structurels et le verdict de compatibilité. Le bouton « Afficher le manifeste » ouvre l'AndroidManifest complet et mis en forme.
+Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de l'application, l'icône, le nom du paquet, la version, la plage de SDK, la vérification des signatures et la lignée des certificats de signature, la taille du fichier et l'empreinte SHA-256 ; « Composants » liste chaque APK divisé (split) et chaque ressource OBB du paquet en marquant les parties correspondant à cet appareil (pour un AAB, les modules) ; « Autorisations demandées » regroupe les autorisations système par niveau de protection et met en avant les autorisations dangereuses à l’exécution avec une brève explication ; « Constats de sécurité et de compatibilité » résume les problèmes structurels et le verdict de compatibilité. Le bouton « Afficher le manifeste » ouvre l'AndroidManifest complet et mis en forme.
 
 ### Points forts
 
 - Une pression suffit : le rapport s'ouvre directement depuis le gestionnaire de fichiers AutoJs6, sans installation, extraction ni accès réseau.
 - Six formats : APK standard, formats à splits multiples (APKS, XAPK, APKM, APKZ) et format de distribution AAB ; APKS couvre les exports bundletool et SAI.
 - Version et compatibilité : nom du paquet, nom et code de version, SDK min/cible/max, comparés à la version Android de l'appareil avant toute installation.
-- Transparence des autorisations : liste complète des autorisations système demandées, triée et dédupliquée, avant d'installer quoi que ce soit.
+- Transparence des autorisations : regroupement par niveau de protection (exécution/dangereuses, signature/protégées et normales), avec les autorisations à l’exécution mises en avant et expliquées en une ligne ; les niveaux indisponibles restent visibles et signalés.
 - Analyse des splits : liste chaque entrée APK et chaque ressource OBB d'un bundle et marque les splits retenus pour cet appareil (base, langue, densité d'écran, ABI).
 - Vérification des signatures et certificats : vérifie cryptographiquement les schémas APK V2, V3 et V3.1 ; signale la présence de V1 ; affiche chaque certificat actuel et la lignée de rotation vérifiée avec les rôles ancien/nouveau et les empreintes SHA-256.
 - Vérification des fichiers annexes V4/V4.1 : AutoJs6 dérive uniquement le fichier voisin exact `<nom de l’APK>.idsig` et accorde un descripteur borné en lecture seule ; le plugin vérifie les données signées, le certificat et la clé publique, le condensat APK V2/V3 correspondant, la racine fs-verity, l’arbre de Merkle intégré et tout signataire de rotation V3.1.
@@ -96,6 +96,7 @@ Pour empêcher des fichiers forgés d'épuiser les ressources de l'appareil, l'a
 - Au plus 16384 entrées d'archive sont analysées, au plus 512 entrées APK par bundle sont parcourues, et les noms d'entrée sont limités à 1024 caractères.
 - La taille déclarée d'une entrée ne peut dépasser 4 GiB, et le total déclaré ne peut dépasser 8 GiB.
 - L'analyse des manifestes d'APK imbriqués est plafonnée à 256 MiB, les métadonnées de bundle à 1 MiB, et l'APK temporaire servant à charger l'icône et le libellé à 512 MiB.
+- La classification examine au plus 2048 demandes, affiche jusqu’à 512 noms sûrs et uniques et limite chaque explication chargée à 240 caractères ; les omissions et niveaux indisponibles sont clairement signalés.
 
 ### Interface du plugin
 
@@ -130,6 +131,7 @@ _2026/08/30_
 - `Fonctionnalité` Ajout de la vérification cryptographique sur l’appareil des schémas APK V2, V3, V3.1, V4 et V4.1, y compris les condensats, preuves du signataire, racines fs-verity, arbres de Merkle intégrés et correspondance avec le schéma complémentaire
 - `Fonctionnalité` Ajout des champs détaillés des certificats et des lignées de rotation vérifiées avec rôles ancien/actuel, indicateurs de capacité et empreintes SHA-256
 - `Fonctionnalité` Ajout de la copie bornée de `.idsig` via un descripteur en lecture seule dérivé exactement par l’hôte ; l’énumération des répertoires et l’accès arbitraire aux voisins restent indisponibles
+- `Fonctionnalité` Regroupement des autorisations demandées selon `protectionLevel` en exécution/dangereuses, signature/protégées et normales ; celles à l’exécution sont mises en avant avec une explication bornée sur une ligne, tandis que les niveaux indisponibles restent visibles et signalés
 - `Amélioration` Renforcement de la validation Explorer Action v22 et des instantanés privés immuables, avec limites de 4 GiB pour le paquet et 40 MiB pour idsig, contrôles d’identité et fermeture rapide de la session
 - `Amélioration` Ajout d’échantillons officiels Build Tools 37 `apksigner` couvrant signatures valides, altérées, multiples, rotations V3.1/V4.1, absences et formats incorrects
 

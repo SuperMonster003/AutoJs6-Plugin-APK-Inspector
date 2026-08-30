@@ -6,13 +6,13 @@
   "p_languages_all_supported_for_readme": "README 提供以下語言版本",
   "h3_introduction": "專案簡介",
   "p_introduction": "APK 檢查器 (APK Inspector) 是 AutoJs6 檔案管理器的配套外掛. 在檔案管理器中點擊 APK, APKS, XAPK, APKM, APKZ 或 AAB 檔案, 即可直接開啟一份安裝包檢查報告: 應用叫什麼、是什麼版本、要哪些權限、能否在目前裝置安裝, 一畫面看清. 全程無須安裝該套件, 外掛也絕不修改原始檔案.",
-  "p_introduction_report": "檢查報告分為四個部分: 「套件詳細資料」顯示應用名稱、圖示、套件名稱、版本、SDK 範圍、簽章驗證與簽章憑證輪替鏈、檔案大小及 SHA-256 校驗值; 「元件」列出包內全部 APK 分包與 OBB 資源, 並標出與目前裝置配對的部分 (AAB 則列出模組); 「要求的權限」完整列出應用申請的系統權限; 「安全與相容性發現」給出結構問題與裝置相容性結論. 報告頁的「檢視資訊清單」按鈕還可開啟格式化後的 AndroidManifest 全文.",
+  "p_introduction_report": "檢查報告分為四個部分: 「套件詳細資料」顯示應用名稱、圖示、套件名稱、版本、SDK 範圍、簽章驗證與簽章憑證輪替鏈、檔案大小及 SHA-256 校驗值; 「元件」列出包內全部 APK 分包與 OBB 資源, 並標出與目前裝置配對的部分 (AAB 則列出模組); 「要求的權限」依保護層級分組列出應用申請的系統權限, 將執行階段危險權限置頂並附簡短說明; 「安全與相容性發現」給出結構問題與裝置相容性結論. 報告頁的「檢視資訊清單」按鈕還可開啟格式化後的 AndroidManifest 全文.",
   "h3_functions": "功能亮點",
   "features": [
     "點擊即查: 在 AutoJs6 檔案管理器中點擊安裝包檔案即可開啟檢查報告, 無須安裝、解壓縮或連網.",
     "六種格式: 支援標準 APK、多分包集合格式 (APKS, XAPK, APKM, APKZ) 以及應用商店發佈格式 AAB; APKS 同時相容 bundletool 與 SAI 兩種匯出.",
     "版本與相容性: 顯示套件名稱、版本名與版本號、最低/目標/最高 SDK, 並與目前裝置系統版本對照, 安裝前即可判斷相容性.",
-    "權限透明: 完整列出應用要求的全部系統權限, 自動排序去重, 安裝前心中有數.",
+    "權限透明: 依保護層級把要求的權限分為執行階段/危險、簽章/受保護和一般三組, 高亮置頂執行階段權限並附一句說明; 無法解析的層級仍會顯示並清楚標示.",
     "分包分析: 列出集合包內全部 APK 條目與 OBB 資料包, 標出為目前裝置選中的分包 (基礎包、語言、螢幕密度、架構等).",
     "簽章與憑證驗證: 對 APK V2 / V3 / V3.1 簽章執行真正密碼學驗證, 報告 V1 是否存在; 逐一顯示目前簽章憑證, 並標註已驗證輪替鏈中的新舊關係與 SHA-256 指紋.",
     "V4 / V4.1 同層簽章驗證: AutoJs6 僅衍生精確同層檔案 `<APK 檔名>.idsig` 並授予有界唯讀描述元; 外掛驗證簽署資料、憑證與公開金鑰、對應 V2 / V3 APK 摘要、fs-verity 根、內嵌 Merkle 樹及 V3.1 輪替簽署者.",
@@ -58,7 +58,8 @@
     "單一檔案最大 {{ max_input_size }}, 複製時快取至少保留 {{ min_free_cache }} 可用空間; 每次動作只處理一個目標檔案.",
     "封存最多解析 {{ max_archive_entries }} 個條目, 集合包最多掃描 {{ max_apk_entries }} 個 APK 分包, 條目名稱最長 {{ max_entry_name_chars }} 字元.",
     "宣告的單條目大小不超過 {{ max_declared_entry_size }}, 宣告總大小不超過 {{ max_declared_total_size }}.",
-    "巢狀 APK 清單掃描不超過 {{ max_nested_apk_scan }}, 集合包中繼資料不超過 {{ max_metadata_size }}, 用於載入圖示與標籤的臨時 APK 不超過 {{ max_display_apk_size }}."
+    "巢狀 APK 清單掃描不超過 {{ max_nested_apk_scan }}, 集合包中繼資料不超過 {{ max_metadata_size }}, 用於載入圖示與標籤的臨時 APK 不超過 {{ max_display_apk_size }}.",
+    "權限分類最多掃描 {{ max_permission_scan }} 項要求、顯示 {{ max_permission_display }} 個安全且去重的名稱, 每則系統說明最多 {{ max_permission_description_chars }} 個字元; 省略項目和無法取得的保護層級都會清楚標示."
   ],
   "h3_plugin_interface": "外掛程式介面",
   "p_plugin_interface": "主程式 (AutoJs6) 透過以下識別探索並執行外掛, 供外掛或主程式開發者參考",

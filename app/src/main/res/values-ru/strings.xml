@@ -60,4 +60,10 @@
     <string name="section_requested_permissions">Запрошенные разрешения</string>
     <string name="text_none">Нет</string>
     <string name="text_unknown">Неизвестно</string>
+    <string name="permission_group_runtime">Во время выполнения / опасные (%1$d)</string>
+    <string name="permission_group_signature">Подпись / защищённые (%1$d)</string>
+    <string name="permission_group_normal">Обычные (%1$d)</string>
+    <string name="permission_runtime_description_fallback">Это разрешение может предоставлять доступ к конфиденциальным данным или действиям после одобрения пользователем.</string>
+    <string name="permission_protection_unavailable">Уровень защиты недоступен на этом устройстве; разрешение показано как неклассифицированное.</string>
+    <string name="permission_omitted">%1$d дополнительных разрешений не показано из-за безопасного ограничения в %2$d элементов.</string>
 </resources>

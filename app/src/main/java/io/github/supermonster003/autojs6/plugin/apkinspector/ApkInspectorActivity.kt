@@ -4,12 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.content.pm.PermissionInfo
+import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import android.text.format.Formatter
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import io.github.supermonster003.autojs6.plugin.apkinspector.databinding.ActivityApkInspectorBinding
 import kotlinx.coroutines.CancellationException
@@ -137,9 +144,25 @@ class ApkInspectorActivity : AppCompatActivity() {
                 info.versionCode.toLong()
             }
         } ?: summary?.versionCode
-        val requestedPermissions = (
+        val requestedPermissions =
             packageInfo?.requestedPermissions.orEmpty().asList() + summary?.requestedPermissions.orEmpty()
-        ).filter(String::isNotBlank).distinct().sorted()
+        val declaredProtectionLevels = buildMap {
+            summary?.declaredPermissionProtectionLevels.orEmpty().entries.asSequence()
+                .take(MAX_DECLARED_PERMISSION_DEFINITIONS)
+                .forEach { (name, protectionLevel) -> put(name, protectionLevel) }
+            packageInfo?.permissions.orEmpty().asSequence()
+                .take(MAX_DECLARED_PERMISSION_DEFINITIONS)
+                .forEach { permission ->
+                    permission.name?.takeIf(String::isNotBlank)?.let { name ->
+                        put(name, getProtectionLevel(permission))
+                    }
+                }
+        }
+        val permissionAnalysis = PermissionProtectionAnalyzer.analyze(
+            requestedPermissions = requestedPermissions,
+            declaredProtectionLevels = declaredProtectionLevels,
+            resolvePermission = ::resolvePermissionDefinition,
+        )
         val manifestPath = runCatching {
             val xml = archive.decodeDisplayManifest()
             File(packageFile.parentFile, "manifest.xml").apply {
@@ -225,8 +248,7 @@ class ApkInspectorActivity : AppCompatActivity() {
             icon = icon,
             details = details,
             components = components,
-            permissions = requestedPermissions.joinToString("\n") { "- $it" }
-                .ifBlank { getString(R.string.text_none) },
+            permissions = permissionAnalysis,
             findings = findings,
             manifestPath = manifestPath,
         )
@@ -244,6 +266,25 @@ class ApkInspectorActivity : AppCompatActivity() {
             PackageManager.GET_META_DATA or PackageManager.GET_PERMISSIONS or signerFlag,
         )
     }.getOrNull()
+
+    private fun resolvePermissionDefinition(permissionName: String): PermissionDefinition {
+        @Suppress("DEPRECATION")
+        val permission = packageManager.getPermissionInfo(permissionName, 0)
+        return PermissionDefinition(
+            protectionLevel = getProtectionLevel(permission),
+            description = runCatching {
+                permission.loadDescription(packageManager)?.toString()
+            }.getOrNull(),
+        )
+    }
+
+    private fun getProtectionLevel(permission: PermissionInfo): Int =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            permission.protection
+        } else {
+            @Suppress("DEPRECATION")
+            permission.protectionLevel
+        }
 
     private fun getCurrentSignerEncodings(packageInfo: PackageInfo?): List<ByteArray> {
         packageInfo ?: return emptyList()
@@ -433,13 +474,103 @@ class ApkInspectorActivity : AppCompatActivity() {
         report.icon?.let(binding.appIcon::setImageDrawable)
         binding.packageDetails.text = report.details
         binding.components.text = report.components
-        binding.permissions.text = report.permissions
+        binding.permissions.text = formatRequestedPermissions(report.permissions)
         binding.findings.text = report.findings
         binding.viewManifest.isVisible = report.manifestPath != null
         binding.viewManifest.isEnabled = report.manifestPath != null
         binding.viewManifest.setOnClickListener {
             report.manifestPath?.let { path -> startActivity(ManifestViewerActivity.createIntent(this, path)) }
         }
+    }
+
+    private fun formatRequestedPermissions(
+        analysis: RequestedPermissionAnalysis,
+    ): CharSequence {
+        if (analysis.permissions.isEmpty() && analysis.omittedCount == 0) {
+            return getString(R.string.text_none)
+        }
+        val output = SpannableStringBuilder()
+        val runtimeColor = ContextCompat.getColor(this, R.color.color_primary_dark)
+
+        fun appendGroup(
+            group: PermissionProtectionGroup,
+            titleResource: Int,
+            highlight: Boolean = false,
+        ) {
+            val permissions = analysis.permissionsIn(group)
+            if (permissions.isEmpty()) return
+            if (output.isNotEmpty()) output.append("\n\n")
+            val titleStart = output.length
+            output.append(getString(titleResource, permissions.size))
+            output.setSpan(
+                StyleSpan(Typeface.BOLD),
+                titleStart,
+                output.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+            )
+            if (highlight) {
+                output.setSpan(
+                    ForegroundColorSpan(runtimeColor),
+                    titleStart,
+                    output.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+                )
+            }
+            permissions.forEach { permission ->
+                output.append("\n- ")
+                val nameStart = output.length
+                output.append(permission.name)
+                if (highlight) {
+                    output.setSpan(
+                        StyleSpan(Typeface.BOLD),
+                        nameStart,
+                        output.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+                    )
+                    output.setSpan(
+                        ForegroundColorSpan(runtimeColor),
+                        nameStart,
+                        output.length,
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE,
+                    )
+                }
+                if (group == PermissionProtectionGroup.RUNTIME) {
+                    output.append("\n  ").append(
+                        permission.description
+                            ?: getString(R.string.permission_runtime_description_fallback),
+                    )
+                } else if (!permission.protectionLevelResolved) {
+                    output.append("\n  ").append(
+                        getString(R.string.permission_protection_unavailable),
+                    )
+                }
+            }
+        }
+
+        appendGroup(
+            PermissionProtectionGroup.RUNTIME,
+            R.string.permission_group_runtime,
+            highlight = true,
+        )
+        appendGroup(
+            PermissionProtectionGroup.SIGNATURE,
+            R.string.permission_group_signature,
+        )
+        appendGroup(
+            PermissionProtectionGroup.NORMAL,
+            R.string.permission_group_normal,
+        )
+        if (analysis.omittedCount > 0) {
+            if (output.isNotEmpty()) output.append("\n\n")
+            output.append(
+                getString(
+                    R.string.permission_omitted,
+                    analysis.omittedCount,
+                    PermissionProtectionAnalyzer.MAX_DISPLAYED_PERMISSIONS,
+                ),
+            )
+        }
+        return if (output.isEmpty()) getString(R.string.text_none) else output
     }
 
     private fun showError(message: String) {
@@ -459,7 +590,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         val icon: Drawable?,
         val details: String,
         val components: String,
-        val permissions: String,
+        val permissions: RequestedPermissionAnalysis,
         val findings: String,
         val manifestPath: String?,
     )
@@ -476,6 +607,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         private const val CERTIFICATE_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss 'UTC'"
         private const val FINGERPRINT_PREVIEW_CHARS = 12
         private const val LINEAGE_CAPABILITY_MASK = 0x1F
+        private const val MAX_DECLARED_PERMISSION_DEFINITIONS = 2_048
         private val SHA256_PATTERN = Regex("[0-9a-f]{64}")
 
         internal fun createIntent(context: Context, staged: StagedPackage): Intent =

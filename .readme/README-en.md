@@ -33,14 +33,14 @@ This README is available in the following languages:
 
 APK Inspector is a companion plugin for the AutoJs6 file manager. Tap an APK, APKS, XAPK, APKM, APKZ, or AAB file in the file manager and an inspection report opens right away: what the app is called, which version it is, which permissions it wants, and whether it can be installed on this device, all on one screen. The package is never installed, and the source file is never modified.
 
-The report has four sections: "Package details" shows the app name, icon, package name, version, SDK range, signature verification and signing-certificate lineage, file size, and SHA-256 checksum; "Components" lists every APK split and OBB asset inside the package and marks the parts that match this device (for AAB files it lists the modules); "Requested permissions" lists every system permission the app asks for; "Security and compatibility findings" summarizes structural problems and the device compatibility verdict. The "View manifest" button opens the full formatted AndroidManifest.
+The report has four sections: "Package details" shows the app name, icon, package name, version, SDK range, signature verification and signing-certificate lineage, file size, and SHA-256 checksum; "Components" lists every APK split and OBB asset inside the package and marks the parts that match this device (for AAB files it lists the modules); "Requested permissions" groups system permissions by protection level and highlights runtime/dangerous permissions first with a short explanation; "Security and compatibility findings" summarizes structural problems and the device compatibility verdict. The "View manifest" button opens the full formatted AndroidManifest.
 
 ### Highlights
 
 - One tap to inspect: open a report straight from the AutoJs6 file manager, with no installation, extraction, or network access.
 - Six formats: standard APK, multi-split bundle formats (APKS, XAPK, APKM, APKZ), and the store distribution format AAB; APKS covers both bundletool and SAI exports.
 - Version and compatibility: shows the package name, version name and code, and min/target/max SDK, compared against this device's Android version before you install.
-- Permission transparency: the complete list of requested system permissions, sorted and de-duplicated, before anything is installed.
+- Permission transparency: requested permissions are grouped by protection level (runtime/dangerous, signature/protected, and normal), with runtime permissions highlighted first and explained in one line; unavailable levels stay visible and clearly labeled.
 - Split analysis: lists every APK entry and OBB asset in a bundle and marks the splits selected for this device (base, language, screen density, ABI).
 - Signature and certificate verification: cryptographically verifies APK Signature Scheme V2, V3, and V3.1; reports V1 presence; lists current signing certificates and the verified certificate-rotation lineage with old/new roles and SHA-256 fingerprints.
 - V4/V4.1 sidecar verification: AutoJs6 derives only the exact `<APK name>.idsig` sibling and grants a bounded read-only descriptor; the plugin verifies the signed data, certificate and public key, complementary V2/V3 APK digest, fs-verity root, embedded Merkle tree, and any V3.1 rotation signer.
@@ -96,6 +96,7 @@ To keep maliciously crafted files from exhausting device resources, parsing is b
 - At most 16384 archive entries are parsed, at most 512 APK entries are scanned per bundle, and entry names may be at most 1024 characters.
 - Declared entry size may not exceed 4 GiB, and the declared total may not exceed 8 GiB.
 - Nested APK manifest scanning is capped at 256 MiB, bundle metadata at 1 MiB, and the temporary APK used to load the icon and label at 512 MiB.
+- Permission classification scans at most 2048 requests, displays at most 512 safe unique names, and limits each loaded explanation to 240 characters; omissions and unavailable protection levels are clearly labeled.
 
 ### Plugin interface
 
@@ -130,6 +131,7 @@ _2026/08/30_
 - `Feature` Added on-device cryptographic verification for APK Signature Scheme V2, V3, V3.1, V4, and V4.1, including content digests, signer proofs, fs-verity roots, embedded Merkle trees, and complementary-scheme matching
 - `Feature` Added detailed signing-certificate fields and verified proof-of-rotation lineages with old/current roles, capability flags, and SHA-256 fingerprints
 - `Feature` Added bounded `.idsig` staging through an exact host-derived read-only descriptor; directory enumeration and arbitrary sibling access remain unavailable
+- `Feature` Grouped requested permissions by `protectionLevel` into runtime/dangerous, signature/protected, and normal sections; runtime permissions are highlighted first with bounded one-line descriptions, while unavailable levels remain visible and labeled
 - `Improvement` Hardened Explorer Action v22 request validation and immutable private snapshots, with a 4 GiB package limit, a 40 MiB idsig limit, identity checks, and prompt host-session closure
 - `Improvement` Added official Build Tools 37 `apksigner` fixtures for valid, tampered, multi-signer, V3.1 rotation, V4.1 rotation, missing, and malformed-signature cases
 

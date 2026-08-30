@@ -6,13 +6,13 @@
   "p_languages_all_supported_for_readme": "This README is available in the following languages",
   "h3_introduction": "Introduction",
   "p_introduction": "APK Inspector is a companion plugin for the AutoJs6 file manager. Tap an APK, APKS, XAPK, APKM, APKZ, or AAB file in the file manager and an inspection report opens right away: what the app is called, which version it is, which permissions it wants, and whether it can be installed on this device, all on one screen. The package is never installed, and the source file is never modified.",
-  "p_introduction_report": "The report has four sections: \"Package details\" shows the app name, icon, package name, version, SDK range, signature verification and signing-certificate lineage, file size, and SHA-256 checksum; \"Components\" lists every APK split and OBB asset inside the package and marks the parts that match this device (for AAB files it lists the modules); \"Requested permissions\" lists every system permission the app asks for; \"Security and compatibility findings\" summarizes structural problems and the device compatibility verdict. The \"View manifest\" button opens the full formatted AndroidManifest.",
+  "p_introduction_report": "The report has four sections: \"Package details\" shows the app name, icon, package name, version, SDK range, signature verification and signing-certificate lineage, file size, and SHA-256 checksum; \"Components\" lists every APK split and OBB asset inside the package and marks the parts that match this device (for AAB files it lists the modules); \"Requested permissions\" groups system permissions by protection level and highlights runtime/dangerous permissions first with a short explanation; \"Security and compatibility findings\" summarizes structural problems and the device compatibility verdict. The \"View manifest\" button opens the full formatted AndroidManifest.",
   "h3_functions": "Highlights",
   "features": [
     "One tap to inspect: open a report straight from the AutoJs6 file manager, with no installation, extraction, or network access.",
     "Six formats: standard APK, multi-split bundle formats (APKS, XAPK, APKM, APKZ), and the store distribution format AAB; APKS covers both bundletool and SAI exports.",
     "Version and compatibility: shows the package name, version name and code, and min/target/max SDK, compared against this device's Android version before you install.",
-    "Permission transparency: the complete list of requested system permissions, sorted and de-duplicated, before anything is installed.",
+    "Permission transparency: requested permissions are grouped by protection level (runtime/dangerous, signature/protected, and normal), with runtime permissions highlighted first and explained in one line; unavailable levels stay visible and clearly labeled.",
     "Split analysis: lists every APK entry and OBB asset in a bundle and marks the splits selected for this device (base, language, screen density, ABI).",
     "Signature and certificate verification: cryptographically verifies APK Signature Scheme V2, V3, and V3.1; reports V1 presence; lists current signing certificates and the verified certificate-rotation lineage with old/new roles and SHA-256 fingerprints.",
     "V4/V4.1 sidecar verification: AutoJs6 derives only the exact `<APK name>.idsig` sibling and grants a bounded read-only descriptor; the plugin verifies the signed data, certificate and public key, complementary V2/V3 APK digest, fs-verity root, embedded Merkle tree, and any V3.1 rotation signer.",
@@ -58,7 +58,8 @@
     "A single file may be at most {{ max_input_size }}, at least {{ min_free_cache }} of cache space must remain free during the copy, and each action handles exactly one target file.",
     "At most {{ max_archive_entries }} archive entries are parsed, at most {{ max_apk_entries }} APK entries are scanned per bundle, and entry names may be at most {{ max_entry_name_chars }} characters.",
     "Declared entry size may not exceed {{ max_declared_entry_size }}, and the declared total may not exceed {{ max_declared_total_size }}.",
-    "Nested APK manifest scanning is capped at {{ max_nested_apk_scan }}, bundle metadata at {{ max_metadata_size }}, and the temporary APK used to load the icon and label at {{ max_display_apk_size }}."
+    "Nested APK manifest scanning is capped at {{ max_nested_apk_scan }}, bundle metadata at {{ max_metadata_size }}, and the temporary APK used to load the icon and label at {{ max_display_apk_size }}.",
+    "Permission classification scans at most {{ max_permission_scan }} requests, displays at most {{ max_permission_display }} safe unique names, and limits each loaded explanation to {{ max_permission_description_chars }} characters; omissions and unavailable protection levels are clearly labeled."
   ],
   "h3_plugin_interface": "Plugin interface",
   "p_plugin_interface": "The host (AutoJs6) discovers and invokes the plugin through the following identities, provided here for plugin and host developers",

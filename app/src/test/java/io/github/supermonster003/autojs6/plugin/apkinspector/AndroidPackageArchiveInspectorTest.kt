@@ -160,6 +160,15 @@ class AndroidPackageArchiveInspectorTest {
                 configForSplit = "base",
                 featureSplit = true,
                 usesSplit = "feature.core",
+                declaredPermissions = """
+                    <permission android:name="com.example.permission.RUNTIME" android:protectionLevel="dangerous|instant" />
+                    <permission android:name="com.example.permission.SIGNED" android:protectionLevel="signature|privileged" />
+                    <permission android:name="com.example.permission.NUMERIC" android:protectionLevel="0x00000001" />
+                    <permission android:name="com.example.permission.NORMAL" />
+                    <permission android:name="com.example.permission.INVALID" android:protectionLevel="not-a-level" />
+                    <permission android:name="com.example.permission.AMBIGUOUS" android:protectionLevel="normal|dangerous" />
+                    <permission-group android:name="com.example.permission.GROUP" />
+                """.trimIndent(),
             ).toString(Charsets.UTF_8),
         )
 
@@ -168,6 +177,15 @@ class AndroidPackageArchiveInspectorTest {
         assertTrue(summary.featureSplit)
         assertEquals(listOf("feature.core"), summary.usesSplits)
         assertEquals(listOf("android.permission.CAMERA"), summary.requestedPermissions)
+        assertEquals(
+            mapOf(
+                "com.example.permission.NORMAL" to 0,
+                "com.example.permission.NUMERIC" to 1,
+                "com.example.permission.RUNTIME" to 1,
+                "com.example.permission.SIGNED" to 2,
+            ),
+            summary.declaredPermissionProtectionLevels,
+        )
     }
 
     private fun manifest(
@@ -175,6 +193,7 @@ class AndroidPackageArchiveInspectorTest {
         configForSplit: String? = null,
         featureSplit: Boolean = false,
         usesSplit: String? = null,
+        declaredPermissions: String = "",
     ): ByteArray {
         val splitAttributes = buildString {
             split?.let { append(""" split="$it"""") }
@@ -190,6 +209,7 @@ class AndroidPackageArchiveInspectorTest {
                 android:versionName="1.2"$splitAttributes>
                 <uses-sdk android:minSdkVersion="24" android:targetSdkVersion="35" />
                 <uses-permission android:name="android.permission.CAMERA" />
+                $declaredPermissions
                 $usesSplitElement
                 <application android:label="Demo" />
             </manifest>

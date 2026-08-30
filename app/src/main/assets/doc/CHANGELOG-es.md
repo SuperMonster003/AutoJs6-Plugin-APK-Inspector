@@ -8,6 +8,7 @@ _2026/08/30_
 - `Función` Se añadió verificación criptográfica en el dispositivo para los esquemas APK V2, V3, V3.1, V4 y V4.1, incluidos resúmenes de contenido, pruebas del firmante, raíces fs-verity, árboles Merkle incrustados y coincidencia con el esquema complementario
 - `Función` Se añadieron campos detallados de certificados y linajes de rotación verificados con funciones antiguas/actuales, indicadores de capacidad y huellas SHA-256
 - `Función` Se añadió el almacenamiento temporal acotado de `.idsig` mediante un descriptor de solo lectura derivado exactamente por el anfitrión; no se permite enumerar directorios ni acceder a archivos adyacentes arbitrarios
+- `Función` Se agruparon los permisos solicitados por `protectionLevel` en ejecución/peligrosos, firma/protegidos y normales; los permisos de ejecución se destacan primero con explicaciones acotadas de una línea, y los niveles no disponibles siguen visibles y etiquetados
 - `Mejora` Se reforzaron la validación de solicitudes Explorer Action v22 y las instantáneas privadas inmutables, con límites de 4 GiB para el paquete y 40 MiB para idsig, comprobaciones de identidad y cierre inmediato de la sesión
 - `Mejora` Se añadieron muestras oficiales de `apksigner` de Build Tools 37 para firmas válidas, alteradas, múltiples, con rotación V3.1/V4.1, ausentes y mal formadas
 
