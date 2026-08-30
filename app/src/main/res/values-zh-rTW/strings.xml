@@ -10,6 +10,12 @@
     <string name="app_name">APK 檢查器</string>
     <string name="components_aab">模組: %1$d\n%2$s</string>
     <string name="components_apk">APK 項目: %1$d\n為此裝置選取: %2$d\nOBB 資源: %3$d\n%4$s</string>
+    <string name="container_metadata_heading">容器中繼資料 (%1$s)</string>
+    <string name="container_metadata_packager">打包工具: %1$s</string>
+    <string name="container_metadata_declared_version">宣告版本: %1$s (%2$s)</string>
+    <string name="container_metadata_icon_entry">圖示項目: %1$s</string>
+    <string name="container_metadata_limit">[i] 容器中繼資料超過 %1$d MiB 安全上限; 已省略其欄位.</string>
+    <string name="container_metadata_invalid">[i] 無法將容器中繼資料解碼為 JSON 物件; 已省略其欄位.</string>
     <string name="detail_certificate_issuer">憑證簽發者: %1$s</string>
     <string name="detail_certificate_serial">序號: 0x%1$s</string>
     <string name="detail_certificate_sha256">憑證 SHA-256: %1$s</string>

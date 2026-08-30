@@ -10,6 +10,12 @@
     <string name="app_name">Инспектор APK</string>
     <string name="components_aab">Модули: %1$d\n%2$s</string>
     <string name="components_apk">Записи APK: %1$d\nВыбрано для устройства: %2$d\nРесурсы OBB: %3$d\n%4$s</string>
+    <string name="container_metadata_heading">Метаданные контейнера (%1$s)</string>
+    <string name="container_metadata_packager">Инструмент упаковки: %1$s</string>
+    <string name="container_metadata_declared_version">Заявленная версия: %1$s (%2$s)</string>
+    <string name="container_metadata_icon_entry">Запись значка: %1$s</string>
+    <string name="container_metadata_limit">[i] Метаданные контейнера превышают предел безопасности %1$d MiB; их поля пропущены.</string>
+    <string name="container_metadata_invalid">[i] Метаданные контейнера не удалось декодировать как объект JSON; их поля пропущены.</string>
     <string name="detail_certificate_issuer">Издатель: %1$s</string>
     <string name="detail_certificate_serial">Серийный номер: 0x%1$s</string>
     <string name="detail_certificate_sha256">SHA-256 сертификата: %1$s</string>

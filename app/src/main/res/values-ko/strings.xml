@@ -10,6 +10,12 @@
     <string name="app_name">APK 검사기</string>
     <string name="components_aab">모듈: %1$d\n%2$s</string>
     <string name="components_apk">APK 항목: %1$d\n이 기기에 선택됨: %2$d\nOBB 자산: %3$d\n%4$s</string>
+    <string name="container_metadata_heading">컨테이너 메타데이터 (%1$s)</string>
+    <string name="container_metadata_packager">패키징 도구: %1$s</string>
+    <string name="container_metadata_declared_version">선언된 버전: %1$s (%2$s)</string>
+    <string name="container_metadata_icon_entry">아이콘 항목: %1$s</string>
+    <string name="container_metadata_limit">[i] 컨테이너 메타데이터가 %1$d MiB 안전 한도를 초과하여 필드를 생략했습니다.</string>
+    <string name="container_metadata_invalid">[i] 컨테이너 메타데이터를 JSON 객체로 디코딩할 수 없어 필드를 생략했습니다.</string>
     <string name="detail_certificate_issuer">인증서 발급자: %1$s</string>
     <string name="detail_certificate_serial">일련번호: 0x%1$s</string>
     <string name="detail_certificate_sha256">인증서 SHA-256: %1$s</string>

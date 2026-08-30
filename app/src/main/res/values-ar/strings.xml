@@ -10,6 +10,12 @@
     <string name="app_name">فاحص APK</string>
     <string name="components_aab">الوحدات: %1$d\n%2$s</string>
     <string name="components_apk">مدخلات APK: %1$d\nالمحدد لهذا الجهاز: %2$d\nأصول OBB: %3$d\n%4$s</string>
+    <string name="container_metadata_heading">بيانات الحاوية الوصفية (%1$s)</string>
+    <string name="container_metadata_packager">أداة الحزم: %1$s</string>
+    <string name="container_metadata_declared_version">الإصدار المعلن: %1$s (%2$s)</string>
+    <string name="container_metadata_icon_entry">إدخال الأيقونة: %1$s</string>
+    <string name="container_metadata_limit">[i] تتجاوز بيانات الحاوية الوصفية حد الأمان البالغ %1$d MiB؛ تم حذف حقولها.</string>
+    <string name="container_metadata_invalid">[i] تعذر فك ترميز بيانات الحاوية الوصفية ككائن JSON؛ تم حذف حقولها.</string>
     <string name="detail_certificate_issuer">جهة إصدار الشهادة: %1$s</string>
     <string name="detail_certificate_serial">الرقم التسلسلي: 0x%1$s</string>
     <string name="detail_certificate_sha256">SHA-256 للشهادة: %1$s</string>

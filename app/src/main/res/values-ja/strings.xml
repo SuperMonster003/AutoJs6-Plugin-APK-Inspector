@@ -10,6 +10,12 @@
     <string name="app_name">APK インスペクター</string>
     <string name="components_aab">モジュール: %1$d\n%2$s</string>
     <string name="components_apk">APKエントリ: %1$d\nこの端末向けの選択: %2$d\nOBBアセット: %3$d\n%4$s</string>
+    <string name="container_metadata_heading">コンテナメタデータ (%1$s)</string>
+    <string name="container_metadata_packager">パッケージ作成ツール: %1$s</string>
+    <string name="container_metadata_declared_version">宣言バージョン: %1$s (%2$s)</string>
+    <string name="container_metadata_icon_entry">アイコンエントリ: %1$s</string>
+    <string name="container_metadata_limit">[i] コンテナメタデータが %1$d MiB の安全上限を超えたため、フィールドを省略しました。</string>
+    <string name="container_metadata_invalid">[i] コンテナメタデータを JSON オブジェクトとしてデコードできなかったため、フィールドを省略しました。</string>
     <string name="detail_certificate_issuer">証明書の発行者: %1$s</string>
     <string name="detail_certificate_serial">シリアル番号: 0x%1$s</string>
     <string name="detail_certificate_sha256">証明書 SHA-256: %1$s</string>

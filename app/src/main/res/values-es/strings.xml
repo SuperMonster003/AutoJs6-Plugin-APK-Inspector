@@ -10,6 +10,12 @@
     <string name="app_name">Inspector de APK</string>
     <string name="components_aab">Módulos: %1$d\n%2$s</string>
     <string name="components_apk">Entradas APK: %1$d\nSeleccionadas para este dispositivo: %2$d\nRecursos OBB: %3$d\n%4$s</string>
+    <string name="container_metadata_heading">Metadatos del contenedor (%1$s)</string>
+    <string name="container_metadata_packager">Herramienta de empaquetado: %1$s</string>
+    <string name="container_metadata_declared_version">Versión declarada: %1$s (%2$s)</string>
+    <string name="container_metadata_icon_entry">Entrada de icono: %1$s</string>
+    <string name="container_metadata_limit">[i] Los metadatos del contenedor superan el límite de seguridad de %1$d MiB; se omitieron sus campos.</string>
+    <string name="container_metadata_invalid">[i] Los metadatos del contenedor no se pudieron decodificar como objeto JSON; se omitieron sus campos.</string>
     <string name="detail_certificate_issuer">Emisor: %1$s</string>
     <string name="detail_certificate_serial">Número de serie: 0x%1$s</string>
     <string name="detail_certificate_sha256">SHA-256 del certificado: %1$s</string>

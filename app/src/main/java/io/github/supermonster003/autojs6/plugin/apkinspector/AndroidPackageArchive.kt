@@ -2,7 +2,6 @@ package io.github.supermonster003.autojs6.plugin.apkinspector
 
 import android.content.Context
 import android.os.Build
-import com.google.gson.JsonParser
 import java.io.File
 import java.io.FilterInputStream
 import java.io.IOException
@@ -33,6 +32,7 @@ internal data class AndroidPackageArchive(
     val nativeLibraries: NativeLibrarySummary,
     val dexFiles: DexFileSummary,
     val problems: List<ArchiveProblem>,
+    val containerMetadata: ContainerMetadataSummary = ContainerMetadataSummary(),
 ) {
 
     val baseApk: ArchiveApkEntry?
@@ -227,7 +227,6 @@ internal object AndroidPackageArchiveInspector {
     private const val MAX_DECLARED_ENTRY_BYTES = 4L * 1024L * 1024L * 1024L
     private const val MAX_DECLARED_TOTAL_BYTES = 8L * 1024L * 1024L * 1024L
     private const val MAX_NESTED_APK_SCAN_BYTES = 256L * 1024L * 1024L
-    private const val MAX_METADATA_BYTES = 1024 * 1024
     private const val MAX_AAB_COMPONENT_MANIFEST_BYTES = 4 * 1024 * 1024
     private const val AAB_MANIFEST_SUFFIX = "/manifest/AndroidManifest.xml"
     private const val AAB_BASE_MANIFEST_ENTRY = "base$AAB_MANIFEST_SUFFIX"
@@ -315,6 +314,11 @@ internal object AndroidPackageArchiveInspector {
             }
 
             val subtype = detectSubtype(format, entryNames)
+            val containerMetadata = ContainerMetadataInspector.inspect(
+                zip = zip,
+                entries = entries,
+                subtype = subtype,
+            )
             val apkZipEntries = entries.filter {
                 !it.isDirectory && it.name.endsWith(".apk", ignoreCase = true)
             }
@@ -373,7 +377,6 @@ internal object AndroidPackageArchiveInspector {
                 .map { ArchiveAssetEntry(it.name, it.size.coerceAtLeast(0L)) }
                 .toList()
 
-            val packageHint = readContainerPackageHint(zip, entries)
             val selection = when (subtype) {
                 AndroidPackageSubtype.BUNDLETOOL_APKS ->
                     tocSelection?.let {
@@ -383,7 +386,7 @@ internal object AndroidPackageArchiveInspector {
                             archiveEntriesByPath = entriesByPath,
                         )
                     } ?: Selection(emptyList(), emptyList())
-                else -> selectApks(apkEntries, device, packageHint)
+                else -> selectApks(apkEntries, device, containerMetadata.packageName)
             }
             problems += selection.problems
             val selectedApks = selection.entries
@@ -411,6 +414,7 @@ internal object AndroidPackageArchiveInspector {
                 nativeLibraries = codeSummary.nativeLibraries,
                 dexFiles = codeSummary.dexFiles,
                 problems = problems.distinctBy { Triple(it.code, it.detail, it.blocking) },
+                containerMetadata = containerMetadata,
             )
         }
     }
@@ -871,37 +875,6 @@ internal object AndroidPackageArchiveInspector {
             )
         }
         return problems
-    }
-
-    private fun readContainerPackageHint(zip: ZipFile, entries: List<ZipEntry>): String? {
-        val metadataNames = listOf("manifest.json", "apkz.json", "info.json", "meta.sai_v2.json", "meta.sai_v1.json")
-        val entry = metadataNames.firstNotNullOfOrNull { name ->
-            entries.firstOrNull { it.name.equals(name, ignoreCase = true) && !it.isDirectory }
-        } ?: return null
-        if (entry.size > MAX_METADATA_BYTES) return null
-        return try {
-            val bytes = zip.getInputStream(entry).use { it.readBounded(MAX_METADATA_BYTES) }
-            val root = JsonParser.parseString(bytes.toString(Charsets.UTF_8)).asJsonObject
-            sequenceOf("package_name", "packageName", "package", "pname")
-                .mapNotNull { key -> root.get(key)?.takeIf { it.isJsonPrimitive }?.asString }
-                .firstOrNull(String::isNotBlank)
-        } catch (_: Exception) {
-            null
-        }
-    }
-
-    private fun InputStream.readBounded(maxBytes: Int): ByteArray {
-        val output = java.io.ByteArrayOutputStream(minOf(maxBytes, DEFAULT_BUFFER_SIZE))
-        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-        var total = 0
-        while (true) {
-            val read = read(buffer)
-            if (read < 0) break
-            total += read
-            if (total > maxBytes) throw IOException("Container metadata exceeds the inspection limit")
-            output.write(buffer, 0, read)
-        }
-        return output.toByteArray()
     }
 
     private val ABI_ALIASES = mapOf(

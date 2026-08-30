@@ -10,6 +10,12 @@
     <string name="app_name">APK Inspector</string>
     <string name="components_aab">Modules: %1$d\n%2$s</string>
     <string name="components_apk">APK entries: %1$d\nSelected for this device: %2$d\nOBB assets: %3$d\n%4$s</string>
+    <string name="container_metadata_heading">Container metadata (%1$s)</string>
+    <string name="container_metadata_packager">Packager: %1$s</string>
+    <string name="container_metadata_declared_version">Declared version: %1$s (%2$s)</string>
+    <string name="container_metadata_icon_entry">Icon entry: %1$s</string>
+    <string name="container_metadata_limit">[i] Container metadata exceeds the %1$d MiB safety limit; its fields were omitted.</string>
+    <string name="container_metadata_invalid">[i] Container metadata could not be decoded as a JSON object; its fields were omitted.</string>
     <string name="detail_certificate_issuer">Issuer: %1$s</string>
     <string name="detail_certificate_serial">Serial number: 0x%1$s</string>
     <string name="detail_certificate_sha256">Certificate SHA-256: %1$s</string>

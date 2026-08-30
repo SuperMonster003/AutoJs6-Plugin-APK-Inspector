@@ -37,6 +37,7 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 
 ### Points forts
 
+- Métadonnées de conteneur : lit celles des SAI APKS, XAPK et APKMirror APKM dans une limite de 1 Mio, affiche l’outil/version de format, la version d’application déclarée et une entrée d’icône existante sans remplacer les faits du manifeste APK.
 - Une pression suffit : le rapport s'ouvre directement depuis le gestionnaire de fichiers AutoJs6, sans installation, extraction ni accès réseau.
 - Six formats : APK standard, formats à splits multiples (APKS, XAPK, APKM, APKZ) et format de distribution AAB ; APKS couvre les exports bundletool et SAI.
 - Version et compatibilité : nom du paquet, nom et code de version, SDK min/cible/max, comparés à la version Android de l'appareil avant toute installation.
@@ -138,6 +139,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout de résumés bornés des métadonnées de conteneur pour SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` et APKMirror APKM `info.json`, affichant l’outil/version de format, la version d’application déclarée dans les métadonnées et une entrée d’icône existante ; les métadonnées endommagées ou supérieures à 1 Mio restent isolées et signalées
 - `Fonctionnalité` Ajout d’un repli borné pour le libellé et l’icône matricielle via resources.pb (AAB) et resources.arsc (APK), résolus selon la langue et la densité actuelles sans extraire les APK imbriqués trop volumineux ; les échecs de table, d’icône et de limite de parcours restent isolés et clairement signalés
 - `Fonctionnalité` Ajout de la copie par appui long des principales valeurs du paquet et du partage du rapport texte exact via la feuille de partage Android ; le contenu reste en mémoire, sans autorisation de stockage ni création de fichier
 - `Fonctionnalité` Ajout d’une vue DEX bornée qui liste dans l’ordre naturel les fichiers classes*.dex standard des splits APK sélectionnés et modules AAB, avec les tailles non compressées par fichier et totale, en partageant le parcours du répertoire central des bibliothèques natives sans extraire, décoder ni décompiler le contenu DEX

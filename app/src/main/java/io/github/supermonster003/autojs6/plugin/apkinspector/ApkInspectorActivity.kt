@@ -242,11 +242,12 @@ class ApkInspectorActivity : AppCompatActivity() {
             CopyableReportField(getString(R.string.detail_size, formattedSize), formattedSize),
             CopyableReportField(getString(R.string.detail_sha256, sha256), sha256),
         )
+        val containerMetadataDetails = formatContainerMetadata(archive.containerMetadata)
         val certificateDetails = formatSigningCertificates(signingCertificates)
         val lineageDetails = signatureVerification?.lineage
             ?.let(::formatSigningCertificateLineage)
             .orEmpty()
-        val detailSupplement = listOf(certificateDetails, lineageDetails)
+        val detailSupplement = listOf(containerMetadataDetails, certificateDetails, lineageDetails)
             .filter(String::isNotEmpty)
             .joinToString("\n\n")
 
@@ -552,6 +553,47 @@ class ApkInspectorActivity : AppCompatActivity() {
         AndroidPackageSubtype.APKM -> "APKM"
         AndroidPackageSubtype.APKZ -> "APKZ"
         AndroidPackageSubtype.ANDROID_APP_BUNDLE -> "AAB"
+    }
+
+    private fun formatContainerMetadata(metadata: ContainerMetadataSummary): String {
+        val sourceEntry = metadata.sourceEntry ?: return ""
+        val unknown = getString(R.string.text_unknown)
+        return buildList {
+            add(getString(R.string.container_metadata_heading, sourceEntry))
+            val packagerName = metadata.packager?.displayName ?: unknown
+            val packager = metadata.packagerVersion
+                ?.let { version -> "$packagerName v$version" }
+                ?: packagerName
+            add(getString(R.string.container_metadata_packager, packager))
+            when (metadata.issue) {
+                ContainerMetadataIssue.METADATA_LIMIT -> add(
+                    getString(
+                        R.string.container_metadata_limit,
+                        ContainerMetadataInspector.MAX_METADATA_BYTES / (1024 * 1024),
+                    ),
+                )
+
+                ContainerMetadataIssue.METADATA_INVALID -> add(
+                    getString(R.string.container_metadata_invalid),
+                )
+
+                null -> {
+                    add(
+                        getString(
+                            R.string.container_metadata_declared_version,
+                            metadata.declaredVersionName ?: unknown,
+                            metadata.declaredVersionCode ?: unknown,
+                        ),
+                    )
+                    add(
+                        getString(
+                            R.string.container_metadata_icon_entry,
+                            metadata.iconEntry ?: getString(R.string.text_none),
+                        ),
+                    )
+                }
+            }
+        }.joinToString("\n")
     }
 
     private fun render(report: InspectionReport) {

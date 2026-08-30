@@ -10,6 +10,12 @@
     <string name="app_name">APK 检查器</string>
     <string name="components_aab">模块: %1$d\n%2$s</string>
     <string name="components_apk">APK 条目: %1$d\n为此设备选择: %2$d\nOBB 资源: %3$d\n%4$s</string>
+    <string name="container_metadata_heading">容器元数据 (%1$s)</string>
+    <string name="container_metadata_packager">打包工具: %1$s</string>
+    <string name="container_metadata_declared_version">声明版本: %1$s (%2$s)</string>
+    <string name="container_metadata_icon_entry">图标条目: %1$s</string>
+    <string name="container_metadata_limit">[i] 容器元数据超过 %1$d MiB 安全上限; 已省略其字段.</string>
+    <string name="container_metadata_invalid">[i] 无法将容器元数据解码为 JSON 对象; 已省略其字段.</string>
     <string name="detail_certificate_issuer">证书颁发者: %1$s</string>
     <string name="detail_certificate_serial">序列号: 0x%1$s</string>
     <string name="detail_certificate_sha256">证书 SHA-256: %1$s</string>

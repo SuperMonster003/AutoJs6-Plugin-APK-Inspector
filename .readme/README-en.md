@@ -37,6 +37,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 
 ### Highlights
 
+- Container metadata: reads SAI APKS, XAPK, and APKMirror APKM metadata under a 1 MiB limit, showing the packager/schema version, metadata-declared app version, and an existing icon entry without overriding APK manifest facts.
 - One tap to inspect: open a report straight from the AutoJs6 file manager, with no installation, extraction, or network access.
 - Six formats: standard APK, multi-split bundle formats (APKS, XAPK, APKM, APKZ), and the store distribution format AAB; APKS covers both bundletool and SAI exports.
 - Version and compatibility: shows the package name, version name and code, and min/target/max SDK, compared against this device's Android version before you install.
@@ -138,6 +139,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added bounded container-metadata summaries for SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json`, and APKMirror APKM `info.json`, showing the packager/schema version, metadata-declared app version, and an existing icon entry; malformed or over-1 MiB metadata is isolated and labeled
 - `Feature` Added bounded resource-table fallback for app labels and raster icons: AAB resources.pb and APK resources.arsc are resolved for the current locale and density without extracting oversized nested APKs; table, icon, and scan-limit failures remain isolated and clearly labeled
 - `Feature` Added long-press copying for primary package-detail values and exact plain-text report sharing through the Android Sharesheet; sharing stays memory-only, requests no storage permission, and creates no file
 - `Feature` Added a bounded DEX overview that naturally orders standard classes*.dex files from selected APK splits and AAB modules with per-file and total uncompressed sizes, sharing the native-library central-directory pass without extracting, decoding, or decompiling DEX contents
