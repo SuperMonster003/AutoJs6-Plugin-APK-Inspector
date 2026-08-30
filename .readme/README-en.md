@@ -33,7 +33,7 @@ This README is available in the following languages:
 
 APK Inspector is a companion plugin for the AutoJs6 file manager. Tap an APK, APKS, XAPK, APKM, APKZ, or AAB file in the file manager and an inspection report opens right away: what the app is called, which version it is, which permissions it wants, and whether it can be installed on this device, all on one screen. The package is never installed, and the source file is never modified.
 
-The report has four sections: "Package details" shows the app name, icon, package name, version, SDK range, signature verification and signing-certificate lineage, file size, and SHA-256 checksum; "Components" lists every APK split and OBB asset inside the package and marks the parts that match this device (for AAB files it lists the modules); "Requested permissions" groups system permissions by protection level and highlights runtime/dangerous permissions first with a short explanation; "Security and compatibility findings" summarizes structural problems and the device compatibility verdict. The "View manifest" button opens the full formatted AndroidManifest.
+The report has four sections: "Package details" shows the app name, icon, package name, version, SDK range, signature verification and signing-certificate lineage, file size, and SHA-256 checksum; "Components" lists every APK split and OBB asset inside the package, marks the parts that match this device (for AAB files it lists the modules), and groups manifest-declared activities/aliases, services, receivers, and providers by count and explicit exported state; "Requested permissions" groups system permissions by protection level and highlights runtime/dangerous permissions first with a short explanation; "Security and compatibility findings" summarizes structural problems and the device compatibility verdict. The "View manifest" button opens the full formatted AndroidManifest.
 
 ### Highlights
 
@@ -42,6 +42,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 - Version and compatibility: shows the package name, version name and code, and min/target/max SDK, compared against this device's Android version before you install.
 - Permission transparency: requested permissions are grouped by protection level (runtime/dangerous, signature/protected, and normal), with runtime permissions highlighted first and explained in one line; unavailable levels stay visible and clearly labeled.
 - Split analysis: lists every APK entry and OBB asset in a bundle and marks the splits selected for this device (base, language, screen density, ABI).
+- Manifest component exposure: counts activities/aliases, services, broadcast receivers, and content providers across selected APK splits or scanned AAB modules, grouping explicit android:exported values as exported, not exported, or unspecified/unresolved.
 - Signature and certificate verification: cryptographically verifies APK Signature Scheme V2, V3, and V3.1; reports V1 presence; lists current signing certificates and the verified certificate-rotation lineage with old/new roles and SHA-256 fingerprints.
 - V4/V4.1 sidecar verification: AutoJs6 derives only the exact `<APK name>.idsig` sibling and grants a bounded read-only descriptor; the plugin verifies the signed data, certificate and public key, complementary V2/V3 APK digest, fs-verity root, embedded Merkle tree, and any V3.1 rotation signer.
 - Readable manifests: binary APK manifests and AAB protobuf manifests are decoded into readable XML, shown in a separate read-only viewer.
@@ -97,6 +98,7 @@ To keep maliciously crafted files from exhausting device resources, parsing is b
 - Declared entry size may not exceed 4 GiB, and the declared total may not exceed 8 GiB.
 - Nested APK manifest scanning is capped at 256 MiB, bundle metadata at 1 MiB, and the temporary APK used to load the icon and label at 512 MiB.
 - Permission classification scans at most 2048 requests, displays at most 512 safe unique names, and limits each loaded explanation to 240 characters; omissions and unavailable protection levels are clearly labeled.
+- Component statistics scan at most 4096 declarations per manifest and 128 AAB module manifests under a shared 16 MiB input budget; omissions, unresolved exported values, and per-manifest failures are clearly labeled.
 
 ### Plugin interface
 
@@ -128,6 +130,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added bounded manifest component statistics for activities/aliases, services, broadcast receivers, and content providers across selected APK splits and scanned AAB modules, grouped by explicit android:exported state with partial-result labels
 - `Feature` Added on-device cryptographic verification for APK Signature Scheme V2, V3, V3.1, V4, and V4.1, including content digests, signer proofs, fs-verity roots, embedded Merkle trees, and complementary-scheme matching
 - `Feature` Added detailed signing-certificate fields and verified proof-of-rotation lineages with old/current roles, capability flags, and SHA-256 fingerprints
 - `Feature` Added bounded `.idsig` staging through an exact host-derived read-only descriptor; directory enumeration and arbitrary sibling access remain unavailable

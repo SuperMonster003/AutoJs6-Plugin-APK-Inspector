@@ -66,4 +66,15 @@
     <string name="permission_runtime_description_fallback">This permission can access sensitive data or actions after user approval.</string>
     <string name="permission_protection_unavailable">Protection level is unavailable on this device; shown here as unclassified.</string>
     <string name="permission_omitted">Permission entries omitted by the safety limit (maximum shown: %2$d): %1$d</string>
+    <string name="component_manifest_heading_apk">Manifest components in selected APKs</string>
+    <string name="component_manifest_heading_aab">Manifest components across scanned AAB modules</string>
+    <string name="component_type_activity">Activities / aliases</string>
+    <string name="component_type_service">Services</string>
+    <string name="component_type_receiver">Broadcast receivers</string>
+    <string name="component_type_provider">Content providers</string>
+    <string name="component_stats_line">- %1$s: total %2$d | exported %3$d | not exported %4$d | unspecified/unresolved %5$d</string>
+    <string name="component_exported_unspecified_note">[i] Unspecified does not imply private; Android defaults vary by component type, intent filters, and target SDK.</string>
+    <string name="component_stats_scan_limit">[i] Per-manifest component safety limit reached; maximum scanned: %1$d. Counts are partial.</string>
+    <string name="component_stats_manifest_limit">[i] AAB module manifest safety limit: %2$d | omitted: %1$d. Counts are partial.</string>
+    <string name="component_stats_manifest_failure">[i] Manifest component scans that failed decoding, structure, or an input limit: %1$d. Counts are partial.</string>
 </resources>

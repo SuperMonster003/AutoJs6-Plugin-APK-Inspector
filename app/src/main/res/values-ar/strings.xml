@@ -66,4 +66,15 @@
     <string name="permission_runtime_description_fallback">يمكن لهذا الإذن الوصول إلى بيانات أو إجراءات حساسة بعد موافقة المستخدم.</string>
     <string name="permission_protection_unavailable">مستوى الحماية غير متاح على هذا الجهاز؛ يُعرض هنا على أنه غير مصنف.</string>
     <string name="permission_omitted">تم حذف %1$d إذنًا إضافيًا بسبب حد الأمان البالغ %2$d عنصرًا.</string>
+    <string name="component_manifest_heading_apk">مكونات manifest في ملفات APK المحددة</string>
+    <string name="component_manifest_heading_aab">مكونات manifest عبر وحدات AAB المفحوصة</string>
+    <string name="component_type_activity">الأنشطة / الأسماء المستعارة</string>
+    <string name="component_type_service">الخدمات</string>
+    <string name="component_type_receiver">مستقبلات البث</string>
+    <string name="component_type_provider">موفرو المحتوى</string>
+    <string name="component_stats_line">- %1$s: الإجمالي %2$d | مُصدَّرة %3$d | غير مُصدَّرة %4$d | غير محددة/غير محلولة %5$d</string>
+    <string name="component_exported_unspecified_note">[i] عدم التحديد لا يعني أن المكوّن خاص؛ تختلف قيم Android الافتراضية حسب نوع المكوّن ومرشحات intent وSDK المستهدف.</string>
+    <string name="component_stats_scan_limit">[i] تم بلوغ حد أمان المكونات لكل manifest؛ الحد الأقصى المفحوص: %1$d. الأعداد جزئية.</string>
+    <string name="component_stats_manifest_limit">[i] حد أمان manifests لوحدات AAB: %2$d | المحذوفة: %1$d. الأعداد جزئية.</string>
+    <string name="component_stats_manifest_failure">[i] عمليات فحص مكونات manifest التي فشلت بسبب فك الترميز أو البنية أو حد الإدخال: %1$d. الأعداد جزئية.</string>
 </resources>

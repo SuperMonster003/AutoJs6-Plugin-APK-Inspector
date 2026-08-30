@@ -66,4 +66,15 @@
     <string name="permission_runtime_description_fallback">이 권한은 사용자 승인 후 민감한 데이터나 작업에 접근할 수 있습니다.</string>
     <string name="permission_protection_unavailable">이 기기에서는 보호 수준을 확인할 수 없어 분류되지 않은 권한으로 표시됩니다.</string>
     <string name="permission_omitted">안전 한도 %2$d개로 인해 추가 권한 %1$d개를 생략했습니다.</string>
+    <string name="component_manifest_heading_apk">선택된 APK의 manifest 구성 요소</string>
+    <string name="component_manifest_heading_aab">스캔한 AAB 모듈의 manifest 구성 요소</string>
+    <string name="component_type_activity">Activity / 별칭</string>
+    <string name="component_type_service">Service</string>
+    <string name="component_type_receiver">Broadcast Receiver</string>
+    <string name="component_type_provider">Content Provider</string>
+    <string name="component_stats_line">- %1$s: 합계 %2$d | 내보냄 %3$d | 내보내지 않음 %4$d | 미지정/미해결 %5$d</string>
+    <string name="component_exported_unspecified_note">[i] 미지정은 비공개를 뜻하지 않습니다. Android 기본값은 구성 요소 유형, intent filter, 대상 SDK에 따라 달라집니다.</string>
+    <string name="component_stats_scan_limit">[i] manifest별 구성 요소 안전 한도에 도달했습니다. 최대 스캔 수: %1$d. 집계는 일부만 반영합니다.</string>
+    <string name="component_stats_manifest_limit">[i] AAB 모듈 manifest 안전 한도: %2$d | 생략: %1$d. 집계는 일부만 반영합니다.</string>
+    <string name="component_stats_manifest_failure">[i] 디코딩, 구조 또는 입력 한도로 실패한 manifest 구성 요소 스캔: %1$d. 집계는 일부만 반영합니다.</string>
 </resources>

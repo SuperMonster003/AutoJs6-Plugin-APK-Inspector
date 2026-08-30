@@ -66,4 +66,15 @@
     <string name="permission_runtime_description_fallback">Este permiso puede acceder a datos o acciones sensibles después de la aprobación del usuario.</string>
     <string name="permission_protection_unavailable">El nivel de protección no está disponible en este dispositivo; se muestra aquí como no clasificado.</string>
     <string name="permission_omitted">Se omitieron %1$d permisos adicionales por el límite de seguridad de %2$d elementos.</string>
+    <string name="component_manifest_heading_apk">Componentes del manifest en los APK seleccionados</string>
+    <string name="component_manifest_heading_aab">Componentes del manifest en los módulos AAB examinados</string>
+    <string name="component_type_activity">Actividades / alias</string>
+    <string name="component_type_service">Servicios</string>
+    <string name="component_type_receiver">Receptores de difusión</string>
+    <string name="component_type_provider">Proveedores de contenido</string>
+    <string name="component_stats_line">- %1$s: total %2$d | exportados %3$d | no exportados %4$d | sin especificar/resolver %5$d</string>
+    <string name="component_exported_unspecified_note">[i] Sin especificar no significa privado; los valores predeterminados de Android varían según el tipo de componente, los filtros de intent y el SDK objetivo.</string>
+    <string name="component_stats_scan_limit">[i] Se alcanzó el límite de seguridad por manifest; máximo examinado: %1$d. Los recuentos son parciales.</string>
+    <string name="component_stats_manifest_limit">[i] Límite de manifests de módulos AAB: %2$d | omitidos: %1$d. Los recuentos son parciales.</string>
+    <string name="component_stats_manifest_failure">[i] Exámenes de componentes que fallaron por decodificación, estructura o límite de entrada: %1$d. Los recuentos son parciales.</string>
 </resources>

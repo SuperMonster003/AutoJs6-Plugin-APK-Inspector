@@ -5,6 +5,7 @@
 _2026/08/30_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadieron estadísticas acotadas de componentes del manifest para actividades/alias, servicios, receptores de difusión y proveedores de contenido en splits APK seleccionados y módulos AAB examinados, agrupadas por estado android:exported explícito y con etiquetas para resultados parciales
 - `Función` Se añadió verificación criptográfica en el dispositivo para los esquemas APK V2, V3, V3.1, V4 y V4.1, incluidos resúmenes de contenido, pruebas del firmante, raíces fs-verity, árboles Merkle incrustados y coincidencia con el esquema complementario
 - `Función` Se añadieron campos detallados de certificados y linajes de rotación verificados con funciones antiguas/actuales, indicadores de capacidad y huellas SHA-256
 - `Función` Se añadió el almacenamiento temporal acotado de `.idsig` mediante un descriptor de solo lectura derivado exactamente por el anfitrión; no se permite enumerar directorios ni acceder a archivos adyacentes arbitrarios

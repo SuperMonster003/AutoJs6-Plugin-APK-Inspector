@@ -1,5 +1,6 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -47,6 +48,72 @@ class AabManifestDisplayDecoderTest {
 
         assertTrue(decoded.contains("package=\"com.example.base\""))
         assertFalse(decoded.contains("package=\"com.example.feature\""))
+    }
+
+    @Test
+    fun aabComponentSummaryIncludesBaseAndFeatureModules() {
+        val aab = createAab(
+            "base/manifest/AndroidManifest.xml" to manifest(
+                packageName = "com.example.app",
+                componentName = ".MainActivity",
+                componentTag = "activity",
+                componentExported = true,
+            ),
+            "feature/manifest/AndroidManifest.xml" to manifest(
+                packageName = "com.example.app",
+                split = "feature",
+                componentName = ".FeatureService",
+                componentTag = "service",
+                componentExported = false,
+            ),
+        )
+
+        val archive = AndroidPackageArchiveInspector.inspect(aab, testDevice)
+
+        assertEquals(AndroidPackageFormat.AAB, archive.format)
+        assertEquals(2, archive.aabModules.size)
+        assertEquals(2, archive.manifestComponents.total)
+        assertEquals(1, archive.manifestComponents.activities.exported)
+        assertEquals(1, archive.manifestComponents.services.notExported)
+        assertEquals(0, archive.manifestComponents.failedManifestCount)
+    }
+
+    @Test
+    fun malformedFeatureManifestOnlyMarksComponentSummaryPartial() {
+        val aab = createAab(
+            "base/manifest/AndroidManifest.xml" to manifest(
+                packageName = "com.example.app",
+                componentName = ".MainActivity",
+                componentExported = true,
+            ),
+            "feature/manifest/AndroidManifest.xml" to byteArrayOf(0x0A, 0x7F),
+        )
+
+        val archive = AndroidPackageArchiveInspector.inspect(aab, testDevice)
+
+        assertEquals(1, archive.manifestComponents.total)
+        assertEquals(1, archive.manifestComponents.failedManifestCount)
+        assertEquals("com.example.app", archive.baseManifest?.packageName)
+    }
+
+    @Test
+    fun aabModuleManifestScanIsBounded() {
+        val entries = buildList {
+            add("base/manifest/AndroidManifest.xml" to manifest("com.example.app"))
+            repeat(AndroidPackageArchiveInspector.MAX_AAB_COMPONENT_MANIFESTS) { index ->
+                add(
+                    "feature${index.toString().padStart(3, '0')}/manifest/AndroidManifest.xml" to
+                        manifest("com.example.app", split = "feature$index"),
+                )
+            }
+        }
+        val aab = createAab(*entries.toTypedArray())
+
+        val archive = AndroidPackageArchiveInspector.inspect(aab, testDevice)
+
+        assertEquals(AndroidPackageArchiveInspector.MAX_AAB_COMPONENT_MANIFESTS + 1, archive.aabModules.size)
+        assertEquals(1, archive.manifestComponents.omittedManifestCount)
+        assertEquals(0, archive.manifestComponents.failedManifestCount)
     }
 
     @Test
@@ -127,6 +194,9 @@ class AabManifestDisplayDecoderTest {
     private fun manifest(
         packageName: String,
         split: String = "",
+        componentName: String? = null,
+        componentTag: String = "activity",
+        componentExported: Boolean? = null,
     ): ByteArray = ProtoWriter().apply {
         message(XML_NODE_ELEMENT_FIELD) {
             message(XML_ELEMENT_NAMESPACE_FIELD) {
@@ -207,6 +277,29 @@ class AabManifestDisplayDecoderTest {
                             }
                         }
                     }
+                    componentName?.let { name ->
+                        message(XML_ELEMENT_CHILD_FIELD) {
+                            message(XML_NODE_ELEMENT_FIELD) {
+                                string(XML_ELEMENT_NAME_FIELD, componentTag)
+                                message(XML_ELEMENT_ATTRIBUTE_FIELD) {
+                                    string(XML_ATTRIBUTE_NAMESPACE_URI_FIELD, ANDROID_NAMESPACE)
+                                    string(XML_ATTRIBUTE_NAME_FIELD, "name")
+                                    string(XML_ATTRIBUTE_VALUE_FIELD, name)
+                                }
+                                componentExported?.let { exported ->
+                                    message(XML_ELEMENT_ATTRIBUTE_FIELD) {
+                                        string(XML_ATTRIBUTE_NAMESPACE_URI_FIELD, ANDROID_NAMESPACE)
+                                        string(XML_ATTRIBUTE_NAME_FIELD, "exported")
+                                        message(XML_ATTRIBUTE_COMPILED_ITEM_FIELD) {
+                                            message(ITEM_PRIMITIVE_FIELD) {
+                                                varint(PRIMITIVE_BOOLEAN_FIELD, if (exported) 1 else 0)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -273,6 +366,13 @@ class AabManifestDisplayDecoderTest {
     }
 
     private companion object {
+        val testDevice = PackageDeviceSpec(
+            sdk = 35,
+            abis = listOf("arm64-v8a"),
+            densityDpi = 440,
+            locales = listOf("en-US"),
+        )
+
         const val ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android"
         const val WIRE_VARINT = 0
         const val WIRE_LENGTH_DELIMITED = 2

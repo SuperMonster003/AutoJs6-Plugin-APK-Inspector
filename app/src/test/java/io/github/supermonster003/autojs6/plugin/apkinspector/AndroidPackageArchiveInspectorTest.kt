@@ -85,6 +85,41 @@ class AndroidPackageArchiveInspectorTest {
     }
 
     @Test
+    fun componentSummariesAreAggregatedAcrossSelectedApks() {
+        val apkm = temporaryFolder.newFile("components.apkm")
+        writeZip(
+            apkm,
+            "base.apk" to nestedApk(
+                manifest(
+                    components = """
+                        <activity android:name=".MainActivity" android:exported="true" />
+                        <receiver android:name=".ImplicitReceiver" />
+                    """.trimIndent(),
+                ),
+            ),
+            "feature_stats.apk" to nestedApk(
+                manifest(
+                    split = "feature.stats",
+                    featureSplit = true,
+                    components = """
+                        <service android:name=".StatsService" android:exported="false" />
+                        <provider android:name=".StatsProvider" android:exported="true" />
+                    """.trimIndent(),
+                ),
+            ),
+        )
+
+        val archive = AndroidPackageArchiveInspector.inspect(apkm, arm64Device)
+
+        assertEquals(2, archive.selectedApks.size)
+        assertEquals(4, archive.manifestComponents.total)
+        assertEquals(1, archive.manifestComponents.activities.exported)
+        assertEquals(1, archive.manifestComponents.services.notExported)
+        assertEquals(1, archive.manifestComponents.receivers.exportedUnspecified)
+        assertEquals(1, archive.manifestComponents.providers.exported)
+    }
+
+    @Test
     fun bundletoolApksInspectsOnlyTocSelectedComponentsBeyondGenericLimit() {
         val apks = temporaryFolder.newFile("large.apks")
         ZipOutputStream(FileOutputStream(apks)).use { zip ->
@@ -194,6 +229,7 @@ class AndroidPackageArchiveInspectorTest {
         featureSplit: Boolean = false,
         usesSplit: String? = null,
         declaredPermissions: String = "",
+        components: String = "",
     ): ByteArray {
         val splitAttributes = buildString {
             split?.let { append(""" split="$it"""") }
@@ -211,7 +247,9 @@ class AndroidPackageArchiveInspectorTest {
                 <uses-permission android:name="android.permission.CAMERA" />
                 $declaredPermissions
                 $usesSplitElement
-                <application android:label="Demo" />
+                <application android:label="Demo">
+                    $components
+                </application>
             </manifest>
         """.trimIndent().toByteArray()
     }

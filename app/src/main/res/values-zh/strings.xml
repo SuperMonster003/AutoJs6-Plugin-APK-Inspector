@@ -66,4 +66,15 @@
     <string name="permission_runtime_description_fallback">此权限经用户批准后可访问敏感数据或执行敏感操作。</string>
     <string name="permission_protection_unavailable">此设备无法提供保护级别；该权限在此显示为未分类。</string>
     <string name="permission_omitted">出于安全限制（最多显示 %2$d 项），已省略另外 %1$d 项权限。</string>
+    <string name="component_manifest_heading_apk">已选 APK 清单中的组件</string>
+    <string name="component_manifest_heading_aab">已扫描 AAB 模块清单中的组件</string>
+    <string name="component_type_activity">Activity / 别名</string>
+    <string name="component_type_service">Service</string>
+    <string name="component_type_receiver">广播接收器</string>
+    <string name="component_type_provider">内容提供器</string>
+    <string name="component_stats_line">- %1$s: 总计 %2$d | 已导出 %3$d | 未导出 %4$d | 未声明/无法解析 %5$d</string>
+    <string name="component_exported_unspecified_note">[i] 未声明不等于私有；Android 默认值会随组件类型、intent-filter 和目标 SDK 而变化。</string>
+    <string name="component_stats_scan_limit">[i] 已达到单份清单的组件安全上限；最多扫描: %1$d。当前统计不完整。</string>
+    <string name="component_stats_manifest_limit">[i] AAB 模块清单安全上限: %2$d | 已省略: %1$d。当前统计不完整。</string>
+    <string name="component_stats_manifest_failure">[i] 因解码、结构或输入上限失败的清单组件扫描: %1$d。当前统计不完整。</string>
 </resources>

@@ -5,6 +5,7 @@
 _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout de statistiques bornées des composants du manifeste pour les activités/alias, services, récepteurs de diffusion et fournisseurs de contenu dans les splits APK sélectionnés et modules AAB analysés, regroupées par état android:exported explicite avec signalement des résultats partiels
 - `Fonctionnalité` Ajout de la vérification cryptographique sur l’appareil des schémas APK V2, V3, V3.1, V4 et V4.1, y compris les condensats, preuves du signataire, racines fs-verity, arbres de Merkle intégrés et correspondance avec le schéma complémentaire
 - `Fonctionnalité` Ajout des champs détaillés des certificats et des lignées de rotation vérifiées avec rôles ancien/actuel, indicateurs de capacité et empreintes SHA-256
 - `Fonctionnalité` Ajout de la copie bornée de `.idsig` via un descripteur en lecture seule dérivé exactement par l’hôte ; l’énumération des répertoires et l’accès arbitraire aux voisins restent indisponibles

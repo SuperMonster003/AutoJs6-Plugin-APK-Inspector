@@ -29,6 +29,7 @@ internal data class AndroidPackageArchive(
     val obbEntries: List<ArchiveAssetEntry>,
     val aabModules: List<String>,
     val baseManifest: ManifestSummary?,
+    val manifestComponents: ManifestComponentSummary,
     val problems: List<ArchiveProblem>,
 ) {
 
@@ -186,6 +187,7 @@ internal data class ManifestSummary(
     val requestedPermissions: List<String>,
     val usesSplits: List<String>,
     val declaredPermissionProtectionLevels: Map<String, Int> = emptyMap(),
+    val manifestComponents: ManifestComponentSummary = ManifestComponentSummary(),
 )
 
 internal data class PackageDeviceSpec(
@@ -212,6 +214,9 @@ internal data class PackageDeviceSpec(
 
 internal object AndroidPackageArchiveInspector {
 
+    const val MAX_AAB_COMPONENT_MANIFESTS = 128
+    const val MAX_AAB_COMPONENT_MANIFEST_TOTAL_BYTES = 16L * 1024L * 1024L
+
     private const val MAX_ARCHIVE_ENTRIES = 16_384
     private const val MAX_GENERIC_APK_ENTRIES = 512
     private const val MAX_ENTRY_NAME_CHARS = 1_024
@@ -219,6 +224,9 @@ internal object AndroidPackageArchiveInspector {
     private const val MAX_DECLARED_TOTAL_BYTES = 8L * 1024L * 1024L * 1024L
     private const val MAX_NESTED_APK_SCAN_BYTES = 256L * 1024L * 1024L
     private const val MAX_METADATA_BYTES = 1024 * 1024
+    private const val MAX_AAB_COMPONENT_MANIFEST_BYTES = 4 * 1024 * 1024
+    private const val AAB_MANIFEST_SUFFIX = "/manifest/AndroidManifest.xml"
+    private const val AAB_BASE_MANIFEST_ENTRY = "base$AAB_MANIFEST_SUFFIX"
 
     fun inspect(
         file: File,
@@ -245,6 +253,7 @@ internal object AndroidPackageArchiveInspector {
                     obbEntries = emptyList(),
                     aabModules = emptyList(),
                     baseManifest = summary,
+                    manifestComponents = summary.manifestComponents,
                     problems = validateSelected(listOf(entry), device),
                 )
             }
@@ -255,16 +264,26 @@ internal object AndroidPackageArchiveInspector {
             if (format == AndroidPackageFormat.AAB) {
                 val xml = AabManifestDisplayDecoder.decode(file)
                 val summary = ManifestSummaryParser.parse(xml)
-                val modules = entries.asSequence()
-                    .mapNotNull { entry ->
-                        entry.name
-                            .takeIf { it.endsWith("/manifest/AndroidManifest.xml", ignoreCase = false) }
-                            ?.substringBefore('/')
-                            ?.takeIf(String::isNotBlank)
+                val moduleManifestEntries = entries.asSequence()
+                    .filter { entry ->
+                        !entry.isDirectory && isAabModuleManifestPath(entry.name)
                     }
+                    .sortedBy(ZipEntry::getName)
+                    .toList()
+                val displayManifestEntry = moduleManifestEntries
+                    .firstOrNull { entry -> entry.name == AAB_BASE_MANIFEST_ENTRY }
+                    ?: moduleManifestEntries.first()
+                val modules = moduleManifestEntries.asSequence()
+                    .map { entry -> entry.name.substringBefore('/') }
                     .distinct()
                     .sorted()
                     .toList()
+                val manifestComponents = inspectAabManifestComponents(
+                    zip = zip,
+                    manifestEntries = moduleManifestEntries,
+                    displayManifestEntry = displayManifestEntry,
+                    displayManifestSummary = summary.manifestComponents,
+                )
                 return AndroidPackageArchive(
                     sourceFile = file,
                     format = format,
@@ -274,6 +293,7 @@ internal object AndroidPackageArchiveInspector {
                     obbEntries = emptyList(),
                     aabModules = modules,
                     baseManifest = summary,
+                    manifestComponents = manifestComponents,
                     problems = emptyList(),
                 )
             }
@@ -363,9 +383,74 @@ internal object AndroidPackageArchiveInspector {
                 obbEntries = obbEntries,
                 aabModules = emptyList(),
                 baseManifest = selectedApks.firstOrNull { it.manifest.splitName.isNullOrBlank() }?.manifest,
+                manifestComponents = ManifestComponentSummary.aggregate(
+                    selectedApks.map { apk -> apk.manifest.manifestComponents },
+                ),
                 problems = problems.distinctBy { Triple(it.code, it.detail, it.blocking) },
             )
         }
+    }
+
+    private fun inspectAabManifestComponents(
+        zip: ZipFile,
+        manifestEntries: List<ZipEntry>,
+        displayManifestEntry: ZipEntry,
+        displayManifestSummary: ManifestComponentSummary,
+    ): ManifestComponentSummary {
+        val additionalEntries = manifestEntries.asSequence()
+            .filterNot { entry -> entry.name == displayManifestEntry.name }
+            .take((MAX_AAB_COMPONENT_MANIFESTS - 1).coerceAtLeast(0))
+            .toList()
+        val omittedCount = (manifestEntries.size - 1 - additionalEntries.size).coerceAtLeast(0)
+        val displayManifestBytes = displayManifestEntry.size
+            .takeIf { size -> size in 0..MAX_AAB_COMPONENT_MANIFEST_BYTES.toLong() }
+            ?: MAX_AAB_COMPONENT_MANIFEST_BYTES.toLong()
+        val totalBudget = InspectionBudget(
+            (MAX_AAB_COMPONENT_MANIFEST_TOTAL_BYTES - displayManifestBytes).coerceAtLeast(0L),
+        )
+        val summaries = mutableListOf(displayManifestSummary)
+        var failedCount = 0
+        additionalEntries.forEach { entry ->
+            try {
+                if (entry.size > MAX_AAB_COMPONENT_MANIFEST_BYTES) {
+                    throw IOException("AAB module manifest exceeds the component scan limit")
+                }
+                val bytes = zip.getInputStream(entry).use { input ->
+                    BudgetedInputStream(input, totalBudget)
+                        .readAabManifestBounded(MAX_AAB_COMPONENT_MANIFEST_BYTES)
+                }
+                val moduleXml = AabManifestDisplayDecoder.decodeManifest(bytes)
+                summaries += ManifestComponentSummaryParser.parse(moduleXml)
+            } catch (_: Exception) {
+                failedCount += 1
+            }
+        }
+        return ManifestComponentSummary.aggregate(summaries).withManifestProblems(
+            failedCount = failedCount,
+            omittedCount = omittedCount,
+        )
+    }
+
+    private fun isAabModuleManifestPath(path: String): Boolean {
+        if (!path.endsWith(AAB_MANIFEST_SUFFIX)) return false
+        val moduleName = path.removeSuffix(AAB_MANIFEST_SUFFIX)
+        return moduleName.isNotEmpty() && '/' !in moduleName && '\\' !in moduleName
+    }
+
+    private fun InputStream.readAabManifestBounded(maxBytes: Int): ByteArray {
+        val output = java.io.ByteArrayOutputStream(minOf(maxBytes, DEFAULT_BUFFER_SIZE))
+        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        var total = 0
+        while (true) {
+            val read = read(buffer)
+            if (read < 0) break
+            if (read > maxBytes - total) {
+                throw IOException("AAB module manifest exceeds the component scan limit")
+            }
+            output.write(buffer, 0, read)
+            total += read
+        }
+        return output.toByteArray()
     }
 
     private fun validateAndCollectEntries(zip: ZipFile): List<ZipEntry> {
@@ -887,6 +972,11 @@ internal object ManifestSummaryParser {
                 }
                 .sortedBy { (name) -> name }
                 .toMap(),
+            manifestComponents = try {
+                ManifestComponentSummaryParser.parse(xml)
+            } catch (_: Exception) {
+                ManifestComponentSummary(failedManifestCount = 1)
+            },
         )
     }
 

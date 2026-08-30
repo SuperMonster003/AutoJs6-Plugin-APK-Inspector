@@ -33,7 +33,7 @@ Ce README est disponible dans les langues suivantes:
 
 APK Inspector est un plugin compagnon du gestionnaire de fichiers AutoJs6. Touchez un fichier APK, APKS, XAPK, APKM, APKZ ou AAB dans le gestionnaire de fichiers : un rapport d'inspection s'ouvre aussitôt et montre, sur un seul écran, le nom de l'application, sa version, les autorisations demandées et si elle peut être installée sur cet appareil. Le paquet n'est jamais installé et le fichier source n'est jamais modifié.
 
-Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de l'application, l'icône, le nom du paquet, la version, la plage de SDK, la vérification des signatures et la lignée des certificats de signature, la taille du fichier et l'empreinte SHA-256 ; « Composants » liste chaque APK divisé (split) et chaque ressource OBB du paquet en marquant les parties correspondant à cet appareil (pour un AAB, les modules) ; « Autorisations demandées » regroupe les autorisations système par niveau de protection et met en avant les autorisations dangereuses à l’exécution avec une brève explication ; « Constats de sécurité et de compatibilité » résume les problèmes structurels et le verdict de compatibilité. Le bouton « Afficher le manifeste » ouvre l'AndroidManifest complet et mis en forme.
+Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de l'application, l'icône, le nom du paquet, la version, la plage de SDK, la vérification des signatures et la lignée des certificats de signature, la taille du fichier et l'empreinte SHA-256 ; « Composants » liste chaque APK divisé (split) et chaque ressource OBB du paquet, marque les parties correspondant à cet appareil (pour un AAB, les modules) et regroupe les activités/alias, services, récepteurs et fournisseurs déclarés dans le manifeste par nombre et état exported explicite ; « Autorisations demandées » regroupe les autorisations système par niveau de protection et met en avant les autorisations dangereuses à l’exécution avec une brève explication ; « Constats de sécurité et de compatibilité » résume les problèmes structurels et le verdict de compatibilité. Le bouton « Afficher le manifeste » ouvre l'AndroidManifest complet et mis en forme.
 
 ### Points forts
 
@@ -42,6 +42,7 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 - Version et compatibilité : nom du paquet, nom et code de version, SDK min/cible/max, comparés à la version Android de l'appareil avant toute installation.
 - Transparence des autorisations : regroupement par niveau de protection (exécution/dangereuses, signature/protégées et normales), avec les autorisations à l’exécution mises en avant et expliquées en une ligne ; les niveaux indisponibles restent visibles et signalés.
 - Analyse des splits : liste chaque entrée APK et chaque ressource OBB d'un bundle et marque les splits retenus pour cet appareil (base, langue, densité d'écran, ABI).
+- Exposition des composants du manifeste : compte les activités/alias, services, récepteurs de diffusion et fournisseurs de contenu dans les splits APK sélectionnés ou les modules AAB analysés, en regroupant les valeurs android:exported explicites comme exporté, non exporté ou non précisé/non résolu.
 - Vérification des signatures et certificats : vérifie cryptographiquement les schémas APK V2, V3 et V3.1 ; signale la présence de V1 ; affiche chaque certificat actuel et la lignée de rotation vérifiée avec les rôles ancien/nouveau et les empreintes SHA-256.
 - Vérification des fichiers annexes V4/V4.1 : AutoJs6 dérive uniquement le fichier voisin exact `<nom de l’APK>.idsig` et accorde un descripteur borné en lecture seule ; le plugin vérifie les données signées, le certificat et la clé publique, le condensat APK V2/V3 correspondant, la racine fs-verity, l’arbre de Merkle intégré et tout signataire de rotation V3.1.
 - Manifestes lisibles : les manifestes APK binaires et les manifestes protobuf AAB sont décodés en XML lisible, dans une visionneuse séparée en lecture seule.
@@ -97,6 +98,7 @@ Pour empêcher des fichiers forgés d'épuiser les ressources de l'appareil, l'a
 - La taille déclarée d'une entrée ne peut dépasser 4 GiB, et le total déclaré ne peut dépasser 8 GiB.
 - L'analyse des manifestes d'APK imbriqués est plafonnée à 256 MiB, les métadonnées de bundle à 1 MiB, et l'APK temporaire servant à charger l'icône et le libellé à 512 MiB.
 - La classification examine au plus 2048 demandes, affiche jusqu’à 512 noms sûrs et uniques et limite chaque explication chargée à 240 caractères ; les omissions et niveaux indisponibles sont clairement signalés.
+- Les statistiques de composants analysent au plus 4096 déclarations par manifeste et 128 manifestes de modules AAB avec un budget d’entrée partagé de 16 MiB ; les omissions, valeurs exported non résolues et échecs par manifeste sont clairement signalés.
 
 ### Interface du plugin
 
@@ -128,6 +130,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout de statistiques bornées des composants du manifeste pour les activités/alias, services, récepteurs de diffusion et fournisseurs de contenu dans les splits APK sélectionnés et modules AAB analysés, regroupées par état android:exported explicite avec signalement des résultats partiels
 - `Fonctionnalité` Ajout de la vérification cryptographique sur l’appareil des schémas APK V2, V3, V3.1, V4 et V4.1, y compris les condensats, preuves du signataire, racines fs-verity, arbres de Merkle intégrés et correspondance avec le schéma complémentaire
 - `Fonctionnalité` Ajout des champs détaillés des certificats et des lignées de rotation vérifiées avec rôles ancien/actuel, indicateurs de capacité et empreintes SHA-256
 - `Fonctionnalité` Ajout de la copie bornée de `.idsig` via un descripteur en lecture seule dérivé exactement par l’hôte ; l’énumération des répertoires et l’accès arbitraire aux voisins restent indisponibles

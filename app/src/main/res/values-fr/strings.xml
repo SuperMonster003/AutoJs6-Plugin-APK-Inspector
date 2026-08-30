@@ -66,4 +66,15 @@
     <string name="permission_runtime_description_fallback">Cette autorisation peut accéder à des données ou actions sensibles après l’approbation de l’utilisateur.</string>
     <string name="permission_protection_unavailable">Le niveau de protection n’est pas disponible sur cet appareil ; l’autorisation est affichée comme non classée.</string>
     <string name="permission_omitted">%1$d autorisations supplémentaires ont été omises par la limite de sécurité de %2$d éléments.</string>
+    <string name="component_manifest_heading_apk">Composants du manifeste dans les APK sélectionnés</string>
+    <string name="component_manifest_heading_aab">Composants du manifeste dans les modules AAB analysés</string>
+    <string name="component_type_activity">Activités / alias</string>
+    <string name="component_type_service">Services</string>
+    <string name="component_type_receiver">Récepteurs de diffusion</string>
+    <string name="component_type_provider">Fournisseurs de contenu</string>
+    <string name="component_stats_line">- %1$s : total %2$d | exportés %3$d | non exportés %4$d | non précisés/non résolus %5$d</string>
+    <string name="component_exported_unspecified_note">[i] Non précisé ne signifie pas privé ; les valeurs par défaut d’Android varient selon le type de composant, les filtres d’intent et le SDK cible.</string>
+    <string name="component_stats_scan_limit">[i] Limite de sécurité par manifeste atteinte ; maximum analysé : %1$d. Les comptes sont partiels.</string>
+    <string name="component_stats_manifest_limit">[i] Limite des manifestes de modules AAB : %2$d | omis : %1$d. Les comptes sont partiels.</string>
+    <string name="component_stats_manifest_failure">[i] Analyses de composants ayant échoué à cause du décodage, de la structure ou d’une limite d’entrée : %1$d. Les comptes sont partiels.</string>
 </resources>

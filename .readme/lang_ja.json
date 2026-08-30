@@ -6,7 +6,7 @@
   "p_languages_all_supported_for_readme": "このREADMEは次の言語で利用できます",
   "h3_introduction": "概要",
   "p_introduction": "APK Inspectorは, AutoJs6ファイルマネージャーの拡張プラグインです. ファイルマネージャーでAPK, APKS, XAPK, APKM, APKZ, AABファイルをタップすると, 検査レポートがすぐに開きます. アプリの名前, バージョン, 要求する権限, この端末にインストールできるかどうかが1画面で分かります. パッケージがインストールされることはなく, 元のファイルも一切変更されません.",
-  "p_introduction_report": "レポートは4つのセクションで構成されます. 「パッケージ詳細」にはアプリ名, アイコン, パッケージ名, バージョン, SDK範囲, 署名検証と署名証明書のローテーション系譜, ファイルサイズ, SHA-256チェックサムが表示されます. 「コンポーネント」にはパッケージ内の全分割APKとOBBアセットが一覧表示され, この端末に適合する部分が示されます (AABの場合はモジュール一覧). 「要求権限」は保護レベル別に権限を分類し, 実行時の危険な権限を説明付きで先頭に強調表示します. 「セキュリティと互換性の結果」には構造上の問題と端末互換性の判定がまとまります. 「manifestを表示」ボタンで整形済みAndroidManifest全文も確認できます.",
+  "p_introduction_report": "レポートは4つのセクションで構成されます. 「パッケージ詳細」にはアプリ名, アイコン, パッケージ名, バージョン, SDK範囲, 署名検証と署名証明書のローテーション系譜, ファイルサイズ, SHA-256チェックサムが表示されます. 「コンポーネント」にはパッケージ内の全分割APKとOBBアセットが一覧表示され, この端末に適合する部分が示されます (AABの場合はモジュール一覧). さらにmanifestで宣言されたactivity/alias, service, receiver, providerを件数と明示的なexported状態で分類します. 「要求権限」は保護レベル別に権限を分類し, 実行時の危険な権限を説明付きで先頭に強調表示します. 「セキュリティと互換性の結果」には構造上の問題と端末互換性の判定がまとまります. 「manifestを表示」ボタンで整形済みAndroidManifest全文も確認できます.",
   "h3_functions": "特長",
   "features": [
     "タップするだけ: AutoJs6ファイルマネージャーから直接レポートを開けます. インストール, 展開, ネットワークアクセスは不要です.",
@@ -14,6 +14,7 @@
     "バージョンと互換性: パッケージ名, バージョン名とバージョンコード, 最小/ターゲット/最大SDKを表示し, 端末のAndroidバージョンと対比します.",
     "権限の透明化: 要求権限を保護レベル (実行時/危険, 署名/保護, 通常) で分類し, 実行時権限を先頭に強調して1行の説明を表示します. 取得できないレベルも非表示にせず明記します.",
     "分割APKの分析: バンドル内の全APKエントリとOBBアセットを一覧にし, この端末向けに選択される分割 (ベース, 言語, 画面密度, ABI) を示します.",
+    "manifestコンポーネントの公開状態: 選択済みAPK分割または走査済みAABモジュールのactivity/alias, service, broadcast receiver, content providerを集計し, 明示的なandroid:exported値をエクスポート、非エクスポート、未指定/未解決に分類します.",
     "署名と証明書の検証: APKのV2 / V3 / V3.1署名を暗号学的に検証し, V1の有無を報告します. 現在の署名証明書を個別に表示し, 検証済みローテーション系譜の新旧関係とSHA-256指紋も示します.",
     "V4 / V4.1サイドカー検証: AutoJs6は完全一致する`<APKファイル名>.idsig`だけを派生し, 上限付き読み取り専用ディスクリプターを付与します. プラグインは署名データ, 証明書と公開鍵, 対応するV2 / V3 APKダイジェスト, fs-verityルート, 内蔵Merkleツリー, V3.1ローテーション署名者を検証します.",
     "manifestの可読化: バイナリAPK manifestとAAB protobuf manifestを読みやすいXMLへデコードし, 独立した読み取り専用ビューアーで表示します.",
@@ -59,7 +60,8 @@
     "アーカイブのエントリは最大 {{ max_archive_entries }} 件, バンドルあたりのAPKエントリ走査は最大 {{ max_apk_entries }} 件, エントリ名は最長 {{ max_entry_name_chars }} 文字です.",
     "宣言されたエントリサイズは {{ max_declared_entry_size }} まで, 宣言された合計サイズは {{ max_declared_total_size }} までです.",
     "ネストしたAPKのmanifest走査は {{ max_nested_apk_scan }} まで, バンドルメタデータは {{ max_metadata_size }} まで, アイコンとラベルの読み込みに使う一時APKは {{ max_display_apk_size }} までです.",
-    "権限分類は最大 {{ max_permission_scan }} 件を走査し, 安全な一意名を最大 {{ max_permission_display }} 件表示します. 読み込む説明は1件 {{ max_permission_description_chars }} 文字までで, 省略や取得不能な保護レベルを明記します."
+    "権限分類は最大 {{ max_permission_scan }} 件を走査し, 安全な一意名を最大 {{ max_permission_display }} 件表示します. 読み込む説明は1件 {{ max_permission_description_chars }} 文字までで, 省略や取得不能な保護レベルを明記します.",
+    "コンポーネント統計はmanifestごとに最大 {{ max_manifest_components }} 件, AABでは共有入力予算 {{ max_aab_component_manifest_total }} の範囲で最大 {{ max_aab_component_manifests }} 個のモジュールmanifestを走査します. 省略, 未解決のexported値, manifest単位の失敗を明記します."
   ],
   "h3_plugin_interface": "プラグインインターフェース",
   "p_plugin_interface": "ホスト (AutoJs6) は次の識別子でプラグインを検出して呼び出します. プラグインやホストの開発者向けの参考情報です",

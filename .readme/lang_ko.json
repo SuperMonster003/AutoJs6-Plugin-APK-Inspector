@@ -6,7 +6,7 @@
   "p_languages_all_supported_for_readme": "이 README는 다음 언어로 제공됩니다",
   "h3_introduction": "소개",
   "p_introduction": "APK Inspector는 AutoJs6 파일 관리자의 확장 플러그인입니다. 파일 관리자에서 APK, APKS, XAPK, APKM, APKZ, AAB 파일을 탭하면 검사 보고서가 바로 열립니다. 앱 이름, 버전, 요청 권한, 이 기기에 설치 가능한지 여부를 한 화면에서 확인할 수 있습니다. 패키지는 설치되지 않으며 원본 파일도 절대 수정되지 않습니다.",
-  "p_introduction_report": "보고서는 네 부분으로 구성됩니다. \"패키지 세부 정보\"에는 앱 이름, 아이콘, 패키지 이름, 버전, SDK 범위, 서명 검증과 서명 인증서 교체 계보, 파일 크기, SHA-256 체크섬이 표시됩니다. \"구성 요소\"에는 패키지 안의 모든 분할 APK와 OBB 자산이 나열되고 이 기기와 일치하는 부분이 표시됩니다 (AAB는 모듈 목록). \"요청 권한\"은 보호 수준별로 권한을 분류하고 런타임 위험 권한을 짧은 설명과 함께 먼저 강조합니다. \"보안 및 호환성 결과\"에는 구조적 문제와 기기 호환성 판정이 정리됩니다. \"manifest 보기\" 버튼으로 정형화된 AndroidManifest 전문도 볼 수 있습니다.",
+  "p_introduction_report": "보고서는 네 부분으로 구성됩니다. \"패키지 세부 정보\"에는 앱 이름, 아이콘, 패키지 이름, 버전, SDK 범위, 서명 검증과 서명 인증서 교체 계보, 파일 크기, SHA-256 체크섬이 표시됩니다. \"구성 요소\"에는 패키지 안의 모든 분할 APK와 OBB 자산이 나열되고 이 기기와 일치하는 부분이 표시됩니다 (AAB는 모듈 목록). 또한 manifest에 선언된 activity/별칭, service, receiver, provider를 개수와 명시적 exported 상태별로 분류합니다. \"요청 권한\"은 보호 수준별로 권한을 분류하고 런타임 위험 권한을 짧은 설명과 함께 먼저 강조합니다. \"보안 및 호환성 결과\"에는 구조적 문제와 기기 호환성 판정이 정리됩니다. \"manifest 보기\" 버튼으로 정형화된 AndroidManifest 전문도 볼 수 있습니다.",
   "h3_functions": "주요 기능",
   "features": [
     "탭 한 번으로 검사: AutoJs6 파일 관리자에서 바로 보고서를 엽니다. 설치, 압축 해제, 네트워크 접근이 필요 없습니다.",
@@ -14,6 +14,7 @@
     "버전과 호환성: 패키지 이름, 버전 이름과 코드, 최소/대상/최대 SDK를 표시하고 기기의 Android 버전과 대조해 설치 전에 호환성을 판단할 수 있습니다.",
     "권한 투명성: 요청 권한을 보호 수준(런타임/위험, 서명/보호, 일반)으로 분류하고 런타임 권한을 한 줄 설명과 함께 먼저 강조합니다. 확인할 수 없는 수준도 숨기지 않고 명확히 표시합니다.",
     "분할 APK 분석: 번들 안의 모든 APK 항목과 OBB 자산을 나열하고 이 기기용으로 선택되는 분할 (베이스, 언어, 화면 밀도, ABI) 을 표시합니다.",
+    "manifest 구성 요소 공개 상태: 선택된 APK 분할 또는 스캔한 AAB 모듈의 activity/별칭, service, broadcast receiver, content provider를 집계하고 명시적 android:exported 값을 내보냄, 내보내지 않음, 미지정/미해결로 분류합니다.",
     "서명 및 인증서 검증: APK V2 / V3 / V3.1 서명을 암호학적으로 검증하고 V1 존재 여부를 보고합니다. 현재 서명 인증서를 각각 표시하며, 검증된 교체 계보의 이전/현재 관계와 SHA-256 지문도 보여 줍니다.",
     "V4 / V4.1 사이드카 검증: AutoJs6는 정확한 `<APK 파일 이름>.idsig`만 파생해 제한된 읽기 전용 디스크립터를 부여합니다. 플러그인은 서명 데이터, 인증서와 공개 키, 대응하는 V2 / V3 APK 다이제스트, fs-verity 루트, 포함된 Merkle 트리 및 V3.1 교체 서명자를 검증합니다.",
     "manifest 가독화: 바이너리 APK manifest와 AAB protobuf manifest를 읽기 쉬운 XML로 디코딩해 독립된 읽기 전용 뷰어에 표시합니다.",
@@ -59,7 +60,8 @@
     "아카이브 항목은 최대 {{ max_archive_entries }} 개까지 해석하고, 번들당 APK 항목은 최대 {{ max_apk_entries }} 개까지 살피며, 항목 이름은 최대 {{ max_entry_name_chars }} 자입니다.",
     "선언된 단일 항목 크기는 {{ max_declared_entry_size }}, 선언된 총 크기는 {{ max_declared_total_size }} 를 넘을 수 없습니다.",
     "중첩 APK manifest 스캔은 {{ max_nested_apk_scan }}, 번들 메타데이터는 {{ max_metadata_size }}, 아이콘·라벨 로딩용 임시 APK는 {{ max_display_apk_size }} 까지로 제한됩니다.",
-    "권한 분류는 최대 {{ max_permission_scan }}개 요청을 스캔하고 안전한 고유 이름을 최대 {{ max_permission_display }}개 표시하며, 불러온 설명은 각각 {{ max_permission_description_chars }}자로 제한합니다. 생략 항목과 확인할 수 없는 보호 수준은 명확히 표시됩니다."
+    "권한 분류는 최대 {{ max_permission_scan }}개 요청을 스캔하고 안전한 고유 이름을 최대 {{ max_permission_display }}개 표시하며, 불러온 설명은 각각 {{ max_permission_description_chars }}자로 제한합니다. 생략 항목과 확인할 수 없는 보호 수준은 명확히 표시됩니다.",
+    "구성 요소 통계는 manifest마다 최대 {{ max_manifest_components }}개 선언을 스캔하고, AAB에서는 공유 입력 예산 {{ max_aab_component_manifest_total }} 안에서 최대 {{ max_aab_component_manifests }}개 모듈 manifest를 스캔합니다. 생략, 미해결 exported 값, manifest별 실패를 명확히 표시합니다."
   ],
   "h3_plugin_interface": "플러그인 인터페이스",
   "p_plugin_interface": "호스트 (AutoJs6) 는 다음 식별자로 플러그인을 발견하고 호출합니다. 플러그인·호스트 개발자를 위한 참고 정보입니다",

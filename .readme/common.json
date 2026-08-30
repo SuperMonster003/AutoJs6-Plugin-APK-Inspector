@@ -23,5 +23,8 @@
   "max_display_apk_size": "512 MiB",
   "max_permission_scan": "2048",
   "max_permission_display": "512",
-  "max_permission_description_chars": "240"
+  "max_permission_description_chars": "240",
+  "max_manifest_components": "4096",
+  "max_aab_component_manifests": "128",
+  "max_aab_component_manifest_total": "16 MiB"
 }

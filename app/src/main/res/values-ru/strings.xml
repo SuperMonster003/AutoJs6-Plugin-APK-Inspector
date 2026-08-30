@@ -66,4 +66,15 @@
     <string name="permission_runtime_description_fallback">Это разрешение может предоставлять доступ к конфиденциальным данным или действиям после одобрения пользователем.</string>
     <string name="permission_protection_unavailable">Уровень защиты недоступен на этом устройстве; разрешение показано как неклассифицированное.</string>
     <string name="permission_omitted">%1$d дополнительных разрешений не показано из-за безопасного ограничения в %2$d элементов.</string>
+    <string name="component_manifest_heading_apk">Компоненты манифеста в выбранных APK</string>
+    <string name="component_manifest_heading_aab">Компоненты манифеста в просканированных модулях AAB</string>
+    <string name="component_type_activity">Activity / псевдонимы</string>
+    <string name="component_type_service">Сервисы</string>
+    <string name="component_type_receiver">Приёмники трансляций</string>
+    <string name="component_type_provider">Поставщики содержимого</string>
+    <string name="component_stats_line">- %1$s: всего %2$d | экспортировано %3$d | не экспортировано %4$d | не указано/не определено %5$d</string>
+    <string name="component_exported_unspecified_note">[i] Отсутствие значения не означает закрытый доступ: значения Android по умолчанию зависят от типа компонента, intent-фильтров и целевого SDK.</string>
+    <string name="component_stats_scan_limit">[i] Достигнут безопасный предел компонентов на манифест; максимум просканировано: %1$d. Подсчёт частичный.</string>
+    <string name="component_stats_manifest_limit">[i] Предел манифестов модулей AAB: %2$d | пропущено: %1$d. Подсчёт частичный.</string>
+    <string name="component_stats_manifest_failure">[i] Сканирований компонентов, завершившихся ошибкой декодирования, структуры или лимита ввода: %1$d. Подсчёт частичный.</string>
 </resources>

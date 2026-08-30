@@ -218,7 +218,7 @@ class ApkInspectorActivity : AppCompatActivity() {
                 "- $split | ${apk.archivePath} | ${Formatter.formatFileSize(this, apk.size)}"
             }
         }.ifBlank { getString(R.string.text_none) }
-        val components = when (archive.format) {
+        val packageComponents = when (archive.format) {
             AndroidPackageFormat.AAB -> getString(R.string.components_aab, archive.aabModules.size, componentEntries)
             else -> getString(
                 R.string.components_apk,
@@ -228,6 +228,10 @@ class ApkInspectorActivity : AppCompatActivity() {
                 componentEntries,
             )
         }
+        val components = listOf(
+            packageComponents,
+            formatManifestComponents(archive),
+        ).joinToString("\n\n")
 
         val findings = buildList {
             when (archive.inspectionState) {
@@ -481,6 +485,70 @@ class ApkInspectorActivity : AppCompatActivity() {
         binding.viewManifest.setOnClickListener {
             report.manifestPath?.let { path -> startActivity(ManifestViewerActivity.createIntent(this, path)) }
         }
+    }
+
+    private fun formatManifestComponents(archive: AndroidPackageArchive): String {
+        val summary = archive.manifestComponents
+        return buildList {
+            add(
+                getString(
+                    if (archive.format == AndroidPackageFormat.AAB) {
+                        R.string.component_manifest_heading_aab
+                    } else {
+                        R.string.component_manifest_heading_apk
+                    },
+                ),
+            )
+            ManifestComponentKind.entries.forEach { kind ->
+                val counts = summary.countsFor(kind)
+                val label = getString(
+                    when (kind) {
+                        ManifestComponentKind.ACTIVITY -> R.string.component_type_activity
+                        ManifestComponentKind.SERVICE -> R.string.component_type_service
+                        ManifestComponentKind.RECEIVER -> R.string.component_type_receiver
+                        ManifestComponentKind.PROVIDER -> R.string.component_type_provider
+                    },
+                )
+                add(
+                    getString(
+                        R.string.component_stats_line,
+                        label,
+                        counts.total,
+                        counts.exported,
+                        counts.notExported,
+                        counts.exportedUnspecified,
+                    ),
+                )
+            }
+            if (summary.hasUnspecifiedExported) {
+                add(getString(R.string.component_exported_unspecified_note))
+            }
+            if (summary.scanLimitReached) {
+                add(
+                    getString(
+                        R.string.component_stats_scan_limit,
+                        ManifestComponentSummaryParser.MAX_COMPONENTS_PER_MANIFEST,
+                    ),
+                )
+            }
+            if (summary.omittedManifestCount > 0) {
+                add(
+                    getString(
+                        R.string.component_stats_manifest_limit,
+                        summary.omittedManifestCount,
+                        AndroidPackageArchiveInspector.MAX_AAB_COMPONENT_MANIFESTS,
+                    ),
+                )
+            }
+            if (summary.failedManifestCount > 0) {
+                add(
+                    getString(
+                        R.string.component_stats_manifest_failure,
+                        summary.failedManifestCount,
+                    ),
+                )
+            }
+        }.joinToString("\n")
     }
 
     private fun formatRequestedPermissions(
