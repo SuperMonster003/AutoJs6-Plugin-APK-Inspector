@@ -55,39 +55,43 @@ internal data class AndroidPackageArchive(
         AndroidPackageFormat.AAB -> AabManifestDisplayDecoder.decode(sourceFile)
         AndroidPackageFormat.APK -> ApkManifestDisplayDecoder.decode(sourceFile)
         else -> {
-            val base = baseApk ?: throw IOException("A base APK is unavailable")
+            val base = baseApk ?: AndroidPackageArchiveValidator.reject(
+                AndroidPackageArchiveRejection.DISPLAY_BASE_APK_MISSING,
+            )
             ZipFile(sourceFile).use { zip ->
-                val entry = zip.getEntry(base.archivePath)
-                    ?.takeUnless { it.isDirectory }
-                    ?: throw IOException("Base APK entry is missing")
+                val entry = requireDisplayBaseEntry(zip, base.archivePath)
                 zip.getInputStream(entry).use(ApkManifestDisplayDecoder::decodeApk)
             }
         }
     }
 
     fun createDisplayApk(cacheDirectory: File): File? {
-        val base = baseApk ?: return null
-        if (format == AndroidPackageFormat.APK) return sourceFile
-        if (format == AndroidPackageFormat.AAB) return null
         val available = (cacheDirectory.usableSpace - MINIMUM_FREE_CACHE_BYTES).coerceAtLeast(0L)
-        if (base.size > MAX_DISPLAY_APK_BYTES || base.size > available) {
+        if (
+            AndroidPackageArchiveValidator.rejectDisplayApk(
+                DisplayApkFacts(
+                    format = format,
+                    baseApkSize = baseApk?.size,
+                    availableCacheBytes = available,
+                    maxDisplayApkBytes = MAX_DISPLAY_APK_BYTES,
+                ),
+            ) != null
+        ) {
             return null
         }
-        val directory = File(cacheDirectory, "package-info-${UUID.randomUUID()}").apply {
-            if (!mkdirs()) throw IOException("Unable to create the package information directory")
-        }
+        val base = baseApk ?: error("Validated display APK is missing")
+        if (format == AndroidPackageFormat.APK) return sourceFile
+        val directory = createDisplayDirectory(cacheDirectory)
         return try {
             val output = File(directory, "base.apk")
             when (format) {
                 AndroidPackageFormat.APK -> error("Direct APK inspection does not require extraction")
                 AndroidPackageFormat.AAB -> error("AAB files do not contain a directly inspectable base APK")
                 else -> ZipFile(sourceFile).use { zip ->
-                    val entry = zip.getEntry(base.archivePath)
-                        ?.takeUnless { it.isDirectory }
-                        ?: throw IOException("Base APK entry is missing")
+                    val entry = requireDisplayBaseEntry(zip, base.archivePath)
                     zip.getInputStream(entry).use { input ->
                         output.outputStream().buffered().use { target ->
-                            input.copyBoundedTo(target, MAX_DISPLAY_APK_BYTES)
+                            copyDisplayApkBounded(input, target)
                         }
                     }
                 }
@@ -100,23 +104,46 @@ internal data class AndroidPackageArchive(
     }
 
     companion object {
-        private const val MAX_DISPLAY_APK_BYTES = 512L * 1024L * 1024L
-        private const val MINIMUM_FREE_CACHE_BYTES = 128L * 1024L * 1024L
+        internal const val MAX_DISPLAY_APK_BYTES = 512L * 1024L * 1024L
+        internal const val MINIMUM_FREE_CACHE_BYTES = 128L * 1024L * 1024L
 
-        private fun InputStream.copyBoundedTo(
+        internal fun createDisplayDirectory(
+            cacheDirectory: File,
+            name: String = "package-info-${UUID.randomUUID()}",
+        ): File = File(cacheDirectory, name).apply {
+            if (!mkdirs()) {
+                AndroidPackageArchiveValidator.reject(
+                    AndroidPackageArchiveRejection.DISPLAY_DIRECTORY,
+                )
+            }
+        }
+
+        internal fun copyDisplayApkBounded(
+            input: InputStream,
             output: java.io.OutputStream,
-            maxBytes: Long,
+            maxBytes: Long = MAX_DISPLAY_APK_BYTES,
         ) {
             val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
             var total = 0L
             while (true) {
-                val read = read(buffer)
+                val read = input.read(buffer)
                 if (read < 0) break
                 total = Math.addExact(total, read.toLong())
-                if (total > maxBytes) throw IOException("Base APK exceeds the display extraction limit")
+                if (total > maxBytes) {
+                    AndroidPackageArchiveValidator.reject(
+                        AndroidPackageArchiveRejection.DISPLAY_APK_SIZE,
+                    )
+                }
                 output.write(buffer, 0, read)
             }
         }
+
+        internal fun requireDisplayBaseEntry(zip: ZipFile, path: String): ZipEntry =
+            zip.getEntry(path)
+                ?.takeUnless { it.isDirectory }
+                ?: AndroidPackageArchiveValidator.reject(
+                    AndroidPackageArchiveRejection.DISPLAY_BASE_ENTRY_MISSING,
+                )
     }
 }
 
@@ -225,13 +252,13 @@ internal object AndroidPackageArchiveInspector {
     const val MAX_AAB_COMPONENT_MANIFEST_TOTAL_BYTES = 16L * 1024L * 1024L
     const val MAX_AAB_BUNDLE_CONFIG_BYTES = 1 * 1024 * 1024
 
-    private const val MAX_ARCHIVE_ENTRIES = 16_384
-    private const val MAX_GENERIC_APK_ENTRIES = 512
-    private const val MAX_ENTRY_NAME_CHARS = 1_024
-    private const val MAX_DECLARED_ENTRY_BYTES = 4L * 1024L * 1024L * 1024L
-    private const val MAX_DECLARED_TOTAL_BYTES = 8L * 1024L * 1024L * 1024L
+    internal const val MAX_ARCHIVE_ENTRIES = 16_384
+    internal const val MAX_GENERIC_APK_ENTRIES = 512
+    internal const val MAX_ENTRY_NAME_CHARS = 1_024
+    internal const val MAX_DECLARED_ENTRY_BYTES = 4L * 1024L * 1024L * 1024L
+    internal const val MAX_DECLARED_TOTAL_BYTES = 8L * 1024L * 1024L * 1024L
     private const val MAX_NESTED_APK_SCAN_BYTES = 256L * 1024L * 1024L
-    private const val MAX_AAB_COMPONENT_MANIFEST_BYTES = 4 * 1024 * 1024
+    internal const val MAX_AAB_COMPONENT_MANIFEST_BYTES = 4 * 1024 * 1024
     private const val MAX_AAB_METADATA_ISSUE_DETAIL_CHARS = 240
     private const val AAB_BUNDLE_CONFIG_ENTRY = "BundleConfig.pb"
     private const val AAB_MANIFEST_SUFFIX = "/manifest/AndroidManifest.xml"
@@ -241,7 +268,11 @@ internal object AndroidPackageArchiveInspector {
         file: File,
         device: PackageDeviceSpec,
     ): AndroidPackageArchive {
-        if (!file.isFile) throw IOException("Package file does not exist")
+        if (!file.isFile) {
+            AndroidPackageArchiveValidator.reject(
+                AndroidPackageArchiveRejection.PACKAGE_FILE_MISSING,
+            )
+        }
         return ZipFile(file).use { zip ->
             val entries = validateAndCollectEntries(zip)
             val rootManifest = entries.firstOrNull { it.name == "AndroidManifest.xml" && !it.isDirectory }
@@ -283,13 +314,11 @@ internal object AndroidPackageArchiveInspector {
                     }
                     .sortedBy(ZipEntry::getName)
                     .toList()
-                val displayManifestEntry = moduleManifestEntries
-                    .firstOrNull { entry -> entry.name == AAB_BASE_MANIFEST_ENTRY }
-                    ?: moduleManifestEntries.firstOrNull()
-                    ?: throw IOException("AAB contains no module AndroidManifest.xml")
-                if (displayManifestEntry.size > MAX_AAB_COMPONENT_MANIFEST_BYTES) {
-                    throw IOException("AAB display manifest exceeds the inspection limit")
-                }
+                val displayManifestEntry = AndroidPackageArchiveValidator.requireAabDisplayManifest(
+                    moduleManifestEntries.firstOrNull { entry -> entry.name == AAB_BASE_MANIFEST_ENTRY }
+                        ?: moduleManifestEntries.firstOrNull(),
+                    ZipEntry::getSize,
+                )
                 val displayManifestBytes = zip.getInputStream(displayManifestEntry).use { input ->
                     input.readAabManifestBounded(MAX_AAB_COMPONENT_MANIFEST_BYTES)
                 }
@@ -342,11 +371,10 @@ internal object AndroidPackageArchiveInspector {
             val apkZipEntries = entries.filter {
                 !it.isDirectory && it.name.endsWith(".apk", ignoreCase = true)
             }
-            if (subtype != AndroidPackageSubtype.BUNDLETOOL_APKS &&
-                apkZipEntries.size > MAX_GENERIC_APK_ENTRIES
-            ) {
-                throw IOException("APK entry count exceeds the inspection limit")
-            }
+            AndroidPackageArchiveValidator.requireGenericApkEntryCount(
+                isBundletool = subtype == AndroidPackageSubtype.BUNDLETOOL_APKS,
+                count = apkZipEntries.size,
+            )
 
             val problems = mutableListOf<ArchiveProblem>()
             val tocSelection = if (subtype == AndroidPackageSubtype.BUNDLETOOL_APKS) {
@@ -581,44 +609,21 @@ internal object AndroidPackageArchiveInspector {
 
     private fun validateAndCollectEntries(zip: ZipFile): List<ZipEntry> {
         val result = ArrayList<ZipEntry>()
-        val entryNames = HashSet<String>()
-        var declaredTotal = 0L
+        val validation = ArchiveEntryValidationState(
+            ArchiveEntryValidationLimits(
+                maxEntries = MAX_ARCHIVE_ENTRIES,
+                maxNameCharacters = MAX_ENTRY_NAME_CHARS,
+                maxEntryBytes = MAX_DECLARED_ENTRY_BYTES,
+                maxTotalBytes = MAX_DECLARED_TOTAL_BYTES,
+            ),
+        )
         val enumeration = zip.entries()
         while (enumeration.hasMoreElements()) {
             val entry = enumeration.nextElement()
-            if (result.size >= MAX_ARCHIVE_ENTRIES) {
-                throw IOException("Archive entry count exceeds the inspection limit")
-            }
-            validateEntryName(entry.name)
-            if (!entryNames.add(entry.name)) {
-                throw IOException("Archive contains duplicate entry names")
-            }
-            if (entry.size > MAX_DECLARED_ENTRY_BYTES) {
-                throw IOException("Archive entry exceeds the inspection size limit")
-            }
-            if (entry.size > 0L) {
-                declaredTotal = Math.addExact(declaredTotal, entry.size)
-                if (declaredTotal > MAX_DECLARED_TOTAL_BYTES) {
-                    throw IOException("Archive contents exceed the inspection size limit")
-                }
-            }
+            validation.accept(entry.name, entry.size)
             result += entry
         }
         return result
-    }
-
-    private fun validateEntryName(name: String) {
-        if (
-            name.isBlank() ||
-            name.length > MAX_ENTRY_NAME_CHARS ||
-            '\u0000' in name ||
-            '\\' in name ||
-            name.startsWith('/') ||
-            Regex("^[A-Za-z]:").containsMatchIn(name) ||
-            name.split('/').any { it == ".." }
-        ) {
-            throw IOException("Archive contains an unsafe entry name")
-        }
     }
 
     private fun detectContainerFormat(extension: String, entryNames: Set<String>): AndroidPackageFormat {
@@ -635,7 +640,9 @@ internal object AndroidPackageArchiveInspector {
             extension == "xapk" -> AndroidPackageFormat.XAPK
             extension == "apkm" -> AndroidPackageFormat.APKM
             extension == "apkz" -> AndroidPackageFormat.APKZ
-            else -> throw IOException("Unsupported Android package container")
+            else -> AndroidPackageArchiveValidator.reject(
+                AndroidPackageArchiveRejection.UNSUPPORTED_CONTAINER,
+            )
         }
     }
 
@@ -1021,7 +1028,9 @@ internal object ManifestSummaryParser {
 
     fun parse(xml: String): ManifestSummary {
         val root = manifestTag.find(xml)?.groupValues?.get(1)
-            ?: throw IOException("Android manifest root element is missing")
+            ?: AndroidPackageArchiveValidator.reject(
+                AndroidPackageArchiveRejection.MANIFEST_ROOT_MISSING,
+            )
         val rootAttributes = parseAttributes(root)
         val sdkAttributes = usesSdkTag.find(xml)?.groupValues?.get(1)?.let(::parseAttributes).orEmpty()
         val applicationAttributes = applicationTag.find(xml)

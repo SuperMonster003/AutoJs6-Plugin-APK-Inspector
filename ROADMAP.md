@@ -68,7 +68,7 @@
 ## M5: 工程与质量
 
 - [x] (测试) 建立去隐私化样本集: 六种格式 × (正常 / 结构损坏 / 超限 / 设备不兼容), 附生成方式与 SHA-256 清单, 可提交仓库.
-- [ ] (测试) 为 PackageRequestPolicy / PackageCacheStager / AndroidPackageArchive / ApkSignatureDetector 建立单元测试, 覆盖全部拒绝分支.
+- [x] (测试) 为 PackageRequestPolicy / PackageCacheStager / AndroidPackageArchive / ApkSignatureDetector 建立单元测试, 覆盖全部拒绝分支.
 - [ ] (测试) 两个入口 Activity 的仪器或 Robolectric 测试: 伪造 Intent、越权授权、超大声明与并发取消均被安全拒绝.
 - [ ] (发布) GitHub Actions: assembleDebug + 单元测试 + 文档一致性检查 (运行 generate_markdown.py 后工作区无 diff 才通过).
 - [ ] (发布) releases/ 产物附 SHA-256 校验文件, 命名与现有 `autojs6-plugin-apk-inspector-v*-<hash>.apk` 规则统一.

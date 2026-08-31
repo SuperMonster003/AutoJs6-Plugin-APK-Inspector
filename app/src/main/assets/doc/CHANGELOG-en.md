@@ -29,6 +29,7 @@ _2026/08/30_
 - `Improvement` Added a reproducible bundletool 1.18.2 selection golden matrix: `build-apks` runs on a privacy-neutral minimal AAB, then the `ExtractApksCommand` shared by `install-apks` records install splits for three language/density/ABI device specs; unit tests verify each simulated set is duplicate-free and stable across repeated runs
 - `Improvement` Added a repeatable 36-case UI screenshot review matrix covering 411/320 dp portrait and compact landscape, 1.0x/1.5x/2.0x fonts, light/dark themes, and LTR/RTL; its state-preserving ADB runner audits control reachability, accessibility reading order, and 48 dp touch targets while recording PNG/XML/contact-sheet evidence
 - `Improvement` Added a deterministic 24-case privacy-neutral fixture matrix spanning APK/APKS/XAPK/APKM/APKZ/AAB across normal, structurally damaged, over-limit, and device-incompatible inputs; a standard-library generator, SHA-256 manifest, and JVM contract tests verify byte-for-byte reproduction, parser outcomes, compact size, and the absence of code, signing material, and user data
+- `Improvement` Added exhaustive fail-closed unit-test matrices for package request validation, private-cache staging, Android archive guards, and APK signing-block parsing; every enumerated rejection reason is exercised, including malformed metadata, unsafe paths, resource limits, truncated structures, and cancellation
 
 ## v1.0.1
 

@@ -42,7 +42,14 @@ object ApkSignatureDetector {
 
     internal fun readSigningBlockIds(apkFile: File): Set<Int> {
         RandomAccessFile(apkFile, "r").use { raf ->
-            val centralDirectoryOffset = findCentralDirectoryOffset(raf)
+            val eocd = findZipEocd(raf)
+            val centralDirectoryOffset = eocd.centralDirectoryOffset
+            if (centralDirectoryOffset > eocd.fileOffset) {
+                reject(
+                    ApkSignatureParseRejection.CENTRAL_DIRECTORY_OFFSET,
+                    "ZIP central directory offset is outside the archive",
+                )
+            }
             if (centralDirectoryOffset < SIGNING_BLOCK_MIN_SIZE) {
                 return emptySet()
             }
@@ -55,37 +62,52 @@ object ApkSignatureDetector {
                 return emptySet()
             }
             if (blockSizeInFooter < SIGNING_BLOCK_FOOTER_SIZE || blockSizeInFooter > centralDirectoryOffset - 8) {
-                throw IOException("Invalid APK Signing Block size: $blockSizeInFooter")
+                reject(
+                    ApkSignatureParseRejection.SIGNING_BLOCK_SIZE,
+                    "Invalid APK Signing Block size: $blockSizeInFooter",
+                )
             }
 
             val blockStart = centralDirectoryOffset - blockSizeInFooter - 8
             raf.seek(blockStart)
             val blockSizeInHeader = raf.readLittleEndianLong()
             if (blockSizeInHeader != blockSizeInFooter) {
-                throw IOException("APK Signing Block size fields do not match")
+                reject(
+                    ApkSignatureParseRejection.SIGNING_BLOCK_SIZE_MISMATCH,
+                    "APK Signing Block size fields do not match",
+                )
             }
 
             val entriesEnd = centralDirectoryOffset - SIGNING_BLOCK_FOOTER_SIZE
             val ids = linkedSetOf<Int>()
             while (raf.filePointer < entriesEnd) {
+                if (entriesEnd - raf.filePointer < Long.SIZE_BYTES) {
+                    reject(
+                        ApkSignatureParseRejection.SIGNING_BLOCK_PAIR_ALIGNMENT,
+                        "APK Signing Block pairs are not aligned",
+                    )
+                }
                 val pairSize = raf.readLittleEndianLong()
                 if (pairSize < 4 || pairSize > entriesEnd - raf.filePointer) {
-                    throw IOException("Invalid APK Signing Block pair size: $pairSize")
+                    reject(
+                        ApkSignatureParseRejection.SIGNING_BLOCK_PAIR_SIZE,
+                        "Invalid APK Signing Block pair size: $pairSize",
+                    )
                 }
                 ids += raf.readLittleEndianInt()
                 raf.seek(raf.filePointer + pairSize - 4)
-            }
-            if (raf.filePointer != entriesEnd) {
-                throw IOException("APK Signing Block pairs are not aligned")
             }
             return ids
         }
     }
 
-    private fun findCentralDirectoryOffset(raf: RandomAccessFile): Long {
+    private fun findZipEocd(raf: RandomAccessFile): ZipEocd {
         val fileSize = raf.length()
         if (fileSize < ZIP_EOCD_MIN_SIZE) {
-            throw IOException("APK is too small to contain ZIP EOCD")
+            reject(
+                ApkSignatureParseRejection.ZIP_TOO_SMALL,
+                "APK is too small to contain ZIP EOCD",
+            )
         }
         val tailSize = minOf(fileSize, (ZIP_EOCD_MIN_SIZE + ZIP_MAX_COMMENT_SIZE).toLong()).toInt()
         val tail = ByteArray(tailSize)
@@ -104,9 +126,15 @@ object ApkSignatureDetector {
             if (index + ZIP_EOCD_MIN_SIZE + commentLength != tailSize) {
                 continue
             }
-            return tail.readUnsignedIntLittleEndian(index + 16)
+            return ZipEocd(
+                centralDirectoryOffset = tail.readUnsignedIntLittleEndian(index + 16),
+                fileOffset = fileSize - tailSize + index,
+            )
         }
-        throw IOException("ZIP EOCD was not found")
+        reject(
+            ApkSignatureParseRejection.ZIP_EOCD_MISSING,
+            "ZIP EOCD was not found",
+        )
     }
 
     private fun RandomAccessFile.readLittleEndianLong(): Long {
@@ -117,7 +145,10 @@ object ApkSignatureDetector {
             value = (value shl 8) or (bytes[index].toLong() and 0xFF)
         }
         if (value < 0) {
-            throw IOException("Unsigned 64-bit value exceeds supported range")
+            reject(
+                ApkSignatureParseRejection.UNSIGNED_64_BIT,
+                "Unsigned 64-bit value exceeds supported range",
+            )
         }
         return value
     }
@@ -164,4 +195,30 @@ object ApkSignatureDetector {
         return false
     }
 
+    private fun reject(
+        rejection: ApkSignatureParseRejection,
+        message: String,
+    ): Nothing = throw ApkSignatureParseException(rejection, message)
+
+    private data class ZipEocd(
+        val centralDirectoryOffset: Long,
+        val fileOffset: Long,
+    )
+
 }
+
+internal enum class ApkSignatureParseRejection {
+    ZIP_TOO_SMALL,
+    ZIP_EOCD_MISSING,
+    CENTRAL_DIRECTORY_OFFSET,
+    UNSIGNED_64_BIT,
+    SIGNING_BLOCK_SIZE,
+    SIGNING_BLOCK_SIZE_MISMATCH,
+    SIGNING_BLOCK_PAIR_ALIGNMENT,
+    SIGNING_BLOCK_PAIR_SIZE,
+}
+
+internal class ApkSignatureParseException(
+    val rejection: ApkSignatureParseRejection,
+    message: String,
+) : IOException(message)
