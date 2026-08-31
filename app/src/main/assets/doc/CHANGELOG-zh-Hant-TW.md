@@ -5,6 +5,7 @@
 _2026/08/30_
 
 - `提示` Explorer Action 協定 v22 與有界 V4 同層檔案存取要求 AutoJs6 版本代碼不低於 5277
+- `新增` 新增跟隨系統的 Material 3 淺色/深色主題, 報告與資訊清單檢視頁同步適配; Android 12 以上啟用 Material You 動態取色, 系統列圖示會依背景對比度自動調整
 - `新增` 新增有界容器中繼資料摘要: 解析 SAI APKS 的 `meta.sai_v1/v2.json`、XAPK 的 `manifest.json` 與 APKMirror APKM 的 `info.json`, 顯示打包工具/格式版本、中繼資料宣告的應用程式版本及實際存在的圖示項目; 損壞或超過 1 MiB 的中繼資料只影響該摘要並顯示提示
 - `新增` 新增 APKS、XAPK、APKM 與 APKZ 報告內裝置設定模擬: 切換語言、螢幕密度和 ABI 後, 針對同一私有快照在本機重新執行有界分包選擇, 顯示相容/無效狀態及相對實際裝置新增或移除的 APK; 主要報告仍以實際裝置為準
 - `新增` 新增有界 AAB 設定與傳遞中繼資料: 解析 BundleConfig.pb 的 bundletool/type/split/compression/optimization 設定, 並為 base、feature、asset、ML、AI 與 SDK 模組標示安裝時、有條件、隨選、快速跟進、舊裝置融合和可移除傳遞; 損壞、超限或省略的中繼資料彼此隔離並清楚標示

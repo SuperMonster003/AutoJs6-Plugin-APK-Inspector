@@ -37,6 +37,7 @@ APK 检查器 (APK Inspector) 是 AutoJs6 文件管理器的配套插件. 在文
 
 ### 功能亮点
 
+- 自适应外观: 报告页与清单查看页跟随系统浅色/深色设置; Android 12 及更高版本还会由 Material You 根据壁纸生成配色, 并以语义色与对比度感知的系统栏图标保持两页清晰易读.
 - 容器元数据: 在 1 MiB 上限内读取 SAI APKS、XAPK 与 APKMirror APKM 元数据, 展示打包工具/格式版本、元数据声明的应用版本和实际存在的图标条目, 且不会覆盖 APK 清单事实.
 - 点击即查: 在 AutoJs6 文件管理器中点击安装包文件即可打开检查报告, 无需安装、解压或联网.
 - 六种格式: 支持标准 APK、多分包集合格式 (APKS, XAPK, APKM, APKZ) 以及应用商店分发格式 AAB; APKS 同时兼容 bundletool 与 SAI 两种导出.
@@ -143,6 +144,7 @@ required host build: 5277
 _2026/08/30_
 
 - `提示` Explorer Action 协议 v22 与有界 V4 同级文件访问要求 AutoJs6 版本代码不低于 5277
+- `新增` 新增跟随系统的 Material 3 浅色/深色主题, 报告页与清单查看页同步适配; Android 12 及更高版本启用 Material You 动态取色, 系统栏图标会根据背景对比度自动调整
 - `新增` 新增有界容器元数据摘要: 解析 SAI APKS 的 `meta.sai_v1/v2.json`、XAPK 的 `manifest.json` 与 APKMirror APKM 的 `info.json`, 展示打包工具/格式版本、元数据声明的应用版本及实际存在的图标条目; 损坏或超过 1 MiB 的元数据只影响该摘要并显示提示
 - `新增` 新增 APKS、XAPK、APKM 与 APKZ 报告内设备配置模拟: 切换语言、屏幕密度和 ABI 后, 针对同一私有快照在本地重新执行有界分包选择, 显示兼容/无效状态及相对真实设备新增或移除的 APK; 主报告仍以真实设备为准
 - `新增` 新增有界 AAB 配置与分发元数据: 解析 BundleConfig.pb 的 bundletool/type/split/compression/optimization 配置, 并为 base、feature、asset、ML、AI 与 SDK 模块标注安装时、有条件、按需、快速跟进、旧设备融合和可移除分发; 损坏、超限或省略元数据相互隔离并明确标注

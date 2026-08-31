@@ -37,6 +37,7 @@ El informe tiene cuatro secciones: «Detalles del paquete» muestra el nombre de
 
 ### Puntos destacados
 
+- Apariencia adaptativa: el informe y el visor del manifiesto siguen el modo claro/oscuro del sistema; en Android 12 y versiones posteriores, Material You también deriva la paleta del fondo de pantalla, mientras los colores semánticos y los iconos de las barras del sistema con contraste adaptado mantienen legibles ambas páginas.
 - Metadatos del contenedor: lee los metadatos de SAI APKS, XAPK y APKMirror APKM con un límite de 1 MiB y muestra la herramienta/versión del formato, la versión de la app declarada y una entrada de icono existente sin reemplazar los datos del manifest del APK.
 - Un toque para inspeccionar: el informe se abre directamente desde el gestor de archivos de AutoJs6, sin instalación, extracción ni acceso a la red.
 - Seis formatos: APK estándar, formatos de varios splits (APKS, XAPK, APKM, APKZ) y el formato de distribución de tiendas AAB; APKS cubre las exportaciones de bundletool y de SAI.
@@ -143,6 +144,7 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 _2026/08/30_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadieron temas Material 3 claro/oscuro que siguen el sistema para el informe y el visor del manifiesto, colores dinámicos Material You en Android 12 y versiones posteriores e iconos de las barras del sistema adaptados al contraste
 - `Función` Se añadieron resúmenes acotados de metadatos del contenedor para SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` y APKMirror APKM `info.json`, que muestran la herramienta/versión del formato, la versión de la app declarada en los metadatos y una entrada de icono existente; los metadatos dañados o mayores de 1 MiB quedan aislados y señalados
 - `Función` Se añadió simulación de configuración dentro de los informes APKS, XAPK, APKM y APKZ: al cambiar idioma, densidad de pantalla y ABI, se repite localmente la selección acotada de splits sobre la misma instantánea privada y se muestran el estado compatible/no válido y los APK añadidos o eliminados respecto al dispositivo real; el informe principal sigue basándose en el dispositivo real
 - `Función` Se añadieron metadatos acotados de configuración y entrega AAB: se decodifican los ajustes bundletool/type/split/compression/optimization de BundleConfig.pb y se anotan módulos base, feature, asset, ML, AI y SDK con entrega durante la instalación, condicional, bajo demanda, fast-follow, fusión y extracción; los metadatos dañados, demasiado grandes u omitidos quedan aislados y señalados

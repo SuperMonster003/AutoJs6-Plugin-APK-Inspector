@@ -5,6 +5,7 @@
     <uses-permission android:name="org.autojs.permission.PLUGIN" />
 
     <application
+        android:name=".ApkInspectorApplication"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="false"

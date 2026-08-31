@@ -24,8 +24,8 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import com.google.android.material.color.MaterialColors
 import io.github.supermonster003.autojs6.plugin.apkinspector.databinding.ActivityApkInspectorBinding
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
@@ -52,6 +52,7 @@ class ApkInspectorActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MaterialThemeController.applySystemBars(this)
         binding = ActivityApkInspectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbar.setNavigationOnClickListener { finish() }
@@ -1359,7 +1360,11 @@ class ApkInspectorActivity : AppCompatActivity() {
             return getString(R.string.text_none)
         }
         val output = SpannableStringBuilder()
-        val runtimeColor = ContextCompat.getColor(this, R.color.color_primary_dark)
+        val runtimeColor = MaterialColors.getColor(
+            this,
+            androidx.appcompat.R.attr.colorError,
+            0xFFBA1A1A.toInt(),
+        )
 
         fun appendGroup(
             group: PermissionProtectionGroup,

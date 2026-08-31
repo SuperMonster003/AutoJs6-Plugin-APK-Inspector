@@ -37,6 +37,7 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 
 ### Points forts
 
+- Apparence adaptative : le rapport et la visionneuse du manifeste suivent le mode clair/sombre du système ; sous Android 12 ou version ultérieure, Material You dérive aussi la palette du fond d’écran, tandis que les couleurs sémantiques et les icônes de barres système à contraste adapté préservent la lisibilité.
 - Métadonnées de conteneur : lit celles des SAI APKS, XAPK et APKMirror APKM dans une limite de 1 Mio, affiche l’outil/version de format, la version d’application déclarée et une entrée d’icône existante sans remplacer les faits du manifeste APK.
 - Une pression suffit : le rapport s'ouvre directement depuis le gestionnaire de fichiers AutoJs6, sans installation, extraction ni accès réseau.
 - Six formats : APK standard, formats à splits multiples (APKS, XAPK, APKM, APKZ) et format de distribution AAB ; APKS couvre les exports bundletool et SAI.
@@ -143,6 +144,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout de thèmes Material 3 clair/sombre suivant le système pour le rapport et la visionneuse du manifeste, de couleurs dynamiques Material You sous Android 12 ou version ultérieure et d’icônes de barres système adaptées au contraste
 - `Fonctionnalité` Ajout de résumés bornés des métadonnées de conteneur pour SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` et APKMirror APKM `info.json`, affichant l’outil/version de format, la version d’application déclarée dans les métadonnées et une entrée d’icône existante ; les métadonnées endommagées ou supérieures à 1 Mio restent isolées et signalées
 - `Fonctionnalité` Ajout d’une simulation de configuration dans les rapports APKS, XAPK, APKM et APKZ : changez la langue, la densité d’écran et l’ABI pour réexécuter localement la sélection bornée des splits sur le même instantané privé, avec état compatible/non valide et APK ajoutés ou retirés par rapport à l’appareil réel ; le rapport principal reste basé sur l’appareil réel
 - `Fonctionnalité` Ajout de métadonnées bornées de configuration et de distribution AAB : décodage des réglages bundletool/type/split/compression/optimisation de BundleConfig.pb et annotation des modules base, feature, asset, ML, AI et SDK pour les distributions à l’installation, conditionnelle, à la demande, fast-follow, fusionnée et amovible ; les métadonnées incorrectes, trop volumineuses ou omises restent isolées et signalées

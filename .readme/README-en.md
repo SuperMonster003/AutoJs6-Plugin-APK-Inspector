@@ -37,6 +37,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 
 ### Highlights
 
+- Adaptive appearance: the report and manifest viewer follow the system light/dark setting; on Android 12 and later, Material You also derives the palette from the wallpaper, while semantic colors and contrast-aware system-bar icons keep both pages readable.
 - Container metadata: reads SAI APKS, XAPK, and APKMirror APKM metadata under a 1 MiB limit, showing the packager/schema version, metadata-declared app version, and an existing icon entry without overriding APK manifest facts.
 - One tap to inspect: open a report straight from the AutoJs6 file manager, with no installation, extraction, or network access.
 - Six formats: standard APK, multi-split bundle formats (APKS, XAPK, APKM, APKZ), and the store distribution format AAB; APKS covers both bundletool and SAI exports.
@@ -143,6 +144,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added system-following Material 3 light/dark themes for the report and manifest viewer, Android 12+ Material You dynamic colors, and contrast-aware system-bar icons
 - `Feature` Added bounded container-metadata summaries for SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json`, and APKMirror APKM `info.json`, showing the packager/schema version, metadata-declared app version, and an existing icon entry; malformed or over-1 MiB metadata is isolated and labeled
 - `Feature` Added in-report device configuration simulation for APKS, XAPK, APKM, and APKZ: switch language, screen density, and ABI to rerun bounded split selection locally against the same private snapshot, with compatible/invalid status and APKs added or removed versus the actual device; the main report remains actual-device based
 - `Feature` Added bounded AAB configuration and delivery metadata: decodes BundleConfig.pb bundletool/type/split/compression/optimization settings and annotates base, feature, asset, ML, AI, and SDK modules with install-time, conditional, on-demand, fast-follow, fusing, and removable delivery; malformed, oversized, and omitted metadata stays isolated and labeled

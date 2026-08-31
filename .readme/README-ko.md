@@ -37,6 +37,7 @@ APK Inspector는 AutoJs6 파일 관리자의 확장 플러그인입니다. 파�
 
 ### 주요 기능
 
+- 적응형 화면: 보고서와 매니페스트 뷰어가 시스템의 밝은/어두운 모드를 따릅니다. Android 12 이상에서는 Material You가 배경화면에서 색상표도 생성하며, 의미 기반 색상과 대비를 고려한 시스템 표시줄 아이콘으로 두 화면의 가독성을 유지합니다.
 - 컨테이너 메타데이터: SAI APKS, XAPK, APKMirror APKM 메타데이터를 1 MiB 한도 안에서 읽고 패키징 도구/형식 버전, 메타데이터에 선언된 앱 버전, 실제 존재하는 아이콘 항목을 표시하며 APK manifest의 사실을 덮어쓰지 않습니다.
 - 탭 한 번으로 검사: AutoJs6 파일 관리자에서 바로 보고서를 엽니다. 설치, 압축 해제, 네트워크 접근이 필요 없습니다.
 - 여섯 가지 형식: 표준 APK, 다중 분할 번들 형식 (APKS, XAPK, APKM, APKZ), 스토어 배포 형식 AAB를 지원하며, APKS는 bundletool과 SAI 내보내기를 모두 처리합니다.
@@ -143,6 +144,7 @@ required host build: 5277
 _2026/08/30_
 
 - `힌트` Explorer Action 프로토콜 v22와 제한된 V4 사이드카 접근에는 AutoJs6 버전 코드 5277 이상이 필요합니다
+- `기능` 보고서와 매니페스트 뷰어에 시스템을 따르는 Material 3 밝은/어두운 테마, Android 12 이상의 Material You 동적 색상, 배경 대비에 맞춰 조정되는 시스템 표시줄 아이콘을 추가했습니다
 - `기능` SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json`, APKMirror APKM `info.json`을 위한 제한형 컨테이너 메타데이터 요약을 추가해 패키징 도구/형식 버전, 메타데이터에 선언된 앱 버전, 실제 존재하는 아이콘 항목을 표시합니다. 손상되었거나 1 MiB를 초과한 메타데이터는 이 요약에만 영향을 주며 명확히 표시됩니다
 - `기능` APKS, XAPK, APKM, APKZ 보고서에 기기 구성 시뮬레이션을 추가했습니다. 언어, 화면 밀도, ABI를 바꾸면 동일한 비공개 스냅샷에 제한형 분할 선택을 기기에서 다시 실행하고 호환/잘못됨 상태와 실제 기기 대비 추가 또는 제거되는 APK를 표시합니다. 기본 보고서는 실제 기기를 계속 기준으로 합니다
 - `기능` 제한된 AAB 구성 및 전송 메타데이터를 추가했습니다. BundleConfig.pb의 bundletool/type/split/compression/optimization 설정을 디코딩하고 base, feature, asset, ML, AI, SDK 모듈에 설치 시, 조건부, 주문형, fast-follow, 융합, 제거 가능 전송을 표시합니다. 손상, 한도 초과, 생략된 메타데이터는 격리해 명확히 표시합니다

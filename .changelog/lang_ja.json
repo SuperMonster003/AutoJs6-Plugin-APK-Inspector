@@ -11,6 +11,7 @@
         "Explorer Actionプロトコルv22と上限付きV4サイドカーアクセスにはAutoJs6バージョンコード5277以降が必要です"
       ],
       "feature": [
+        "レポートとマニフェストビューアーにシステム連動のMaterial 3ライト/ダークテーマ、Android 12以降のMaterial You動的配色、背景コントラストに応じるシステムバーアイコンを追加",
         "SAI APKS の `meta.sai_v1/v2.json`、XAPK の `manifest.json`、APKMirror APKM の `info.json` に対する上限付きコンテナメタデータ概要を追加し、パッケージ作成ツール/形式バージョン、メタデータ宣言のアプリバージョン、実在するアイコンエントリを表示します。破損または 1 MiB 超のメタデータはこの概要だけを降格させ、明示します",
         "APKS、XAPK、APKM、APKZのレポート内に端末構成シミュレーションを追加しました。言語、画面密度、ABIを切り替えると、同じ非公開スナップショットに対して上限付き分割選択を端末内で再実行し、互換/無効状態と実際の端末から追加または削除されるAPKを表示します。メインレポートは実際の端末に基づいたままです",
         "上限付きAAB構成および配信メタデータを追加しました。BundleConfig.pbのbundletool/type/split/compression/optimization設定をデコードし、base、feature、asset、ML、AI、SDKモジュールにインストール時、条件付き、オンデマンド、fast-follow、融合、削除可能の配信を注記します。破損、上限超過、省略されたメタデータは分離して明記します",

@@ -10,6 +10,7 @@ class ManifestViewerActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        MaterialThemeController.applySystemBars(this)
         val binding = ActivityManifestViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.toolbar.setNavigationOnClickListener { finish() }
