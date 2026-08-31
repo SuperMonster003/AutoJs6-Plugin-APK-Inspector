@@ -100,9 +100,13 @@ required host build: {{ required_host_build }}
 
 ```powershell
 .\gradlew.bat :app:assembleRelease
+.\gradlew.bat :app:prepareReleaseArtifacts
+.\gradlew.bat :app:verifyReleaseArtifacts
 ```
 
 {{ p_build_params }}.
+
+{{ p_release_artifacts }}.
 
 {{ p_resource_layout }}.
 

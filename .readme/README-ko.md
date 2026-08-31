@@ -174,6 +174,7 @@ _2026/08/30_
 - `개선` 패키지 요청 검증, 비공개 캐시 스테이징, Android 아카이브 보호, APK 서명 블록 파싱의 모든 실패 시 차단 분기를 포괄하는 단위 테스트 매트릭스를 추가했습니다. 잘못된 메타데이터, 안전하지 않은 경로, 리소스 한도, 잘린 구조, 취소를 포함해 열거된 모든 거부 사유를 개별 검증합니다
 - `개선` 내보낸 두 진입 Activity에 Robolectric 보안 회귀 테스트를 추가했습니다. 위조된 동작, 과도한 URI 권한, 4 GiB 초과 선언, 동시 수명 주기 취소를 다루며 거부된 요청이 검사 화면을 시작하거나 초대형 콘텐츠를 열지 않고 Explorer 호스트 세션이 정확히 한 번 닫히는지 검증합니다
 - `개선` 최소 권한 GitHub Actions Android CI를 추가하고 외부 Action을 변경 불가능한 전체 커밋 SHA로 고정했습니다. Ubuntu 24.04와 JDK 21에서 Debug APK를 빌드하고 전체 JVM 테스트를 실행하며 10개 언어의 Markdown을 모두 다시 생성하고, 추적된 차이나 예기치 않은 미추적 출력이 있으면 검사를 실패시킵니다
+- `개선` 재현 가능한 Release 산출물 준비 및 검증 흐름을 추가했습니다. `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` 명명 규칙을 유지하고 APK별 `.sha256`과 결정적으로 정렬된 `SHA256SUMS`를 생성하며 이름, CRC32, SHA-256 또는 매니페스트 불일치를 거부합니다
 
 #### v1.0.1
 
@@ -209,9 +210,13 @@ Release 빌드:
 
 ```powershell
 .\gradlew.bat :app:assembleRelease
+.\gradlew.bat :app:prepareReleaseArtifacts
+.\gradlew.bat :app:verifyReleaseArtifacts
 ```
 
 빌드와 서명 매개변수는 version.properties와 sign.properties가 관리합니다. 현재 최소 지원은 Android 7.0 (SDK 24), 대상 SDK는 36입니다.
+
+`prepareReleaseArtifacts`는 Release APK를 빌드해 releases/로 복사하고 `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` 명명 규칙을 유지한 뒤 APK별 `.sha256` 파일과 정렬된 `SHA256SUMS`를 생성합니다. `verifyReleaseArtifacts`는 파일 이름의 CRC32, 실제 SHA-256, 사이드카 파일, 매니페스트를 각각 검증합니다.
 
 README와 CHANGELOG는 .readme/ 와 .changelog/ 의 JSON 언어 소스와 템플릿을 바탕으로 .python/generate_markdown.py 가 생성합니다 (10개 언어). 문서를 수정할 때는 생성된 Markdown을 직접 고치지 말고 JSON 소스를 수정한 뒤 스크립트를 다시 실행하세요.
 

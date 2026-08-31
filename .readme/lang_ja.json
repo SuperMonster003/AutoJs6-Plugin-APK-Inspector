@@ -88,6 +88,7 @@
   "h3_build": "ビルド",
   "text_release_build": "Releaseビルド",
   "p_build_params": "ビルドと署名のパラメーターはversion.propertiesとsign.propertiesで管理されます. 現在の最小要件はAndroid 7.0 (SDK 24), ターゲットSDKは36です",
+  "p_release_artifacts": "`prepareReleaseArtifacts` は Release APK をビルドして releases/ にコピーし、`autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` の命名規則を維持したまま、APK ごとの `.sha256` とソート済み `SHA256SUMS` を生成します. `verifyReleaseArtifacts` はファイル名の CRC32、実際の SHA-256、サイドカー、マニフェストを個別に検証します",
   "p_resource_layout": "READMEとCHANGELOGは, .readme/ と .changelog/ のJSON言語ソースとテンプレートから .python/generate_markdown.py が生成します (10言語). ドキュメントを変更する場合は, 生成済みMarkdownを直接編集せず, JSONソースを編集してスクリプトを再実行してください",
   "h3_links": "関連リンク",
   "text_link_autojs6_docs": "AutoJs6ドキュメント",

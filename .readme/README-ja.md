@@ -174,6 +174,7 @@ _2026/08/30_
 - `改善` パッケージ要求検証、プライベートキャッシュへのステージング、Android アーカイブのガード、APK 署名ブロック解析について、フェイルクローズの全分岐を網羅する単体テストマトリクスを追加しました。列挙された各拒否理由を、破損メタデータ、危険なパス、リソース上限、切り詰められた構造、キャンセルまで含めて個別に検証します
 - `改善` エクスポートされた2つの入口 Activity に Robolectric セキュリティ回帰テストを追加しました。偽装アクション、過剰な URI 権限、4 GiB 超の宣言、並行するライフサイクルキャンセルを網羅し、拒否された要求が検査画面を起動せず巨大コンテンツも開かないこと、Explorer ホストセッションが一度だけ閉じることを検証します
 - `改善` 最小権限の GitHub Actions Android CI を追加し、外部 Action を不変の完全なコミット SHA に固定しました。Ubuntu 24.04 と JDK 21 で Debug APK のビルド、JVM テスト全件、10言語すべての Markdown 再生成を行い、追跡対象の差分や予期しない未追跡出力があればチェックを失敗させます
+- `改善` 再現可能な Release 成果物の準備・検証フローを追加しました。`autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` の命名規則を維持し、APK ごとの `.sha256` と決定的にソートされた `SHA256SUMS` を生成して、名前、CRC32、SHA-256、マニフェストの不一致を拒否します
 
 #### v1.0.1
 
@@ -209,9 +210,13 @@ Releaseビルド:
 
 ```powershell
 .\gradlew.bat :app:assembleRelease
+.\gradlew.bat :app:prepareReleaseArtifacts
+.\gradlew.bat :app:verifyReleaseArtifacts
 ```
 
 ビルドと署名のパラメーターはversion.propertiesとsign.propertiesで管理されます. 現在の最小要件はAndroid 7.0 (SDK 24), ターゲットSDKは36です.
+
+`prepareReleaseArtifacts` は Release APK をビルドして releases/ にコピーし、`autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` の命名規則を維持したまま、APK ごとの `.sha256` とソート済み `SHA256SUMS` を生成します. `verifyReleaseArtifacts` はファイル名の CRC32、実際の SHA-256、サイドカー、マニフェストを個別に検証します.
 
 READMEとCHANGELOGは, .readme/ と .changelog/ のJSON言語ソースとテンプレートから .python/generate_markdown.py が生成します (10言語). ドキュメントを変更する場合は, 生成済みMarkdownを直接編集せず, JSONソースを編集してスクリプトを再実行してください.
 

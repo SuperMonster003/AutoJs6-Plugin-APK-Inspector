@@ -88,6 +88,7 @@
   "h3_build": "Compilation",
   "text_release_build": "Compilation release",
   "p_build_params": "Les paramètres de compilation et de signature proviennent de version.properties et sign.properties ; le minimum actuel est Android 7.0 (SDK 24) avec un SDK cible 36",
+  "p_release_artifacts": "`prepareReleaseArtifacts` compile et copie les APK de publication dans releases/, conserve la règle de nommage `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk`, puis écrit un fichier `.sha256` par APK et un `SHA256SUMS` trié ; `verifyReleaseArtifacts` contrôle indépendamment le CRC32 du nom, le SHA-256 réel, les fichiers associés et le manifeste",
   "p_resource_layout": "Les fichiers README et CHANGELOG sont générés par .python/generate_markdown.py à partir des sources JSON et des modèles situés sous .readme/ et .changelog/ (10 langues). Pour modifier la documentation, éditez les sources JSON puis relancez le script au lieu de modifier le Markdown généré",
   "h3_links": "Liens",
   "text_link_autojs6_docs": "Documentation AutoJs6",

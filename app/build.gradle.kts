@@ -1,7 +1,6 @@
 import com.android.build.api.variant.FilterConfiguration
-import org.gradle.api.file.DuplicatesStrategy
-import org.gradle.api.file.RelativePath
 import org.gradle.api.provider.Property
+import org.gradle.api.tasks.Exec
 
 plugins {
     id("org.autojs.build.utils")
@@ -147,26 +146,63 @@ tasks {
         options.encoding = "UTF-8"
     }
 
-    register<Copy>("appendDigestToReleasedFiles") {
-        description = "Appends CRC32 digest to released APK files"
+    val releaseArtifactScript = rootProject.layout.projectDirectory.file(".python/release_artifacts.py")
+    val releaseSourceDirectory = layout.buildDirectory.dir("outputs/apk/$buildTypeRelease")
+    val releaseDestinationDirectory = rootProject.layout.projectDirectory.dir("${buildTypeRelease}s")
+    val releasePythonExecutable = providers.gradleProperty("releasePythonExecutable").orElse("python")
+
+    val prepareReleaseArtifacts = register<Exec>("prepareReleaseArtifacts") {
+        group = "distribution"
+        description = "Stages CRC32-named release APKs with SHA-256 checksum files"
         dependsOn("assembleRelease")
 
-        val ext = utils.FILE_EXTENSION_APK
-        val src = layout.buildDirectory.dir("outputs/apk/$buildTypeRelease")
-        val dst = file("$rootDir/${buildTypeRelease}s")
+        inputs.file(releaseArtifactScript)
+        inputs.dir(releaseSourceDirectory)
+        inputs.property("releaseProjectName", rootProject.name)
+        inputs.property("releaseVersionName", versions.appVersionName)
+        outputs.dir(releaseDestinationDirectory)
 
-        from(src)
-        into(dst)
-        include("*.$ext")
-        includeEmptyDirs = false
-        duplicatesStrategy = DuplicatesStrategy.FAIL
-
-        eachFile {
-            val digest = utils.digestCRC32(file)
-            relativePath = RelativePath(true, "${name.removeSuffix(".$ext")}-$digest.$ext")
+        doFirst {
+            commandLine(
+                releasePythonExecutable.get(),
+                releaseArtifactScript.asFile.absolutePath,
+                "prepare",
+                "--source-dir",
+                releaseSourceDirectory.get().asFile.absolutePath,
+                "--destination-dir",
+                releaseDestinationDirectory.asFile.absolutePath,
+                "--project-name",
+                rootProject.name,
+                "--version",
+                versions.appVersionName,
+            )
         }
+    }
 
-        doLast { println("Destination: $dst") }
+    register<Exec>("verifyReleaseArtifacts") {
+        group = "verification"
+        description = "Verifies release APK CRC32 names and SHA-256 checksum files"
+
+        inputs.file(releaseArtifactScript)
+        inputs.dir(releaseDestinationDirectory)
+
+        doFirst {
+            commandLine(
+                releasePythonExecutable.get(),
+                releaseArtifactScript.asFile.absolutePath,
+                "verify",
+                "--destination-dir",
+                releaseDestinationDirectory.asFile.absolutePath,
+                "--project-name",
+                rootProject.name,
+            )
+        }
+    }
+
+    register("appendDigestToReleasedFiles") {
+        group = "distribution"
+        description = "Compatibility alias for prepareReleaseArtifacts"
+        dependsOn(prepareReleaseArtifacts)
     }
 }
 

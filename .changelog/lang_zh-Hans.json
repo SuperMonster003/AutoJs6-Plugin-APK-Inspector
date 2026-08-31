@@ -41,7 +41,8 @@
         "新增可复现的 24 项去隐私化样本矩阵, 覆盖 APK/APKS/XAPK/APKM/APKZ/AAB 的正常、结构损坏、超限及设备不兼容输入; 纯标准库生成器、SHA-256 清单与 JVM 契约测试逐项验证字节复现、解析结果、仓库体积及无代码、签名材料和用户数据",
         "新增覆盖全部失败即关闭分支的单元测试矩阵, 涵盖软件包请求校验、私有缓存暂存、Android 归档防护与 APK 签名块解析; 逐项触发每个枚举拒绝原因, 包括畸形元数据、危险路径、资源上限、截断结构与取消",
         "新增两个导出入口 Activity 的 Robolectric 安全回归测试, 覆盖伪造动作、越权 URI 授权、超过 4 GiB 的声明及并发生命周期取消; 被拒请求不会启动检查页或打开超大内容, Explorer 宿主会话恰好关闭一次",
-        "新增最小权限 GitHub Actions Android CI, 并以不可变的完整提交 SHA 固定外部 Action: Ubuntu 24.04 与 JDK 21 会构建 Debug APK、运行完整 JVM 测试并重新生成全部 10 种语言 Markdown; 任一受跟踪差异或意外未跟踪输出都会使检查失败"
+        "新增最小权限 GitHub Actions Android CI, 并以不可变的完整提交 SHA 固定外部 Action: Ubuntu 24.04 与 JDK 21 会构建 Debug APK、运行完整 JVM 测试并重新生成全部 10 种语言 Markdown; 任一受跟踪差异或意外未跟踪输出都会使检查失败",
+        "新增可复现的 Release 产物准备与校验流程: 保留 `autojs6-plugin-apk-inspector-v<版本>-<CRC32>.apk` 命名规则, 为每个 APK 生成 `.sha256` 伴随文件及排序稳定的 `SHA256SUMS`; 任一命名、CRC32、SHA-256 或清单不一致都会被拒绝"
       ]
     },
     "v1.0.1": {

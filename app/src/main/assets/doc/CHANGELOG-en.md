@@ -32,6 +32,7 @@ _2026/08/30_
 - `Improvement` Added exhaustive fail-closed unit-test matrices for package request validation, private-cache staging, Android archive guards, and APK signing-block parsing; every enumerated rejection reason is exercised, including malformed metadata, unsafe paths, resource limits, truncated structures, and cancellation
 - `Improvement` Added Robolectric security regression tests for both exported entry activities, covering spoofed actions, overprivileged URI grants, declarations above 4 GiB, and concurrent lifecycle cancellation; rejected requests never launch inspection or open oversized content, and Explorer host sessions close exactly once
 - `Improvement` Added a least-privilege GitHub Actions Android CI workflow pinned to immutable action SHAs: Ubuntu 24.04 with JDK 21 builds the debug APK, runs the complete JVM suite, and regenerates all 10-language Markdown; any tracked drift or unexpected untracked output fails the check
+- `Improvement` Added a reproducible release-artifact preparation and verification flow: it preserves the `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` naming rule, writes a `.sha256` sidecar for every APK plus a deterministically sorted `SHA256SUMS`, and rejects any naming, CRC32, SHA-256, or manifest mismatch
 
 ## v1.0.1
 

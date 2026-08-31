@@ -32,6 +32,7 @@ _2026/08/30_
 - `Amélioration` Ajout de matrices exhaustives de tests unitaires à refus systématique pour la validation des requêtes de paquet, la mise en cache privée, les garde-fous des archives Android et l’analyse des blocs de signature APK ; chaque motif de rejet énuméré est exercé, notamment les métadonnées malformées, les chemins non sûrs, les limites de ressources, les structures tronquées et l’annulation
 - `Amélioration` Ajout de tests de régression de sécurité Robolectric pour les deux activités d’entrée exportées, couvrant les actions usurpées, les autorisations URI excessives, les déclarations dépassant 4 Gio et l’annulation concurrente du cycle de vie ; les requêtes rejetées ne lancent jamais l’inspection ni n’ouvrent de contenu surdimensionné, et les sessions hôtes Explorer se ferment exactement une fois
 - `Amélioration` Ajout d’un workflow CI Android GitHub Actions à privilèges minimaux, dont les actions externes sont figées par des SHA complets immuables : Ubuntu 24.04 avec JDK 21 compile l’APK de débogage, exécute toute la suite JVM et régénère le Markdown des 10 langues ; toute dérive suivie ou sortie non suivie inattendue fait échouer le contrôle
+- `Amélioration` Ajout d’un flux reproductible de préparation et de vérification des artefacts de publication : il conserve la règle de nommage `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk`, produit un fichier `.sha256` par APK ainsi qu’un `SHA256SUMS` trié de manière déterministe, et rejette toute incohérence de nom, CRC32, SHA-256 ou manifeste
 
 ## v1.0.1
 

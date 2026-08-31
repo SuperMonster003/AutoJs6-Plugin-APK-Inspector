@@ -71,7 +71,7 @@
 - [x] (测试) 为 PackageRequestPolicy / PackageCacheStager / AndroidPackageArchive / ApkSignatureDetector 建立单元测试, 覆盖全部拒绝分支.
 - [x] (测试) 两个入口 Activity 的仪器或 Robolectric 测试: 伪造 Intent、越权授权、超大声明与并发取消均被安全拒绝.
 - [x] (发布) GitHub Actions: assembleDebug + 单元测试 + 文档一致性检查 (运行 generate_markdown.py 后工作区无 diff 才通过).
-- [ ] (发布) releases/ 产物附 SHA-256 校验文件, 命名与现有 `autojs6-plugin-apk-inspector-v*-<hash>.apk` 规则统一.
+- [x] (发布) releases/ 产物附 SHA-256 校验文件, 命名与现有 `autojs6-plugin-apk-inspector-v*-<hash>.apk` 规则统一.
 
 验收条件: CI 在干净克隆上绿灯; 手工改动生成的 Markdown 会被文档一致性检查拦截.
 

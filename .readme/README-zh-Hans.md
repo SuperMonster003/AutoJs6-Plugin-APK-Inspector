@@ -174,6 +174,7 @@ _2026/08/30_
 - `优化` 新增覆盖全部失败即关闭分支的单元测试矩阵, 涵盖软件包请求校验、私有缓存暂存、Android 归档防护与 APK 签名块解析; 逐项触发每个枚举拒绝原因, 包括畸形元数据、危险路径、资源上限、截断结构与取消
 - `优化` 新增两个导出入口 Activity 的 Robolectric 安全回归测试, 覆盖伪造动作、越权 URI 授权、超过 4 GiB 的声明及并发生命周期取消; 被拒请求不会启动检查页或打开超大内容, Explorer 宿主会话恰好关闭一次
 - `优化` 新增最小权限 GitHub Actions Android CI, 并以不可变的完整提交 SHA 固定外部 Action: Ubuntu 24.04 与 JDK 21 会构建 Debug APK、运行完整 JVM 测试并重新生成全部 10 种语言 Markdown; 任一受跟踪差异或意外未跟踪输出都会使检查失败
+- `优化` 新增可复现的 Release 产物准备与校验流程: 保留 `autojs6-plugin-apk-inspector-v<版本>-<CRC32>.apk` 命名规则, 为每个 APK 生成 `.sha256` 伴随文件及排序稳定的 `SHA256SUMS`; 任一命名、CRC32、SHA-256 或清单不一致都会被拒绝
 
 #### v1.0.1
 
@@ -209,9 +210,13 @@ Release 构建:
 
 ```powershell
 .\gradlew.bat :app:assembleRelease
+.\gradlew.bat :app:prepareReleaseArtifacts
+.\gradlew.bat :app:verifyReleaseArtifacts
 ```
 
 构建与签名参数由 version.properties 与 sign.properties 控制; 当前最低支持 Android 7.0 (SDK 24), 目标 SDK 36.
+
+`prepareReleaseArtifacts` 会构建 Release APK 并复制到 releases/, 保留 `autojs6-plugin-apk-inspector-v<版本>-<CRC32>.apk` 命名规则, 随后为每个 APK 生成 `.sha256` 伴随文件及排序稳定的 `SHA256SUMS`; `verifyReleaseArtifacts` 会独立核对文件名 CRC32、实际 SHA-256、伴随文件与汇总清单.
 
 README 与 CHANGELOG 均由 .python/generate_markdown.py 依据 .readme/ 与 .changelog/ 下的 JSON 语言资源和模板生成 (共 10 种语言). 修改文档请编辑对应 JSON 后重新运行脚本, 不要直接改动生成的 Markdown.
 

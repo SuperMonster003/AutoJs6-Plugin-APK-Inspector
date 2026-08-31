@@ -88,6 +88,7 @@
   "h3_build": "Сборка",
   "text_release_build": "Release-сборка",
   "p_build_params": "Параметры сборки и подписи задаются в version.properties и sign.properties; текущий минимум — Android 7.0 (SDK 24), целевой SDK — 36",
+  "p_release_artifacts": "`prepareReleaseArtifacts` собирает и копирует релизные APK в releases/, сохраняя правило имён `autojs6-plugin-apk-inspector-v<версия>-<CRC32>.apk`, затем создаёт для каждого APK файл `.sha256` и отсортированный `SHA256SUMS`; `verifyReleaseArtifacts` независимо проверяет CRC32 в имени, фактический SHA-256, сопроводительные файлы и манифест",
   "p_resource_layout": "Файлы README и CHANGELOG генерируются скриптом .python/generate_markdown.py из JSON-источников и шаблонов в каталогах .readme/ и .changelog/ (10 языков). Чтобы изменить документацию, правьте JSON-источники и запускайте скрипт заново, а не редактируйте сгенерированный Markdown",
   "h3_links": "Ссылки",
   "text_link_autojs6_docs": "Документация AutoJs6",

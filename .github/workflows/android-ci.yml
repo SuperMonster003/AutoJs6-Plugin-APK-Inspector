@@ -39,6 +39,9 @@ jobs:
         with:
           python-version: "3.13"
 
+      - name: Test release artifact tooling
+        run: python -m unittest discover -s .python -p "test_*.py"
+
       - name: Build debug APK and run JVM tests
         run: ./gradlew --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest
 
