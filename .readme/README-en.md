@@ -43,6 +43,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 - Version and compatibility: shows the package name, version name and code, and min/target/max SDK, compared against this device's Android version before you install.
 - Permission transparency: requested permissions are grouped by protection level (runtime/dangerous, signature/protected, and normal), with runtime permissions highlighted first and explained in one line; unavailable levels stay visible and clearly labeled.
 - Split analysis: lists every APK entry and OBB asset in a bundle and marks the splits selected for this device (base, language, screen density, ABI).
+- Device configuration simulation: switch language, screen density, and ABI inside a bundle report; the plugin locally reruns the same bounded selector against the private snapshot and shows APKs added or removed versus the actual device.
 - Resource-table identity fallback: when Android cannot load an AAB or an oversized bundle directly, resolves the app label and a raster icon for the current locale and density from AAB resources.pb or APK resources.arsc without extracting a whole nested APK.
 - Manifest component exposure: counts activities/aliases, services, broadcast receivers, and content providers across selected APK splits or scanned AAB modules, grouping explicit android:exported values as exported, not exported, or unspecified/unresolved.
 - Native-library overview: groups .so files from selected APK splits or AAB modules by ABI and uncompressed size, marking the preferred device ABI, supported fallbacks, and unsupported architectures without extracting library contents.
@@ -60,8 +61,9 @@ The report has four sections: "Package details" shows the app name, icon, packag
 2. Open the AutoJs6 file manager and locate the package file you want to examine (APK, APKS, XAPK, APKM, APKZ, or AAB).
 3. Tap the file, or choose "Inspect Android package" from its menu; the inspection report appears after a moment.
 4. Read the report from top to bottom: app icon and name, package details, components, requested permissions, and security and compatibility findings.
-5. Long-press a row in "Package details" to copy its value, or tap "Share report" in the toolbar to send the exact on-screen text through the Android Sharesheet.
-6. Tap "View manifest" to read the full AndroidManifest, then press back to return to the file manager.
+5. For APKS, XAPK, APKM, or APKZ, choose a language, screen density, and ABI, then apply the simulation to compare the selected APKs with the actual device.
+6. Long-press a row in "Package details" to copy its value, or tap "Share report" in the toolbar to send the exact on-screen text through the Android Sharesheet.
+7. Tap "View manifest" to read the full AndroidManifest, then press back to return to the file manager.
 
 > Other apps can also hand a package to APK Inspector through the system "Open with" dialog (ACTION_VIEW), as long as they use a content URI with a dedicated Android package MIME type. The plugin is strictly read-only and offers no install entry point.
 
@@ -128,7 +130,7 @@ The current version performs read-only inspection only: there is no install butt
 
 ### Roadmap
 
-The capabilities above and the checked Roadmap items reflect what is implemented; planned work such as deeper bundle analysis and device-configuration simulation is tracked in the Roadmap, and unchecked items are not current capabilities.
+The capabilities above and the checked Roadmap items reflect what is implemented; planned work such as deeper bundle and AAB analysis is tracked in the Roadmap, and unchecked items are not current capabilities.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -140,6 +142,7 @@ _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
 - `Feature` Added bounded container-metadata summaries for SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json`, and APKMirror APKM `info.json`, showing the packager/schema version, metadata-declared app version, and an existing icon entry; malformed or over-1 MiB metadata is isolated and labeled
+- `Feature` Added in-report device configuration simulation for APKS, XAPK, APKM, and APKZ: switch language, screen density, and ABI to rerun bounded split selection locally against the same private snapshot, with compatible/invalid status and APKs added or removed versus the actual device; the main report remains actual-device based
 - `Feature` Added bounded resource-table fallback for app labels and raster icons: AAB resources.pb and APK resources.arsc are resolved for the current locale and density without extracting oversized nested APKs; table, icon, and scan-limit failures remain isolated and clearly labeled
 - `Feature` Added long-press copying for primary package-detail values and exact plain-text report sharing through the Android Sharesheet; sharing stays memory-only, requests no storage permission, and creates no file
 - `Feature` Added a bounded DEX overview that naturally orders standard classes*.dex files from selected APK splits and AAB modules with per-file and total uncompressed sizes, sharing the native-library central-directory pass without extracting, decoding, or decompiling DEX contents

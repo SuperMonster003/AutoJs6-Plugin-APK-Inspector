@@ -18,6 +18,8 @@ import android.text.format.Formatter
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,6 +30,7 @@ import io.github.supermonster003.autojs6.plugin.apkinspector.databinding.Activit
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
@@ -43,6 +46,9 @@ class ApkInspectorActivity : AppCompatActivity() {
     private lateinit var binding: ActivityApkInspectorBinding
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var shareableReport: ShareableReport? = null
+    private var renderedReport: InspectionReport? = null
+    private var simulationJob: Job? = null
+    private var simulationRequestId = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +88,7 @@ class ApkInspectorActivity : AppCompatActivity() {
 
         scope.launch {
             try {
-                val report = withContext(Dispatchers.IO) {
+                val result = withContext(Dispatchers.IO) {
                     inspect(
                         packageFile,
                         displayName,
@@ -92,7 +98,8 @@ class ApkInspectorActivity : AppCompatActivity() {
                         v4IdsigFile,
                     )
                 }
-                render(report)
+                render(result.report)
+                configureDeviceSimulation(result.archive, result.deviceSpec)
             } catch (error: CancellationException) {
                 throw error
             } catch (error: Exception) {
@@ -113,7 +120,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         mimeType: String,
         sha256: String,
         v4IdsigFile: File?,
-    ): InspectionReport {
+    ): InspectionResult {
         val deviceSpec = PackageDeviceSpec.from(this)
         val archive = AndroidPackageArchiveInspector.inspect(packageFile, deviceSpec)
         val summary = archive.baseManifest
@@ -292,15 +299,19 @@ class ApkInspectorActivity : AppCompatActivity() {
             }
         }.distinct().ifEmpty { listOf(getString(R.string.finding_none)) }.joinToString("\n")
 
-        return InspectionReport(
-            appLabel = appLabel,
-            icon = resolvedIcon,
-            detailFields = detailFields,
-            detailSupplement = detailSupplement,
-            components = components,
-            permissions = permissionAnalysis,
-            findings = findings,
-            manifestPath = manifestPath,
+        return InspectionResult(
+            report = InspectionReport(
+                appLabel = appLabel,
+                icon = resolvedIcon,
+                detailFields = detailFields,
+                detailSupplement = detailSupplement,
+                components = components,
+                permissions = permissionAnalysis,
+                findings = findings,
+                manifestPath = manifestPath,
+            ),
+            archive = archive,
+            deviceSpec = deviceSpec,
         )
     }
 
@@ -600,6 +611,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         binding.progress.isVisible = false
         binding.error.isVisible = false
         binding.content.isVisible = true
+        renderedReport = report
         binding.appLabel.text = report.appLabel
         report.icon?.let(binding.appIcon::setImageDrawable)
         binding.packageFields.removeAllViews()
@@ -631,29 +643,273 @@ class ApkInspectorActivity : AppCompatActivity() {
         binding.viewManifest.setOnClickListener {
             report.manifestPath?.let { path -> startActivity(ManifestViewerActivity.createIntent(this, path)) }
         }
+        refreshShareableReport()
+    }
+
+    private fun configureDeviceSimulation(
+        archive: AndroidPackageArchive,
+        actualDevice: PackageDeviceSpec,
+    ) {
+        val supported = archive.format != AndroidPackageFormat.APK &&
+            archive.format != AndroidPackageFormat.AAB && archive.apkEntryCount > 0
+        binding.deviceSimulation.isVisible = supported
+        if (!supported) {
+            refreshShareableReport()
+            return
+        }
+
+        val actualConfiguration = PackageSimulationConfiguration.from(actualDevice)
+        val languageOptions = (listOf(actualConfiguration.languageTag) + SIMULATION_LANGUAGE_TAGS)
+            .filter(String::isNotBlank)
+            .distinctBy { languageTag -> languageTag.lowercase(Locale.ROOT) }
+        val densityOptions = (listOf(actualConfiguration.densityDpi) + SIMULATION_DENSITIES)
+            .filter { density -> density > 0 }
+            .distinct()
+        val abiOptions = (listOf(actualConfiguration.abi) + SIMULATION_ABIS)
+            .filter(String::isNotBlank)
+            .distinctBy { abi -> abi.lowercase(Locale.ROOT) }
+
+        binding.deviceSimulationActual.text = formatActualDevice(actualDevice)
+        bindSpinner(binding.deviceSimulationLanguage, languageOptions) { languageTag -> languageTag }
+        bindSpinner(binding.deviceSimulationDensity, densityOptions) { density -> "$density dpi" }
+        bindSpinner(binding.deviceSimulationAbi, abiOptions) { abi -> abi }
+
+        val actualSimulation = PackageSelectionSimulator.simulate(
+            actualArchive = archive,
+            actualDevice = actualDevice,
+            simulatedDevice = actualDevice,
+        )
+        renderDeviceSimulation(actualSimulation)
+
+        binding.applyDeviceSimulation.setOnClickListener {
+            val configuration = PackageSimulationConfiguration(
+                languageTag = languageOptions[binding.deviceSimulationLanguage.selectedItemPosition],
+                densityDpi = densityOptions[binding.deviceSimulationDensity.selectedItemPosition],
+                abi = abiOptions[binding.deviceSimulationAbi.selectedItemPosition],
+            )
+            launchDeviceSimulation(
+                archive = archive,
+                actualDevice = actualDevice,
+                simulatedDevice = configuration.applyTo(actualDevice),
+            )
+        }
+        binding.resetDeviceSimulation.setOnClickListener {
+            simulationRequestId += 1
+            simulationJob?.cancel()
+            simulationJob = null
+            binding.deviceSimulationLanguage.setSelection(0)
+            binding.deviceSimulationDensity.setSelection(0)
+            binding.deviceSimulationAbi.setSelection(0)
+            setDeviceSimulationLoading(false)
+            renderDeviceSimulation(actualSimulation)
+        }
+        refreshShareableReport()
+    }
+
+    private fun launchDeviceSimulation(
+        archive: AndroidPackageArchive,
+        actualDevice: PackageDeviceSpec,
+        simulatedDevice: PackageDeviceSpec,
+    ) {
+        simulationJob?.cancel()
+        val requestId = ++simulationRequestId
+        simulationJob = scope.launch {
+            setDeviceSimulationLoading(true)
+            try {
+                val simulation = withContext(Dispatchers.IO) {
+                    PackageSelectionSimulator.simulate(
+                        actualArchive = archive,
+                        actualDevice = actualDevice,
+                        simulatedDevice = simulatedDevice,
+                    )
+                }
+                if (requestId == simulationRequestId) {
+                    renderDeviceSimulation(simulation)
+                }
+            } catch (error: CancellationException) {
+                throw error
+            } catch (error: Exception) {
+                if (requestId == simulationRequestId) {
+                    val detail = error.message?.takeIf(String::isNotBlank)
+                        ?: getString(R.string.text_unknown)
+                    binding.deviceSimulationResult.text = getString(
+                        R.string.device_simulation_error,
+                        detail,
+                    )
+                    refreshShareableReport()
+                }
+            } finally {
+                if (requestId == simulationRequestId) {
+                    setDeviceSimulationLoading(false)
+                    simulationJob = null
+                }
+            }
+        }
+    }
+
+    private fun renderDeviceSimulation(simulation: PackageSelectionSimulation) {
+        val simulatedConfiguration = getString(
+            R.string.device_simulation_simulated,
+            simulation.simulatedDevice.locales.joinToString(", ").ifBlank {
+                getString(R.string.text_unknown)
+            },
+            simulation.simulatedDevice.densityDpi,
+            simulation.simulatedDevice.abis.joinToString(", ").ifBlank {
+                getString(R.string.text_unknown)
+            },
+        )
+        val configurationDifference = if (simulation.changedDimensions.isEmpty()) {
+            getString(R.string.device_simulation_uses_actual)
+        } else {
+            getString(
+                R.string.device_simulation_changed_dimensions,
+                simulation.changedDimensions.joinToString(", ") { dimension ->
+                    getString(
+                        when (dimension) {
+                            PackageDeviceDimension.LANGUAGE -> R.string.device_simulation_language
+                            PackageDeviceDimension.DENSITY -> R.string.device_simulation_density
+                            PackageDeviceDimension.ABI -> R.string.device_simulation_abi
+                        },
+                    )
+                },
+            )
+        }
+        val state = getString(
+            when (simulation.simulatedInspectionState) {
+                ArchiveInspectionState.COMPATIBLE,
+                ArchiveInspectionState.COMPATIBLE_WITH_OBB,
+                -> R.string.device_simulation_status_compatible
+                ArchiveInspectionState.INCOMPATIBLE -> R.string.device_simulation_status_incompatible
+                ArchiveInspectionState.INVALID,
+                ArchiveInspectionState.AAB_SOURCE,
+                -> R.string.device_simulation_status_invalid
+            },
+        )
+        val overview = listOf(
+            simulatedConfiguration,
+            configurationDifference,
+            getString(R.string.device_simulation_state, state),
+            getString(
+                if (simulation.selectionMatchesActual) {
+                    R.string.device_simulation_selection_same
+                } else {
+                    R.string.device_simulation_selection_different
+                },
+            ),
+        ).joinToString("\n")
+        val selected = buildList {
+            add(
+                getString(
+                    R.string.device_simulation_selected_apks,
+                    simulation.simulatedSelectedApkPaths.size,
+                ),
+            )
+            if (simulation.simulatedSelectedApkPaths.isEmpty()) {
+                add("- ${getString(R.string.text_none)}")
+            } else {
+                simulation.simulatedSelectedApkPaths.forEach { path -> add("- $path") }
+            }
+        }.joinToString("\n")
+        val differences = buildList {
+            if (simulation.addedApkPaths.isNotEmpty()) {
+                add(getString(R.string.device_simulation_added_apks, simulation.addedApkPaths.size))
+                simulation.addedApkPaths.forEach { path -> add("+ $path") }
+            }
+            if (simulation.removedApkPaths.isNotEmpty()) {
+                add(getString(R.string.device_simulation_removed_apks, simulation.removedApkPaths.size))
+                simulation.removedApkPaths.forEach { path -> add("- $path") }
+            }
+        }.joinToString("\n")
+        val problems = simulation.simulatedProblems.asSequence()
+            .filter(ArchiveProblem::blocking)
+            .map { problem -> "[!] ${problem.code}: ${problem.detail}" }
+            .joinToString("\n")
+        binding.deviceSimulationResult.text = listOf(overview, selected, differences, problems)
+            .filter(String::isNotEmpty)
+            .joinToString("\n\n")
+        refreshShareableReport()
+    }
+
+    private fun formatActualDevice(device: PackageDeviceSpec): String = getString(
+        R.string.device_simulation_actual,
+        device.locales.joinToString(", ").ifBlank { getString(R.string.text_unknown) },
+        device.densityDpi,
+        device.abis.joinToString(", ").ifBlank { getString(R.string.text_unknown) },
+    )
+
+    private fun setDeviceSimulationLoading(loading: Boolean) {
+        binding.deviceSimulationLanguage.isEnabled = !loading
+        binding.deviceSimulationDensity.isEnabled = !loading
+        binding.deviceSimulationAbi.isEnabled = !loading
+        binding.applyDeviceSimulation.isEnabled = !loading
+        binding.resetDeviceSimulation.isEnabled = !loading
+        binding.deviceSimulationProgress.isVisible = loading
+    }
+
+    private fun <T> bindSpinner(
+        spinner: Spinner,
+        values: List<T>,
+        format: (T) -> String,
+    ) {
+        spinner.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            values.map(format),
+        ).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
+        spinner.setSelection(0, false)
+    }
+
+    private fun refreshShareableReport() {
+        val report = renderedReport ?: return
+        val sections = buildList {
+            add(
+                InspectionReportTextSection(
+                    getString(R.string.section_package_details),
+                    report.details,
+                ),
+            )
+            add(
+                InspectionReportTextSection(
+                    getString(R.string.section_components),
+                    binding.components.text,
+                ),
+            )
+            if (binding.deviceSimulation.isVisible) {
+                val simulationText = listOf(
+                    binding.deviceSimulationDescription.text,
+                    binding.deviceSimulationActual.text,
+                    binding.deviceSimulationResult.text,
+                ).filter(CharSequence::isNotBlank).joinToString("\n\n")
+                if (simulationText.isNotBlank()) {
+                    add(
+                        InspectionReportTextSection(
+                            getString(R.string.section_device_simulation),
+                            simulationText,
+                        ),
+                    )
+                }
+            }
+            add(
+                InspectionReportTextSection(
+                    getString(R.string.section_requested_permissions),
+                    binding.permissions.text,
+                ),
+            )
+            add(
+                InspectionReportTextSection(
+                    getString(R.string.section_findings),
+                    binding.findings.text,
+                ),
+            )
+        }
         shareableReport = ShareableReport(
             subject = getString(R.string.report_share_subject, report.appLabel),
             text = InspectionReportTextFormatter.format(
                 appLabel = binding.appLabel.text,
                 fileSummary = binding.fileSummary.text,
-                sections = listOf(
-                    InspectionReportTextSection(
-                        getString(R.string.section_package_details),
-                        report.details,
-                    ),
-                    InspectionReportTextSection(
-                        getString(R.string.section_components),
-                        binding.components.text,
-                    ),
-                    InspectionReportTextSection(
-                        getString(R.string.section_requested_permissions),
-                        binding.permissions.text,
-                    ),
-                    InspectionReportTextSection(
-                        getString(R.string.section_findings),
-                        binding.findings.text,
-                    ),
-                ),
+                sections = sections,
             ),
         )
         binding.toolbar.menu.findItem(R.id.action_share_report).isEnabled = true
@@ -1004,7 +1260,11 @@ class ApkInspectorActivity : AppCompatActivity() {
     }
 
     private fun showError(message: String) {
+        simulationRequestId += 1
+        simulationJob?.cancel()
+        simulationJob = null
         shareableReport = null
+        renderedReport = null
         binding.toolbar.menu.findItem(R.id.action_share_report)?.isEnabled = false
         binding.progress.isVisible = false
         binding.content.isVisible = false
@@ -1033,6 +1293,12 @@ class ApkInspectorActivity : AppCompatActivity() {
         ).filter(String::isNotEmpty).joinToString("\n\n")
     }
 
+    private data class InspectionResult(
+        val report: InspectionReport,
+        val archive: AndroidPackageArchive,
+        val deviceSpec: PackageDeviceSpec,
+    )
+
     private data class ShareableReport(
         val subject: String,
         val text: String,
@@ -1053,6 +1319,25 @@ class ApkInspectorActivity : AppCompatActivity() {
         private const val MAX_DECLARED_PERMISSION_DEFINITIONS = 2_048
         private const val MAX_FALLBACK_ICON_DIMENSION = 512
         private val SHA256_PATTERN = Regex("[0-9a-f]{64}")
+        private val SIMULATION_LANGUAGE_TAGS = listOf(
+            "en-US",
+            "zh-CN",
+            "zh-TW",
+            "fr-FR",
+            "es-ES",
+            "ja-JP",
+            "ko-KR",
+            "ru-RU",
+            "ar",
+        )
+        private val SIMULATION_DENSITIES = listOf(120, 160, 213, 240, 320, 480, 640)
+        private val SIMULATION_ABIS = listOf(
+            "arm64-v8a",
+            "armeabi-v7a",
+            "x86_64",
+            "x86",
+            "riscv64",
+        )
 
         internal fun createIntent(context: Context, staged: StagedPackage): Intent =
             Intent(context, ApkInspectorActivity::class.java).apply {

@@ -43,6 +43,7 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 - Version et compatibilité : nom du paquet, nom et code de version, SDK min/cible/max, comparés à la version Android de l'appareil avant toute installation.
 - Transparence des autorisations : regroupement par niveau de protection (exécution/dangereuses, signature/protégées et normales), avec les autorisations à l’exécution mises en avant et expliquées en une ligne ; les niveaux indisponibles restent visibles et signalés.
 - Analyse des splits : liste chaque entrée APK et chaque ressource OBB d'un bundle et marque les splits retenus pour cet appareil (base, langue, densité d'écran, ABI).
+- Simulation de configuration : changez la langue, la densité d’écran et l’ABI dans le rapport d’un bundle ; le plugin réexécute localement le même sélecteur borné sur l’instantané privé et affiche les APK ajoutés ou retirés par rapport à l’appareil réel.
 - Repli d’identité via les ressources : quand Android ne peut pas charger directement un AAB ou un bundle trop volumineux, résout le libellé de l’application et une icône matricielle pour la langue et la densité actuelles depuis resources.pb (AAB) ou resources.arsc (APK), sans extraire tout l’APK imbriqué.
 - Exposition des composants du manifeste : compte les activités/alias, services, récepteurs de diffusion et fournisseurs de contenu dans les splits APK sélectionnés ou les modules AAB analysés, en regroupant les valeurs android:exported explicites comme exporté, non exporté ou non précisé/non résolu.
 - Vue des bibliothèques natives : regroupe les fichiers .so des splits APK sélectionnés ou modules AAB par ABI et taille non compressée, en signalant l’ABI préférée de l’appareil, les solutions de repli compatibles et les architectures non prises en charge, sans extraire leur contenu.
@@ -60,8 +61,9 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 2. Ouvrez le gestionnaire de fichiers d'AutoJs6 et repérez le paquet à examiner (APK, APKS, XAPK, APKM, APKZ ou AAB).
 3. Touchez le fichier, ou choisissez « Inspecter le paquet Android » dans son menu ; le rapport apparaît après un instant.
 4. Parcourez le rapport de haut en bas : icône et nom de l'application, détails du paquet, composants, autorisations demandées, constats de sécurité et de compatibilité.
-5. Appuyez longuement sur une ligne des « Détails du paquet » pour copier sa valeur, ou touchez « Partager le rapport » dans la barre d’outils pour envoyer le texte exact affiché via la feuille de partage Android.
-6. Touchez « Afficher le manifeste » pour lire l'AndroidManifest complet, puis revenez en arrière pour retrouver le gestionnaire de fichiers.
+5. Pour un APKS, XAPK, APKM ou APKZ, choisissez la langue, la densité d’écran et l’ABI, puis appliquez la simulation pour comparer les APK sélectionnés à l’appareil réel.
+6. Appuyez longuement sur une ligne des « Détails du paquet » pour copier sa valeur, ou touchez « Partager le rapport » dans la barre d’outils pour envoyer le texte exact affiché via la feuille de partage Android.
+7. Touchez « Afficher le manifeste » pour lire l'AndroidManifest complet, puis revenez en arrière pour retrouver le gestionnaire de fichiers.
 
 > D'autres applications peuvent aussi confier un paquet à APK Inspector via « Ouvrir avec » (ACTION_VIEW), à condition d'utiliser une URI content avec un type MIME de paquet Android dédié. Le plugin est strictement en lecture seule et n'offre aucun point d'entrée d'installation.
 
@@ -128,7 +130,7 @@ La version actuelle n'effectue qu'une inspection en lecture seule : aucun bouton
 
 ### Roadmap
 
-Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'existant ; les travaux prévus, tels que l’analyse approfondie des bundles et la simulation de configuration d’appareil, sont suivis dans la Roadmap, et les éléments non cochés ne sont pas des capacités actuelles.
+Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'existant ; les travaux prévus, tels que l’analyse approfondie des bundles et des AAB, sont suivis dans la Roadmap, et les éléments non cochés ne sont pas des capacités actuelles.
 
 - [ROADMAP.md](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/ROADMAP.md)
 
@@ -140,6 +142,7 @@ _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
 - `Fonctionnalité` Ajout de résumés bornés des métadonnées de conteneur pour SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` et APKMirror APKM `info.json`, affichant l’outil/version de format, la version d’application déclarée dans les métadonnées et une entrée d’icône existante ; les métadonnées endommagées ou supérieures à 1 Mio restent isolées et signalées
+- `Fonctionnalité` Ajout d’une simulation de configuration dans les rapports APKS, XAPK, APKM et APKZ : changez la langue, la densité d’écran et l’ABI pour réexécuter localement la sélection bornée des splits sur le même instantané privé, avec état compatible/non valide et APK ajoutés ou retirés par rapport à l’appareil réel ; le rapport principal reste basé sur l’appareil réel
 - `Fonctionnalité` Ajout d’un repli borné pour le libellé et l’icône matricielle via resources.pb (AAB) et resources.arsc (APK), résolus selon la langue et la densité actuelles sans extraire les APK imbriqués trop volumineux ; les échecs de table, d’icône et de limite de parcours restent isolés et clairement signalés
 - `Fonctionnalité` Ajout de la copie par appui long des principales valeurs du paquet et du partage du rapport texte exact via la feuille de partage Android ; le contenu reste en mémoire, sans autorisation de stockage ni création de fichier
 - `Fonctionnalité` Ajout d’une vue DEX bornée qui liste dans l’ordre naturel les fichiers classes*.dex standard des splits APK sélectionnés et modules AAB, avec les tailles non compressées par fichier et totale, en partageant le parcours du répertoire central des bibliothèques natives sans extraire, décoder ni décompiler le contenu DEX

@@ -49,6 +49,43 @@ class BundletoolTocDecoderTest {
     }
 
     @Test
+    fun languageDensityAndAbiSelectionIsRecomputedDeterministically() {
+        val toc = tocWithInstantAndPersistentVariants()
+        val configurations = listOf(
+            arm64EnglishDevice to listOf(
+                "splits/base-master.apk",
+                "splits/base-en.apk",
+                "splits/base-xxhdpi.apk",
+                "asset-slices/textures-arm64.apk",
+            ),
+            arm64EnglishDevice.copy(
+                abis = listOf("x86"),
+                densityDpi = 320,
+                locales = listOf("fr-FR"),
+            ) to listOf(
+                "splits/base-master.apk",
+                "splits/base-fr.apk",
+                "splits/base-xhdpi.apk",
+                "asset-slices/textures-x86.apk",
+            ),
+            arm64EnglishDevice.copy(
+                densityDpi = 480,
+                locales = listOf("fr-FR"),
+            ) to listOf(
+                "splits/base-master.apk",
+                "splits/base-fr.apk",
+                "splits/base-xxhdpi.apk",
+                "asset-slices/textures-arm64.apk",
+            ),
+        )
+
+        configurations.forEach { (device, expectedPaths) ->
+            assertEquals(expectedPaths, BundletoolTocDecoder.select(toc, device).apkPaths)
+            assertEquals(expectedPaths, BundletoolTocDecoder.select(toc, device).apkPaths)
+        }
+    }
+
+    @Test
     fun sdkConditionalInstallTimeModuleIsSelectedOnlyWhenItMatches() {
         val toc = tocWithSdkConditionalModule()
 

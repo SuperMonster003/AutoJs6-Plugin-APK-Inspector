@@ -128,6 +128,121 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
                 android:textIsSelectable="true" />
 
+            <LinearLayout
+                android:id="@+id/device_simulation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/section_device_simulation"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/device_simulation_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/device_simulation_description"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+
+                <TextView
+                    android:id="@+id/device_simulation_actual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="3dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textIsSelectable="true" />
+
+                <TextView
+                    android:id="@+id/device_simulation_language_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:labelFor="@id/device_simulation_language"
+                    android:text="@string/device_simulation_language"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/device_simulation_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:spinnerMode="dropdown" />
+
+                <TextView
+                    android:id="@+id/device_simulation_density_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:labelFor="@id/device_simulation_density"
+                    android:text="@string/device_simulation_density"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/device_simulation_density"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:spinnerMode="dropdown" />
+
+                <TextView
+                    android:id="@+id/device_simulation_abi_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:labelFor="@id/device_simulation_abi"
+                    android:text="@string/device_simulation_abi"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/device_simulation_abi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:spinnerMode="dropdown" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/apply_device_simulation"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/action_apply_device_simulation" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/reset_device_simulation"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/action_use_actual_device" />
+
+                <ProgressBar
+                    android:id="@+id/device_simulation_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/device_simulation_loading"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/device_simulation_result"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="3dp"
+                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                    android:textIsSelectable="true" />
+            </LinearLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

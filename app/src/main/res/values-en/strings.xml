@@ -74,6 +74,28 @@
     <string name="package_icon_content_description">Package icon</string>
     <string name="plugin_description">File manager plugin. Inspect APK, APKS, XAPK, APKM, APKZ, and AAB files without installing them</string>
     <string name="section_components">Components</string>
+    <string name="section_device_simulation">Device configuration simulation</string>
+    <string name="device_simulation_description">Switch language, screen density, and ABI to recompute the selected APK set locally. The main report remains based on the actual device.</string>
+    <string name="device_simulation_actual" tools:ignore="PluralsCandidate">Actual device — language: %1$s | density: %2$d dpi | ABI: %3$s</string>
+    <string name="device_simulation_language">Language</string>
+    <string name="device_simulation_density">Screen density</string>
+    <string name="device_simulation_abi">ABI</string>
+    <string name="action_apply_device_simulation">Apply simulated configuration</string>
+    <string name="action_use_actual_device">Use actual device configuration</string>
+    <string name="device_simulation_loading" tools:ignore="TypographyEllipsis">Recomputing selected APKs...</string>
+    <string name="device_simulation_simulated" tools:ignore="PluralsCandidate">Simulated device — language: %1$s | density: %2$d dpi | ABI: %3$s</string>
+    <string name="device_simulation_uses_actual">Configuration differences: none; using the actual device configuration.</string>
+    <string name="device_simulation_changed_dimensions">Configuration differences from actual device: %1$s</string>
+    <string name="device_simulation_state">Simulated result: %1$s</string>
+    <string name="device_simulation_status_compatible">compatible</string>
+    <string name="device_simulation_status_incompatible">incompatible</string>
+    <string name="device_simulation_status_invalid">incomplete or invalid</string>
+    <string name="device_simulation_selection_same">Selected APKs match the actual device.</string>
+    <string name="device_simulation_selection_different">Selected APKs differ from the actual device.</string>
+    <string name="device_simulation_selected_apks">Selected APKs (%1$d)</string>
+    <string name="device_simulation_added_apks">Added versus actual device (%1$d)</string>
+    <string name="device_simulation_removed_apks">Removed versus actual device (%1$d)</string>
+    <string name="device_simulation_error">[!] The simulated selection could not be computed: %1$s</string>
     <string name="section_findings">Security and compatibility findings</string>
     <string name="section_package_details">Package details</string>
     <string name="section_requested_permissions">Requested permissions</string>
