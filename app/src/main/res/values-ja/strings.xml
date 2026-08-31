@@ -100,6 +100,8 @@
     <string name="resource_fallback_icon_invalid">[i] リソーステーブルのアプリアイコンは対応するラスター画像ではないため省略しました.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">パッケージを検査中...</string>
     <string name="inspection_title">APK Inspector</string>
+    <string name="inspection_report_accessibility_title">APK検査レポート</string>
+    <string name="action_navigate_up">上へ移動</string>
     <string name="manifest_title">Android Manifest</string>
     <string name="action_find_manifest">マニフェスト内を検索</string>
     <string name="manifest_search_hint">テキストを検索</string>

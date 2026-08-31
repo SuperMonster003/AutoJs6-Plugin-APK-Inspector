@@ -100,6 +100,8 @@
     <string name="resource_fallback_icon_invalid">[i] L’icône issue de la table de ressources n’est pas une image matricielle prise en charge et a été omise.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Inspection du paquet...</string>
     <string name="inspection_title">APK Inspector</string>
+    <string name="inspection_report_accessibility_title">Rapport d’inspection APK</string>
+    <string name="action_navigate_up">Revenir au niveau supérieur</string>
     <string name="manifest_title">Manifeste Android</string>
     <string name="action_find_manifest">Rechercher dans le manifeste</string>
     <string name="manifest_search_hint">Rechercher du texte</string>

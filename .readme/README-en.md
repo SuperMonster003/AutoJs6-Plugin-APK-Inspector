@@ -54,6 +54,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 - Signature and certificate verification: cryptographically verifies APK Signature Scheme V2, V3, and V3.1; reports V1 presence; lists current signing certificates and the verified certificate-rotation lineage with old/new roles and SHA-256 fingerprints.
 - V4/V4.1 sidecar verification: AutoJs6 derives only the exact `<APK name>.idsig` sibling and grants a bounded read-only descriptor; the plugin verifies the signed data, certificate and public key, complementary V2/V3 APK digest, fs-verity root, embedded Merkle tree, and any V3.1 rotation signer.
 - Readable manifests: binary APK manifests and AAB protobuf manifests are decoded into readable XML in a separate read-only viewer with line numbers, semantic syntax highlighting, and bounded case-insensitive search with highlighted matches and previous/next navigation.
+- TalkBack and RTL accessibility: report sections expose heading semantics, every icon action has a spoken label, custom interactive rows meet 48 dp touch targets, dynamic results are announced, and Arabic mirrors the layout for its language direction.
 - Integrity check: SHA-256 is calculated while the file is read, ready to compare against officially published checksums.
 - Structural checkup: detects a missing base APK, duplicate or unresolved splits, version or package mismatches, and marks each finding as blocking [!] or informational [i].
 
@@ -144,6 +145,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added TalkBack and RTL accessibility across the report and manifest viewer: compatibility heading semantics, named icon actions, 48 dp custom touch targets, live result announcements, locale-directed layouts, and mirrored Arabic navigation
 - `Feature` Added line numbers, Material-aware XML syntax highlighting, and bounded case-insensitive text search with highlighted matches, previous/next wraparound navigation, and state restoration to the read-only manifest viewer
 - `Feature` Added system-following Material 3 light/dark themes for the report and manifest viewer, Android 12+ Material You dynamic colors, and contrast-aware system-bar icons
 - `Feature` Added bounded container-metadata summaries for SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json`, and APKMirror APKM `info.json`, showing the packager/schema version, metadata-declared app version, and an existing icon entry; malformed or over-1 MiB metadata is isolated and labeled
@@ -158,6 +160,7 @@ _2026/08/30_
 - `Feature` Added detailed signing-certificate fields and verified proof-of-rotation lineages with old/current roles, capability flags, and SHA-256 fingerprints
 - `Feature` Added bounded `.idsig` staging through an exact host-derived read-only descriptor; directory enumeration and arbitrary sibling access remain unavailable
 - `Feature` Grouped requested permissions by `protectionLevel` into runtime/dangerous, signature/protected, and normal sections; runtime permissions are highlighted first with bounded one-line descriptions, while unavailable levels remain visible and labeled
+- `Fix` Fixed the manifest action disappearing after a locale, theme, or other activity recreation by safely replacing the previous read-only private manifest snapshot
 - `Improvement` Hardened Explorer Action v22 request validation and immutable private snapshots, with a 4 GiB package limit, a 40 MiB idsig limit, identity checks, and prompt host-session closure
 - `Improvement` Added official Build Tools 37 `apksigner` fixtures for valid, tampered, multi-signer, V3.1 rotation, V4.1 rotation, missing, and malformed-signature cases
 - `Improvement` Added a real-package partition-isolation matrix for production permission, manifest-component, native-library, and DEX limits plus resource-table and malformed nested-directory failures; every sample asserts unaffected sections remain complete and partial notices survive plain-text sharing

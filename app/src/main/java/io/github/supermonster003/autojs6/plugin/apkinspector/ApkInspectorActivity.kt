@@ -24,6 +24,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import com.google.android.material.color.MaterialColors
 import io.github.supermonster003.autojs6.plugin.apkinspector.databinding.ActivityApkInspectorBinding
@@ -55,6 +56,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         MaterialThemeController.applySystemBars(this)
         binding = ActivityApkInspectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        configureAccessibility()
         binding.toolbar.setNavigationOnClickListener { finish() }
         binding.toolbar.menu.findItem(R.id.action_share_report).isEnabled = false
         binding.toolbar.setOnMenuItemClickListener { item ->
@@ -112,6 +114,20 @@ class ApkInspectorActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    private fun configureAccessibility() {
+        listOf(
+            binding.packageDetailsHeading,
+            binding.componentsHeading,
+            binding.deviceSimulationHeading,
+            binding.requestedPermissionsHeading,
+            binding.findingsHeading,
+        ).forEach { heading -> ViewCompat.setAccessibilityHeading(heading, true) }
+        ViewCompat.setAccessibilityPaneTitle(
+            binding.content,
+            getString(R.string.inspection_report_accessibility_title),
+        )
     }
 
     private fun inspect(
@@ -202,10 +218,10 @@ class ApkInspectorActivity : AppCompatActivity() {
         )
         val manifestPath = runCatching {
             val xml = archive.decodeDisplayManifest()
-            File(packageFile.parentFile, "manifest.xml").apply {
-                writeText(xml, Charsets.UTF_8)
-                if (!setReadOnly()) error("Unable to protect manifest snapshot")
-            }.absolutePath
+            ReadOnlyTextSnapshot.replace(
+                File(packageFile.parentFile, "manifest.xml"),
+                xml,
+            ).absolutePath
         }.getOrNull()
 
         val unknown = getString(R.string.text_unknown)
@@ -1037,10 +1053,10 @@ class ApkInspectorActivity : AppCompatActivity() {
     ) {
         spinner.adapter = ArrayAdapter(
             this,
-            android.R.layout.simple_spinner_item,
+            R.layout.item_device_simulation_spinner,
             values.map(format),
         ).apply {
-            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            setDropDownViewResource(R.layout.item_device_simulation_spinner)
         }
         spinner.setSelection(0, false)
     }

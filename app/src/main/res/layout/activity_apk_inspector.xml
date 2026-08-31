@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
+    android:layoutDirection="locale"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -12,6 +13,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         app:menu="@menu/menu_apk_inspector"
+        app:navigationContentDescription="@string/action_navigate_up"
         app:navigationIcon="@drawable/ic_arrow_back"
         app:navigationIconTint="?attr/colorOnPrimary"
         app:title="@string/inspection_title"
@@ -72,6 +74,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
+                        android:textAlignment="viewStart"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         android:textIsSelectable="true" />
                 </LinearLayout>
@@ -87,6 +90,7 @@
                 android:text="@string/action_view_manifest" />
 
             <TextView
+                android:id="@+id/package_details_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -112,6 +116,7 @@
                 android:textIsSelectable="true" />
 
             <TextView
+                android:id="@+id/components_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -137,6 +142,7 @@
                 android:visibility="gone">
 
                 <TextView
+                    android:id="@+id/device_simulation_heading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -169,6 +175,7 @@
                     android:layout_marginTop="12dp"
                     android:labelFor="@id/device_simulation_language"
                     android:text="@string/device_simulation_language"
+                    android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -185,6 +192,7 @@
                     android:layout_marginTop="8dp"
                     android:labelFor="@id/device_simulation_density"
                     android:text="@string/device_simulation_density"
+                    android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -201,6 +209,7 @@
                     android:layout_marginTop="8dp"
                     android:labelFor="@id/device_simulation_abi"
                     android:text="@string/device_simulation_abi"
+                    android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.Material3.BodySmall" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -237,6 +246,7 @@
                     android:id="@+id/device_simulation_result"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:accessibilityLiveRegion="polite"
                     android:layout_marginTop="8dp"
                     android:fontFamily="monospace"
                     android:lineSpacingExtra="3dp"
@@ -245,6 +255,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/requested_permissions_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -263,6 +274,7 @@
                 android:textIsSelectable="true" />
 
             <TextView
+                android:id="@+id/findings_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -285,6 +297,7 @@
         android:id="@+id/error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:accessibilityLiveRegion="assertive"
         android:layout_margin="24dp"
         android:background="?attr/colorErrorContainer"
         android:padding="16dp"

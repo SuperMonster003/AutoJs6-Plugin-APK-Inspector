@@ -5,6 +5,7 @@
 _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout de l’accessibilité TalkBack et RTL au rapport et à la visionneuse de manifeste : titres sémantiques compatibles, actions par icône nommées, cibles personnalisées de 48 dp, annonces des résultats dynamiques, disposition suivant la langue et navigation arabe inversée
 - `Fonctionnalité` Ajout, dans la visionneuse de manifeste en lecture seule, des numéros de ligne, de la coloration XML adaptée au thème Material et d’une recherche bornée insensible à la casse, avec surlignage, navigation précédent/suivant en boucle et restauration de l’état
 - `Fonctionnalité` Ajout de thèmes Material 3 clair/sombre suivant le système pour le rapport et la visionneuse du manifeste, de couleurs dynamiques Material You sous Android 12 ou version ultérieure et d’icônes de barres système adaptées au contraste
 - `Fonctionnalité` Ajout de résumés bornés des métadonnées de conteneur pour SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` et APKMirror APKM `info.json`, affichant l’outil/version de format, la version d’application déclarée dans les métadonnées et une entrée d’icône existante ; les métadonnées endommagées ou supérieures à 1 Mio restent isolées et signalées
@@ -19,6 +20,7 @@ _2026/08/30_
 - `Fonctionnalité` Ajout des champs détaillés des certificats et des lignées de rotation vérifiées avec rôles ancien/actuel, indicateurs de capacité et empreintes SHA-256
 - `Fonctionnalité` Ajout de la copie bornée de `.idsig` via un descripteur en lecture seule dérivé exactement par l’hôte ; l’énumération des répertoires et l’accès arbitraire aux voisins restent indisponibles
 - `Fonctionnalité` Regroupement des autorisations demandées selon `protectionLevel` en exécution/dangereuses, signature/protégées et normales ; celles à l’exécution sont mises en avant avec une explication bornée sur une ligne, tandis que les niveaux indisponibles restent visibles et signalés
+- `Correctif` Correction de la disparition de l’action d’affichage du manifeste après un changement de langue, de thème ou une autre recréation d’activité, grâce au remplacement sûr de l’ancien instantané privé en lecture seule
 - `Amélioration` Renforcement de la validation Explorer Action v22 et des instantanés privés immuables, avec limites de 4 GiB pour le paquet et 40 MiB pour idsig, contrôles d’identité et fermeture rapide de la session
 - `Amélioration` Ajout d’échantillons officiels Build Tools 37 `apksigner` couvrant signatures valides, altérées, multiples, rotations V3.1/V4.1, absences et formats incorrects
 - `Amélioration` Ajout d’une matrice d’isolation par section sur de vrais paquets, couvrant les limites de production des autorisations, composants de manifeste, bibliothèques natives et DEX, ainsi que les dépassements de table de ressources et les répertoires centraux imbriqués endommagés ; chaque échantillon vérifie que les sections non touchées restent complètes et que les avis partiels sont conservés dans le partage texte

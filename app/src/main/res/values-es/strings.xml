@@ -100,6 +100,8 @@
     <string name="resource_fallback_icon_invalid">[i] El icono de la tabla de recursos no es una imagen rasterizada compatible y se omitió.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Inspeccionando paquete...</string>
     <string name="inspection_title">APK Inspector</string>
+    <string name="inspection_report_accessibility_title">Informe de inspección de APK</string>
+    <string name="action_navigate_up">Subir</string>
     <string name="manifest_title">Manifest de Android</string>
     <string name="action_find_manifest">Buscar en el manifest</string>
     <string name="manifest_search_hint">Buscar texto</string>

@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
@@ -92,6 +93,10 @@ class ManifestViewerActivity : AppCompatActivity() {
     }
 
     private fun setupSearch(savedInstanceState: Bundle?) {
+        ViewCompat.setAccessibilityPaneTitle(
+            binding.manifestSearchPanel,
+            getString(R.string.action_find_manifest),
+        )
         binding.manifestSearchInput.doAfterTextChanged { editable ->
             scheduleSearch(editable?.toString().orEmpty())
         }
