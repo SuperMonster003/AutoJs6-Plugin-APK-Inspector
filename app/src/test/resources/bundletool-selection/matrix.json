@@ -1,0 +1,72 @@
+{
+  "schemaVersion": 1,
+  "bundletool": {
+    "version": "1.18.2",
+    "sha256": "378b5434cd1378bef6b2bc527b8c7f0ff2584b273830335bce54d6d0813c8584"
+  },
+  "fixture": {
+    "file": "selection-matrix.apks",
+    "sha256": "677a1bd87e34260c6279bdb579db7628a83cc82422a6af3bc0cf8392db3f9d4a",
+    "sourceProject": "test-fixtures/bundletool-selection"
+  },
+  "oracle": "bundletool extract-apks --include-metadata; bundletool 1.18.2 InstallApksCommand delegates its installation selection to ExtractApksCommand",
+  "cases": [
+    {
+      "id": "arm64-en-xxhdpi",
+      "deviceSpec": {
+        "supportedAbis": [
+          "arm64-v8a"
+        ],
+        "supportedLocales": [
+          "en-US"
+        ],
+        "screenDensity": 480,
+        "sdkVersion": 35
+      },
+      "expectedApks": [
+        "splits/base-xxhdpi.apk",
+        "splits/base-master_2.apk",
+        "splits/base-en.apk",
+        "splits/base-arm64_v8a.apk"
+      ]
+    },
+    {
+      "id": "arm64-fr-xhdpi",
+      "deviceSpec": {
+        "supportedAbis": [
+          "arm64-v8a"
+        ],
+        "supportedLocales": [
+          "fr-FR"
+        ],
+        "screenDensity": 320,
+        "sdkVersion": 35
+      },
+      "expectedApks": [
+        "splits/base-xhdpi.apk",
+        "splits/base-master_2.apk",
+        "splits/base-fr.apk",
+        "splits/base-arm64_v8a.apk"
+      ]
+    },
+    {
+      "id": "x86-fr-xhdpi",
+      "deviceSpec": {
+        "supportedAbis": [
+          "x86"
+        ],
+        "supportedLocales": [
+          "fr-FR"
+        ],
+        "screenDensity": 320,
+        "sdkVersion": 35
+      },
+      "expectedApks": [
+        "splits/base-xhdpi.apk",
+        "splits/base-master_2.apk",
+        "splits/base-fr.apk",
+        "splits/base-x86.apk"
+      ]
+    }
+  ]
+}

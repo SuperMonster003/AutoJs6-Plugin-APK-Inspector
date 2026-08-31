@@ -20,6 +20,7 @@ _2026/08/30_
 - `Improvement` Hardened Explorer Action v22 request validation and immutable private snapshots, with a 4 GiB package limit, a 40 MiB idsig limit, identity checks, and prompt host-session closure
 - `Improvement` Added official Build Tools 37 `apksigner` fixtures for valid, tampered, multi-signer, V3.1 rotation, V4.1 rotation, missing, and malformed-signature cases
 - `Improvement` Added a real-package partition-isolation matrix for production permission, manifest-component, native-library, and DEX limits plus resource-table and malformed nested-directory failures; every sample asserts unaffected sections remain complete and partial notices survive plain-text sharing
+- `Improvement` Added a reproducible bundletool 1.18.2 selection golden matrix: `build-apks` runs on a privacy-neutral minimal AAB, then the `ExtractApksCommand` shared by `install-apks` records install splits for three language/density/ABI device specs; unit tests verify each simulated set is duplicate-free and stable across repeated runs
 
 ## v1.0.1
 

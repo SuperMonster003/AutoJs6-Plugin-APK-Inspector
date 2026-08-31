@@ -27,7 +27,8 @@
       "improvement": [
         "Renforcement de la validation Explorer Action v22 et des instantanés privés immuables, avec limites de 4 GiB pour le paquet et 40 MiB pour idsig, contrôles d’identité et fermeture rapide de la session",
         "Ajout d’échantillons officiels Build Tools 37 `apksigner` couvrant signatures valides, altérées, multiples, rotations V3.1/V4.1, absences et formats incorrects",
-        "Ajout d’une matrice d’isolation par section sur de vrais paquets, couvrant les limites de production des autorisations, composants de manifeste, bibliothèques natives et DEX, ainsi que les dépassements de table de ressources et les répertoires centraux imbriqués endommagés ; chaque échantillon vérifie que les sections non touchées restent complètes et que les avis partiels sont conservés dans le partage texte"
+        "Ajout d’une matrice d’isolation par section sur de vrais paquets, couvrant les limites de production des autorisations, composants de manifeste, bibliothèques natives et DEX, ainsi que les dépassements de table de ressources et les répertoires centraux imbriqués endommagés ; chaque échantillon vérifie que les sections non touchées restent complètes et que les avis partiels sont conservés dans le partage texte",
+        "Ajout d’une matrice de référence reproductible pour la sélection bundletool 1.18.2 : `build-apks` traite un AAB minimal anonymisé, puis l’`ExtractApksCommand` partagé par `install-apks` enregistre les APK d’installation pour trois profils langue/densité/ABI ; les tests unitaires vérifient chaque ensemble simulé, l’absence de doublons et la stabilité entre exécutions"
       ]
     },
     "v1.0.1": {

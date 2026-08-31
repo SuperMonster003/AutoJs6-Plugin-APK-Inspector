@@ -27,7 +27,8 @@
       "improvement": [
         "Se reforzaron la validación de solicitudes Explorer Action v22 y las instantáneas privadas inmutables, con límites de 4 GiB para el paquete y 40 MiB para idsig, comprobaciones de identidad y cierre inmediato de la sesión",
         "Se añadieron muestras oficiales de `apksigner` de Build Tools 37 para firmas válidas, alteradas, múltiples, con rotación V3.1/V4.1, ausentes y mal formadas",
-        "Se añadió una matriz de aislamiento por secciones con paquetes reales que cubre los límites de producción de permisos, componentes del manifiesto, bibliotecas nativas y DEX, además de tablas de recursos excedidas y directorios centrales anidados dañados; cada muestra comprueba que las secciones no afectadas siguen completas y que los avisos parciales se conservan al compartir texto"
+        "Se añadió una matriz de aislamiento por secciones con paquetes reales que cubre los límites de producción de permisos, componentes del manifiesto, bibliotecas nativas y DEX, además de tablas de recursos excedidas y directorios centrales anidados dañados; cada muestra comprueba que las secciones no afectadas siguen completas y que los avisos parciales se conservan al compartir texto",
+        "Se añadió una matriz de referencia reproducible para la selección de bundletool 1.18.2: `build-apks` procesa un AAB mínimo anonimizado y el `ExtractApksCommand` compartido por `install-apks` registra los APK de instalación para tres perfiles de idioma/densidad/ABI; las pruebas unitarias verifican cada conjunto simulado, la ausencia de duplicados y la estabilidad entre ejecuciones"
       ]
     },
     "v1.0.1": {
