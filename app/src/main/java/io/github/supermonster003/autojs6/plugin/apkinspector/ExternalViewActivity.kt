@@ -10,7 +10,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ExternalViewActivity : Activity() {
+open class ExternalViewActivity : Activity() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -22,7 +22,7 @@ class ExternalViewActivity : Activity() {
             return
         }
         scope.launch {
-            val staged = withContext(Dispatchers.IO) { PackageCacheStager.stage(this@ExternalViewActivity, seed) }
+            val staged = stagePackage(seed)
             if (staged != null && !isFinishing && !isDestroyed) {
                 runCatching { startActivity(ApkInspectorActivity.createIntent(this@ExternalViewActivity, staged)) }
                     .onFailure { Toast.makeText(this@ExternalViewActivity, R.string.error_cannot_inspect, Toast.LENGTH_LONG).show() }
@@ -32,6 +32,11 @@ class ExternalViewActivity : Activity() {
             finish()
         }
     }
+
+    internal open suspend fun stagePackage(seed: PackageInputSeed): StagedPackage? =
+        withContext(Dispatchers.IO) {
+            PackageCacheStager.stage(this@ExternalViewActivity, seed)
+        }
 
     override fun onDestroy() {
         scope.cancel()

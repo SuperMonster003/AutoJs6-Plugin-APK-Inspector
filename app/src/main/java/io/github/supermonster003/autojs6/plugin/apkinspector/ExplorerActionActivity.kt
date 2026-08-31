@@ -10,7 +10,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ExplorerActionActivity : Activity() {
+open class ExplorerActionActivity : Activity() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -27,9 +27,7 @@ class ExplorerActionActivity : Activity() {
     private fun stageAndOpen(seed: PackageInputSeed) {
         scope.launch {
             val staged = try {
-                withContext(Dispatchers.IO) {
-                    PackageCacheStager.stage(this@ExplorerActionActivity, seed)
-                }
+                stagePackage(seed)
             } finally {
                 runCatching { seed.hostSession?.close() }
             }
@@ -42,6 +40,11 @@ class ExplorerActionActivity : Activity() {
             finish()
         }
     }
+
+    internal open suspend fun stagePackage(seed: PackageInputSeed): StagedPackage? =
+        withContext(Dispatchers.IO) {
+            PackageCacheStager.stage(this@ExplorerActionActivity, seed)
+        }
 
     override fun onDestroy() {
         scope.cancel()

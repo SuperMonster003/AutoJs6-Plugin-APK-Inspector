@@ -35,6 +35,10 @@ android {
         abortOnError = false
     }
 
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+    }
+
     signingConfigs {
         if (signs.isValid) {
             create(buildTypeRelease) {
@@ -135,6 +139,7 @@ dependencies {
     implementation(libs.material)
 
     testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
 }
 
 tasks {

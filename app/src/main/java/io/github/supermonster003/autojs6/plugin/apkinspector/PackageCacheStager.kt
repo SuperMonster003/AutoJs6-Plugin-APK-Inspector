@@ -37,6 +37,9 @@ internal object PackageCacheStager {
         return try {
             val resolver = context.contentResolver
             val queriedSize = queryLong(resolver, seed.targetUri, OpenableColumns.SIZE)
+            if (queriedSize != null && !PackageRequestPolicy.isDeclaredSizeAccepted(queriedSize)) {
+                return null
+            }
             val descriptorSize = resolver.openAssetFileDescriptor(seed.targetUri, "r")?.use { descriptor ->
                 descriptor.length.takeIf { it >= 0L }
             }
