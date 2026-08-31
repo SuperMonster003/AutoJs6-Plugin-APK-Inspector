@@ -101,6 +101,14 @@
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Проверка пакета...</string>
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Manifest Android</string>
+    <string name="action_find_manifest">Найти в manifest</string>
+    <string name="manifest_search_hint">Найти текст</string>
+    <string name="action_previous_manifest_match">Предыдущее совпадение</string>
+    <string name="action_next_manifest_match">Следующее совпадение</string>
+    <string name="action_close_manifest_search">Закрыть поиск</string>
+    <string name="manifest_search_no_matches">Совпадений нет</string>
+    <string name="manifest_search_match_position">Совпадение %1$d из %2$d</string>
+    <string name="manifest_search_match_position_truncated">Совпадение %1$d как минимум из %2$d</string>
     <string name="package_icon_content_description">Значок пакета</string>
     <string name="plugin_description">Плагин файлового менеджера. Проверка файлов APK, APKS, XAPK, APKM, APKZ и AAB без установки</string>
     <string name="section_components">Компоненты</string>

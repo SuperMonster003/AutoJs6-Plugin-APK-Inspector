@@ -53,7 +53,7 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 - Réutilisation du rapport : appuyez longuement sur une ligne principale des détails du paquet pour copier sa valeur brute, ou partagez le texte exact affiché en `text/plain` via la feuille de partage Android ; le texte reste en mémoire, sans fichier ni autorisation de stockage.
 - Vérification des signatures et certificats : vérifie cryptographiquement les schémas APK V2, V3 et V3.1 ; signale la présence de V1 ; affiche chaque certificat actuel et la lignée de rotation vérifiée avec les rôles ancien/nouveau et les empreintes SHA-256.
 - Vérification des fichiers annexes V4/V4.1 : AutoJs6 dérive uniquement le fichier voisin exact `<nom de l’APK>.idsig` et accorde un descripteur borné en lecture seule ; le plugin vérifie les données signées, le certificat et la clé publique, le condensat APK V2/V3 correspondant, la racine fs-verity, l’arbre de Merkle intégré et tout signataire de rotation V3.1.
-- Manifestes lisibles : les manifestes APK binaires et les manifestes protobuf AAB sont décodés en XML lisible, dans une visionneuse séparée en lecture seule.
+- Manifestes lisibles : les manifestes APK binaires et protobuf AAB sont décodés en XML dans une visionneuse séparée en lecture seule, avec numéros de ligne, coloration syntaxique sémantique et recherche bornée insensible à la casse, surlignage des résultats et navigation précédent/suivant.
 - Contrôle d'intégrité : le SHA-256 est calculé pendant la lecture du fichier, prêt à être comparé aux empreintes publiées officiellement.
 - Bilan structurel : détecte l'absence d'APK de base, les splits en double ou sans dépendance, les incohérences de version ou de paquet, chaque constat étant marqué bloquant [!] ou informatif [i].
 
@@ -144,6 +144,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout, dans la visionneuse de manifeste en lecture seule, des numéros de ligne, de la coloration XML adaptée au thème Material et d’une recherche bornée insensible à la casse, avec surlignage, navigation précédent/suivant en boucle et restauration de l’état
 - `Fonctionnalité` Ajout de thèmes Material 3 clair/sombre suivant le système pour le rapport et la visionneuse du manifeste, de couleurs dynamiques Material You sous Android 12 ou version ultérieure et d’icônes de barres système adaptées au contraste
 - `Fonctionnalité` Ajout de résumés bornés des métadonnées de conteneur pour SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` et APKMirror APKM `info.json`, affichant l’outil/version de format, la version d’application déclarée dans les métadonnées et une entrée d’icône existante ; les métadonnées endommagées ou supérieures à 1 Mio restent isolées et signalées
 - `Fonctionnalité` Ajout d’une simulation de configuration dans les rapports APKS, XAPK, APKM et APKZ : changez la langue, la densité d’écran et l’ABI pour réexécuter localement la sélection bornée des splits sur le même instantané privé, avec état compatible/non valide et APK ajoutés ou retirés par rapport à l’appareil réel ; le rapport principal reste basé sur l’appareil réel

@@ -53,7 +53,7 @@ El informe tiene cuatro secciones: «Detalles del paquete» muestra el nombre de
 - Reutilización del informe: mantén pulsada cualquier fila principal de detalles del paquete para copiar su valor sin etiqueta, o comparte el informe exacto de la pantalla como `text/plain` mediante el panel de Android; el texto permanece en memoria y no crea archivos ni requiere permiso de almacenamiento.
 - Verificación de firmas y certificados: verifica criptográficamente los esquemas V2, V3 y V3.1 del APK; informa de la presencia de V1; muestra cada certificado de firma actual y el linaje de rotación verificado, con funciones antiguas/nuevas y huellas SHA-256.
 - Verificación de archivos auxiliares V4/V4.1: AutoJs6 deriva únicamente el archivo adyacente exacto `<nombre del APK>.idsig` y concede un descriptor de solo lectura acotado; el plugin verifica los datos firmados, el certificado y la clave pública, el resumen APK V2/V3 correspondiente, la raíz fs-verity, el árbol Merkle incrustado y cualquier firmante de rotación V3.1.
-- Manifests legibles: los manifests binarios de APK y los manifests protobuf de AAB se decodifican a XML legible y se muestran en un visor independiente de solo lectura.
+- Manifests legibles: los manifests binarios de APK y protobuf de AAB se decodifican a XML en un visor independiente de solo lectura, con números de línea, resaltado semántico de sintaxis y búsqueda acotada sin distinguir mayúsculas, resaltado de coincidencias y navegación anterior/siguiente.
 - Comprobación de integridad: el SHA-256 se calcula mientras se lee el archivo, listo para compararlo con las sumas publicadas oficialmente.
 - Chequeo estructural: detecta la falta del APK base, splits duplicados o sin dependencias, incoherencias de versión o de paquete, y marca cada hallazgo como bloqueante [!] o informativo [i].
 
@@ -144,6 +144,7 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 _2026/08/30_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadieron al visor de manifest de solo lectura números de línea, resaltado XML adaptado al tema Material y búsqueda acotada sin distinguir mayúsculas, con coincidencias resaltadas, navegación anterior/siguiente circular y restauración del estado
 - `Función` Se añadieron temas Material 3 claro/oscuro que siguen el sistema para el informe y el visor del manifiesto, colores dinámicos Material You en Android 12 y versiones posteriores e iconos de las barras del sistema adaptados al contraste
 - `Función` Se añadieron resúmenes acotados de metadatos del contenedor para SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` y APKMirror APKM `info.json`, que muestran la herramienta/versión del formato, la versión de la app declarada en los metadatos y una entrada de icono existente; los metadatos dañados o mayores de 1 MiB quedan aislados y señalados
 - `Función` Se añadió simulación de configuración dentro de los informes APKS, XAPK, APKM y APKZ: al cambiar idioma, densidad de pantalla y ABI, se repite localmente la selección acotada de splits sobre la misma instantánea privada y se muestran el estado compatible/no válido y los APK añadidos o eliminados respecto al dispositivo real; el informe principal sigue basándose en el dispositivo real

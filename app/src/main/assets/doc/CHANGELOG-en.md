@@ -5,6 +5,7 @@
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added line numbers, Material-aware XML syntax highlighting, and bounded case-insensitive text search with highlighted matches, previous/next wraparound navigation, and state restoration to the read-only manifest viewer
 - `Feature` Added system-following Material 3 light/dark themes for the report and manifest viewer, Android 12+ Material You dynamic colors, and contrast-aware system-bar icons
 - `Feature` Added bounded container-metadata summaries for SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json`, and APKMirror APKM `info.json`, showing the packager/schema version, metadata-declared app version, and an existing icon entry; malformed or over-1 MiB metadata is isolated and labeled
 - `Feature` Added in-report device configuration simulation for APKS, XAPK, APKM, and APKZ: switch language, screen density, and ABI to rerun bounded split selection locally against the same private snapshot, with compatible/invalid status and APKs added or removed versus the actual device; the main report remains actual-device based

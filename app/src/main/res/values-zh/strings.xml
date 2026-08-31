@@ -101,6 +101,14 @@
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">正在检查软件包...</string>
     <string name="inspection_title">APK 检查器</string>
     <string name="manifest_title">Android 清单</string>
+    <string name="action_find_manifest">在清单中查找</string>
+    <string name="manifest_search_hint">查找文本</string>
+    <string name="action_previous_manifest_match">上一个匹配项</string>
+    <string name="action_next_manifest_match">下一个匹配项</string>
+    <string name="action_close_manifest_search">关闭查找</string>
+    <string name="manifest_search_no_matches">没有匹配项</string>
+    <string name="manifest_search_match_position">第 %1$d 个，共 %2$d 个</string>
+    <string name="manifest_search_match_position_truncated">第 %1$d 个，至少 %2$d 个</string>
     <string name="package_icon_content_description">软件包图标</string>
     <string name="plugin_description">文件管理器插件. 无需安装即可检查 APK, APKS, XAPK, APKM, APKZ 和 AAB 文件</string>
     <string name="section_components">组件</string>

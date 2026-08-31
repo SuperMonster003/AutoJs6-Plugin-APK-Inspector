@@ -5,6 +5,7 @@
 _2026/08/30_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadieron al visor de manifest de solo lectura números de línea, resaltado XML adaptado al tema Material y búsqueda acotada sin distinguir mayúsculas, con coincidencias resaltadas, navegación anterior/siguiente circular y restauración del estado
 - `Función` Se añadieron temas Material 3 claro/oscuro que siguen el sistema para el informe y el visor del manifiesto, colores dinámicos Material You en Android 12 y versiones posteriores e iconos de las barras del sistema adaptados al contraste
 - `Función` Se añadieron resúmenes acotados de metadatos del contenedor para SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` y APKMirror APKM `info.json`, que muestran la herramienta/versión del formato, la versión de la app declarada en los metadatos y una entrada de icono existente; los metadatos dañados o mayores de 1 MiB quedan aislados y señalados
 - `Función` Se añadió simulación de configuración dentro de los informes APKS, XAPK, APKM y APKZ: al cambiar idioma, densidad de pantalla y ABI, se repite localmente la selección acotada de splits sobre la misma instantánea privada y se muestran el estado compatible/no válido y los APK añadidos o eliminados respecto al dispositivo real; el informe principal sigue basándose en el dispositivo real

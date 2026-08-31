@@ -101,6 +101,14 @@
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Inspeccionando paquete...</string>
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Manifest de Android</string>
+    <string name="action_find_manifest">Buscar en el manifest</string>
+    <string name="manifest_search_hint">Buscar texto</string>
+    <string name="action_previous_manifest_match">Coincidencia anterior</string>
+    <string name="action_next_manifest_match">Coincidencia siguiente</string>
+    <string name="action_close_manifest_search">Cerrar búsqueda</string>
+    <string name="manifest_search_no_matches">Sin coincidencias</string>
+    <string name="manifest_search_match_position">Coincidencia %1$d de %2$d</string>
+    <string name="manifest_search_match_position_truncated">Coincidencia %1$d de al menos %2$d</string>
     <string name="package_icon_content_description">Icono del paquete</string>
     <string name="plugin_description">Complemento del gestor de archivos. Inspeccionar archivos APK, APKS, XAPK, APKM, APKZ y AAB sin instalarlos</string>
     <string name="section_components">Componentes</string>

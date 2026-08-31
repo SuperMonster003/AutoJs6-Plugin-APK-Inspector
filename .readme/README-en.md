@@ -53,7 +53,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 - Report reuse: long-press any primary package-detail row to copy its raw value, or share the exact on-screen report as `text/plain` through the Android Sharesheet; sharing stays in memory and creates no file or storage-permission requirement.
 - Signature and certificate verification: cryptographically verifies APK Signature Scheme V2, V3, and V3.1; reports V1 presence; lists current signing certificates and the verified certificate-rotation lineage with old/new roles and SHA-256 fingerprints.
 - V4/V4.1 sidecar verification: AutoJs6 derives only the exact `<APK name>.idsig` sibling and grants a bounded read-only descriptor; the plugin verifies the signed data, certificate and public key, complementary V2/V3 APK digest, fs-verity root, embedded Merkle tree, and any V3.1 rotation signer.
-- Readable manifests: binary APK manifests and AAB protobuf manifests are decoded into readable XML, shown in a separate read-only viewer.
+- Readable manifests: binary APK manifests and AAB protobuf manifests are decoded into readable XML in a separate read-only viewer with line numbers, semantic syntax highlighting, and bounded case-insensitive search with highlighted matches and previous/next navigation.
 - Integrity check: SHA-256 is calculated while the file is read, ready to compare against officially published checksums.
 - Structural checkup: detects a missing base APK, duplicate or unresolved splits, version or package mismatches, and marks each finding as blocking [!] or informational [i].
 
@@ -144,6 +144,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added line numbers, Material-aware XML syntax highlighting, and bounded case-insensitive text search with highlighted matches, previous/next wraparound navigation, and state restoration to the read-only manifest viewer
 - `Feature` Added system-following Material 3 light/dark themes for the report and manifest viewer, Android 12+ Material You dynamic colors, and contrast-aware system-bar icons
 - `Feature` Added bounded container-metadata summaries for SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json`, and APKMirror APKM `info.json`, showing the packager/schema version, metadata-declared app version, and an existing icon entry; malformed or over-1 MiB metadata is isolated and labeled
 - `Feature` Added in-report device configuration simulation for APKS, XAPK, APKM, and APKZ: switch language, screen density, and ABI to rerun bounded split selection locally against the same private snapshot, with compatible/invalid status and APKs added or removed versus the actual device; the main report remains actual-device based

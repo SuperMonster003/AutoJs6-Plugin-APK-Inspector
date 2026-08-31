@@ -101,6 +101,14 @@
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">正在檢查套件...</string>
     <string name="inspection_title">APK 檢查器</string>
     <string name="manifest_title">Android 資訊清單</string>
+    <string name="action_find_manifest">在資訊清單中尋找</string>
+    <string name="manifest_search_hint">尋找文字</string>
+    <string name="action_previous_manifest_match">上一個相符項目</string>
+    <string name="action_next_manifest_match">下一個相符項目</string>
+    <string name="action_close_manifest_search">關閉尋找</string>
+    <string name="manifest_search_no_matches">沒有相符項目</string>
+    <string name="manifest_search_match_position">第 %1$d 個，共 %2$d 個</string>
+    <string name="manifest_search_match_position_truncated">第 %1$d 個，至少 %2$d 個</string>
     <string name="package_icon_content_description">套件圖示</string>
     <string name="plugin_description">檔案管理器外掛程式. 無須安裝即可檢查 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案</string>
     <string name="section_components">元件</string>

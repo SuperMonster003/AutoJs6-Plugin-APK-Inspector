@@ -25,7 +25,7 @@
     "Réutilisation du rapport : appuyez longuement sur une ligne principale des détails du paquet pour copier sa valeur brute, ou partagez le texte exact affiché en `text/plain` via la feuille de partage Android ; le texte reste en mémoire, sans fichier ni autorisation de stockage.",
     "Vérification des signatures et certificats : vérifie cryptographiquement les schémas APK V2, V3 et V3.1 ; signale la présence de V1 ; affiche chaque certificat actuel et la lignée de rotation vérifiée avec les rôles ancien/nouveau et les empreintes SHA-256.",
     "Vérification des fichiers annexes V4/V4.1 : AutoJs6 dérive uniquement le fichier voisin exact `<nom de l’APK>.idsig` et accorde un descripteur borné en lecture seule ; le plugin vérifie les données signées, le certificat et la clé publique, le condensat APK V2/V3 correspondant, la racine fs-verity, l’arbre de Merkle intégré et tout signataire de rotation V3.1.",
-    "Manifestes lisibles : les manifestes APK binaires et les manifestes protobuf AAB sont décodés en XML lisible, dans une visionneuse séparée en lecture seule.",
+    "Manifestes lisibles : les manifestes APK binaires et protobuf AAB sont décodés en XML dans une visionneuse séparée en lecture seule, avec numéros de ligne, coloration syntaxique sémantique et recherche bornée insensible à la casse, surlignage des résultats et navigation précédent/suivant.",
     "Contrôle d'intégrité : le SHA-256 est calculé pendant la lecture du fichier, prêt à être comparé aux empreintes publiées officiellement.",
     "Bilan structurel : détecte l'absence d'APK de base, les splits en double ou sans dépendance, les incohérences de version ou de paquet, chaque constat étant marqué bloquant [!] ou informatif [i]."
   ],

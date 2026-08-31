@@ -101,6 +101,14 @@
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">جار فحص الحزمة...</string>
     <string name="inspection_title">APK Inspector</string>
     <string name="manifest_title">Android Manifest</string>
+    <string name="action_find_manifest">البحث في البيان</string>
+    <string name="manifest_search_hint">البحث عن نص</string>
+    <string name="action_previous_manifest_match">النتيجة السابقة</string>
+    <string name="action_next_manifest_match">النتيجة التالية</string>
+    <string name="action_close_manifest_search">إغلاق البحث</string>
+    <string name="manifest_search_no_matches">لا توجد نتائج</string>
+    <string name="manifest_search_match_position">النتيجة %1$d من %2$d</string>
+    <string name="manifest_search_match_position_truncated">النتيجة %1$d من %2$d على الأقل</string>
     <string name="package_icon_content_description">أيقونة الحزمة</string>
     <string name="plugin_description">ملحق مدير الملفات. فحص ملفات APK وAPKS وXAPK وAPKM وAPKZ وAAB دون تثبيتها</string>
     <string name="section_components">المكونات</string>
