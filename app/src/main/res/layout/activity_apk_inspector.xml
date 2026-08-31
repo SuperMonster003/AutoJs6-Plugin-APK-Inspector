@@ -42,6 +42,7 @@
             android:padding="20dp">
 
             <LinearLayout
+                android:id="@+id/report_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -56,9 +57,10 @@
                     android:src="@mipmap/ic_launcher" />
 
                 <LinearLayout
+                    android:id="@+id/report_header_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="@dimen/report_header_spacing"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -66,6 +68,7 @@
                         android:id="@+id/app_label"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textAlignment="viewStart"
                         android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
                         android:textIsSelectable="true" />
 
@@ -74,6 +77,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
+                        android:breakStrategy="simple"
+                        android:hyphenationFrequency="none"
                         android:textAlignment="viewStart"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                         android:textIsSelectable="true" />
@@ -110,8 +115,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:breakStrategy="simple"
                 android:fontFamily="monospace"
+                android:hyphenationFrequency="none"
                 android:lineSpacingExtra="3dp"
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textIsSelectable="true" />
 
@@ -129,8 +137,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:breakStrategy="simple"
                 android:fontFamily="monospace"
+                android:hyphenationFrequency="none"
                 android:lineSpacingExtra="3dp"
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textIsSelectable="true" />
 
@@ -163,8 +174,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
+                    android:breakStrategy="simple"
                     android:fontFamily="monospace"
+                    android:hyphenationFrequency="none"
                     android:lineSpacingExtra="3dp"
+                    android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     android:textIsSelectable="true" />
 
@@ -248,8 +262,11 @@
                     android:layout_height="wrap_content"
                     android:accessibilityLiveRegion="polite"
                     android:layout_marginTop="8dp"
+                    android:breakStrategy="simple"
                     android:fontFamily="monospace"
+                    android:hyphenationFrequency="none"
                     android:lineSpacingExtra="3dp"
+                    android:textAlignment="viewStart"
                     android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                     android:textIsSelectable="true" />
             </LinearLayout>
@@ -268,8 +285,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:breakStrategy="simple"
                 android:fontFamily="monospace"
+                android:hyphenationFrequency="none"
                 android:lineSpacingExtra="3dp"
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textIsSelectable="true" />
 

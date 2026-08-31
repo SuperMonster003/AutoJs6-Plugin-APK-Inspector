@@ -100,9 +100,11 @@
     <string name="resource_fallback_icon_invalid">[i] أيقونة جدول الموارد ليست صورة نقطية مدعومة وتم حذفها.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">جار فحص الحزمة...</string>
     <string name="inspection_title">APK Inspector</string>
+    <string name="inspection_compact_title">APK</string>
     <string name="inspection_report_accessibility_title">تقرير فحص APK</string>
     <string name="action_navigate_up">الانتقال إلى المستوى الأعلى</string>
     <string name="manifest_title">Android Manifest</string>
+    <string name="manifest_compact_title">البيان</string>
     <string name="action_find_manifest">البحث في البيان</string>
     <string name="manifest_search_hint">البحث عن نص</string>
     <string name="action_previous_manifest_match">النتيجة السابقة</string>

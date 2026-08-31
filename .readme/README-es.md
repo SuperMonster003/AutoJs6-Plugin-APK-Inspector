@@ -37,6 +37,7 @@ El informe tiene cuatro secciones: «Detalles del paquete» muestra el nombre de
 
 ### Puntos destacados
 
+- Diseño para texto grande y pantallas compactas: con escalas de fuente de 1,5×/2,0×, el encabezado del informe se apila cuando falta espacio, los títulos compactos permanecen completos, los SHA-256 y nombres de permisos largos se ajustan sin puntos suspensivos y la búsqueda del manifest en horizontal evita la extracción de IME a pantalla completa.
 - Apariencia adaptativa: el informe y el visor del manifiesto siguen el modo claro/oscuro del sistema; en Android 12 y versiones posteriores, Material You también deriva la paleta del fondo de pantalla, mientras los colores semánticos y los iconos de las barras del sistema con contraste adaptado mantienen legibles ambas páginas.
 - Metadatos del contenedor: lee los metadatos de SAI APKS, XAPK y APKMirror APKM con un límite de 1 MiB y muestra la herramienta/versión del formato, la versión de la app declarada y una entrada de icono existente sin reemplazar los datos del manifest del APK.
 - Un toque para inspeccionar: el informe se abre directamente desde el gestor de archivos de AutoJs6, sin instalación, extracción ni acceso a la red.
@@ -145,6 +146,7 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 _2026/08/30_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadieron diseños adaptables para fuentes de 1,5×/2,0×, orientación horizontal y pantallas de 320 dp: encabezado apilado cuando falta espacio, títulos compactos completos, ajuste sin elipsis de SHA-256 y permisos largos, y búsqueda del manifest sin extracción IME a pantalla completa
 - `Función` Se añadió accesibilidad TalkBack y RTL al informe y al visor de manifest: encabezados semánticos compatibles, acciones con iconos etiquetadas, objetivos personalizados de 48 dp, anuncios de resultados dinámicos, diseño según el idioma y navegación árabe reflejada
 - `Función` Se añadieron al visor de manifest de solo lectura números de línea, resaltado XML adaptado al tema Material y búsqueda acotada sin distinguir mayúsculas, con coincidencias resaltadas, navegación anterior/siguiente circular y restauración del estado
 - `Función` Se añadieron temas Material 3 claro/oscuro que siguen el sistema para el informe y el visor del manifiesto, colores dinámicos Material You en Android 12 y versiones posteriores e iconos de las barras del sistema adaptados al contraste

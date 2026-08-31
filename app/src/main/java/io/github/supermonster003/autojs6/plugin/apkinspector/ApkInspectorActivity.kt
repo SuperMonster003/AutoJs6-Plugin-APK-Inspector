@@ -17,8 +17,11 @@ import android.text.Spanned
 import android.text.format.Formatter
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.view.Gravity
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -26,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import com.google.android.material.color.MaterialColors
 import io.github.supermonster003.autojs6.plugin.apkinspector.databinding.ActivityApkInspectorBinding
 import kotlinx.coroutines.CancellationException
@@ -41,6 +45,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.math.roundToInt
 
 class ApkInspectorActivity : AppCompatActivity() {
 
@@ -57,6 +62,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         binding = ActivityApkInspectorBinding.inflate(layoutInflater)
         setContentView(binding.root)
         configureAccessibility()
+        configureResponsiveLayout()
         binding.toolbar.setNavigationOnClickListener { finish() }
         binding.toolbar.menu.findItem(R.id.action_share_report).isEnabled = false
         binding.toolbar.setOnMenuItemClickListener { item ->
@@ -82,7 +88,6 @@ class ApkInspectorActivity : AppCompatActivity() {
             showError(getString(R.string.error_cannot_read_package))
             return
         }
-        binding.toolbar.title = displayName
         binding.fileSummary.text = listOf(
             getString(R.string.detail_size, Formatter.formatFileSize(this, byteSize)),
             getString(R.string.detail_mime, mimeType),
@@ -128,6 +133,36 @@ class ApkInspectorActivity : AppCompatActivity() {
             binding.content,
             getString(R.string.inspection_report_accessibility_title),
         )
+    }
+
+    private fun configureResponsiveLayout() {
+        val configuration = resources.configuration
+        val metrics = resources.displayMetrics
+        val screenWidthDp = configuration.screenWidthDp.takeIf { width -> width > 0 }
+            ?: (metrics.widthPixels / metrics.density).roundToInt()
+        val stacked = ResponsiveLayoutPolicy.shouldUseCompactHeader(
+            screenWidthDp = screenWidthDp,
+            fontScale = configuration.fontScale,
+        )
+        val spacing = resources.getDimensionPixelSize(R.dimen.report_header_spacing)
+        binding.toolbar.setTitle(
+            if (stacked) R.string.inspection_compact_title else R.string.inspection_title,
+        )
+
+        binding.reportHeader.apply {
+            orientation = if (stacked) LinearLayout.VERTICAL else LinearLayout.HORIZONTAL
+            gravity = if (stacked) Gravity.CENTER_HORIZONTAL else Gravity.CENTER_VERTICAL
+        }
+        binding.appIcon.updateLayoutParams<LinearLayout.LayoutParams> {
+            gravity = if (stacked) Gravity.CENTER_HORIZONTAL else Gravity.CENTER_VERTICAL
+        }
+        binding.reportHeaderText.updateLayoutParams<LinearLayout.LayoutParams> {
+            width = if (stacked) ViewGroup.LayoutParams.MATCH_PARENT else 0
+            weight = if (stacked) 0f else 1f
+            marginStart = if (stacked) 0 else spacing
+            topMargin = if (stacked) spacing else 0
+            gravity = if (stacked) Gravity.NO_GRAVITY else Gravity.CENTER_VERTICAL
+        }
     }
 
     private fun inspect(

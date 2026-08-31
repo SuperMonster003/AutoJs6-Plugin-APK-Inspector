@@ -100,9 +100,11 @@
     <string name="resource_fallback_icon_invalid">[i] Значок из таблицы ресурсов не является поддерживаемым растровым изображением и был пропущен.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Проверка пакета...</string>
     <string name="inspection_title">APK Inspector</string>
+    <string name="inspection_compact_title">APK</string>
     <string name="inspection_report_accessibility_title">Отчёт проверки APK</string>
     <string name="action_navigate_up">Перейти на уровень выше</string>
     <string name="manifest_title">Manifest Android</string>
+    <string name="manifest_compact_title">Manifest</string>
     <string name="action_find_manifest">Найти в manifest</string>
     <string name="manifest_search_hint">Найти текст</string>
     <string name="action_previous_manifest_match">Предыдущее совпадение</string>

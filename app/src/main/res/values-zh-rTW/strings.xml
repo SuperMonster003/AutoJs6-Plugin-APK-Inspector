@@ -100,9 +100,11 @@
     <string name="resource_fallback_icon_invalid">[i] 資源表應用程式圖示不是支援的點陣圖像, 已省略.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">正在檢查套件...</string>
     <string name="inspection_title">APK 檢查器</string>
+    <string name="inspection_compact_title">APK</string>
     <string name="inspection_report_accessibility_title">APK 檢查報告</string>
     <string name="action_navigate_up">返回上一層</string>
     <string name="manifest_title">Android 資訊清單</string>
+    <string name="manifest_compact_title">資訊清單</string>
     <string name="action_find_manifest">在資訊清單中尋找</string>
     <string name="manifest_search_hint">尋找文字</string>
     <string name="action_previous_manifest_match">上一個相符項目</string>

@@ -100,9 +100,11 @@
     <string name="resource_fallback_icon_invalid">[i] 리소스 테이블 앱 아이콘이 지원되는 래스터 이미지가 아니므로 생략했습니다.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">패키지 검사 중...</string>
     <string name="inspection_title">APK Inspector</string>
+    <string name="inspection_compact_title">APK</string>
     <string name="inspection_report_accessibility_title">APK 검사 보고서</string>
     <string name="action_navigate_up">상위 화면으로 이동</string>
     <string name="manifest_title">Android Manifest</string>
+    <string name="manifest_compact_title">매니페스트</string>
     <string name="action_find_manifest">매니페스트에서 찾기</string>
     <string name="manifest_search_hint">텍스트 찾기</string>
     <string name="action_previous_manifest_match">이전 일치 항목</string>

@@ -100,9 +100,11 @@
     <string name="resource_fallback_icon_invalid">[i] 资源表应用图标不是受支持的光栅图像, 已省略.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">正在检查软件包...</string>
     <string name="inspection_title">APK 检查器</string>
+    <string name="inspection_compact_title">APK</string>
     <string name="inspection_report_accessibility_title">APK 检查报告</string>
     <string name="action_navigate_up">向上导航</string>
     <string name="manifest_title">Android 清单</string>
+    <string name="manifest_compact_title">清单</string>
     <string name="action_find_manifest">在清单中查找</string>
     <string name="manifest_search_hint">查找文本</string>
     <string name="action_previous_manifest_match">上一个匹配项</string>

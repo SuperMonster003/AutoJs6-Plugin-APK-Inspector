@@ -100,9 +100,11 @@
     <string name="resource_fallback_icon_invalid">[i] The resource-table application icon is not a supported raster image and was omitted.</string>
     <string name="inspection_loading" tools:ignore="TypographyEllipsis">Inspecting package...</string>
     <string name="inspection_title">APK Inspector</string>
+    <string name="inspection_compact_title">APK</string>
     <string name="inspection_report_accessibility_title">APK inspection report</string>
     <string name="action_navigate_up">Navigate up</string>
     <string name="manifest_title">Android Manifest</string>
+    <string name="manifest_compact_title">Manifest</string>
     <string name="action_find_manifest">Find in manifest</string>
     <string name="manifest_search_hint">Find text</string>
     <string name="action_previous_manifest_match">Previous match</string>

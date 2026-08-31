@@ -30,6 +30,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import kotlin.math.roundToInt
 
 class ManifestViewerActivity : AppCompatActivity() {
 
@@ -50,6 +51,7 @@ class ManifestViewerActivity : AppCompatActivity() {
         MaterialThemeController.applySystemBars(this)
         binding = ActivityManifestViewerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        configureResponsiveTitle()
         palette = resolvePalette()
         setupToolbar()
         setupSearch(savedInstanceState)
@@ -92,6 +94,20 @@ class ManifestViewerActivity : AppCompatActivity() {
         }
     }
 
+    private fun configureResponsiveTitle() {
+        val configuration = resources.configuration
+        val metrics = resources.displayMetrics
+        val screenWidthDp = configuration.screenWidthDp.takeIf { width -> width > 0 }
+            ?: (metrics.widthPixels / metrics.density).roundToInt()
+        val compact = ResponsiveLayoutPolicy.shouldUseCompactHeader(
+            screenWidthDp = screenWidthDp,
+            fontScale = configuration.fontScale,
+        )
+        binding.toolbar.setTitle(
+            if (compact) R.string.manifest_compact_title else R.string.manifest_title,
+        )
+    }
+
     private fun setupSearch(savedInstanceState: Bundle?) {
         ViewCompat.setAccessibilityPaneTitle(
             binding.manifestSearchPanel,
@@ -102,6 +118,7 @@ class ManifestViewerActivity : AppCompatActivity() {
         }
         binding.manifestSearchInput.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard()
                 moveMatch(1)
                 true
             } else {
@@ -243,11 +260,15 @@ class ManifestViewerActivity : AppCompatActivity() {
     private fun hideSearch() {
         binding.manifestSearchInput.text?.clear()
         binding.manifestSearchPanel.isVisible = false
-        WindowCompat.getInsetsController(window, binding.root).hide(WindowInsetsCompat.Type.ime())
+        hideKeyboard()
         clearSearchHighlights()
         searchResult = ManifestSearchResult(emptyList(), truncated = false)
         selectedMatch = -1
         updateSearchControls()
+    }
+
+    private fun hideKeyboard() {
+        WindowCompat.getInsetsController(window, binding.root).hide(WindowInsetsCompat.Type.ime())
     }
 
     private fun scheduleSearch(query: String, debounceMillis: Long = SEARCH_DEBOUNCE_MILLIS) {

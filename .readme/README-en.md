@@ -37,6 +37,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 
 ### Highlights
 
+- Large-text and compact-screen layout: at 1.5x/2.0x font scales the report header stacks when space is tight, compact toolbar titles stay fully visible, long SHA-256 and permission identifiers wrap without ellipsis, and landscape manifest search avoids full-screen IME extraction.
 - Adaptive appearance: the report and manifest viewer follow the system light/dark setting; on Android 12 and later, Material You also derives the palette from the wallpaper, while semantic colors and contrast-aware system-bar icons keep both pages readable.
 - Container metadata: reads SAI APKS, XAPK, and APKMirror APKM metadata under a 1 MiB limit, showing the packager/schema version, metadata-declared app version, and an existing icon entry without overriding APK manifest facts.
 - One tap to inspect: open a report straight from the AutoJs6 file manager, with no installation, extraction, or network access.
@@ -145,6 +146,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/08/30_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added responsive layouts for 1.5x/2.0x fonts, landscape, and 320 dp screens: the report header stacks when space is tight, compact toolbar titles remain complete, long SHA-256 and permission identifiers wrap without ellipsis, and manifest search avoids full-screen IME extraction
 - `Feature` Added TalkBack and RTL accessibility across the report and manifest viewer: compatibility heading semantics, named icon actions, 48 dp custom touch targets, live result announcements, locale-directed layouts, and mirrored Arabic navigation
 - `Feature` Added line numbers, Material-aware XML syntax highlighting, and bounded case-insensitive text search with highlighted matches, previous/next wraparound navigation, and state restoration to the read-only manifest viewer
 - `Feature` Added system-following Material 3 light/dark themes for the report and manifest viewer, Android 12+ Material You dynamic colors, and contrast-aware system-bar icons

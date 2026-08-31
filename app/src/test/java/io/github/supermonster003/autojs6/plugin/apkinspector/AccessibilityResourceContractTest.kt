@@ -1,6 +1,7 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -75,6 +76,80 @@ class AccessibilityResourceContractTest {
             assertEquals("48dp", button.androidAttribute("layout_width"))
             assertEquals("48dp", button.androidAttribute("layout_height"))
             assertTrue(button.androidAttribute("contentDescription").startsWith("@string/"))
+        }
+    }
+
+    @Test
+    fun reportHeaderCanStackWithoutReplacingTheStableToolbarTitle() {
+        val document = parseResource("layout/activity_apk_inspector.xml")
+        val linearLayouts = document.elements("LinearLayout")
+            .associateBy { element -> element.androidAttribute("id") }
+        assertNotNull(linearLayouts["@+id/report_header"])
+        assertNotNull(linearLayouts["@+id/report_header_text"])
+
+        val toolbar = document.elements(MATERIAL_TOOLBAR).single()
+        assertEquals("@string/inspection_title", toolbar.appAttribute("title"))
+
+        val source = projectFile(
+            "src/main/java/io/github/supermonster003/autojs6/plugin/apkinspector/ApkInspectorActivity.kt",
+        ).let(Files::readAllBytes).toString(Charsets.UTF_8)
+        assertTrue(source.contains("configureResponsiveLayout()"))
+        assertTrue(source.contains("ResponsiveLayoutPolicy.shouldUseCompactHeader"))
+        assertFalse(source.contains("binding.toolbar.title = displayName"))
+    }
+
+    @Test
+    fun longReportIdentifiersWrapWithoutHyphenationOrEllipsis() {
+        val report = parseResource("layout/activity_apk_inspector.xml")
+        val byId = report.elements("TextView").associateBy { it.androidAttribute("id") }
+        WRAPPING_TEXT_IDS.forEach { id ->
+            val textView = byId.getValue(id)
+            assertEquals("simple", textView.androidAttribute("breakStrategy"))
+            assertEquals("none", textView.androidAttribute("hyphenationFrequency"))
+            assertEquals("viewStart", textView.androidAttribute("textAlignment"))
+            assertTrue(textView.androidAttribute("ellipsize").isEmpty())
+            assertTrue(textView.androidAttribute("maxLines").isEmpty())
+            assertTrue(textView.androidAttribute("singleLine").isEmpty())
+        }
+
+        val copyableField = parseResource("layout/item_copyable_report_field.xml").documentElement
+        assertEquals("simple", copyableField.androidAttribute("breakStrategy"))
+        assertEquals("none", copyableField.androidAttribute("hyphenationFrequency"))
+        assertTrue(copyableField.androidAttribute("ellipsize").isEmpty())
+        assertTrue(copyableField.androidAttribute("maxLines").isEmpty())
+        assertTrue(copyableField.androidAttribute("singleLine").isEmpty())
+    }
+
+    @Test
+    fun manifestSearchAvoidsFullscreenImeExtraction() {
+        val document = parseResource("layout/activity_manifest_viewer.xml")
+        val input = document.elements(
+            "com.google.android.material.textfield.TextInputEditText",
+        ).single()
+        val imeOptions = input.androidAttribute("imeOptions").split('|').toSet()
+        assertTrue("actionSearch" in imeOptions)
+        assertTrue("flagNoExtractUi" in imeOptions)
+
+        val source = projectFile(
+            "src/main/java/io/github/supermonster003/autojs6/plugin/apkinspector/ManifestViewerActivity.kt",
+        ).let(Files::readAllBytes).toString(Charsets.UTF_8)
+        assertTrue(source.contains("configureResponsiveTitle()"))
+        assertTrue(source.contains("R.string.manifest_compact_title"))
+        val editorAction = source
+            .substringAfter("setOnEditorActionListener")
+            .substringBefore("binding.previousManifestMatch")
+        assertTrue(editorAction.contains("hideKeyboard()"))
+    }
+
+    @Test
+    fun compactTitlesCoverEverySupportedResourceLocale() {
+        STRING_DIRECTORIES.forEach { directory ->
+            val strings = parseResource("$directory/strings.xml").elements("string")
+                .associateBy { it.getAttribute("name") }
+            COMPACT_TITLE_STRING_NAMES.forEach { name ->
+                assertNotNull("$name missing from $directory", strings[name])
+                assertTrue("$name is blank in $directory", strings.getValue(name).textContent.isNotBlank())
+            }
         }
     }
 
@@ -179,6 +254,14 @@ class AccessibilityResourceContractTest {
             "binding.requestedPermissionsHeading",
             "binding.findingsHeading",
         )
+        private val WRAPPING_TEXT_IDS = setOf(
+            "@+id/file_summary",
+            "@+id/package_details",
+            "@+id/components",
+            "@+id/device_simulation_actual",
+            "@+id/device_simulation_result",
+            "@+id/permissions",
+        )
         private val STRING_DIRECTORIES = listOf(
             "values",
             "values-en",
@@ -195,6 +278,10 @@ class AccessibilityResourceContractTest {
         private val ACCESSIBILITY_STRING_NAMES = setOf(
             "inspection_report_accessibility_title",
             "action_navigate_up",
+        )
+        private val COMPACT_TITLE_STRING_NAMES = setOf(
+            "inspection_compact_title",
+            "manifest_compact_title",
         )
     }
 }

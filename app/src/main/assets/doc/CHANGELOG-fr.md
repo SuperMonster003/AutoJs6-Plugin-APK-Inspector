@@ -5,6 +5,7 @@
 _2026/08/30_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout de mises en page adaptatives pour les polices 1,5×/2,0×, le paysage et les écrans de 320 dp : en-tête empilé si nécessaire, titres compacts complets, retour à la ligne sans ellipse des SHA-256 et autorisations longues, et recherche du manifeste sans extraction IME plein écran
 - `Fonctionnalité` Ajout de l’accessibilité TalkBack et RTL au rapport et à la visionneuse de manifeste : titres sémantiques compatibles, actions par icône nommées, cibles personnalisées de 48 dp, annonces des résultats dynamiques, disposition suivant la langue et navigation arabe inversée
 - `Fonctionnalité` Ajout, dans la visionneuse de manifeste en lecture seule, des numéros de ligne, de la coloration XML adaptée au thème Material et d’une recherche bornée insensible à la casse, avec surlignage, navigation précédent/suivant en boucle et restauration de l’état
 - `Fonctionnalité` Ajout de thèmes Material 3 clair/sombre suivant le système pour le rapport et la visionneuse du manifeste, de couleurs dynamiques Material You sous Android 12 ou version ultérieure et d’icônes de barres système adaptées au contraste
