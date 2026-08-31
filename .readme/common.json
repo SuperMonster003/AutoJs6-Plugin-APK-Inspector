@@ -30,6 +30,8 @@
   "max_manifest_components": "4096",
   "max_aab_component_manifests": "128",
   "max_aab_component_manifest_total": "16 MiB",
+  "max_aab_bundle_config_size": "1 MiB",
+  "max_aab_delivery_conditions": "128",
   "max_native_library_entries": "4096",
   "max_native_abi_display": "64",
   "max_native_apk_scans": "512",

@@ -50,10 +50,10 @@
 
 - [x] (插件) 摘要展示 APKS / XAPK / APKM 自带元数据 (`meta.sai_v1/v2.json` / `manifest.json` / `info.json`, 限 1 MiB): 打包工具与格式版本、元数据声明的应用版本及实际存在的图标条目; 损坏或超限仅使该摘要降级.
 - [x] (插件) 设备配置模拟: 在报告内切换语言 / 屏幕密度 / ABI, 本地重算分包选择结果, 标注与真实设备的差异.
-- [ ] (插件) AAB 深化: 解析 BundleConfig.pb 与 dynamic feature 模块的分发条件 (onDemand / 条件安装), 在模块列表中标注.
+- [x] (插件) AAB 深化: 解析 BundleConfig.pb 与 dynamic feature 模块的分发条件 (onDemand / 条件安装), 在模块列表中标注.
 - [ ] (测试) 模拟选择结果与 bundletool build-apks + install-apks 在样本集上的选择一致.
 
-验收条件: 同一 APKS 样本在三种模拟配置下的选择结果可复现且与 bundletool 一致.
+验收条件: 同一 APKS 样本在三种模拟配置下的选择结果可复现且与 bundletool 一致; AAB 的 BundleConfig、模块分发类型与条件在损坏/超限样本中独立降级并明确标注.
 
 ## M4: 界面与无障碍
 

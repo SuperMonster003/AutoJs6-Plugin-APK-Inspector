@@ -33,6 +33,9 @@ internal data class AndroidPackageArchive(
     val dexFiles: DexFileSummary,
     val problems: List<ArchiveProblem>,
     val containerMetadata: ContainerMetadataSummary = ContainerMetadataSummary(),
+    val aabBundleConfig: AabBundleConfigSummary? = null,
+    val aabModuleMetadata: List<AabModuleMetadata> = emptyList(),
+    val aabModuleMetadataOmittedCount: Int = 0,
 ) {
 
     val baseApk: ArchiveApkEntry?
@@ -220,6 +223,7 @@ internal object AndroidPackageArchiveInspector {
 
     const val MAX_AAB_COMPONENT_MANIFESTS = 128
     const val MAX_AAB_COMPONENT_MANIFEST_TOTAL_BYTES = 16L * 1024L * 1024L
+    const val MAX_AAB_BUNDLE_CONFIG_BYTES = 1 * 1024 * 1024
 
     private const val MAX_ARCHIVE_ENTRIES = 16_384
     private const val MAX_GENERIC_APK_ENTRIES = 512
@@ -228,6 +232,8 @@ internal object AndroidPackageArchiveInspector {
     private const val MAX_DECLARED_TOTAL_BYTES = 8L * 1024L * 1024L * 1024L
     private const val MAX_NESTED_APK_SCAN_BYTES = 256L * 1024L * 1024L
     private const val MAX_AAB_COMPONENT_MANIFEST_BYTES = 4 * 1024 * 1024
+    private const val MAX_AAB_METADATA_ISSUE_DETAIL_CHARS = 240
+    private const val AAB_BUNDLE_CONFIG_ENTRY = "BundleConfig.pb"
     private const val AAB_MANIFEST_SUFFIX = "/manifest/AndroidManifest.xml"
     private const val AAB_BASE_MANIFEST_ENTRY = "base$AAB_MANIFEST_SUFFIX"
 
@@ -271,8 +277,6 @@ internal object AndroidPackageArchiveInspector {
             val extension = file.extension.lowercase(Locale.ROOT)
             val format = detectContainerFormat(extension, entryNames)
             if (format == AndroidPackageFormat.AAB) {
-                val xml = AabManifestDisplayDecoder.decode(file)
-                val summary = ManifestSummaryParser.parse(xml)
                 val moduleManifestEntries = entries.asSequence()
                     .filter { entry ->
                         !entry.isDirectory && isAabModuleManifestPath(entry.name)
@@ -281,17 +285,30 @@ internal object AndroidPackageArchiveInspector {
                     .toList()
                 val displayManifestEntry = moduleManifestEntries
                     .firstOrNull { entry -> entry.name == AAB_BASE_MANIFEST_ENTRY }
-                    ?: moduleManifestEntries.first()
+                    ?: moduleManifestEntries.firstOrNull()
+                    ?: throw IOException("AAB contains no module AndroidManifest.xml")
+                if (displayManifestEntry.size > MAX_AAB_COMPONENT_MANIFEST_BYTES) {
+                    throw IOException("AAB display manifest exceeds the inspection limit")
+                }
+                val displayManifestBytes = zip.getInputStream(displayManifestEntry).use { input ->
+                    input.readAabManifestBounded(MAX_AAB_COMPONENT_MANIFEST_BYTES)
+                }
+                val displayManifest = AabManifestDisplayDecoder.decodeManifestDocument(
+                    displayManifestBytes,
+                )
+                val summary = ManifestSummaryParser.parse(displayManifest.xml)
                 val modules = moduleManifestEntries.asSequence()
                     .map { entry -> entry.name.substringBefore('/') }
                     .distinct()
                     .sorted()
                     .toList()
-                val manifestComponents = inspectAabManifestComponents(
+                val manifestInspection = inspectAabManifests(
                     zip = zip,
                     manifestEntries = moduleManifestEntries,
                     displayManifestEntry = displayManifestEntry,
                     displayManifestSummary = summary.manifestComponents,
+                    displayManifest = displayManifest,
+                    displayManifestByteCount = displayManifestBytes.size,
                 )
                 val codeSummary = NativeLibraryInspector.inspectAabCodeEntries(
                     entries = entries,
@@ -306,10 +323,13 @@ internal object AndroidPackageArchiveInspector {
                     obbEntries = emptyList(),
                     aabModules = modules,
                     baseManifest = summary,
-                    manifestComponents = manifestComponents,
+                    manifestComponents = manifestInspection.components,
                     nativeLibraries = codeSummary.nativeLibraries,
                     dexFiles = codeSummary.dexFiles,
                     problems = emptyList(),
+                    aabBundleConfig = inspectAabBundleConfig(zip, entries),
+                    aabModuleMetadata = manifestInspection.moduleMetadata,
+                    aabModuleMetadataOmittedCount = manifestInspection.omittedMetadataCount,
                 )
             }
 
@@ -419,26 +439,32 @@ internal object AndroidPackageArchiveInspector {
         }
     }
 
-    private fun inspectAabManifestComponents(
+    private fun inspectAabManifests(
         zip: ZipFile,
         manifestEntries: List<ZipEntry>,
         displayManifestEntry: ZipEntry,
         displayManifestSummary: ManifestComponentSummary,
-    ): ManifestComponentSummary {
+        displayManifest: AabManifestDisplayDecoder.DecodedManifest,
+        displayManifestByteCount: Int,
+    ): AabManifestInspection {
         val additionalEntries = manifestEntries.asSequence()
             .filterNot { entry -> entry.name == displayManifestEntry.name }
             .take((MAX_AAB_COMPONENT_MANIFESTS - 1).coerceAtLeast(0))
             .toList()
         val omittedCount = (manifestEntries.size - 1 - additionalEntries.size).coerceAtLeast(0)
-        val displayManifestBytes = displayManifestEntry.size
-            .takeIf { size -> size in 0..MAX_AAB_COMPONENT_MANIFEST_BYTES.toLong() }
-            ?: MAX_AAB_COMPONENT_MANIFEST_BYTES.toLong()
         val totalBudget = InspectionBudget(
-            (MAX_AAB_COMPONENT_MANIFEST_TOTAL_BYTES - displayManifestBytes).coerceAtLeast(0L),
+            (MAX_AAB_COMPONENT_MANIFEST_TOTAL_BYTES - displayManifestByteCount).coerceAtLeast(0L),
         )
         val summaries = mutableListOf(displayManifestSummary)
+        val moduleMetadata = mutableListOf(
+            parseAabModuleMetadata(
+                displayManifest.root,
+                displayManifestEntry.name.substringBefore('/'),
+            ),
+        )
         var failedCount = 0
         additionalEntries.forEach { entry ->
+            val moduleName = entry.name.substringBefore('/')
             try {
                 if (entry.size > MAX_AAB_COMPONENT_MANIFEST_BYTES) {
                     throw IOException("AAB module manifest exceeds the component scan limit")
@@ -447,17 +473,73 @@ internal object AndroidPackageArchiveInspector {
                     BudgetedInputStream(input, totalBudget)
                         .readAabManifestBounded(MAX_AAB_COMPONENT_MANIFEST_BYTES)
                 }
-                val moduleXml = AabManifestDisplayDecoder.decodeManifest(bytes)
-                summaries += ManifestComponentSummaryParser.parse(moduleXml)
-            } catch (_: Exception) {
+                val decoded = AabManifestDisplayDecoder.decodeManifestDocument(bytes)
+                try {
+                    summaries += ManifestComponentSummaryParser.parse(decoded.xml)
+                } catch (_: Exception) {
+                    failedCount += 1
+                }
+                moduleMetadata += parseAabModuleMetadata(decoded.root, moduleName)
+            } catch (error: Exception) {
                 failedCount += 1
+                moduleMetadata += AabModuleMetadata.invalid(moduleName, error.message.orEmpty())
             }
         }
-        return ManifestComponentSummary.aggregate(summaries).withManifestProblems(
-            failedCount = failedCount,
-            omittedCount = omittedCount,
+        return AabManifestInspection(
+            components = ManifestComponentSummary.aggregate(summaries).withManifestProblems(
+                failedCount = failedCount,
+                omittedCount = omittedCount,
+            ),
+            moduleMetadata = moduleMetadata.sortedBy(AabModuleMetadata::name),
+            omittedMetadataCount = omittedCount,
         )
     }
+
+    private fun parseAabModuleMetadata(
+        root: AabManifestDisplayDecoder.XmlElement,
+        moduleName: String,
+    ): AabModuleMetadata = try {
+        AabModuleMetadataParser.parse(root, moduleName)
+    } catch (error: Exception) {
+        AabModuleMetadata.invalid(moduleName, error.message.orEmpty())
+    }
+
+    private fun inspectAabBundleConfig(
+        zip: ZipFile,
+        entries: List<ZipEntry>,
+    ): AabBundleConfigSummary {
+        val entry = entries.firstOrNull { candidate ->
+            candidate.name == AAB_BUNDLE_CONFIG_ENTRY && !candidate.isDirectory
+        } ?: return AabBundleConfigSummary.unavailable(
+            AabMetadataIssue(AabMetadataIssueCode.MISSING, "BundleConfig.pb is missing"),
+        )
+        if (entry.size > MAX_AAB_BUNDLE_CONFIG_BYTES) {
+            return unavailableAabBundleConfigLimit()
+        }
+        return try {
+            val bytes = zip.getInputStream(entry).use { input ->
+                input.readAabBundleConfigBounded(MAX_AAB_BUNDLE_CONFIG_BYTES)
+            }
+            AabBundleConfigDecoder.decode(bytes)
+        } catch (_: AabBundleConfigLimitException) {
+            unavailableAabBundleConfigLimit()
+        } catch (error: Exception) {
+            AabBundleConfigSummary.unavailable(
+                AabMetadataIssue(
+                    AabMetadataIssueCode.INVALID,
+                    error.message.orEmpty().take(MAX_AAB_METADATA_ISSUE_DETAIL_CHARS),
+                ),
+            )
+        }
+    }
+
+    private fun unavailableAabBundleConfigLimit(): AabBundleConfigSummary =
+        AabBundleConfigSummary.unavailable(
+            AabMetadataIssue(
+                AabMetadataIssueCode.LIMIT,
+                "BundleConfig.pb exceeds the inspection size limit",
+            ),
+        )
 
     private fun isAabModuleManifestPath(path: String): Boolean {
         if (!path.endsWith(AAB_MANIFEST_SUFFIX)) return false
@@ -474,6 +556,22 @@ internal object AndroidPackageArchiveInspector {
             if (read < 0) break
             if (read > maxBytes - total) {
                 throw IOException("AAB module manifest exceeds the component scan limit")
+            }
+            output.write(buffer, 0, read)
+            total += read
+        }
+        return output.toByteArray()
+    }
+
+    private fun InputStream.readAabBundleConfigBounded(maxBytes: Int): ByteArray {
+        val output = java.io.ByteArrayOutputStream(minOf(maxBytes, DEFAULT_BUFFER_SIZE))
+        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+        var total = 0
+        while (true) {
+            val read = read(buffer)
+            if (read < 0) break
+            if (read > maxBytes - total) {
+                throw AabBundleConfigLimitException("BundleConfig.pb exceeds the inspection size limit")
             }
             output.write(buffer, 0, read)
             total += read
@@ -560,6 +658,12 @@ internal object AndroidPackageArchiveInspector {
     private data class Selection(
         val entries: List<ArchiveApkEntry>,
         val problems: List<ArchiveProblem>,
+    )
+
+    private data class AabManifestInspection(
+        val components: ManifestComponentSummary,
+        val moduleMetadata: List<AabModuleMetadata>,
+        val omittedMetadataCount: Int,
     )
 
     private fun selectBundletoolApks(

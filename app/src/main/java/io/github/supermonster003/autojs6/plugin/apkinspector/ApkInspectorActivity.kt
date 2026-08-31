@@ -259,14 +259,17 @@ class ApkInspectorActivity : AppCompatActivity() {
             .joinToString("\n\n")
 
         val componentEntries = when (archive.format) {
-            AndroidPackageFormat.AAB -> archive.aabModules.joinToString("\n") { "- $it" }
+            AndroidPackageFormat.AAB -> formatAabModuleEntries(archive)
             else -> archive.selectedApks.joinToString("\n") { apk ->
                 val split = apk.manifest.splitName?.takeIf(String::isNotBlank) ?: "base"
                 "- $split | ${apk.archivePath} | ${Formatter.formatFileSize(this, apk.size)}"
             }
         }.ifBlank { getString(R.string.text_none) }
         val packageComponents = when (archive.format) {
-            AndroidPackageFormat.AAB -> getString(R.string.components_aab, archive.aabModules.size, componentEntries)
+            AndroidPackageFormat.AAB -> listOf(
+                getString(R.string.components_aab, archive.aabModules.size, componentEntries),
+                formatAabBundleConfig(archive.aabBundleConfig),
+            ).filter(String::isNotEmpty).joinToString("\n\n")
             else -> getString(
                 R.string.components_apk,
                 archive.apkEntryCount,
@@ -606,6 +609,186 @@ class ApkInspectorActivity : AppCompatActivity() {
             }
         }.joinToString("\n")
     }
+
+    private fun formatAabModuleEntries(archive: AndroidPackageArchive): String {
+        val metadataByName = archive.aabModuleMetadata.associateBy(AabModuleMetadata::name)
+        return buildList {
+            archive.aabModules.forEach { moduleName ->
+                val metadata = metadataByName[moduleName]
+                if (metadata == null) {
+                    add("- $moduleName | ${getString(R.string.aab_module_metadata_not_scanned)}")
+                } else {
+                    add(formatAabModule(metadata))
+                }
+            }
+            if (archive.aabModuleMetadataOmittedCount > 0) {
+                add(
+                    getString(
+                        R.string.aab_module_metadata_limit,
+                        archive.aabModuleMetadataOmittedCount,
+                        AndroidPackageArchiveInspector.MAX_AAB_COMPONENT_MANIFESTS,
+                    ),
+                )
+            }
+        }.joinToString("\n")
+    }
+
+    private fun formatAabModule(metadata: AabModuleMetadata): String {
+        val type = when (metadata.type) {
+            AabModuleType.BASE -> "base"
+            AabModuleType.FEATURE -> "feature"
+            AabModuleType.ASSET_PACK -> "asset-pack"
+            AabModuleType.ML_PACK -> "ml-pack"
+            AabModuleType.AI_PACK -> "ai-pack"
+            AabModuleType.SDK -> "sdk"
+            AabModuleType.UNKNOWN -> metadata.declaredType ?: getString(R.string.text_unknown)
+        }
+        val delivery = metadata.deliveryModes.joinToString(" + ") { mode ->
+            getString(
+                when (mode) {
+                    AabModuleDeliveryMode.INSTALL_TIME -> R.string.aab_delivery_install_time
+                    AabModuleDeliveryMode.ON_DEMAND -> R.string.aab_delivery_on_demand
+                    AabModuleDeliveryMode.FAST_FOLLOW -> R.string.aab_delivery_fast_follow
+                    AabModuleDeliveryMode.UNKNOWN -> R.string.text_unknown
+                },
+            )
+        }.ifBlank { getString(R.string.text_unknown) }.let { modes ->
+            if (metadata.conditions.isNotEmpty() || metadata.omittedConditionCount > 0) {
+                "$modes (${getString(R.string.aab_delivery_conditional)})"
+            } else {
+                modes
+            }
+        }
+        val details = buildList {
+            add(type)
+            add(delivery)
+            formatAabConditions(metadata).takeIf(String::isNotEmpty)?.let(::add)
+            metadata.fusingIncluded?.let { included ->
+                add(getString(R.string.aab_module_fusing, formatAabBoolean(included)))
+            }
+            metadata.installTimeRemovable?.let { removable ->
+                add(getString(R.string.aab_module_removable, formatAabBoolean(removable)))
+            }
+            if (metadata.issue != null) add(getString(R.string.aab_module_metadata_invalid))
+        }
+        return "- ${metadata.name} | ${details.joinToString(" | ")}"
+    }
+
+    private fun formatAabConditions(metadata: AabModuleMetadata): String = buildList {
+        metadata.conditions.filter { it.kind == AabModuleConditionKind.MIN_SDK }.forEach { condition ->
+            add(getString(R.string.aab_condition_min_sdk, condition.value))
+        }
+        metadata.conditions.filter { it.kind == AabModuleConditionKind.MAX_SDK }.forEach { condition ->
+            add(getString(R.string.aab_condition_max_sdk, condition.value))
+        }
+        metadata.conditions.filter { it.kind == AabModuleConditionKind.DEVICE_FEATURE }
+            .forEach { condition ->
+                val value = condition.version?.let { version -> "${condition.value}@$version" }
+                    ?: condition.value
+                add(getString(R.string.aab_condition_device_feature, value))
+            }
+        listOf(
+            AabModuleConditionKind.INCLUDED_COUNTRY to R.string.aab_condition_countries_included,
+            AabModuleConditionKind.EXCLUDED_COUNTRY to R.string.aab_condition_countries_excluded,
+            AabModuleConditionKind.DEVICE_GROUP to R.string.aab_condition_device_groups,
+        ).forEach { (kind, stringResource) ->
+            val values = metadata.conditions.filter { condition -> condition.kind == kind }
+                .map(AabModuleCondition::value)
+            if (values.isNotEmpty()) add(getString(stringResource, values.joinToString(", ")))
+        }
+        metadata.conditions.filter { it.kind == AabModuleConditionKind.UNKNOWN }.forEach { condition ->
+            add(getString(R.string.aab_condition_unknown, condition.value))
+        }
+        if (metadata.omittedConditionCount > 0) {
+            add(getString(R.string.aab_condition_omitted, metadata.omittedConditionCount))
+        }
+    }.joinToString("; ")
+
+    private fun formatAabBundleConfig(summary: AabBundleConfigSummary?): String {
+        summary ?: return ""
+        val issue = summary.issue
+        if (issue != null) {
+            return buildList {
+                add(getString(R.string.aab_bundle_config_heading))
+                add(
+                    when (issue.code) {
+                        AabMetadataIssueCode.MISSING -> getString(R.string.aab_bundle_config_missing)
+                        AabMetadataIssueCode.LIMIT -> getString(
+                            R.string.aab_bundle_config_limit,
+                            AndroidPackageArchiveInspector.MAX_AAB_BUNDLE_CONFIG_BYTES / (1024 * 1024),
+                        )
+                        AabMetadataIssueCode.INVALID -> getString(R.string.aab_bundle_config_invalid)
+                    },
+                )
+            }.joinToString("\n")
+        }
+
+        val type = if (summary.bundleType == AabBundleType.UNKNOWN) {
+            "UNKNOWN(${summary.rawBundleType})"
+        } else {
+            summary.bundleType.name
+        }
+        val splitDimensions = summary.splitDimensions.joinToString(", ") { dimension ->
+            val name = if (dimension.dimension == AabSplitDimension.UNKNOWN) {
+                "UNKNOWN(${dimension.rawDimension})"
+            } else {
+                dimension.dimension.name
+            }
+            buildString {
+                append(name)
+                append('=')
+                append(formatAabEnabled(dimension.splitEnabled))
+                dimension.suffixStrippingEnabled?.let { enabled ->
+                    append(" [suffixStripping=").append(formatAabEnabled(enabled))
+                    dimension.defaultSuffix?.let { suffix -> append(", default=").append(suffix) }
+                    append(']')
+                }
+            }
+        }.ifBlank { getString(R.string.text_none) }
+        val compression = buildList {
+            add("uncompressedGlobs=${summary.uncompressedGlobCount}")
+            summary.installTimeAssetCompression?.let { compression ->
+                val value = if (compression == AabAssetModuleCompression.UNKNOWN) {
+                    "UNKNOWN(${summary.rawInstallTimeAssetCompression})"
+                } else {
+                    compression.name
+                }
+                add("installTimeAssets=$value")
+            }
+            summary.apkCompressionAlgorithm?.let { algorithm ->
+                val value = if (algorithm == AabApkCompressionAlgorithm.UNKNOWN) {
+                    "UNKNOWN(${summary.rawApkCompressionAlgorithm})"
+                } else {
+                    algorithm.name
+                }
+                add("APK=$value")
+            }
+        }.joinToString(" | ")
+        val optimizations = buildList {
+            summary.uncompressNativeLibraries?.let { add("nativeLibraries=${formatAabEnabled(it)}") }
+            summary.uncompressDexFiles?.let { add("DEX=${formatAabEnabled(it)}") }
+            summary.injectLocaleConfig?.let { add("localeConfig=${formatAabEnabled(it)}") }
+        }.joinToString(" | ").ifBlank { getString(R.string.text_none) }
+        return listOf(
+            getString(R.string.aab_bundle_config_heading),
+            getString(
+                R.string.aab_bundle_config_bundletool,
+                summary.bundletoolVersion ?: getString(R.string.text_unknown),
+            ),
+            getString(R.string.aab_bundle_config_type, type),
+            getString(R.string.aab_bundle_config_splits, splitDimensions),
+            getString(R.string.aab_bundle_config_compression, compression),
+            getString(R.string.aab_bundle_config_optimizations, optimizations),
+        ).joinToString("\n")
+    }
+
+    private fun formatAabEnabled(enabled: Boolean): String = getString(
+        if (enabled) R.string.aab_value_enabled else R.string.aab_value_disabled,
+    )
+
+    private fun formatAabBoolean(value: Boolean): String = getString(
+        if (value) R.string.aab_value_yes else R.string.aab_value_no,
+    )
 
     private fun render(report: InspectionReport) {
         binding.progress.isVisible = false

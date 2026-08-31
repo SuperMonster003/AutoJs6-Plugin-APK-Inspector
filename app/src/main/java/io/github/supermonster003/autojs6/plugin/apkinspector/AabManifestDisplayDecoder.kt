@@ -34,6 +34,11 @@ internal object AabManifestDisplayDecoder {
 
     private val displayLimits = Limits()
 
+    internal data class DecodedManifest(
+        val xml: String,
+        val root: XmlElement,
+    )
+
     fun decode(aabFile: File): String = decode(aabFile, displayLimits)
 
     internal fun decode(aabFile: File, limits: Limits): String {
@@ -57,7 +62,12 @@ internal object AabManifestDisplayDecoder {
     internal fun decodeManifest(
         bytes: ByteArray,
         limits: Limits = displayLimits,
-    ): String {
+    ): String = decodeManifestDocument(bytes, limits).xml
+
+    internal fun decodeManifestDocument(
+        bytes: ByteArray,
+        limits: Limits = displayLimits,
+    ): DecodedManifest {
         if (bytes.isEmpty()) {
             throw malformed("manifest is empty")
         }
@@ -123,12 +133,15 @@ internal object AabManifestDisplayDecoder {
         private var namespaceCount = 0
         private var decodedStringChars = 0
 
-        fun decode(): String {
+        fun decode(): DecodedManifest {
             val root = readNode(reader(0, bytes.size), depth = 1)
             if (root !is XmlNode.Element) {
                 throw malformed("root node is not an element")
             }
-            return ProtoXmlRenderer(limits).render(root.value)
+            return DecodedManifest(
+                xml = ProtoXmlRenderer(limits).render(root.value),
+                root = root.value,
+            )
         }
 
         private fun readNode(reader: ProtoReader, depth: Int): XmlNode {
@@ -802,12 +815,12 @@ internal object AabManifestDisplayDecoder {
         override fun toString(): String = builder.toString()
     }
 
-    private sealed interface XmlNode {
+    internal sealed interface XmlNode {
         data class Element(val value: XmlElement) : XmlNode
         data class Text(val value: String) : XmlNode
     }
 
-    private data class XmlElement(
+    internal data class XmlElement(
         val namespaceUri: String,
         val name: String,
         val namespaces: List<XmlNamespace>,
@@ -815,9 +828,9 @@ internal object AabManifestDisplayDecoder {
         val children: List<XmlNode>,
     )
 
-    private data class XmlNamespace(val prefix: String, val uri: String)
+    internal data class XmlNamespace(val prefix: String, val uri: String)
 
-    private data class XmlAttribute(
+    internal data class XmlAttribute(
         val namespaceUri: String,
         val name: String,
         val value: String,

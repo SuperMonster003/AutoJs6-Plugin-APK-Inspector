@@ -7,6 +7,7 @@ _2026/08/30_
 - `提示` Explorer Action 协议 v22 与有界 V4 同级文件访问要求 AutoJs6 版本代码不低于 5277
 - `新增` 新增有界容器元数据摘要: 解析 SAI APKS 的 `meta.sai_v1/v2.json`、XAPK 的 `manifest.json` 与 APKMirror APKM 的 `info.json`, 展示打包工具/格式版本、元数据声明的应用版本及实际存在的图标条目; 损坏或超过 1 MiB 的元数据只影响该摘要并显示提示
 - `新增` 新增 APKS、XAPK、APKM 与 APKZ 报告内设备配置模拟: 切换语言、屏幕密度和 ABI 后, 针对同一私有快照在本地重新执行有界分包选择, 显示兼容/无效状态及相对真实设备新增或移除的 APK; 主报告仍以真实设备为准
+- `新增` 新增有界 AAB 配置与分发元数据: 解析 BundleConfig.pb 的 bundletool/type/split/compression/optimization 配置, 并为 base、feature、asset、ML、AI 与 SDK 模块标注安装时、有条件、按需、快速跟进、旧设备融合和可移除分发; 损坏、超限或省略元数据相互隔离并明确标注
 - `新增` 新增有界资源表应用名称与光栅图标回退: 按当前语言与密度解析 AAB resources.pb 和 APK resources.arsc, 无需提取超限嵌套 APK; 资源表、图标及扫描超限失败相互隔离并明确标注
 - `新增` 新增长按复制软件包详情核心字段原始值, 并通过 Android 系统分享面板发送与屏幕一致的纯文本报告; 分享内容只驻留内存, 不申请存储权限或创建文件
 - `新增` 新增有界 DEX 概览: 按自然顺序列出已选 APK 分包和 AAB 模块中的标准 classes*.dex 文件及其单项与未压缩总体积, 与原生库共用中央目录扫描, 不提取、解码或反编译 DEX 内容

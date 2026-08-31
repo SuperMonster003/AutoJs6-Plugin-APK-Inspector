@@ -2,6 +2,7 @@ package io.github.supermonster003.autojs6.plugin.apkinspector
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -79,6 +80,85 @@ class AabManifestDisplayDecoderTest {
     }
 
     @Test
+    fun aabMetadataIncludesBundleConfigAndConditionalFeatureDelivery() {
+        val aab = createAab(
+            "BundleConfig.pb" to bundleConfig(),
+            "base/manifest/AndroidManifest.xml" to manifest("com.example.app"),
+            "camera/manifest/AndroidManifest.xml" to conditionalFeatureManifest(),
+        )
+
+        val archive = AndroidPackageArchiveInspector.inspect(aab, testDevice)
+
+        assertEquals("1.18.2", archive.aabBundleConfig?.bundletoolVersion)
+        assertEquals(AabBundleType.REGULAR, archive.aabBundleConfig?.bundleType)
+        assertEquals(
+            listOf(AabSplitDimension.ABI, AabSplitDimension.LANGUAGE),
+            archive.aabBundleConfig?.splitDimensions?.map(AabSplitDimensionConfig::dimension),
+        )
+        val base = archive.aabModuleMetadata.single { metadata -> metadata.name == "base" }
+        assertEquals(AabModuleType.BASE, base.type)
+        assertEquals(listOf(AabModuleDeliveryMode.INSTALL_TIME), base.deliveryModes)
+        val camera = archive.aabModuleMetadata.single { metadata -> metadata.name == "camera" }
+        assertEquals(AabModuleType.FEATURE, camera.type)
+        assertEquals(
+            listOf(AabModuleDeliveryMode.INSTALL_TIME, AabModuleDeliveryMode.ON_DEMAND),
+            camera.deliveryModes,
+        )
+        assertEquals(
+            listOf(
+                AabModuleConditionKind.MIN_SDK,
+                AabModuleConditionKind.DEVICE_FEATURE,
+                AabModuleConditionKind.INCLUDED_COUNTRY,
+            ),
+            camera.conditions.map(AabModuleCondition::kind),
+        )
+        assertEquals("US", camera.conditions.last().value)
+        assertEquals(false, camera.fusingIncluded)
+        assertEquals(true, camera.installTimeRemovable)
+        assertEquals(0, archive.aabModuleMetadataOmittedCount)
+    }
+
+    @Test
+    fun oversizedBundleConfigOnlyDegradesItsOwnSummary() {
+        val aab = createAab(
+            "BundleConfig.pb" to ByteArray(
+                AndroidPackageArchiveInspector.MAX_AAB_BUNDLE_CONFIG_BYTES + 1,
+            ),
+            "base/manifest/AndroidManifest.xml" to manifest(
+                packageName = "com.example.app",
+                componentName = ".MainActivity",
+                componentExported = true,
+            ),
+        )
+
+        val archive = AndroidPackageArchiveInspector.inspect(aab, testDevice)
+
+        assertEquals(AabMetadataIssueCode.LIMIT, archive.aabBundleConfig?.issue?.code)
+        assertEquals("com.example.app", archive.baseManifest?.packageName)
+        assertEquals(1, archive.manifestComponents.total)
+        assertEquals(AabModuleType.BASE, archive.aabModuleMetadata.single().type)
+    }
+
+    @Test
+    fun malformedBundleConfigOnlyDegradesItsOwnSummary() {
+        val aab = createAab(
+            "BundleConfig.pb" to byteArrayOf(0x0A, 0x7F),
+            "base/manifest/AndroidManifest.xml" to manifest(
+                packageName = "com.example.app",
+                componentName = ".MainActivity",
+                componentExported = true,
+            ),
+        )
+
+        val archive = AndroidPackageArchiveInspector.inspect(aab, testDevice)
+
+        assertEquals(AabMetadataIssueCode.INVALID, archive.aabBundleConfig?.issue?.code)
+        assertEquals("com.example.app", archive.baseManifest?.packageName)
+        assertEquals(1, archive.manifestComponents.total)
+        assertNull(archive.aabModuleMetadata.single().issue)
+    }
+
+    @Test
     fun aabCodeMetadataIncludesAllModulesAndMarksDeviceMatch() {
         val aab = createAab(
             "base/manifest/AndroidManifest.xml" to manifest("com.example.app"),
@@ -127,6 +207,10 @@ class AabManifestDisplayDecoderTest {
         assertEquals(1, archive.manifestComponents.total)
         assertEquals(1, archive.manifestComponents.failedManifestCount)
         assertEquals("com.example.app", archive.baseManifest?.packageName)
+        assertEquals(
+            AabMetadataIssueCode.INVALID,
+            archive.aabModuleMetadata.single { metadata -> metadata.name == "feature" }.issue?.code,
+        )
     }
 
     @Test
@@ -147,6 +231,8 @@ class AabManifestDisplayDecoderTest {
         assertEquals(AndroidPackageArchiveInspector.MAX_AAB_COMPONENT_MANIFESTS + 1, archive.aabModules.size)
         assertEquals(1, archive.manifestComponents.omittedManifestCount)
         assertEquals(0, archive.manifestComponents.failedManifestCount)
+        assertEquals(1, archive.aabModuleMetadataOmittedCount)
+        assertEquals(AndroidPackageArchiveInspector.MAX_AAB_COMPONENT_MANIFESTS, archive.aabModuleMetadata.size)
     }
 
     @Test
@@ -338,6 +424,62 @@ class AabManifestDisplayDecoderTest {
         }
     }.toByteArray()
 
+    private fun conditionalFeatureManifest(): ByteArray = ProtoWriter().apply {
+        rootElement("manifest") {
+            namespace("dist", DISTRIBUTION_NAMESPACE)
+            attribute("", "package", "com.example.app")
+            attribute("", "split", "camera")
+            childElement(DISTRIBUTION_NAMESPACE, "module") {
+                attribute(DISTRIBUTION_NAMESPACE, "type", "feature")
+                childElement(DISTRIBUTION_NAMESPACE, "delivery") {
+                    childElement(DISTRIBUTION_NAMESPACE, "install-time") {
+                        childElement(DISTRIBUTION_NAMESPACE, "conditions") {
+                            childElement(DISTRIBUTION_NAMESPACE, "min-sdk") {
+                                attribute(DISTRIBUTION_NAMESPACE, "value", "26")
+                            }
+                            childElement(DISTRIBUTION_NAMESPACE, "device-feature") {
+                                attribute(
+                                    DISTRIBUTION_NAMESPACE,
+                                    "name",
+                                    "android.hardware.camera.ar",
+                                )
+                                attribute(DISTRIBUTION_NAMESPACE, "version", "2")
+                            }
+                            childElement(DISTRIBUTION_NAMESPACE, "user-countries") {
+                                childElement(DISTRIBUTION_NAMESPACE, "country") {
+                                    attribute(DISTRIBUTION_NAMESPACE, "code", "us")
+                                }
+                            }
+                        }
+                        childElement(DISTRIBUTION_NAMESPACE, "removable") {
+                            attribute(DISTRIBUTION_NAMESPACE, "value", "true")
+                        }
+                    }
+                    childElement(DISTRIBUTION_NAMESPACE, "on-demand") {}
+                }
+                childElement(DISTRIBUTION_NAMESPACE, "fusing") {
+                    attribute(DISTRIBUTION_NAMESPACE, "include", "false")
+                }
+            }
+        }
+    }.toByteArray()
+
+    private fun bundleConfig(): ByteArray = ProtoWriter().apply {
+        message(1) {
+            string(2, "1.18.2")
+        }
+        message(2) {
+            message(1) {
+                message(1) {
+                    varint(1, 1)
+                }
+                message(1) {
+                    varint(1, 3)
+                }
+            }
+        }
+    }.toByteArray()
+
     private fun createAab(vararg entries: Pair<String, ByteArray>): File {
         val aab = temporaryFolder.newFile("sample-${System.nanoTime()}.aab")
         ZipOutputStream(FileOutputStream(aab)).use { zip ->
@@ -382,6 +524,46 @@ class AabManifestDisplayDecoderTest {
             rawVarint(value.toLong() and 0xFFFFFFFFL)
         }
 
+        fun rootElement(name: String, block: ProtoWriter.() -> Unit) {
+            message(XML_NODE_ELEMENT_FIELD) {
+                string(XML_ELEMENT_NAME_FIELD, name)
+                block()
+            }
+        }
+
+        fun childElement(
+            namespaceUri: String,
+            name: String,
+            block: ProtoWriter.() -> Unit = {},
+        ) {
+            message(XML_ELEMENT_CHILD_FIELD) {
+                message(XML_NODE_ELEMENT_FIELD) {
+                    if (namespaceUri.isNotEmpty()) {
+                        string(XML_ELEMENT_NAMESPACE_URI_FIELD, namespaceUri)
+                    }
+                    string(XML_ELEMENT_NAME_FIELD, name)
+                    block()
+                }
+            }
+        }
+
+        fun namespace(prefix: String, uri: String) {
+            message(XML_ELEMENT_NAMESPACE_FIELD) {
+                string(XML_NAMESPACE_PREFIX_FIELD, prefix)
+                string(XML_NAMESPACE_URI_FIELD, uri)
+            }
+        }
+
+        fun attribute(namespaceUri: String, name: String, value: String) {
+            message(XML_ELEMENT_ATTRIBUTE_FIELD) {
+                if (namespaceUri.isNotEmpty()) {
+                    string(XML_ATTRIBUTE_NAMESPACE_URI_FIELD, namespaceUri)
+                }
+                string(XML_ATTRIBUTE_NAME_FIELD, name)
+                string(XML_ATTRIBUTE_VALUE_FIELD, value)
+            }
+        }
+
         private fun tag(fieldNumber: Int, wireType: Int) {
             rawVarint(fieldTag(fieldNumber, wireType).toLong())
         }
@@ -407,11 +589,13 @@ class AabManifestDisplayDecoderTest {
         )
 
         const val ANDROID_NAMESPACE = "http://schemas.android.com/apk/res/android"
+        const val DISTRIBUTION_NAMESPACE = "http://schemas.android.com/apk/distribution"
         const val WIRE_VARINT = 0
         const val WIRE_LENGTH_DELIMITED = 2
 
         const val XML_NODE_ELEMENT_FIELD = 1
         const val XML_ELEMENT_NAMESPACE_FIELD = 1
+        const val XML_ELEMENT_NAMESPACE_URI_FIELD = 2
         const val XML_ELEMENT_NAME_FIELD = 3
         const val XML_ELEMENT_ATTRIBUTE_FIELD = 4
         const val XML_ELEMENT_CHILD_FIELD = 5
