@@ -1,4 +1,5 @@
 *.apk
+!app/src/test/resources/privacy-neutral-fixtures/*.apk
 *.zip
 *.exe
 *.iml

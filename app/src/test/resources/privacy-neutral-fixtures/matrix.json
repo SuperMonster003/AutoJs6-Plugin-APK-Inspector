@@ -1,0 +1,410 @@
+{
+  "schemaVersion": 1,
+  "provenance": {
+    "kind": "DETERMINISTIC_SYNTHETIC",
+    "namespace": "org.example.apkinspector.fixture",
+    "containsPersonalData": false,
+    "containsRealApplications": false,
+    "containsSigningMaterial": false,
+    "containsExecutableCode": false,
+    "networkRequired": false
+  },
+  "generation": {
+    "script": ".python/generate_privacy_neutral_fixtures.py",
+    "generateCommand": "python .python/generate_privacy_neutral_fixtures.py",
+    "verifyCommand": "python .python/generate_privacy_neutral_fixtures.py --verify",
+    "zipTimestamp": "1980-01-01T00:00:00",
+    "zipCompression": "STORED"
+  },
+  "limits": {
+    "archiveEntryNameCharacters": 1024,
+    "overLimitEntryNameCharacters": 1025
+  },
+  "deviceSpec": {
+    "sdk": 35,
+    "abis": [
+      "arm64-v8a",
+      "armeabi-v7a"
+    ],
+    "densityDpi": 480,
+    "locales": [
+      "en-US"
+    ]
+  },
+  "formats": [
+    "APK",
+    "APKS",
+    "XAPK",
+    "APKM",
+    "APKZ",
+    "AAB"
+  ],
+  "categories": [
+    "NORMAL",
+    "STRUCTURALLY_DAMAGED",
+    "OVER_LIMIT",
+    "DEVICE_INCOMPATIBLE"
+  ],
+  "cases": [
+    {
+      "id": "apk-normal",
+      "format": "APK",
+      "category": "NORMAL",
+      "file": "apk-normal.apk",
+      "bytes": 531,
+      "sha256": "2c71ca27d67a64fc081f33e738ce882908ee9f39e54ed671b9bf3d7ebbd719e2",
+      "construction": "SYNTHETIC_MINIMAL_PACKAGE",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "APK",
+        "inspectionState": "COMPATIBLE",
+        "deviceCompatible": true,
+        "minimumSdk": 24,
+        "packageName": "org.example.apkinspector.fixture.apk.normal"
+      }
+    },
+    {
+      "id": "apk-structurally-damaged",
+      "format": "APK",
+      "category": "STRUCTURALLY_DAMAGED",
+      "file": "apk-structurally-damaged.apk",
+      "bytes": 545,
+      "sha256": "1cb59a7ca1f9ab58470a3441df2a347111d3d422fad823a380e9cdad4cd1eff8",
+      "construction": "ZIP_END_OF_CENTRAL_DIRECTORY_SIGNATURES_CORRUPTED",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "MALFORMED_ZIP"
+      }
+    },
+    {
+      "id": "apk-over-limit",
+      "format": "APK",
+      "category": "OVER_LIMIT",
+      "file": "apk-over-limit.apk",
+      "bytes": 2676,
+      "sha256": "4571698bd2acf81fee9ff9d2d3f5878b749c7098fe2f0702370ee92d9f3247d0",
+      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
+      }
+    },
+    {
+      "id": "apk-device-incompatible",
+      "format": "APK",
+      "category": "DEVICE_INCOMPATIBLE",
+      "file": "apk-device-incompatible.apk",
+      "bytes": 544,
+      "sha256": "b8009fc2e6244dd9d29f83848ce5e6911db6e4141b6d715d80e37e5821c62a71",
+      "construction": "MIN_SDK_99",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "APK",
+        "inspectionState": "INCOMPATIBLE",
+        "deviceCompatible": false,
+        "minimumSdk": 99,
+        "packageName": "org.example.apkinspector.fixture.apk.device_incompatible"
+      }
+    },
+    {
+      "id": "apks-normal",
+      "format": "APKS",
+      "category": "NORMAL",
+      "file": "apks-normal.apks",
+      "bytes": 945,
+      "sha256": "f8ff9ccb3d8985f63a87f85c91bf13d15ed5e1527e79bc6d338ab81d35f6fe1f",
+      "construction": "SYNTHETIC_MINIMAL_PACKAGE",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "APKS",
+        "inspectionState": "COMPATIBLE",
+        "deviceCompatible": true,
+        "minimumSdk": 24,
+        "packageName": "org.example.apkinspector.fixture.apks.normal"
+      }
+    },
+    {
+      "id": "apks-structurally-damaged",
+      "format": "APKS",
+      "category": "STRUCTURALLY_DAMAGED",
+      "file": "apks-structurally-damaged.apks",
+      "bytes": 973,
+      "sha256": "0b02502a6870c01f8dd4c3da6167a24ce8da8dfe222794360e185cc456a0c62d",
+      "construction": "ZIP_END_OF_CENTRAL_DIRECTORY_SIGNATURES_CORRUPTED",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "MALFORMED_ZIP"
+      }
+    },
+    {
+      "id": "apks-over-limit",
+      "format": "APKS",
+      "category": "OVER_LIMIT",
+      "file": "apks-over-limit.apks",
+      "bytes": 3094,
+      "sha256": "f7ff86ba833574cab22e066118c34a7e3fee10d2c30530daba1d3728883d16fc",
+      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
+      }
+    },
+    {
+      "id": "apks-device-incompatible",
+      "format": "APKS",
+      "category": "DEVICE_INCOMPATIBLE",
+      "file": "apks-device-incompatible.apks",
+      "bytes": 971,
+      "sha256": "2f2759c16d3412340b45bcef2505945cbe53e8732ad0082f410f8eb5ca5169df",
+      "construction": "MIN_SDK_99",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "APKS",
+        "inspectionState": "INCOMPATIBLE",
+        "deviceCompatible": false,
+        "minimumSdk": 99,
+        "packageName": "org.example.apkinspector.fixture.apks.device_incompatible"
+      }
+    },
+    {
+      "id": "xapk-normal",
+      "format": "XAPK",
+      "category": "NORMAL",
+      "file": "xapk-normal.xapk",
+      "bytes": 921,
+      "sha256": "237dff8b1dded31e24ea907262b16d4b2b2ca0f19aff8c6fe00eda415ba9ac75",
+      "construction": "SYNTHETIC_MINIMAL_PACKAGE",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "XAPK",
+        "inspectionState": "COMPATIBLE",
+        "deviceCompatible": true,
+        "minimumSdk": 24,
+        "packageName": "org.example.apkinspector.fixture.xapk.normal"
+      }
+    },
+    {
+      "id": "xapk-structurally-damaged",
+      "format": "XAPK",
+      "category": "STRUCTURALLY_DAMAGED",
+      "file": "xapk-structurally-damaged.xapk",
+      "bytes": 949,
+      "sha256": "130769d3cbc6e1dddf12203d215a8270e9160b0ad35542244edeb4b646df5f18",
+      "construction": "ZIP_END_OF_CENTRAL_DIRECTORY_SIGNATURES_CORRUPTED",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "MALFORMED_ZIP"
+      }
+    },
+    {
+      "id": "xapk-over-limit",
+      "format": "XAPK",
+      "category": "OVER_LIMIT",
+      "file": "xapk-over-limit.xapk",
+      "bytes": 3070,
+      "sha256": "308bc1923f08d48c6cf656a7e266bc8a56e347cf32dab72bf773546d4cb1dc7f",
+      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
+      }
+    },
+    {
+      "id": "xapk-device-incompatible",
+      "format": "XAPK",
+      "category": "DEVICE_INCOMPATIBLE",
+      "file": "xapk-device-incompatible.xapk",
+      "bytes": 947,
+      "sha256": "ab333ee3080a3b197f6e7466fd6038fb93aabf4a298d89d29cc21be655799d3f",
+      "construction": "MIN_SDK_99",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "XAPK",
+        "inspectionState": "INCOMPATIBLE",
+        "deviceCompatible": false,
+        "minimumSdk": 99,
+        "packageName": "org.example.apkinspector.fixture.xapk.device_incompatible"
+      }
+    },
+    {
+      "id": "apkm-normal",
+      "format": "APKM",
+      "category": "NORMAL",
+      "file": "apkm-normal.apkm",
+      "bytes": 1080,
+      "sha256": "e6219b5da4c2aae9c7b16be6730123cc3a1a9e18892d5407a4919a6db92e4b95",
+      "construction": "SYNTHETIC_MINIMAL_PACKAGE",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "APKM",
+        "inspectionState": "COMPATIBLE",
+        "deviceCompatible": true,
+        "minimumSdk": 24,
+        "packageName": "org.example.apkinspector.fixture.apkm.normal"
+      }
+    },
+    {
+      "id": "apkm-structurally-damaged",
+      "format": "APKM",
+      "category": "STRUCTURALLY_DAMAGED",
+      "file": "apkm-structurally-damaged.apkm",
+      "bytes": 1108,
+      "sha256": "67c8fa0fecdf743aed7b386f050657f7b0ee37c26ccee25fb8949ff618eb8e7b",
+      "construction": "ZIP_END_OF_CENTRAL_DIRECTORY_SIGNATURES_CORRUPTED",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "MALFORMED_ZIP"
+      }
+    },
+    {
+      "id": "apkm-over-limit",
+      "format": "APKM",
+      "category": "OVER_LIMIT",
+      "file": "apkm-over-limit.apkm",
+      "bytes": 3229,
+      "sha256": "9595676699f485d01d9520f3afc220318d47a61e9383edee5c8af990cf5f991c",
+      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
+      }
+    },
+    {
+      "id": "apkm-device-incompatible",
+      "format": "APKM",
+      "category": "DEVICE_INCOMPATIBLE",
+      "file": "apkm-device-incompatible.apkm",
+      "bytes": 1106,
+      "sha256": "15dd1035aef04936da653903639c061845a991a5674f2f835f36ba195c5da9b1",
+      "construction": "MIN_SDK_99",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "APKM",
+        "inspectionState": "INCOMPATIBLE",
+        "deviceCompatible": false,
+        "minimumSdk": 99,
+        "packageName": "org.example.apkinspector.fixture.apkm.device_incompatible"
+      }
+    },
+    {
+      "id": "apkz-normal",
+      "format": "APKZ",
+      "category": "NORMAL",
+      "file": "apkz-normal.apkz",
+      "bytes": 852,
+      "sha256": "3d6d193c2399043661e4ff87b10f7972be90ca32007e2184827fde5e19694ec2",
+      "construction": "SYNTHETIC_MINIMAL_PACKAGE",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "APKZ",
+        "inspectionState": "COMPATIBLE",
+        "deviceCompatible": true,
+        "minimumSdk": 24,
+        "packageName": "org.example.apkinspector.fixture.apkz.normal"
+      }
+    },
+    {
+      "id": "apkz-structurally-damaged",
+      "format": "APKZ",
+      "category": "STRUCTURALLY_DAMAGED",
+      "file": "apkz-structurally-damaged.apkz",
+      "bytes": 880,
+      "sha256": "34ae67890a83a70812f8e200645f7ee896047d2d8da7639599440f59539a93cc",
+      "construction": "ZIP_END_OF_CENTRAL_DIRECTORY_SIGNATURES_CORRUPTED",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "MALFORMED_ZIP"
+      }
+    },
+    {
+      "id": "apkz-over-limit",
+      "format": "APKZ",
+      "category": "OVER_LIMIT",
+      "file": "apkz-over-limit.apkz",
+      "bytes": 3001,
+      "sha256": "fc808e9329f0317e83f3dd6a8bc3437a64d70544c3a91ba6b90e130f10324297",
+      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
+      }
+    },
+    {
+      "id": "apkz-device-incompatible",
+      "format": "APKZ",
+      "category": "DEVICE_INCOMPATIBLE",
+      "file": "apkz-device-incompatible.apkz",
+      "bytes": 878,
+      "sha256": "3d52c4fe0fa92252ca2d730ed7473f6ab3b716494c920eac6d0020c2328cf7d9",
+      "construction": "MIN_SDK_99",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "APKZ",
+        "inspectionState": "INCOMPATIBLE",
+        "deviceCompatible": false,
+        "minimumSdk": 99,
+        "packageName": "org.example.apkinspector.fixture.apkz.device_incompatible"
+      }
+    },
+    {
+      "id": "aab-normal",
+      "format": "AAB",
+      "category": "NORMAL",
+      "file": "aab-normal.aab",
+      "bytes": 828,
+      "sha256": "4c0facaf16541b5fdbfc4fe3b50c9e5e6fb387054ff938c2995e6d2aece45a23",
+      "construction": "SYNTHETIC_MINIMAL_PACKAGE",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "AAB",
+        "inspectionState": "AAB_SOURCE",
+        "deviceCompatible": true,
+        "minimumSdk": 24,
+        "packageName": "org.example.apkinspector.fixture.aab.normal"
+      }
+    },
+    {
+      "id": "aab-structurally-damaged",
+      "format": "AAB",
+      "category": "STRUCTURALLY_DAMAGED",
+      "file": "aab-structurally-damaged.aab",
+      "bytes": 842,
+      "sha256": "e286d8ffcbda610a53e54b81a0e173bc6806b04fbd98bad1c7fb8f28860f283a",
+      "construction": "ZIP_END_OF_CENTRAL_DIRECTORY_SIGNATURES_CORRUPTED",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "MALFORMED_ZIP"
+      }
+    },
+    {
+      "id": "aab-over-limit",
+      "format": "AAB",
+      "category": "OVER_LIMIT",
+      "file": "aab-over-limit.aab",
+      "bytes": 2973,
+      "sha256": "d2b8630c0513de05af4ba05717e96d10cb9f4a2b192cbbdd8a8fd44ee732da26",
+      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "expected": {
+        "result": "REJECTED",
+        "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
+      }
+    },
+    {
+      "id": "aab-device-incompatible",
+      "format": "AAB",
+      "category": "DEVICE_INCOMPATIBLE",
+      "file": "aab-device-incompatible.aab",
+      "bytes": 841,
+      "sha256": "b47f2606c2b7a50da77854ff3f62255a1bb3acef44fbb5f31f9e338bd0c1be24",
+      "construction": "MIN_SDK_99",
+      "expected": {
+        "result": "ACCEPTED",
+        "detectedFormat": "AAB",
+        "inspectionState": "AAB_SOURCE",
+        "deviceCompatible": false,
+        "minimumSdk": 99,
+        "packageName": "org.example.apkinspector.fixture.aab.device_incompatible"
+      }
+    }
+  ]
+}
