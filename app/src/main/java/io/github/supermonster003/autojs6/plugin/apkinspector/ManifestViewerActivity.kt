@@ -85,7 +85,7 @@ class ManifestViewerActivity : AppCompatActivity() {
         binding.toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.action_find_manifest -> {
-                    showSearch(requestKeyboard = true)
+                    showSearch(requestKeyboard = shouldRequestSearchKeyboard())
                     true
                 }
 
@@ -108,6 +108,17 @@ class ManifestViewerActivity : AppCompatActivity() {
         )
     }
 
+    private fun shouldRequestSearchKeyboard(): Boolean {
+        val configuration = resources.configuration
+        val metrics = resources.displayMetrics
+        val screenHeightDp = configuration.screenHeightDp.takeIf { height -> height > 0 }
+            ?: (metrics.heightPixels / metrics.density).roundToInt()
+        return ResponsiveLayoutPolicy.shouldRequestManifestSearchKeyboard(
+            screenHeightDp = screenHeightDp,
+            fontScale = configuration.fontScale,
+        )
+    }
+
     private fun setupSearch(savedInstanceState: Bundle?) {
         ViewCompat.setAccessibilityPaneTitle(
             binding.manifestSearchPanel,
@@ -123,6 +134,13 @@ class ManifestViewerActivity : AppCompatActivity() {
                 true
             } else {
                 false
+            }
+        }
+        binding.manifestSearchInput.setOnClickListener {
+            if (!binding.manifestSearchInput.showSoftInputOnFocus) {
+                binding.manifestSearchInput.showSoftInputOnFocus = true
+                WindowCompat.getInsetsController(window, binding.root)
+                    .show(WindowInsetsCompat.Type.ime())
             }
         }
         binding.previousManifestMatch.setOnClickListener { moveMatch(-1) }
@@ -251,9 +269,12 @@ class ManifestViewerActivity : AppCompatActivity() {
 
     private fun showSearch(requestKeyboard: Boolean) {
         binding.manifestSearchPanel.isVisible = true
+        binding.manifestSearchInput.showSoftInputOnFocus = requestKeyboard
         binding.manifestSearchInput.requestFocus()
         if (requestKeyboard) {
             WindowCompat.getInsetsController(window, binding.root).show(WindowInsetsCompat.Type.ime())
+        } else {
+            hideKeyboard()
         }
     }
 

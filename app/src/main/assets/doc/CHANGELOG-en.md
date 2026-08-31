@@ -22,10 +22,12 @@ _2026/08/30_
 - `Feature` Added bounded `.idsig` staging through an exact host-derived read-only descriptor; directory enumeration and arbitrary sibling access remain unavailable
 - `Feature` Grouped requested permissions by `protectionLevel` into runtime/dangerous, signature/protected, and normal sections; runtime permissions are highlighted first with bounded one-line descriptions, while unavailable levels remain visible and labeled
 - `Fix` Fixed the manifest action disappearing after a locale, theme, or other activity recreation by safely replacing the previous read-only private manifest snapshot
+- `Fix` Prevented the manifest search panel from becoming unreachable when the soft keyboard compressed compact or large-text screens; the keyboard is now deferred until the focused search field is tapped
 - `Improvement` Hardened Explorer Action v22 request validation and immutable private snapshots, with a 4 GiB package limit, a 40 MiB idsig limit, identity checks, and prompt host-session closure
 - `Improvement` Added official Build Tools 37 `apksigner` fixtures for valid, tampered, multi-signer, V3.1 rotation, V4.1 rotation, missing, and malformed-signature cases
 - `Improvement` Added a real-package partition-isolation matrix for production permission, manifest-component, native-library, and DEX limits plus resource-table and malformed nested-directory failures; every sample asserts unaffected sections remain complete and partial notices survive plain-text sharing
 - `Improvement` Added a reproducible bundletool 1.18.2 selection golden matrix: `build-apks` runs on a privacy-neutral minimal AAB, then the `ExtractApksCommand` shared by `install-apks` records install splits for three language/density/ABI device specs; unit tests verify each simulated set is duplicate-free and stable across repeated runs
+- `Improvement` Added a repeatable 36-case UI screenshot review matrix covering 411/320 dp portrait and compact landscape, 1.0x/1.5x/2.0x fonts, light/dark themes, and LTR/RTL; its state-preserving ADB runner audits control reachability, accessibility reading order, and 48 dp touch targets while recording PNG/XML/contact-sheet evidence
 
 ## v1.0.1
 

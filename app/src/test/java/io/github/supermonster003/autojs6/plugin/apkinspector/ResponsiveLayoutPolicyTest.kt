@@ -28,4 +28,36 @@ class ResponsiveLayoutPolicyTest {
     fun invalidWidthFallsBackToTheSafeCompactHeader() {
         assertTrue(ResponsiveLayoutPolicy.shouldUseCompactHeader(screenWidthDp = 0, fontScale = 1f))
     }
+
+    @Test
+    fun compactHeightDefersTheManifestKeyboardUntilTheInputIsTapped() {
+        assertFalse(
+            ResponsiveLayoutPolicy.shouldRequestManifestSearchKeyboard(
+                screenHeightDp = 320,
+                fontScale = 1f,
+            ),
+        )
+        assertFalse(
+            ResponsiveLayoutPolicy.shouldRequestManifestSearchKeyboard(
+                screenHeightDp = 693,
+                fontScale = 2f,
+            ),
+        )
+        assertTrue(
+            ResponsiveLayoutPolicy.shouldRequestManifestSearchKeyboard(
+                screenHeightDp = 826,
+                fontScale = 2f,
+            ),
+        )
+    }
+
+    @Test
+    fun invalidHeightSafelyDefersTheManifestKeyboard() {
+        assertFalse(
+            ResponsiveLayoutPolicy.shouldRequestManifestSearchKeyboard(
+                screenHeightDp = 0,
+                fontScale = 1f,
+            ),
+        )
+    }
 }

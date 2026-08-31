@@ -1,0 +1,197 @@
+{
+  "schemaVersion": 1,
+  "application": {
+    "packageName": "io.github.supermonster003.autojs6.plugin.apkinspector",
+    "externalViewActivity": ".ExternalViewActivity"
+  },
+  "fixture": {
+    "path": "app/src/test/resources/bundletool-selection/selection-matrix.apks",
+    "mimeType": "application/x-apks",
+    "displayName": "ui-review-matrix.apks"
+  },
+  "driver": {
+    "defaultApkPath": "app/build/outputs/apk/debug/autojs6-plugin-apk-inspector-v1.1.0.apk",
+    "defaultOutputDirectory": "captures/ui-review-matrix",
+    "readyTimeoutSeconds": 35,
+    "interactionTimeoutSeconds": 20,
+    "settleMilliseconds": 450,
+    "swipeDurationMilliseconds": 280,
+    "maxScrollSteps": 40,
+    "minimumTouchTargetDp": 48
+  },
+  "axes": {
+    "screens": [
+      {
+        "id": "phone-411dp-portrait",
+        "size": "1440x3120",
+        "densityDpi": 560,
+        "rotation": 0,
+        "expectedWidthDp": 411,
+        "orientation": "portrait"
+      },
+      {
+        "id": "compact-320dp-portrait",
+        "size": "1120x2427",
+        "densityDpi": 560,
+        "rotation": 0,
+        "expectedWidthDp": 320,
+        "orientation": "portrait"
+      },
+      {
+        "id": "compact-320dp-landscape",
+        "size": "1120x2427",
+        "densityDpi": 560,
+        "rotation": 1,
+        "expectedWidthDp": 693,
+        "orientation": "landscape"
+      }
+    ],
+    "fonts": [
+      {
+        "id": "font-100",
+        "scale": 1.0
+      },
+      {
+        "id": "font-150",
+        "scale": 1.5
+      },
+      {
+        "id": "font-200",
+        "scale": 2.0
+      }
+    ],
+    "themes": [
+      {
+        "id": "light",
+        "nightMode": "no"
+      },
+      {
+        "id": "dark",
+        "nightMode": "yes"
+      }
+    ],
+    "directions": [
+      {
+        "id": "ltr-en",
+        "locale": "en",
+        "layoutDirection": "ltr"
+      },
+      {
+        "id": "rtl-ar",
+        "locale": "ar",
+        "layoutDirection": "rtl"
+      }
+    ]
+  },
+  "report": {
+    "requiredResourceIds": [
+      "action_share_report",
+      "content",
+      "app_icon",
+      "app_label",
+      "file_summary",
+      "view_manifest",
+      "package_details_heading",
+      "report_field",
+      "components_heading",
+      "components",
+      "device_simulation_heading",
+      "device_simulation_description",
+      "device_simulation_actual",
+      "device_simulation_language_label",
+      "device_simulation_language",
+      "device_simulation_density_label",
+      "device_simulation_density",
+      "device_simulation_abi_label",
+      "device_simulation_abi",
+      "apply_device_simulation",
+      "reset_device_simulation",
+      "requested_permissions_heading",
+      "permissions",
+      "findings_heading",
+      "findings"
+    ],
+    "requiredHeadingOrder": [
+      "package_details_heading",
+      "components_heading",
+      "device_simulation_heading",
+      "requested_permissions_heading",
+      "findings_heading"
+    ],
+    "checkpoints": [
+      {
+        "id": "report-top",
+        "targetResourceId": "view_manifest",
+        "minimumVisibleHeightDp": 48,
+        "scrollFraction": 0.18
+      },
+      {
+        "id": "report-identifiers",
+        "targetContentDescriptionPrefix": "SHA-256:",
+        "minimumVisibleHeightDp": 48,
+        "scrollFraction": 0.18
+      },
+      {
+        "id": "report-components",
+        "targetResourceId": "components_heading",
+        "minimumVisibleHeightDp": 20,
+        "scrollFraction": 0.18
+      },
+      {
+        "id": "simulation-heading",
+        "targetResourceId": "device_simulation_heading",
+        "minimumVisibleHeightDp": 20,
+        "scrollFraction": 0.18
+      },
+      {
+        "id": "simulation-overview",
+        "targetResourceId": "device_simulation_description",
+        "minimumVisibleHeightDp": 16,
+        "scrollFraction": 0.18
+      },
+      {
+        "id": "simulation-selectors",
+        "targetResourceId": "device_simulation_language",
+        "minimumVisibleHeightDp": 48,
+        "scrollFraction": 0.18
+      },
+      {
+        "id": "simulation-actions",
+        "targetResourceId": "reset_device_simulation",
+        "minimumVisibleHeightDp": 48,
+        "scrollFraction": 0.18
+      },
+      {
+        "id": "report-bottom",
+        "targetResourceId": "findings",
+        "minimumVisibleHeightDp": 16,
+        "scrollFraction": 0.18
+      }
+    ],
+    "simulationResultCheckpoint": {
+      "id": "simulation-result",
+      "targetResourceId": "device_simulation_result",
+      "minimumVisibleHeightDp": 48,
+      "scrollFraction": 0.18
+    }
+  },
+  "manifest": {
+    "query": "ma",
+    "requiredResourceIds": [
+      "action_find_manifest",
+      "manifest_scroll",
+      "manifest_text",
+      "manifest_search_panel",
+      "manifest_search_input",
+      "close_manifest_search",
+      "manifest_search_status",
+      "previous_manifest_match",
+      "next_manifest_match"
+    ],
+    "checkpoint": {
+      "id": "manifest-search",
+      "targetResourceId": "manifest_search_status",
+      "minimumVisibleHeightDp": 24
+    }
+  }
+}

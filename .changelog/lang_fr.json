@@ -29,13 +29,15 @@
         "Regroupement des autorisations demandées selon `protectionLevel` en exécution/dangereuses, signature/protégées et normales ; celles à l’exécution sont mises en avant avec une explication bornée sur une ligne, tandis que les niveaux indisponibles restent visibles et signalés"
       ],
       "fix": [
-        "Correction de la disparition de l’action d’affichage du manifeste après un changement de langue, de thème ou une autre recréation d’activité, grâce au remplacement sûr de l’ancien instantané privé en lecture seule"
+        "Correction de la disparition de l’action d’affichage du manifeste après un changement de langue, de thème ou une autre recréation d’activité, grâce au remplacement sûr de l’ancien instantané privé en lecture seule",
+        "Correction de l’inaccessibilité du panneau de recherche du manifeste lorsque le clavier logiciel réduisait un écran compact ou utilisant de grands caractères ; le clavier n’apparaît désormais qu’après toucher du champ de recherche déjà ciblé"
       ],
       "improvement": [
         "Renforcement de la validation Explorer Action v22 et des instantanés privés immuables, avec limites de 4 GiB pour le paquet et 40 MiB pour idsig, contrôles d’identité et fermeture rapide de la session",
         "Ajout d’échantillons officiels Build Tools 37 `apksigner` couvrant signatures valides, altérées, multiples, rotations V3.1/V4.1, absences et formats incorrects",
         "Ajout d’une matrice d’isolation par section sur de vrais paquets, couvrant les limites de production des autorisations, composants de manifeste, bibliothèques natives et DEX, ainsi que les dépassements de table de ressources et les répertoires centraux imbriqués endommagés ; chaque échantillon vérifie que les sections non touchées restent complètes et que les avis partiels sont conservés dans le partage texte",
-        "Ajout d’une matrice de référence reproductible pour la sélection bundletool 1.18.2 : `build-apks` traite un AAB minimal anonymisé, puis l’`ExtractApksCommand` partagé par `install-apks` enregistre les APK d’installation pour trois profils langue/densité/ABI ; les tests unitaires vérifient chaque ensemble simulé, l’absence de doublons et la stabilité entre exécutions"
+        "Ajout d’une matrice de référence reproductible pour la sélection bundletool 1.18.2 : `build-apks` traite un AAB minimal anonymisé, puis l’`ExtractApksCommand` partagé par `install-apks` enregistre les APK d’installation pour trois profils langue/densité/ABI ; les tests unitaires vérifient chaque ensemble simulé, l’absence de doublons et la stabilité entre exécutions",
+        "Ajout d’une matrice reproductible de revue de captures d’écran comportant 36 cas : portraits 411/320 dp et paysage compact, polices 1,0x/1,5x/2,0x, thèmes clair/sombre et LTR/RTL ; son pilote ADB préserve l’état de l’appareil, audite l’accessibilité des contrôles, l’ordre de lecture et les cibles tactiles de 48 dp, puis produit des preuves PNG/XML et une planche-contact"
       ]
     },
     "v1.0.1": {
