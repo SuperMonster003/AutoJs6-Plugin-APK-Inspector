@@ -9,6 +9,7 @@
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
+    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -172,6 +173,7 @@ _2026/08/30_
 - `改善` APK/APKS/XAPK/APKM/APKZ/AAB の正常、構造破損、上限超過、端末非互換を網羅する、決定論的な24ケースの匿名化フィクスチャマトリクスを追加しました。標準ライブラリのみの生成器、SHA-256一覧、JVM契約テストにより、バイト単位の再現性、解析結果、小容量、コード・署名材料・ユーザーデータを含まないことを検証します
 - `改善` パッケージ要求検証、プライベートキャッシュへのステージング、Android アーカイブのガード、APK 署名ブロック解析について、フェイルクローズの全分岐を網羅する単体テストマトリクスを追加しました。列挙された各拒否理由を、破損メタデータ、危険なパス、リソース上限、切り詰められた構造、キャンセルまで含めて個別に検証します
 - `改善` エクスポートされた2つの入口 Activity に Robolectric セキュリティ回帰テストを追加しました。偽装アクション、過剰な URI 権限、4 GiB 超の宣言、並行するライフサイクルキャンセルを網羅し、拒否された要求が検査画面を起動せず巨大コンテンツも開かないこと、Explorer ホストセッションが一度だけ閉じることを検証します
+- `改善` 最小権限の GitHub Actions Android CI を追加し、外部 Action を不変の完全なコミット SHA に固定しました。Ubuntu 24.04 と JDK 21 で Debug APK のビルド、JVM テスト全件、10言語すべての Markdown 再生成を行い、追跡対象の差分や予期しない未追跡出力があればチェックを失敗させます
 
 #### v1.0.1
 

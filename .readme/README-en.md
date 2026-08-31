@@ -9,6 +9,7 @@
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
+    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -172,6 +173,7 @@ _2026/08/30_
 - `Improvement` Added a deterministic 24-case privacy-neutral fixture matrix spanning APK/APKS/XAPK/APKM/APKZ/AAB across normal, structurally damaged, over-limit, and device-incompatible inputs; a standard-library generator, SHA-256 manifest, and JVM contract tests verify byte-for-byte reproduction, parser outcomes, compact size, and the absence of code, signing material, and user data
 - `Improvement` Added exhaustive fail-closed unit-test matrices for package request validation, private-cache staging, Android archive guards, and APK signing-block parsing; every enumerated rejection reason is exercised, including malformed metadata, unsafe paths, resource limits, truncated structures, and cancellation
 - `Improvement` Added Robolectric security regression tests for both exported entry activities, covering spoofed actions, overprivileged URI grants, declarations above 4 GiB, and concurrent lifecycle cancellation; rejected requests never launch inspection or open oversized content, and Explorer host sessions close exactly once
+- `Improvement` Added a least-privilege GitHub Actions Android CI workflow pinned to immutable action SHAs: Ubuntu 24.04 with JDK 21 builds the debug APK, runs the complete JVM suite, and regenerates all 10-language Markdown; any tracked drift or unexpected untracked output fails the check
 
 #### v1.0.1
 

@@ -9,6 +9,7 @@
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
+    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -172,6 +173,7 @@ _2026/08/30_
 - `Amélioration` Ajout d’une matrice déterministe de 24 échantillons sans données privées couvrant APK/APKS/XAPK/APKM/APKZ/AAB avec des entrées normales, structurellement endommagées, hors limite et incompatibles avec l’appareil ; un générateur fondé sur la bibliothèque standard, un manifeste SHA-256 et des tests de contrat JVM vérifient la reproduction octet par octet, les résultats d’analyse, la taille compacte et l’absence de code, de matériel de signature et de données utilisateur
 - `Amélioration` Ajout de matrices exhaustives de tests unitaires à refus systématique pour la validation des requêtes de paquet, la mise en cache privée, les garde-fous des archives Android et l’analyse des blocs de signature APK ; chaque motif de rejet énuméré est exercé, notamment les métadonnées malformées, les chemins non sûrs, les limites de ressources, les structures tronquées et l’annulation
 - `Amélioration` Ajout de tests de régression de sécurité Robolectric pour les deux activités d’entrée exportées, couvrant les actions usurpées, les autorisations URI excessives, les déclarations dépassant 4 Gio et l’annulation concurrente du cycle de vie ; les requêtes rejetées ne lancent jamais l’inspection ni n’ouvrent de contenu surdimensionné, et les sessions hôtes Explorer se ferment exactement une fois
+- `Amélioration` Ajout d’un workflow CI Android GitHub Actions à privilèges minimaux, dont les actions externes sont figées par des SHA complets immuables : Ubuntu 24.04 avec JDK 21 compile l’APK de débogage, exécute toute la suite JVM et régénère le Markdown des 10 langues ; toute dérive suivie ou sortie non suivie inattendue fait échouer le contrôle
 
 #### v1.0.1
 

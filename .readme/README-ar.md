@@ -9,6 +9,7 @@
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
+    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -172,6 +173,7 @@ _2026/08/30_
 - `تحسين` أُضيفت مصفوفة حتمية من 24 عينة منزوعة البيانات الخاصة تغطي APK/APKS/XAPK/APKM/APKZ/AAB في الحالات العادية والتالفة بنيويًا والمتجاوزة للحد وغير المتوافقة مع الجهاز؛ ويتحقق مولّد يعتمد المكتبة القياسية وقائمة SHA-256 واختبارات عقد JVM من إعادة الإنتاج بايتًا ببايت ونتائج التحليل والحجم الصغير وغياب الشفرة ومواد التوقيع وبيانات المستخدم
 - `تحسين` أُضيفت مصفوفات شاملة لاختبارات الوحدة وفق مبدأ الإغلاق عند الفشل للتحقق من طلبات الحزم وتجهيز نسخ ذاكرة التخزين المؤقت الخاصة وحواجز أرشيفات Android وتحليل كتل توقيع APK؛ وتُختبر كل أسباب الرفض المعدّدة، بما في ذلك البيانات الوصفية المشوّهة والمسارات غير الآمنة وحدود الموارد والبنى المبتورة والإلغاء
 - `تحسين` أُضيفت اختبارات انحدار أمني باستخدام Robolectric لنشاطَي الدخول المُصدَّرين، وتشمل الإجراءات المنتحلة ومنح URI المفرطة والتصريحات التي تتجاوز 4 GiB وإلغاء دورة الحياة المتزامن؛ فلا تبدأ الطلبات المرفوضة الفحص ولا تفتح محتوى مفرط الحجم، وتُغلق جلسة مضيف Explorer مرة واحدة بالضبط
+- `تحسين` أُضيف مسار Android CI في GitHub Actions بأقل الصلاحيات مع تثبيت الإجراءات الخارجية بواسطة قيم SHA كاملة وغير قابلة للتغيير؛ إذ يبني Ubuntu 24.04 مع JDK 21 ملف APK لتصحيح الأخطاء، ويشغّل مجموعة اختبارات JVM كاملة، ويعيد توليد Markdown للغات العشر كلها؛ ويؤدي أي اختلاف متتبَّع أو خرج غير متتبَّع وغير متوقع إلى فشل الفحص
 
 #### v1.0.1
 

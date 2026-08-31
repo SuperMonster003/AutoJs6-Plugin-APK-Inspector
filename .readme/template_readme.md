@@ -9,6 +9,7 @@
 
   <p>
     <a href="{{ repo_url }}/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/{{ repo_slug }}?label=Release"/></a>
+    <a href="{{ repo_url }}/actions/workflows/android-ci.yml"><img alt="Android CI" src="{{ repo_url }}/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="{{ repo_url }}/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/{{ repo_slug }}?color=A24232&label=Issues"/></a>
     <a href="{{ repo_url }}/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/{{ repo_slug }}?color=534BAE&label=License"/></a>
   </p>

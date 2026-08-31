@@ -9,6 +9,7 @@
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
+    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -172,6 +173,7 @@ _2026/08/30_
 - `優化` 新增可重現的 24 項去私隱化樣本矩陣, 涵蓋 APK/APKS/XAPK/APKM/APKZ/AAB 的正常、結構損壞、超限及裝置不相容輸入; 純標準庫產生器、SHA-256 清單及 JVM 契約測試逐項驗證位元組重現、解析結果、儲存庫大小及不含程式碼、簽署材料和用戶資料
 - `優化` 新增完整失敗即拒絕單元測試矩陣, 涵蓋軟件包請求驗證、私人快取暫存、Android 封存檔防護及 APK 簽署區塊解析; 逐項觸發每個列舉拒絕原因, 包括格式錯誤的元數據、不安全路徑、資源上限、截斷結構及取消
 - `優化` 新增兩個已匯出入口 Activity 的 Robolectric 安全迴歸測試, 涵蓋偽造動作、越權 URI 授權、超過 4 GiB 的聲明及並行生命週期取消; 被拒請求不會啟動檢查頁或開啟超大內容, Explorer 宿主工作階段只會關閉一次
+- `優化` 新增最小權限 GitHub Actions Android CI, 並以不可變的完整提交 SHA 固定外部 Action: Ubuntu 24.04 及 JDK 21 會構建 Debug APK、運行完整 JVM 測試並重新產生全部 10 種語言 Markdown; 任何受追蹤差異或意外未追蹤輸出都會令檢查失敗
 
 #### v1.0.1
 

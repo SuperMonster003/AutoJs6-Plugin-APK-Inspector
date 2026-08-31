@@ -9,6 +9,7 @@
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
+    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -172,6 +173,7 @@ _2026/08/30_
 - `Улучшение` Добавлена детерминированная матрица из 24 обезличенных образцов APK/APKS/XAPK/APKM/APKZ/AAB: нормальных, структурно повреждённых, превышающих предел и несовместимых с устройством; генератор на стандартной библиотеке, список SHA-256 и контрактные JVM-тесты проверяют побайтовую воспроизводимость, результаты разбора, компактный размер и отсутствие кода, материалов подписи и пользовательских данных
 - `Улучшение` Добавлены исчерпывающие матрицы модульных тестов с безопасным отказом для проверки запросов пакетов, размещения в приватном кэше, защитных ограничений Android-архивов и разбора блоков подписи APK; отрабатывается каждая перечисленная причина отказа, включая повреждённые метаданные, небезопасные пути, лимиты ресурсов, усечённые структуры и отмену
 - `Улучшение` Добавлены регрессионные тесты безопасности Robolectric для обеих экспортируемых входных Activity: подменённые действия, избыточные URI-разрешения, объявления свыше 4 ГиБ и параллельная отмена жизненного цикла; отклонённые запросы не запускают проверку и не открывают чрезмерно большие данные, а сеанс хоста Explorer закрывается ровно один раз
+- `Улучшение` Добавлен Android CI в GitHub Actions с минимальными правами и фиксацией внешних Actions по неизменяемым полным SHA коммитов: Ubuntu 24.04 с JDK 21 собирает отладочный APK, запускает весь набор JVM-тестов и заново генерирует Markdown для всех 10 языков; любые отслеживаемые различия или неожиданные неотслеживаемые файлы приводят к сбою проверки
 
 #### v1.0.1
 
