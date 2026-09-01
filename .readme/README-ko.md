@@ -1,15 +1,16 @@
+<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
+
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
+    <picture>
+      <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    </picture>
   </p>
 
-  <h1>APK Inspector</h1>
-
-  <p>AutoJs6 파일 관리자 플러그인: APK나 AAB 파일을 탭하기만 하면 설치 없이 버전, 권한, 서명, 기기 호환성을 확인</p>
+  <p>APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
-    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -144,7 +145,7 @@ required host build: 5277
 
 #### v1.1.0
 
-_2026/08/30_
+_2026/09/01_
 
 - `힌트` Explorer Action 프로토콜 v22와 제한된 V4 사이드카 접근에는 AutoJs6 버전 코드 5277 이상이 필요합니다
 - `기능` 1.5x/2.0x 글꼴, 가로 화면 및 320 dp 좁은 화면용 반응형 레이아웃 추가: 필요 시 보고서 헤더를 세로로 배치하고, 간결한 제목을 완전히 표시하며, 긴 SHA-256과 권한 이름을 생략 없이 줄바꿈하고, 매니페스트 검색의 IME 전체 화면 추출을 방지
@@ -175,6 +176,9 @@ _2026/08/30_
 - `개선` 내보낸 두 진입 Activity에 Robolectric 보안 회귀 테스트를 추가했습니다. 위조된 동작, 과도한 URI 권한, 4 GiB 초과 선언, 동시 수명 주기 취소를 다루며 거부된 요청이 검사 화면을 시작하거나 초대형 콘텐츠를 열지 않고 Explorer 호스트 세션이 정확히 한 번 닫히는지 검증합니다
 - `개선` 최소 권한 GitHub Actions Android CI를 추가하고 외부 Action을 변경 불가능한 전체 커밋 SHA로 고정했습니다. Ubuntu 24.04와 JDK 21에서 Debug APK를 빌드하고 전체 JVM 테스트를 실행하며 10개 언어의 Markdown을 모두 다시 생성하고, 추적된 차이나 예기치 않은 미추적 출력이 있으면 검사를 실패시킵니다
 - `개선` 재현 가능한 Release 산출물 준비 및 검증 흐름을 추가했습니다. `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` 명명 규칙을 유지하고 APK별 `.sha256`과 결정적으로 정렬된 `SHA256SUMS`를 생성하며 이름, CRC32, SHA-256 또는 매니페스트 불일치를 거부합니다
+- `개선` README 레이아웃과 Gradle 플랫폼 버전 관리 방식을 통일
+- `개선` 플러그인 설명을 간결하게 다듬고 다국어 리소스의 문장 부호를 통일
+- `개선` 외부 보기 진입점을 External Viewer로 변경해 뷰어 의미를 통일
 
 #### v1.0.1
 

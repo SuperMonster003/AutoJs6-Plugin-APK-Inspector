@@ -7,7 +7,6 @@
     <string name="report_field_copy_description">%1$s. اضغط مطولًا لنسخ هذه القيمة.</string>
     <string name="report_share_subject">تقرير فحص APK: %1$s</string>
     <string name="action_view_manifest">عرض manifest</string>
-    <string name="app_name">فاحص APK</string>
     <string name="components_aab">الوحدات: %1$d\n%2$s</string>
     <string name="aab_bundle_config_heading">تهيئة الحزمة (BundleConfig.pb)</string>
     <string name="aab_bundle_config_bundletool">إصدار Bundletool: %1$s</string>
@@ -114,7 +113,7 @@
     <string name="manifest_search_match_position">النتيجة %1$d من %2$d</string>
     <string name="manifest_search_match_position_truncated">النتيجة %1$d من %2$d على الأقل</string>
     <string name="package_icon_content_description">أيقونة الحزمة</string>
-    <string name="plugin_description">ملحق مدير الملفات. فحص ملفات APK وAPKS وXAPK وAPKM وAPKZ وAAB دون تثبيتها</string>
+    <string name="plugin_description">فحص ملفات APK وAPKS وXAPK وAPKM وAPKZ وAAB دون تثبيتها</string>
     <string name="section_components">المكونات</string>
     <string name="section_device_simulation">محاكاة إعداد الجهاز</string>
     <string name="device_simulation_description">بدّل اللغة وكثافة الشاشة وABI لإعادة حساب مجموعة ملفات APK المحددة محليًا. يظل التقرير الرئيسي مستندًا إلى الجهاز الفعلي.</string>

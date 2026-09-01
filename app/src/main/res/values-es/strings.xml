@@ -7,7 +7,6 @@
     <string name="report_field_copy_description">%1$s. Mantén pulsado para copiar este valor.</string>
     <string name="report_share_subject">Informe de inspección de APK: %1$s</string>
     <string name="action_view_manifest">Ver manifest</string>
-    <string name="app_name">Inspector de APK</string>
     <string name="components_aab">Módulos: %1$d\n%2$s</string>
     <string name="aab_bundle_config_heading">Configuración del bundle (BundleConfig.pb)</string>
     <string name="aab_bundle_config_bundletool">Versión de Bundletool: %1$s</string>
@@ -114,7 +113,7 @@
     <string name="manifest_search_match_position">Coincidencia %1$d de %2$d</string>
     <string name="manifest_search_match_position_truncated">Coincidencia %1$d de al menos %2$d</string>
     <string name="package_icon_content_description">Icono del paquete</string>
-    <string name="plugin_description">Complemento del gestor de archivos. Inspeccionar archivos APK, APKS, XAPK, APKM, APKZ y AAB sin instalarlos</string>
+    <string name="plugin_description">Inspecciona archivos APK, APKS, XAPK, APKM, APKZ y AAB sin instalarlos</string>
     <string name="section_components">Componentes</string>
     <string name="section_device_simulation">Simulación de configuración del dispositivo</string>
     <string name="device_simulation_description">Cambia el idioma, la densidad de pantalla y la ABI para recalcular localmente el conjunto de APK seleccionado. El informe principal sigue basándose en el dispositivo real.</string>

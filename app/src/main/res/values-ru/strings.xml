@@ -7,7 +7,6 @@
     <string name="report_field_copy_description">%1$s. Нажмите и удерживайте, чтобы скопировать значение.</string>
     <string name="report_share_subject">Отчёт о проверке APK: %1$s</string>
     <string name="action_view_manifest">Открыть manifest</string>
-    <string name="app_name">Инспектор APK</string>
     <string name="components_aab">Модули: %1$d\n%2$s</string>
     <string name="aab_bundle_config_heading">Конфигурация пакета (BundleConfig.pb)</string>
     <string name="aab_bundle_config_bundletool">Версия Bundletool: %1$s</string>
@@ -114,7 +113,7 @@
     <string name="manifest_search_match_position">Совпадение %1$d из %2$d</string>
     <string name="manifest_search_match_position_truncated">Совпадение %1$d как минимум из %2$d</string>
     <string name="package_icon_content_description">Значок пакета</string>
-    <string name="plugin_description">Плагин файлового менеджера. Проверка файлов APK, APKS, XAPK, APKM, APKZ и AAB без установки</string>
+    <string name="plugin_description">Проверка файлов APK, APKS, XAPK, APKM, APKZ и AAB без установки</string>
     <string name="section_components">Компоненты</string>
     <string name="section_device_simulation">Моделирование конфигурации устройства</string>
     <string name="device_simulation_description">Переключите язык, плотность экрана и ABI, чтобы локально пересчитать выбранный набор APK. Основной отчёт по-прежнему основан на реальном устройстве.</string>

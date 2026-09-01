@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "application": {
     "packageName": "io.github.supermonster003.autojs6.plugin.apkinspector",
-    "externalViewActivity": ".ExternalViewActivity"
+    "externalViewerActivity": ".ExternalViewerActivity"
   },
   "fixture": {
     "path": "app/src/test/resources/bundletool-selection/selection-matrix.apks",

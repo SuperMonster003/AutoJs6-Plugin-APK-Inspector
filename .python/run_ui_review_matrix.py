@@ -625,7 +625,7 @@ class MatrixRunner:
         self.skip_install = skip_install
         self.fail_fast = fail_fast
         self.application_id = matrix["application"]["packageName"]
-        self.component = self.application_id + "/" + matrix["application"]["externalViewActivity"]
+        self.component = self.application_id + "/" + matrix["application"]["externalViewerActivity"]
         self.driver = matrix["driver"]
         self.device_state = DeviceState(adb, self.application_id)
         timestamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")

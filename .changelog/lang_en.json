@@ -6,7 +6,7 @@
   "changelog_label_dependency": "Dependency",
   "$data": {
     "v1.1.0": {
-      "released_date": "2026/08/30",
+      "released_date": "2026/09/01",
       "hint": [
         "Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access"
       ],
@@ -42,7 +42,10 @@
         "Added exhaustive fail-closed unit-test matrices for package request validation, private-cache staging, Android archive guards, and APK signing-block parsing; every enumerated rejection reason is exercised, including malformed metadata, unsafe paths, resource limits, truncated structures, and cancellation",
         "Added Robolectric security regression tests for both exported entry activities, covering spoofed actions, overprivileged URI grants, declarations above 4 GiB, and concurrent lifecycle cancellation; rejected requests never launch inspection or open oversized content, and Explorer host sessions close exactly once",
         "Added a least-privilege GitHub Actions Android CI workflow pinned to immutable action SHAs: Ubuntu 24.04 with JDK 21 builds the debug APK, runs the complete JVM suite, and regenerates all 10-language Markdown; any tracked drift or unexpected untracked output fails the check",
-        "Added a reproducible release-artifact preparation and verification flow: it preserves the `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` naming rule, writes a `.sha256` sidecar for every APK plus a deterministically sorted `SHA256SUMS`, and rejects any naming, CRC32, SHA-256, or manifest mismatch"
+        "Added a reproducible release-artifact preparation and verification flow: it preserves the `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` naming rule, writes a `.sha256` sidecar for every APK plus a deterministically sorted `SHA256SUMS`, and rejects any naming, CRC32, SHA-256, or manifest mismatch",
+        "Standardize the README layout and Gradle platform version management",
+        "Refine the plugin description and normalize punctuation in multilingual resources",
+        "Rename the external viewing entry to External Viewer for consistent viewer semantics"
       ]
     },
     "v1.0.1": {

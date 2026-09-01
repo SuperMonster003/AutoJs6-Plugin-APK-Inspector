@@ -1,7 +1,7 @@
 {
   "$name": "Español",
   "text_current_lowercase": "actual",
-  "text_plugin_synopsis": "Plugin del gestor de archivos de AutoJs6: toca un archivo APK o AAB para ver su versión, permisos, firmas y compatibilidad con el dispositivo, sin instalarlo",
+  "text_plugin_synopsis": "Inspecciona archivos APK, APKS, XAPK, APKM, APKZ y AAB sin instalarlos",
   "h3_languages_with_ascii": "Idiomas (Languages)",
   "p_languages_all_supported_for_readme": "Este README está disponible en los siguientes idiomas",
   "h3_introduction": "Presentación",

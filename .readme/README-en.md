@@ -1,15 +1,16 @@
+<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
+
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
+    <picture>
+      <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    </picture>
   </p>
 
-  <h1>APK Inspector</h1>
-
-  <p>AutoJs6 file manager plugin: tap any APK or AAB file to see its version, permissions, signatures, and device compatibility, without installing it</p>
+  <p>Inspect APK, APKS, XAPK, APKM, APKZ, and AAB files without installing them</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
-    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -144,7 +145,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 
 #### v1.1.0
 
-_2026/08/30_
+_2026/09/01_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
 - `Feature` Added responsive layouts for 1.5x/2.0x fonts, landscape, and 320 dp screens: the report header stacks when space is tight, compact toolbar titles remain complete, long SHA-256 and permission identifiers wrap without ellipsis, and manifest search avoids full-screen IME extraction
@@ -175,6 +176,9 @@ _2026/08/30_
 - `Improvement` Added Robolectric security regression tests for both exported entry activities, covering spoofed actions, overprivileged URI grants, declarations above 4 GiB, and concurrent lifecycle cancellation; rejected requests never launch inspection or open oversized content, and Explorer host sessions close exactly once
 - `Improvement` Added a least-privilege GitHub Actions Android CI workflow pinned to immutable action SHAs: Ubuntu 24.04 with JDK 21 builds the debug APK, runs the complete JVM suite, and regenerates all 10-language Markdown; any tracked drift or unexpected untracked output fails the check
 - `Improvement` Added a reproducible release-artifact preparation and verification flow: it preserves the `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` naming rule, writes a `.sha256` sidecar for every APK plus a deterministically sorted `SHA256SUMS`, and rejects any naming, CRC32, SHA-256, or manifest mismatch
+- `Improvement` Standardize the README layout and Gradle platform version management
+- `Improvement` Refine the plugin description and normalize punctuation in multilingual resources
+- `Improvement` Rename the external viewing entry to External Viewer for consistent viewer semantics
 
 #### v1.0.1
 

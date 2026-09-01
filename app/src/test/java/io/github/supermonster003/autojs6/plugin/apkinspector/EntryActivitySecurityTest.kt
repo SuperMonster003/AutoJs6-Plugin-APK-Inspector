@@ -136,7 +136,7 @@ class EntryActivitySecurityTest {
         val provider = OversizedPackageProvider()
         ShadowContentResolver.registerProviderInternal(EXTERNAL_AUTHORITY, provider)
         val controller = Robolectric.buildActivity(
-            ExternalViewActivity::class.java,
+            ExternalViewerActivity::class.java,
             validExternalIntent(EXTERNAL_URI),
         ).create().start().resume()
         val activity = controller.get()
@@ -338,7 +338,7 @@ class RejectProbeExplorerActivity : ExplorerActionActivity() {
     }
 }
 
-class RejectProbeExternalActivity : ExternalViewActivity() {
+class RejectProbeExternalActivity : ExternalViewerActivity() {
     override suspend fun stagePackage(seed: PackageInputSeed): StagedPackage? {
         stageCalls.incrementAndGet()
         return null
@@ -370,7 +370,7 @@ class SuspendingExplorerActivity : ExplorerActionActivity() {
     }
 }
 
-class SuspendingExternalActivity : ExternalViewActivity() {
+class SuspendingExternalActivity : ExternalViewerActivity() {
     override suspend fun stagePackage(seed: PackageInputSeed): StagedPackage? {
         started.complete(Unit)
         try {

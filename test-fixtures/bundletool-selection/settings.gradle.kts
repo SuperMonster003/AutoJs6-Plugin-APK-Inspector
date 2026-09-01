@@ -4,6 +4,13 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        id("io.github.supermonster003.autojs6-platform-versions") version "1.6.0"
+    }
+}
+
+plugins {
+    id("io.github.supermonster003.autojs6-platform-versions")
 }
 
 dependencyResolutionManagement {

@@ -1,17 +1,18 @@
+<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
+
 <div align="center">
   <p>
-    <img src="{{ repo_url }}/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
+    <picture>
+      <img src="{{ repo_url }}/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="{{ icon_alt }}" border="0" width="128" />
+    </picture>
   </p>
-
-  <h1>APK Inspector</h1>
 
   <p>{{ text_plugin_synopsis }}</p>
 
   <p>
     <a href="{{ repo_url }}/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/{{ repo_slug }}?label=Release"/></a>
-    <a href="{{ repo_url }}/actions/workflows/android-ci.yml"><img alt="Android CI" src="{{ repo_url }}/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="{{ repo_url }}/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/{{ repo_slug }}?color=A24232&label=Issues"/></a>
-    <a href="{{ repo_url }}/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/{{ repo_slug }}?color=534BAE&label=License"/></a>
+    <a href="{{ license_url }}"><img alt="GitHub License" src="https://img.shields.io/github/license/{{ repo_slug }}?color=534BAE&label=License"/></a>
   </p>
 </div>
 

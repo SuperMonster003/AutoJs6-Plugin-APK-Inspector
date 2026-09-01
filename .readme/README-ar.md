@@ -1,15 +1,16 @@
+<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
+
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
+    <picture>
+      <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    </picture>
   </p>
 
-  <h1>APK Inspector</h1>
-
-  <p>إضافة مدير ملفات AutoJs6: انقر على أي ملف APK أو AAB لعرض إصداره وأذوناته وتواقيعه وتوافقه مع الجهاز، دون تثبيته</p>
+  <p>فحص ملفات APK وAPKS وXAPK وAPKM وAPKZ وAAB دون تثبيتها</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
-    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -144,7 +145,7 @@ required host build: 5277
 
 #### v1.1.0
 
-_2026/08/30_
+_2026/09/01_
 
 - `تلميح` يتطلب بروتوكول Explorer Action v22 والوصول المحدود إلى ملف V4 إصدار AutoJs6 برمز 5277 أو أحدث
 - `ميزة` إضافة تخطيطات متجاوبة لخط 1.5x/2.0x والوضع الأفقي وشاشات 320 dp: ترتيب رأس التقرير عموديًا عند ضيق المساحة، وعناوين أدوات مختصرة كاملة، والتفاف SHA-256 وأسماء الأذونات الطويلة بلا حذف، وبحث في البيان دون واجهة IME بملء الشاشة
@@ -175,6 +176,9 @@ _2026/08/30_
 - `تحسين` أُضيفت اختبارات انحدار أمني باستخدام Robolectric لنشاطَي الدخول المُصدَّرين، وتشمل الإجراءات المنتحلة ومنح URI المفرطة والتصريحات التي تتجاوز 4 GiB وإلغاء دورة الحياة المتزامن؛ فلا تبدأ الطلبات المرفوضة الفحص ولا تفتح محتوى مفرط الحجم، وتُغلق جلسة مضيف Explorer مرة واحدة بالضبط
 - `تحسين` أُضيف مسار Android CI في GitHub Actions بأقل الصلاحيات مع تثبيت الإجراءات الخارجية بواسطة قيم SHA كاملة وغير قابلة للتغيير؛ إذ يبني Ubuntu 24.04 مع JDK 21 ملف APK لتصحيح الأخطاء، ويشغّل مجموعة اختبارات JVM كاملة، ويعيد توليد Markdown للغات العشر كلها؛ ويؤدي أي اختلاف متتبَّع أو خرج غير متتبَّع وغير متوقع إلى فشل الفحص
 - `تحسين` أُضيف مسار قابل لإعادة الإنتاج لإعداد ملفات الإصدار والتحقق منها: يحافظ على قاعدة الاسم `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk`، وينشئ ملف `.sha256` مرافقاً لكل APK مع ملف `SHA256SUMS` مرتب بصورة ثابتة، ويرفض أي عدم تطابق في الاسم أو CRC32 أو SHA-256 أو القائمة
+- `تحسين` توحيد تخطيط README وطريقة إدارة إصدارات منصة Gradle
+- `تحسين` تبسيط وصف المكون الإضافي وتوحيد علامات الترقيم في الموارد متعددة اللغات
+- `تحسين` إعادة تسمية مدخل العرض الخارجي إلى External Viewer لتوحيد دلالة العارض
 
 #### v1.0.1
 

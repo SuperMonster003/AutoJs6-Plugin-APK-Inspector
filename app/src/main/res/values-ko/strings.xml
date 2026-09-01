@@ -7,7 +7,6 @@
     <string name="report_field_copy_description">%1$s. 길게 눌러 이 값을 복사하세요.</string>
     <string name="report_share_subject">APK 검사 보고서: %1$s</string>
     <string name="action_view_manifest">manifest 보기</string>
-    <string name="app_name">APK 검사기</string>
     <string name="components_aab">모듈: %1$d\n%2$s</string>
     <string name="aab_bundle_config_heading">Bundle 구성 (BundleConfig.pb)</string>
     <string name="aab_bundle_config_bundletool">Bundletool 버전: %1$s</string>
@@ -114,7 +113,7 @@
     <string name="manifest_search_match_position">%2$d개 중 %1$d번째</string>
     <string name="manifest_search_match_position_truncated">최소 %2$d개 중 %1$d번째</string>
     <string name="package_icon_content_description">패키지 아이콘</string>
-    <string name="plugin_description">파일 관리자 플러그인. APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사</string>
+    <string name="plugin_description">APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사</string>
     <string name="section_components">구성 요소</string>
     <string name="section_device_simulation">기기 구성 시뮬레이션</string>
     <string name="device_simulation_description">언어, 화면 밀도, ABI를 전환하여 선택할 APK 세트를 기기에서 다시 계산합니다. 기본 보고서는 실제 기기를 계속 기준으로 합니다.</string>

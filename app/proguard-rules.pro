@@ -1,6 +1,6 @@
 -keep class io.github.supermonster003.autojs6.plugin.apkinspector.ExplorerActionService { *; }
 -keep class io.github.supermonster003.autojs6.plugin.apkinspector.ExplorerActionActivity { *; }
--keep class io.github.supermonster003.autojs6.plugin.apkinspector.ExternalViewActivity { *; }
+-keep class io.github.supermonster003.autojs6.plugin.apkinspector.ExternalViewerActivity { *; }
 -keep class io.github.supermonster003.autojs6.plugin.apkinspector.ApkInspectorActivity { *; }
 -keep class io.github.supermonster003.autojs6.plugin.apkinspector.ManifestViewerActivity { *; }
 -keep class io.github.supermonster003.autojs6.plugin.apkinspector.WakeActivity { *; }

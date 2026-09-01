@@ -10,7 +10,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-open class ExternalViewActivity : Activity() {
+open class ExternalViewerActivity : Activity() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -24,10 +24,10 @@ open class ExternalViewActivity : Activity() {
         scope.launch {
             val staged = stagePackage(seed)
             if (staged != null && !isFinishing && !isDestroyed) {
-                runCatching { startActivity(ApkInspectorActivity.createIntent(this@ExternalViewActivity, staged)) }
-                    .onFailure { Toast.makeText(this@ExternalViewActivity, R.string.error_cannot_inspect, Toast.LENGTH_LONG).show() }
+                runCatching { startActivity(ApkInspectorActivity.createIntent(this@ExternalViewerActivity, staged)) }
+                    .onFailure { Toast.makeText(this@ExternalViewerActivity, R.string.error_cannot_inspect, Toast.LENGTH_LONG).show() }
             } else if (!isFinishing && !isDestroyed) {
-                Toast.makeText(this@ExternalViewActivity, R.string.error_cannot_read_package, Toast.LENGTH_LONG).show()
+                Toast.makeText(this@ExternalViewerActivity, R.string.error_cannot_read_package, Toast.LENGTH_LONG).show()
             }
             finish()
         }
@@ -35,7 +35,7 @@ open class ExternalViewActivity : Activity() {
 
     internal open suspend fun stagePackage(seed: PackageInputSeed): StagedPackage? =
         withContext(Dispatchers.IO) {
-            PackageCacheStager.stage(this@ExternalViewActivity, seed)
+            PackageCacheStager.stage(this@ExternalViewerActivity, seed)
         }
 
     override fun onDestroy() {

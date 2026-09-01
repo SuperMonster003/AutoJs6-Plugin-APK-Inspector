@@ -1,15 +1,16 @@
+<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
+
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
+    <picture>
+      <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    </picture>
   </p>
 
-  <h1>APK Inspector</h1>
-
-  <p>Плагин файлового менеджера AutoJs6: коснитесь файла APK или AAB, чтобы увидеть его версию, разрешения, подписи и совместимость с устройством, не устанавливая его</p>
+  <p>Проверка файлов APK, APKS, XAPK, APKM, APKZ и AAB без установки</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
-    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -144,7 +145,7 @@ required host build: 5277
 
 #### v1.1.0
 
-_2026/08/30_
+_2026/09/01_
 
 - `Подсказка` Требуется AutoJs6 с кодом версии 5277 или новее для протокола Explorer Action v22 и ограниченного доступа к файлу V4
 - `Функция` Добавлены адаптивные макеты для шрифта 1,5×/2,0×, альбомной ориентации и экранов 320 dp: вертикальная компоновка заголовка при нехватке места, полные компактные заголовки, перенос длинных SHA-256 и разрешений без сокращения и поиск по manifest без полноэкранного режима IME
@@ -175,6 +176,9 @@ _2026/08/30_
 - `Улучшение` Добавлены регрессионные тесты безопасности Robolectric для обеих экспортируемых входных Activity: подменённые действия, избыточные URI-разрешения, объявления свыше 4 ГиБ и параллельная отмена жизненного цикла; отклонённые запросы не запускают проверку и не открывают чрезмерно большие данные, а сеанс хоста Explorer закрывается ровно один раз
 - `Улучшение` Добавлен Android CI в GitHub Actions с минимальными правами и фиксацией внешних Actions по неизменяемым полным SHA коммитов: Ubuntu 24.04 с JDK 21 собирает отладочный APK, запускает весь набор JVM-тестов и заново генерирует Markdown для всех 10 языков; любые отслеживаемые различия или неожиданные неотслеживаемые файлы приводят к сбою проверки
 - `Улучшение` Добавлен воспроизводимый процесс подготовки и проверки релизных артефактов: он сохраняет правило имён `autojs6-plugin-apk-inspector-v<версия>-<CRC32>.apk`, создаёт для каждого APK файл `.sha256` и детерминированно отсортированный `SHA256SUMS`, а также отклоняет любые несоответствия имени, CRC32, SHA-256 или манифеста
+- `Улучшение` Унифицировать оформление README и управление версиями платформы Gradle
+- `Улучшение` Сократить описание плагина и унифицировать пунктуацию в многоязычных ресурсах
+- `Улучшение` Переименовать внешний просмотр в External Viewer для единообразной семантики средства просмотра
 
 #### v1.0.1
 

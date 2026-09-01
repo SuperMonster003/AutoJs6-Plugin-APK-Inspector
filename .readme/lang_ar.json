@@ -1,7 +1,7 @@
 {
   "$name": "العربية",
   "text_current_lowercase": "الحالي",
-  "text_plugin_synopsis": "إضافة مدير ملفات AutoJs6: انقر على أي ملف APK أو AAB لعرض إصداره وأذوناته وتواقيعه وتوافقه مع الجهاز، دون تثبيته",
+  "text_plugin_synopsis": "فحص ملفات APK وAPKS وXAPK وAPKM وAPKZ وAAB دون تثبيتها",
   "h3_languages_with_ascii": "اللغات (Languages)",
   "p_languages_all_supported_for_readme": "يتوفر هذا الملف التمهيدي باللغات التالية",
   "h3_introduction": "نبذة عن المشروع",

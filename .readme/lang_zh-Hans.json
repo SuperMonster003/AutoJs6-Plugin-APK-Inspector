@@ -1,7 +1,7 @@
 {
   "$name": "简体中文",
   "text_current_lowercase": "当前",
-  "text_plugin_synopsis": "AutoJs6 文件管理器插件: 无需安装, 点开即可看清 APK 与 AAB 安装包的版本、权限、签名与设备兼容性",
+  "text_plugin_synopsis": "无需安装即可检查 APK, APKS, XAPK, APKM, APKZ 和 AAB 文件",
   "h3_languages_with_ascii": "语言 (Languages)",
   "p_languages_all_supported_for_readme": "README 提供以下语言版本",
   "h3_introduction": "项目简介",

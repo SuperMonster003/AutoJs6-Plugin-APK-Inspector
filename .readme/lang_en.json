@@ -1,7 +1,7 @@
 {
   "$name": "English",
   "text_current_lowercase": "current",
-  "text_plugin_synopsis": "AutoJs6 file manager plugin: tap any APK or AAB file to see its version, permissions, signatures, and device compatibility, without installing it",
+  "text_plugin_synopsis": "Inspect APK, APKS, XAPK, APKM, APKZ, and AAB files without installing them",
   "h3_languages_with_ascii": "Languages",
   "p_languages_all_supported_for_readme": "This README is available in the following languages",
   "h3_introduction": "Introduction",

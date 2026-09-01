@@ -1,15 +1,16 @@
+<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
+
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
+    <picture>
+      <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    </picture>
   </p>
 
-  <h1>APK Inspector</h1>
-
-  <p>Plugin du gestionnaire de fichiers AutoJs6 : touchez un fichier APK ou AAB pour voir sa version, ses autorisations, ses signatures et sa compatibilité, sans l'installer</p>
+  <p>Inspecte les fichiers APK, APKS, XAPK, APKM, APKZ et AAB sans les installer</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
-    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -144,7 +145,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 
 #### v1.1.0
 
-_2026/08/30_
+_2026/09/01_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
 - `Fonctionnalité` Ajout de mises en page adaptatives pour les polices 1,5×/2,0×, le paysage et les écrans de 320 dp : en-tête empilé si nécessaire, titres compacts complets, retour à la ligne sans ellipse des SHA-256 et autorisations longues, et recherche du manifeste sans extraction IME plein écran
@@ -175,6 +176,9 @@ _2026/08/30_
 - `Amélioration` Ajout de tests de régression de sécurité Robolectric pour les deux activités d’entrée exportées, couvrant les actions usurpées, les autorisations URI excessives, les déclarations dépassant 4 Gio et l’annulation concurrente du cycle de vie ; les requêtes rejetées ne lancent jamais l’inspection ni n’ouvrent de contenu surdimensionné, et les sessions hôtes Explorer se ferment exactement une fois
 - `Amélioration` Ajout d’un workflow CI Android GitHub Actions à privilèges minimaux, dont les actions externes sont figées par des SHA complets immuables : Ubuntu 24.04 avec JDK 21 compile l’APK de débogage, exécute toute la suite JVM et régénère le Markdown des 10 langues ; toute dérive suivie ou sortie non suivie inattendue fait échouer le contrôle
 - `Amélioration` Ajout d’un flux reproductible de préparation et de vérification des artefacts de publication : il conserve la règle de nommage `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk`, produit un fichier `.sha256` par APK ainsi qu’un `SHA256SUMS` trié de manière déterministe, et rejette toute incohérence de nom, CRC32, SHA-256 ou manifeste
+- `Amélioration` Uniformiser la mise en page du README et la gestion des versions de la plateforme Gradle
+- `Amélioration` Simplifier la description du plugin et normaliser la ponctuation des ressources multilingues
+- `Amélioration` Renommer l'entrée de visualisation externe en External Viewer pour unifier la sémantique de la visionneuse
 
 #### v1.0.1
 

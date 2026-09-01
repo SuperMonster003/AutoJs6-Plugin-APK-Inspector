@@ -7,7 +7,6 @@
     <string name="report_field_copy_description">%1$s. Long press to copy this value.</string>
     <string name="report_share_subject">APK inspection report: %1$s</string>
     <string name="action_view_manifest">View manifest</string>
-    <string name="app_name">APK Inspector</string>
     <string name="components_aab">Modules: %1$d\n%2$s</string>
     <string name="aab_bundle_config_heading">Bundle configuration (BundleConfig.pb)</string>
     <string name="aab_bundle_config_bundletool">Bundletool version: %1$s</string>
@@ -114,7 +113,7 @@
     <string name="manifest_search_match_position">Match %1$d of %2$d</string>
     <string name="manifest_search_match_position_truncated">Match %1$d of at least %2$d</string>
     <string name="package_icon_content_description">Package icon</string>
-    <string name="plugin_description">File manager plugin. Inspect APK, APKS, XAPK, APKM, APKZ, and AAB files without installing them</string>
+    <string name="plugin_description">Inspect APK, APKS, XAPK, APKM, APKZ, and AAB files without installing them</string>
     <string name="section_components">Components</string>
     <string name="section_device_simulation">Device configuration simulation</string>
     <string name="device_simulation_description">Switch language, screen density, and ABI to recompute the selected APK set locally. The main report remains based on the actual device.</string>

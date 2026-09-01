@@ -1,15 +1,16 @@
+<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
+
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
+    <picture>
+      <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    </picture>
   </p>
 
-  <h1>APK Inspector</h1>
-
-  <p>AutoJs6 檔案管理器插件: 毋須安裝, 點開即可看清 APK 與 AAB 安裝包的版本、權限、簽署與裝置相容性</p>
+  <p>毋須安裝即可檢查 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
-    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -144,7 +145,7 @@ required host build: 5277
 
 #### v1.1.0
 
-_2026/08/30_
+_2026/09/01_
 
 - `提示` Explorer Action 協議 v22 與有界 V4 同級檔案存取要求 AutoJs6 版本代碼不低於 5277
 - `新增` 新增適配 1.5x/2.0x 字體、橫向和 320 dp 窄螢幕的響應式配置: 空間不足時報告頁首自動縱向排列, 緊湊工具列標題保持完整, 長 SHA-256 與權限名稱不省略並正確換行, 資訊清單搜尋避免輸入法全螢幕擷取介面
@@ -175,6 +176,9 @@ _2026/08/30_
 - `優化` 新增兩個已匯出入口 Activity 的 Robolectric 安全迴歸測試, 涵蓋偽造動作、越權 URI 授權、超過 4 GiB 的聲明及並行生命週期取消; 被拒請求不會啟動檢查頁或開啟超大內容, Explorer 宿主工作階段只會關閉一次
 - `優化` 新增最小權限 GitHub Actions Android CI, 並以不可變的完整提交 SHA 固定外部 Action: Ubuntu 24.04 及 JDK 21 會構建 Debug APK、運行完整 JVM 測試並重新產生全部 10 種語言 Markdown; 任何受追蹤差異或意外未追蹤輸出都會令檢查失敗
 - `優化` 新增可重現的 Release 產物準備及校驗流程: 保留 `autojs6-plugin-apk-inspector-v<版本>-<CRC32>.apk` 命名規則, 為每個 APK 產生 `.sha256` 附帶檔案及排序穩定的 `SHA256SUMS`; 任何命名、CRC32、SHA-256 或清單不一致都會被拒絕
+- `優化` 統一 README 版式與 Gradle 平台版本管理方式
+- `優化` 精簡插件描述並規範多語言資源中的標點符號
+- `優化` 將外部檢視入口統一命名為 External Viewer
 
 #### v1.0.1
 

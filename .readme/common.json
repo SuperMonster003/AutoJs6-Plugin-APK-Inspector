@@ -1,5 +1,7 @@
 {
   "repo_url": "https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector",
+  "icon_alt": "autojs6-plugin-apk-inspector-ic-launcher",
+  "license_url": "{{ repo_url }}/blob/master/LICENSE",
   "repo_slug": "SuperMonster003/AutoJs6-Plugin-APK-Inspector",
   "docs_autojs6_url": "https://docs.autojs6.com",
   "plugin_action": "org.autojs.plugin.EXPLORER_ACTION",

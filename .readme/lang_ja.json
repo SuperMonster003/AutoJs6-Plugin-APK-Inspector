@@ -1,7 +1,7 @@
 {
   "$name": "日本語",
   "text_current_lowercase": "現在",
-  "text_plugin_synopsis": "AutoJs6 ファイルマネージャープラグイン: APKやAABファイルをタップするだけで, インストールせずにバージョン・権限・署名・端末互換性を確認",
+  "text_plugin_synopsis": "APK, APKS, XAPK, APKM, APKZ, AAB ファイルをインストールせずに検査",
   "h3_languages_with_ascii": "言語 (Languages)",
   "p_languages_all_supported_for_readme": "このREADMEは次の言語で利用できます",
   "h3_introduction": "概要",

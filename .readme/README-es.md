@@ -1,15 +1,16 @@
+<!--suppress HtmlDeprecatedAttribute, HttpUrlsUsage -->
+
 <div align="center">
   <p>
-    <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="APK Inspector" width="128" />
+    <picture>
+      <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
+    </picture>
   </p>
 
-  <h1>APK Inspector</h1>
-
-  <p>Plugin del gestor de archivos de AutoJs6: toca un archivo APK o AAB para ver su versión, permisos, firmas y compatibilidad con el dispositivo, sin instalarlo</p>
+  <p>Inspecciona archivos APK, APKS, XAPK, APKM, APKZ y AAB sin instalarlos</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
-    <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml"><img alt="Android CI" src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/actions/workflows/android-ci.yml/badge.svg"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/issues"><img alt="GitHub closed issues" src="https://img.shields.io/github/issues/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=A24232&label=Issues"/></a>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/SuperMonster003/AutoJs6-Plugin-APK-Inspector?color=534BAE&label=License"/></a>
   </p>
@@ -144,7 +145,7 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 
 #### v1.1.0
 
-_2026/08/30_
+_2026/09/01_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
 - `Función` Se añadieron diseños adaptables para fuentes de 1,5×/2,0×, orientación horizontal y pantallas de 320 dp: encabezado apilado cuando falta espacio, títulos compactos completos, ajuste sin elipsis de SHA-256 y permisos largos, y búsqueda del manifest sin extracción IME a pantalla completa
@@ -175,6 +176,9 @@ _2026/08/30_
 - `Mejora` Se añadieron pruebas de regresión de seguridad con Robolectric para ambas actividades de entrada exportadas, que cubren acciones suplantadas, permisos URI excesivos, declaraciones superiores a 4 GiB y cancelación concurrente del ciclo de vida; las solicitudes rechazadas nunca inician la inspección ni abren contenido sobredimensionado, y las sesiones del host Explorer se cierran exactamente una vez
 - `Mejora` Se añadió un flujo de CI Android de GitHub Actions con privilegios mínimos y acciones externas fijadas mediante SHA completos inmutables: Ubuntu 24.04 con JDK 21 compila el APK de depuración, ejecuta toda la suite JVM y regenera el Markdown de los 10 idiomas; cualquier diferencia rastreada o salida inesperada sin seguimiento hace fallar la comprobación
 - `Mejora` Se añadió un flujo reproducible de preparación y verificación de artefactos de lanzamiento: conserva la regla de nombre `autojs6-plugin-apk-inspector-v<versión>-<CRC32>.apk`, genera un archivo `.sha256` por APK y un `SHA256SUMS` ordenado de forma determinista, y rechaza cualquier discrepancia de nombre, CRC32, SHA-256 o manifiesto
+- `Mejora` Unificar el diseño del README y la gestión de versiones de la plataforma Gradle
+- `Mejora` Simplificar la descripción del complemento y normalizar la puntuación de los recursos multilingües
+- `Mejora` Renombrar la entrada de visualización externa como External Viewer para unificar la semántica del visor
 
 #### v1.0.1
 

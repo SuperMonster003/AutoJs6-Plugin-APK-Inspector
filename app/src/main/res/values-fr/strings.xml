@@ -7,7 +7,6 @@
     <string name="report_field_copy_description">%1$s. Appuyez longuement pour copier cette valeur.</string>
     <string name="report_share_subject">Rapport d’inspection APK : %1$s</string>
     <string name="action_view_manifest">Afficher le manifeste</string>
-    <string name="app_name">Inspecteur APK</string>
     <string name="components_aab">Modules: %1$d\n%2$s</string>
     <string name="aab_bundle_config_heading">Configuration du bundle (BundleConfig.pb)</string>
     <string name="aab_bundle_config_bundletool">Version de Bundletool : %1$s</string>
@@ -114,7 +113,7 @@
     <string name="manifest_search_match_position">Résultat %1$d sur %2$d</string>
     <string name="manifest_search_match_position_truncated">Résultat %1$d sur au moins %2$d</string>
     <string name="package_icon_content_description">Icône du paquet</string>
-    <string name="plugin_description">Plugin de gestionnaire de fichiers. Inspecter les fichiers APK, APKS, XAPK, APKM, APKZ et AAB sans les installer</string>
+    <string name="plugin_description">Inspecte les fichiers APK, APKS, XAPK, APKM, APKZ et AAB sans les installer</string>
     <string name="section_components">Composants</string>
     <string name="section_device_simulation">Simulation de configuration de l’appareil</string>
     <string name="device_simulation_description">Changez la langue, la densité d’écran et l’ABI pour recalculer localement l’ensemble d’APK sélectionné. Le rapport principal reste basé sur l’appareil réel.</string>
