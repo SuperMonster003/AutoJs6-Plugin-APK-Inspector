@@ -10,6 +10,7 @@
   "plugin_engine": "explorer-action",
   "plugin_variant": "default",
   "explorer_action_id": "inspect-android-package",
+  "host_file_info_version": "1",
   "mime_type": "Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types",
   "required_host_build": "5277",
   "supported_formats": "APK, APKS, XAPK, APKM, APKZ, AAB",

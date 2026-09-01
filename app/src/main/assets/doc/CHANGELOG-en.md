@@ -5,6 +5,7 @@
 _2026/09/01_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added progressive enhancement for the host APK information dialog through host file-information capability v1: compatible hosts keep every native field and installation/manifest action, then append a bounded localized summary bound to the analyzed source SHA-256; missing, disabled, old, incompatible, or failing plugins leave the base dialog unchanged
 - `Feature` Added responsive layouts for 1.5x/2.0x fonts, landscape, and 320 dp screens: the report header stacks when space is tight, compact toolbar titles remain complete, long SHA-256 and permission identifiers wrap without ellipsis, and manifest search avoids full-screen IME extraction
 - `Feature` Added TalkBack and RTL accessibility across the report and manifest viewer: compatibility heading semantics, named icon actions, 48 dp custom touch targets, live result announcements, locale-directed layouts, and mirrored Arabic navigation
 - `Feature` Added line numbers, Material-aware XML syntax highlighting, and bounded case-insensitive text search with highlighted matches, previous/next wraparound navigation, and state restoration to the read-only manifest viewer

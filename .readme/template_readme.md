@@ -71,6 +71,7 @@ plugin id: {{ plugin_id }}
 engine: {{ plugin_engine }}
 variant: {{ plugin_variant }}
 Explorer action id: {{ explorer_action_id }}
+host file information capability: v{{ host_file_info_version }}
 MIME type: {{ mime_type }}
 required host build: {{ required_host_build }}
 ```

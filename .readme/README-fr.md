@@ -39,6 +39,7 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 
 ### Points forts
 
+- Enrichissement progressif de la boîte de dialogue hôte : sur un hôte AutoJs6 compatible, la boîte de dialogue d'informations APK existante conserve tous ses champs natifs et ses actions d'installation/manifeste, puis ajoute un résumé d'inspection localisé, borné et lié au SHA-256 ; si le plugin est absent, désactivé, ancien, incompatible ou en échec, la boîte de dialogue de base reste inchangée.
 - Mise en page pour grands caractères et écrans compacts : aux facteurs 1,5×/2,0×, l’en-tête du rapport s’empile si nécessaire, les titres compacts restent visibles, les SHA-256 et noms d’autorisations longs reviennent à la ligne sans ellipse, et la recherche du manifeste en paysage évite le mode d’extraction plein écran du clavier.
 - Apparence adaptative : le rapport et la visionneuse du manifeste suivent le mode clair/sombre du système ; sous Android 12 ou version ultérieure, Material You dérive aussi la palette du fond d’écran, tandis que les couleurs sémantiques et les icônes de barres système à contraste adapté préservent la lisibilité.
 - Métadonnées de conteneur : lit celles des SAI APKS, XAPK et APKMirror APKM dans une limite de 1 Mio, affiche l’outil/version de format, la version d’application déclarée et une entrée d’icône existante sans remplacer les faits du manifeste APK.
@@ -129,11 +130,12 @@ plugin id: apk-inspector
 engine: explorer-action
 variant: default
 Explorer action id: inspect-android-package
+host file information capability: v1
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
 required host build: 5277
 ```
 
-La version actuelle n'effectue qu'une inspection en lecture seule : aucun bouton d'installation, aucune autorisation d'installation, aucun installateur de paquets ; le fichier source n'est jamais modifié et aucun répertoire n'est énuméré. V4 utilise uniquement le candidat `.idsig` exact dérivé par l'hôte, copie son descripteur borné en lecture seule dans un instantané privé, puis ferme immédiatement la session hôte. Si le plugin est absent ou désactivé, l'hôte revient silencieusement à son action par défaut.
+La version actuelle n'effectue qu'une inspection en lecture seule : aucun bouton d'installation, aucune autorisation d'installation, aucun installateur de paquets ; le fichier source n'est jamais modifié et aucun répertoire n'est énuméré. V4 utilise uniquement le candidat `.idsig` exact dérivé par l'hôte, copie son descripteur borné en lecture seule dans un instantané privé, puis ferme immédiatement la session hôte. Sur les hôtes compatibles, la capacité v1 d'informations de fichier hôte peut ajouter à la boîte de dialogue d'informations APK existante un résumé localisé et borné, lié au SHA-256 de la source analysée, tandis que le rapport Activity complet reste disponible. Si le plugin est absent, désactivé, ancien, incompatible ou en échec, la boîte de dialogue de base reste inchangée et l'hôte utilise silencieusement son repli normal.
 
 ### Roadmap
 
@@ -148,6 +150,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 _2026/09/01_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
+- `Fonctionnalité` Ajout de l'enrichissement progressif de la boîte de dialogue d'informations APK hôte via la capacité v1 d'informations de fichier : les hôtes compatibles conservent tous les champs natifs et les actions d'installation/manifeste, puis ajoutent un résumé localisé et borné, lié au SHA-256 de la source analysée ; si le plugin est absent, désactivé, ancien, incompatible ou en échec, la boîte de dialogue de base reste inchangée
 - `Fonctionnalité` Ajout de mises en page adaptatives pour les polices 1,5×/2,0×, le paysage et les écrans de 320 dp : en-tête empilé si nécessaire, titres compacts complets, retour à la ligne sans ellipse des SHA-256 et autorisations longues, et recherche du manifeste sans extraction IME plein écran
 - `Fonctionnalité` Ajout de l’accessibilité TalkBack et RTL au rapport et à la visionneuse de manifeste : titres sémantiques compatibles, actions par icône nommées, cibles personnalisées de 48 dp, annonces des résultats dynamiques, disposition suivant la langue et navigation arabe inversée
 - `Fonctionnalité` Ajout, dans la visionneuse de manifeste en lecture seule, des numéros de ligne, de la coloration XML adaptée au thème Material et d’une recherche bornée insensible à la casse, avec surlignage, navigation précédent/suivant en boucle et restauration de l’état

@@ -39,6 +39,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 
 ### Highlights
 
+- Progressive host-dialog enhancement: on a compatible AutoJs6 host, the existing APK information dialog keeps every native field and installation/manifest action, then appends a bounded localized inspection summary bound to SHA-256; a missing, disabled, old, incompatible, or failing plugin leaves the base dialog unchanged.
 - Large-text and compact-screen layout: at 1.5x/2.0x font scales the report header stacks when space is tight, compact toolbar titles stay fully visible, long SHA-256 and permission identifiers wrap without ellipsis, and landscape manifest search avoids full-screen IME extraction.
 - Adaptive appearance: the report and manifest viewer follow the system light/dark setting; on Android 12 and later, Material You also derives the palette from the wallpaper, while semantic colors and contrast-aware system-bar icons keep both pages readable.
 - Container metadata: reads SAI APKS, XAPK, and APKMirror APKM metadata under a 1 MiB limit, showing the packager/schema version, metadata-declared app version, and an existing icon entry without overriding APK manifest facts.
@@ -129,11 +130,12 @@ plugin id: apk-inspector
 engine: explorer-action
 variant: default
 Explorer action id: inspect-android-package
+host file information capability: v1
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
 required host build: 5277
 ```
 
-The current version performs read-only inspection only: there is no install button, install permission, or package installer, the source file is never modified, and directories are never enumerated. V4 uses only the exact host-derived `.idsig` candidate, copies its bounded read-only descriptor into a private snapshot, and closes the host session immediately after staging. If the plugin is missing or disabled, the host silently falls back to its default action.
+The current version performs read-only inspection only: there is no install button, install permission, or package installer, the source file is never modified, and directories are never enumerated. V4 uses only the exact host-derived `.idsig` candidate, copies its bounded read-only descriptor into a private snapshot, and closes the host session immediately after staging. On compatible hosts, host file-information capability v1 can append a bounded localized summary bound to the analyzed source SHA-256 to the existing APK information dialog, while the full Activity report remains available. A missing, disabled, old, incompatible, or failing plugin leaves the base dialog unchanged and the host silently uses its normal fallback.
 
 ### Roadmap
 
@@ -148,6 +150,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 _2026/09/01_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
+- `Feature` Added progressive enhancement for the host APK information dialog through host file-information capability v1: compatible hosts keep every native field and installation/manifest action, then append a bounded localized summary bound to the analyzed source SHA-256; missing, disabled, old, incompatible, or failing plugins leave the base dialog unchanged
 - `Feature` Added responsive layouts for 1.5x/2.0x fonts, landscape, and 320 dp screens: the report header stacks when space is tight, compact toolbar titles remain complete, long SHA-256 and permission identifiers wrap without ellipsis, and manifest search avoids full-screen IME extraction
 - `Feature` Added TalkBack and RTL accessibility across the report and manifest viewer: compatibility heading semantics, named icon actions, 48 dp custom touch targets, live result announcements, locale-directed layouts, and mirrored Arabic navigation
 - `Feature` Added line numbers, Material-aware XML syntax highlighting, and bounded case-insensitive text search with highlighted matches, previous/next wraparound navigation, and state restoration to the read-only manifest viewer

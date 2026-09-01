@@ -39,6 +39,7 @@ El informe tiene cuatro secciones: «Detalles del paquete» muestra el nombre de
 
 ### Puntos destacados
 
+- Mejora progresiva del diálogo del host: en un AutoJs6 compatible, el diálogo existente de información APK conserva todos sus campos nativos y las acciones de instalación/manifiesto y después añade un resumen de inspección localizado, acotado y vinculado a SHA-256; si el plugin falta, está desactivado, es antiguo, incompatible o falla, el diálogo base no cambia.
 - Diseño para texto grande y pantallas compactas: con escalas de fuente de 1,5×/2,0×, el encabezado del informe se apila cuando falta espacio, los títulos compactos permanecen completos, los SHA-256 y nombres de permisos largos se ajustan sin puntos suspensivos y la búsqueda del manifest en horizontal evita la extracción de IME a pantalla completa.
 - Apariencia adaptativa: el informe y el visor del manifiesto siguen el modo claro/oscuro del sistema; en Android 12 y versiones posteriores, Material You también deriva la paleta del fondo de pantalla, mientras los colores semánticos y los iconos de las barras del sistema con contraste adaptado mantienen legibles ambas páginas.
 - Metadatos del contenedor: lee los metadatos de SAI APKS, XAPK y APKMirror APKM con un límite de 1 MiB y muestra la herramienta/versión del formato, la versión de la app declarada y una entrada de icono existente sin reemplazar los datos del manifest del APK.
@@ -129,11 +130,12 @@ plugin id: apk-inspector
 engine: explorer-action
 variant: default
 Explorer action id: inspect-android-package
+host file information capability: v1
 MIME type: Explorer: extension-only; ACTION_VIEW: dedicated Android package MIME types
 required host build: 5277
 ```
 
-La versión actual solo realiza inspección de solo lectura: no hay botón de instalación, permiso de instalación ni instalador de paquetes, el archivo original nunca se modifica y no se enumeran directorios. V4 usa únicamente el candidato `.idsig` exacto derivado por el anfitrión, copia su descriptor acotado de solo lectura a una instantánea privada y cierra la sesión del anfitrión inmediatamente después. Si el plugin falta o está desactivado, el anfitrión recurre en silencio a su acción predeterminada.
+La versión actual solo realiza inspección de solo lectura: no hay botón de instalación, permiso de instalación ni instalador de paquetes, el archivo original nunca se modifica y no se enumeran directorios. V4 usa únicamente el candidato `.idsig` exacto derivado por el anfitrión, copia su descriptor acotado de solo lectura a una instantánea privada y cierra la sesión del anfitrión inmediatamente después. En hosts compatibles, la capacidad v1 de información de archivos del host puede añadir al diálogo existente de información APK un resumen localizado y acotado, vinculado al SHA-256 del origen analizado, mientras el informe Activity completo sigue disponible. Si el plugin falta, está desactivado, es antiguo, incompatible o falla, el diálogo base no cambia y el host usa silenciosamente su alternativa normal.
 
 ### Roadmap
 
@@ -148,6 +150,7 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 _2026/09/01_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadió una mejora progresiva del diálogo de información APK del host mediante la capacidad v1 de información de archivos: los hosts compatibles conservan todos los campos nativos y las acciones de instalación/manifiesto y después añaden un resumen localizado y acotado, vinculado al SHA-256 del origen analizado; si el plugin falta, está desactivado, es antiguo, incompatible o falla, el diálogo base no cambia
 - `Función` Se añadieron diseños adaptables para fuentes de 1,5×/2,0×, orientación horizontal y pantallas de 320 dp: encabezado apilado cuando falta espacio, títulos compactos completos, ajuste sin elipsis de SHA-256 y permisos largos, y búsqueda del manifest sin extracción IME a pantalla completa
 - `Función` Se añadió accesibilidad TalkBack y RTL al informe y al visor de manifest: encabezados semánticos compatibles, acciones con iconos etiquetadas, objetivos personalizados de 48 dp, anuncios de resultados dinámicos, diseño según el idioma y navegación árabe reflejada
 - `Función` Se añadieron al visor de manifest de solo lectura números de línea, resaltado XML adaptado al tema Material y búsqueda acotada sin distinguir mayúsculas, con coincidencias resaltadas, navegación anterior/siguiente circular y restauración del estado

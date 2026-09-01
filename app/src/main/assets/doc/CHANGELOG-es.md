@@ -5,6 +5,7 @@
 _2026/09/01_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
+- `Función` Se añadió una mejora progresiva del diálogo de información APK del host mediante la capacidad v1 de información de archivos: los hosts compatibles conservan todos los campos nativos y las acciones de instalación/manifiesto y después añaden un resumen localizado y acotado, vinculado al SHA-256 del origen analizado; si el plugin falta, está desactivado, es antiguo, incompatible o falla, el diálogo base no cambia
 - `Función` Se añadieron diseños adaptables para fuentes de 1,5×/2,0×, orientación horizontal y pantallas de 320 dp: encabezado apilado cuando falta espacio, títulos compactos completos, ajuste sin elipsis de SHA-256 y permisos largos, y búsqueda del manifest sin extracción IME a pantalla completa
 - `Función` Se añadió accesibilidad TalkBack y RTL al informe y al visor de manifest: encabezados semánticos compatibles, acciones con iconos etiquetadas, objetivos personalizados de 48 dp, anuncios de resultados dinámicos, diseño según el idioma y navegación árabe reflejada
 - `Función` Se añadieron al visor de manifest de solo lectura números de línea, resaltado XML adaptado al tema Material y búsqueda acotada sin distinguir mayúsculas, con coincidencias resaltadas, navegación anterior/siguiente circular y restauración del estado

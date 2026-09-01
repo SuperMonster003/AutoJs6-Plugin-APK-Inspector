@@ -49,6 +49,10 @@ internal fun Context.apkInspectorPluginInfo(): PluginInfo {
         capabilities = Bundle().apply {
             putLong(PluginCapabilityKeys.REQUIRES_HOST_VERSION, ApkInspectorPlugin.REQUIRED_HOST_VERSION)
             putInt(ExplorerActionCapabilityKeys.PROTOCOL_VERSION, ExplorerActionProtocol.VERSION)
+            putInt(
+                ExplorerActionCapabilityKeys.HOST_FILE_INFO_VERSION,
+                ExplorerActionProtocol.HOST_FILE_INFO_VERSION,
+            )
         }
     }
 }
