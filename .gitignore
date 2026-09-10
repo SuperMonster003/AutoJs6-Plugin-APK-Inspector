@@ -39,6 +39,7 @@ __pycache__/
 /tools/*
 !/tools/nodejs/
 !/tools/nodejs/**
+/app/release/*/**
 
 /gradle/wrappers/backup/
 
