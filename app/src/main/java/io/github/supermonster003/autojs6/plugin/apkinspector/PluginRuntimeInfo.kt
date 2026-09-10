@@ -14,6 +14,7 @@ import org.autojs.plugin.explorer.api.ExplorerActionValues
 internal object ApkInspectorPlugin {
     const val ID = "apk-inspector"
     const val ACTION_ID = "inspect-android-package"
+    const val OVERFLOW_ACTION_ID = "inspect-android-package-menu"
     const val VARIANT = "default"
     const val REQUIRED_HOST_VERSION = 5277L
     const val LABEL_RESOURCE_NAME = "action_inspect_android_package"
@@ -24,6 +25,8 @@ internal object ApkInspectorPlugin {
 
     val MIME_TYPES = emptyArray<String>()
     val EXTENSIONS = arrayOf("aab", "apk", "apkm", "apks", "apkz", "xapk")
+
+    fun acceptsActionId(id: String?): Boolean = id == ACTION_ID || id == OVERFLOW_ACTION_ID
 }
 
 internal fun Context.apkInspectorPluginInfo(): PluginInfo {
@@ -58,15 +61,18 @@ internal fun Context.apkInspectorPluginInfo(): PluginInfo {
 }
 
 internal fun apkInspectorActionCatalog(): Bundle {
-    val action = Bundle().apply {
-        putString(ExplorerActionCatalogKeys.ID, ApkInspectorPlugin.ACTION_ID)
+    fun action(id: String, placement: Int) = Bundle().apply {
+        putString(ExplorerActionCatalogKeys.ID, id)
         putString(ExplorerActionCatalogKeys.LABEL_RESOURCE_NAME, ApkInspectorPlugin.LABEL_RESOURCE_NAME)
         putString(ExplorerActionCatalogKeys.LABEL_FALLBACK, ApkInspectorPlugin.LABEL_FALLBACK)
         putString(ExplorerActionCatalogKeys.ACTIVITY_CLASS_NAME, ApkInspectorPlugin.ACTIVITY_CLASS_NAME)
         putInt(ExplorerActionCatalogKeys.PRIORITY, ApkInspectorPlugin.ACTION_PRIORITY)
         putInt(ExplorerActionCatalogKeys.TARGET_KIND, ExplorerActionValues.TARGET_FILE)
+        putInt(ExplorerActionCatalogKeys.CARDINALITY, ExplorerActionValues.CARDINALITY_SINGLE)
         putInt(ExplorerActionCatalogKeys.ACCESS_MODE, ExplorerActionValues.ACCESS_READ_ONLY)
-        putInt(ExplorerActionCatalogKeys.PLACEMENT, ExplorerActionValues.PLACEMENT_PRIMARY)
+        putInt(ExplorerActionCatalogKeys.PRESENTATION, ExplorerActionValues.PRESENTATION_ACTIVITY)
+        putInt(ExplorerActionCatalogKeys.OUTPUT_MODE, ExplorerActionValues.OUTPUT_NONE)
+        putInt(ExplorerActionCatalogKeys.PLACEMENT, placement)
         putStringArrayList(ExplorerActionCatalogKeys.MIME_TYPES, arrayListOf())
         putStringArrayList(
             ExplorerActionCatalogKeys.EXTENSIONS,
@@ -79,6 +85,9 @@ internal fun apkInspectorActionCatalog(): Bundle {
     }
     return Bundle().apply {
         putInt(ExplorerActionCatalogKeys.PROTOCOL_VERSION, ExplorerActionProtocol.VERSION)
-        putParcelableArrayList(ExplorerActionCatalogKeys.ACTIONS, arrayListOf(action))
+        putParcelableArrayList(ExplorerActionCatalogKeys.ACTIONS, arrayListOf(
+            action(ApkInspectorPlugin.ACTION_ID, ExplorerActionValues.PLACEMENT_PRIMARY),
+            action(ApkInspectorPlugin.OVERFLOW_ACTION_ID, ExplorerActionValues.PLACEMENT_OVERFLOW),
+        ))
     }
 }

@@ -2,7 +2,7 @@
 
 ## v1.1.0
 
-_2026/09/01_
+_2026/09/10_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
 - `Feature` Added progressive enhancement for the host APK information dialog through host file-information capability v1: compatible hosts keep every native field and installation/manifest action, then append a bounded localized summary bound to the analyzed source SHA-256; missing, disabled, old, incompatible, or failing plugins leave the base dialog unchanged
@@ -22,8 +22,10 @@ _2026/09/01_
 - `Feature` Added detailed signing-certificate fields and verified proof-of-rotation lineages with old/current roles, capability flags, and SHA-256 fingerprints
 - `Feature` Added bounded `.idsig` staging through an exact host-derived read-only descriptor; directory enumeration and arbitrary sibling access remain unavailable
 - `Feature` Grouped requested permissions by `protectionLevel` into runtime/dangerous, signature/protected, and normal sections; runtime permissions are highlighted first with bounded one-line descriptions, while unavailable levels remain visible and labeled
+- `Fix` APK Inspector remaining invisible after installation and enablement because its Explorer Action v22 catalog omitted single-file cardinality; expose inspection through both the primary button and the overflow menu
 - `Fix` Fixed the manifest action disappearing after a locale, theme, or other activity recreation by safely replacing the previous read-only private manifest snapshot
 - `Fix` Prevented the manifest search panel from becoming unreachable when the soft keyboard compressed compact or large-text screens; the keyboard is now deferred until the focused search field is tapped
+- `Improvement` Support 262144 archive entries and 8 GiB packages, increase manifest, resource, and nested scan budgets, and inspect native-library and DEX directories in nested ZIP64 packages
 - `Improvement` Hardened Explorer Action v22 request validation and immutable private snapshots, with a 4 GiB package limit, a 40 MiB idsig limit, identity checks, and prompt host-session closure
 - `Improvement` Added official Build Tools 37 `apksigner` fixtures for valid, tampered, multi-signer, V3.1 rotation, V4.1 rotation, missing, and malformed-signature cases
 - `Improvement` Added a real-package partition-isolation matrix for production permission, manifest-component, native-library, and DEX limits plus resource-table and malformed nested-directory failures; every sample asserts unaffected sections remain complete and partial notices survive plain-text sharing

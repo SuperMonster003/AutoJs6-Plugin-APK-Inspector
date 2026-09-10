@@ -40,12 +40,12 @@ internal enum class ContainerMetadataIssue {
  */
 internal object ContainerMetadataInspector {
 
-    const val MAX_METADATA_BYTES = 1024 * 1024
+    const val MAX_METADATA_BYTES = PackageInspectionLimits.METADATA_BYTES
 
     private const val MAX_PACKAGE_NAME_CHARS = 255
     private const val MAX_VERSION_CHARS = 256
     private const val MAX_PACKAGER_VERSION_CHARS = 64
-    private const val MAX_ICON_PATH_CHARS = 1_024
+    private const val MAX_ICON_PATH_CHARS = PackageInspectionLimits.ENTRY_NAME_CHARS
     private const val MAX_JSON_SCALAR_CHARS = MAX_ICON_PATH_CHARS
 
     fun inspect(

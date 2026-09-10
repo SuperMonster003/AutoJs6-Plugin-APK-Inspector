@@ -8,7 +8,7 @@
 - `[ ]`: 尚未完成; 括号中的 `插件`/`宿主`/`API`/`测试`/`发布` 表示主要落点.
 - 插件的只读定位不可动摇: 任何条目都不得引入安装能力、源文件写入、目录枚举, 或存储/网络/安装权限申请.
 - 插件代码位于本仓库; Explorer Action 协议与宿主文件管理器位于配套的 AutoJs6 仓库. 标注 `API`/`宿主` 的条目需要两侧代码与联合验证同时完成后才可勾选.
-- 当前部署基线: Explorer Action 协议 v22, 宿主版本代码 5277, 单文件只读主动作 + 有界 `.idsig` 描述符 + 独立 ACTION_VIEW 网关.
+- 当前部署基线: Explorer Action 协议 v22, 宿主版本代码 5277, 单文件只读主动作和更多菜单动作 + 有界 `.idsig` 描述符 + 独立 ACTION_VIEW 网关.
 
 ## M0: 已交付基线 (v1.0.x)
 
@@ -18,7 +18,7 @@
 - [x] (插件) 文本与二进制 APK 清单、AAB protobuf 清单及 bundletool toc.pb 解码, 独立只读页面展示格式化清单.
 - [x] (插件) APK V1 / V2 / V3 签名方案存在性检测 (不含密码学验证).
 - [x] (插件) 有界只读快照链路: 一次复制、SHA-256 计算、4 GiB 上限、128 MiB 缓存预留、24 小时过期清理.
-- [x] (插件) 解析上限: 16384 归档条目 / 512 集合包 APK / 1024 字符条目名 / 8 GiB 声明总量 / 256 MiB 嵌套扫描 / 1 MiB 元数据.
+- [x] (插件) v1.0.x 初版解析上限 (当前预算见 M7): 16384 归档条目 / 512 集合包 APK / 1024 字符条目名 / 8 GiB 声明总量 / 256 MiB 嵌套扫描 / 1 MiB 元数据.
 - [x] (发布) 10 种语言的界面文本、使用说明与 README / CHANGELOG 生成管线 (.readme + .changelog + .python).
 
 验收条件: 已随 v1.0.0 / v1.0.1 发布并在宿主 5269+ 实机验证.
@@ -48,7 +48,7 @@
 
 ## M3: 集合包与 AAB 深化
 
-- [x] (插件) 摘要展示 APKS / XAPK / APKM 自带元数据 (`meta.sai_v1/v2.json` / `manifest.json` / `info.json`, 限 1 MiB): 打包工具与格式版本、元数据声明的应用版本及实际存在的图标条目; 损坏或超限仅使该摘要降级.
+- [x] (插件) 摘要展示 APKS / XAPK / APKM 自带元数据 (`meta.sai_v1/v2.json` / `manifest.json` / `info.json`, 限 4 MiB): 打包工具与格式版本、元数据声明的应用版本及实际存在的图标条目; 损坏或超限仅使该摘要降级.
 - [x] (插件) 设备配置模拟: 在报告内切换语言 / 屏幕密度 / ABI, 本地重算分包选择结果, 标注与真实设备的差异.
 - [x] (插件) AAB 深化: 解析 BundleConfig.pb 与 dynamic feature 模块的分发条件 (onDemand / 条件安装), 在模块列表中标注.
 - [x] (测试) 模拟选择结果与 bundletool build-apks + install-apks 在样本集上的选择一致.
@@ -81,3 +81,37 @@
 - [x] (插件) 上述协议扩展保持向后兼容: 基础 Explorer Action v22 目录和 Activity 入口保持不变, 新能力通过独立能力位协商.
 
 验收条件: 新旧宿主与新旧插件混布时按能力位自动降级; 无插件路径的对话框内容、按钮和失败处理保持不变, 且无崩溃与入口错位.
+
+
+## M7: 大型安装包与文件管理器入口 (2026-09-10)
+
+- [x] (插件/宿主) 用统一 `PackageInspectionLimits` 管理 APK, AAB, APKS 与嵌套清单的预算, 避免同一文件在不同解析路径碰到不一致的旧上限.
+- [x] (插件) 嵌套包原生库与 DEX 分析支持 ZIP64 EOCD, locator 与 64 位条目大小, 大量资源不再造成 16384 条目或 ZIP32 目录限制导致的分区缺失.
+- [x] (插件) Explorer Action v22 目录显式声明单文件基数, Activity 呈现与无输出模式; 主按钮和更多菜单采用独立动作 ID, 共享同一只读入口与请求验证.
+- [x] (测试) 70000 个资源条目且清单位于末尾的 APK 与嵌套 XAPK, 超过 18184 个条目的外层容器/AAB/APKS, 超过 4 MiB 的清单, 损坏 ZIP64 locator/偏移与缩小预算的降级测试.
+- [x] (宿主/实机) QV710AF65F 验证启用/停用后的六类扩展名菜单, 并从更多菜单打开 `WeChat-8.0.48(2589)-GP.apk` 检查报告.
+
+| 检查项目 | 原预算 | 当前预算 |
+| --- | --- | --- |
+| 归档与嵌套 ZIP 条目 | 16384, AAB 清单扫描 10000 | 262144 |
+| 非 bundletool 集合包 APK 数量 | 512 | 4096 |
+| toc.pb 中 APK 数量 | 16384 | 262144 |
+| 条目名称长度 | 1024 字符 | 4096 字符 |
+| 单包暂存与单条目声明大小 | 4 GiB | 8 GiB |
+| 所有条目声明大小之和 | 8 GiB | 64 GiB |
+| 嵌套清单/原生库/资源扫描总量 | 256 MiB / 256 MiB / 512 MiB | 16 GiB |
+| 单个嵌套 APK 的清单扫描 | 64 MiB | 8 GiB |
+| APK/AAB 清单输入与输出字符预算 | 4 MiB / 4M 字符 | 16 MiB / 16M 字符 |
+| toc.pb 输入 | 2 MiB | 16 MiB |
+| 容器元数据与 BundleConfig.pb | 1 MiB | 4 MiB |
+| 资源表 / 图标 | 32 MiB / 4 MiB | 64 MiB / 8 MiB |
+| 原生库目录项 / 被扫描 APK 数量 | 4096 / 512 | 32768 / 4096 |
+| 嵌套 APK 中央目录保留窗口 | 8 MiB | 32 MiB |
+| 提取用于系统资源显示的 base.apk | 512 MiB | 8 GiB, 同时检查缓存可用空间 |
+| AAB 模块清单数量 / 总输入 | 128 / 16 MiB | 512 / 64 MiB |
+
+流式字节预算不预分配同等大小的内存. 路径合法性, 重复名称, ZIP/protobuf 边界, 整数溢出, 缓存预留与只读授权继续校验. 权限/DEX 的界面展示条数和签名格式自身的结构约束维持各自语义.
+
+验收证据: `LargePackageInspectionTest`, `ExplorerActionCatalogTest`, `NativeLibrarySummaryTest`, `PrivacyNeutralFixtureMatrixTest` 和宿主 `ApkInspectorIntegrationTest`. 本地构建及实机日志存放在两侧 `app/build/inspection-fixes/`.
+
+实机结果: 菜单入口可见, 六类扩展名和启用状态刷新测试通过; 微信 APK 报告显示 `com.tencent.mm`, `8.0.48 (2589)`, V2/V3 签名验证通过. 对应截图与联合测试日志位于宿主 `app/build/inspection-fixes/`.

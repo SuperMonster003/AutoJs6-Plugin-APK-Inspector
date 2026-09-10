@@ -441,7 +441,7 @@ class ManifestViewerActivity : AppCompatActivity() {
         private const val STATE_SEARCH_VISIBLE = "manifest_search_visible"
         private const val STATE_SEARCH_QUERY = "manifest_search_query"
         private const val STATE_SELECTED_MATCH = "manifest_selected_match"
-        private const val MAX_MANIFEST_BYTES = 8L * 1024L * 1024L
+        private const val MAX_MANIFEST_BYTES = 4L * PackageInspectionLimits.MANIFEST_BYTES
         private const val MAX_STYLED_LINE_NUMBERS = 20_000
         private const val SEARCH_DEBOUNCE_MILLIS = 150L
         private const val SEARCH_DEBOUNCE_NONE = 0L

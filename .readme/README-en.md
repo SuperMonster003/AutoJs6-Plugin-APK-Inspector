@@ -92,7 +92,7 @@ No, and that is deliberate. The plugin requests no install permission and has no
 
 #### Why can't some files be inspected?
 
-Common reasons: the file exceeds the 4 GiB limit; the device cache is low on space (at least 128 MiB must stay free); the bundle exceeds the parsing bounds on entry count or size; the file was modified by another app while being read; or the file itself is structurally broken. The error message states the specific reason.
+Common reasons: the file exceeds the 8 GiB limit; the device cache is low on space (at least 128 MiB must stay free); the bundle exceeds the parsing bounds on entry count or size; the file was modified by another app while being read; or the file itself is structurally broken. The error message states the specific reason.
 
 #### Does the signature check prove a package is safe?
 
@@ -108,15 +108,15 @@ The plugin requests no storage, network, or package installation permission. It 
 
 To keep maliciously crafted files from exhausting device resources, parsing is bounded as follows, and files over a bound are rejected with a message:
 
-- A single file may be at most 4 GiB, at least 128 MiB of cache space must remain free during the copy, and each action handles exactly one target file.
-- At most 16384 archive entries are parsed, at most 512 APK entries are scanned per bundle, and entry names may be at most 1024 characters.
-- Declared entry size may not exceed 4 GiB, and the declared total may not exceed 8 GiB.
-- Nested APK manifest scanning is capped at 256 MiB, bundle metadata at 1 MiB, and the temporary APK used to load the icon and label at 512 MiB.
-- AAB BundleConfig.pb is capped at 1 MiB. Delivery annotations share the 128-manifest / 16 MiB AAB scan and retain at most 128 condition values per module; limits and malformed metadata stay isolated and labeled.
-- Resource-table fallback reads at most 32 MiB per table and 4 MiB per icon, with a shared 512 MiB budget for locating a table and icon in a nested APK; a limit, malformed resource, or unresolved reference disables only that fallback and is clearly labeled.
+- A single file may be at most 8 GiB, at least 128 MiB of cache space must remain free during the copy, and each action handles exactly one target file.
+- At most 262144 archive entries are parsed, at most 4096 APK entries are scanned per bundle, and entry names may be at most 4096 characters.
+- Declared entry size may not exceed 8 GiB, and the declared total may not exceed 64 GiB.
+- Nested APK manifest scanning is capped at 16 GiB, bundle metadata at 4 MiB, and the temporary APK used to load the icon and label at 8 GiB.
+- AAB BundleConfig.pb is capped at 4 MiB. Delivery annotations share the 512-manifest / 64 MiB AAB scan and retain at most 128 condition values per module; limits and malformed metadata stay isolated and labeled.
+- Resource-table fallback reads at most 64 MiB per table and 8 MiB per icon, with a shared 16 GiB budget for locating a table and icon in a nested APK; a limit, malformed resource, or unresolved reference disables only that fallback and is clearly labeled.
 - Permission classification scans at most 2048 requests, displays at most 512 safe unique names, and limits each loaded explanation to 240 characters; omissions and unavailable protection levels are clearly labeled.
-- Component statistics scan at most 4096 declarations per manifest and 128 AAB module manifests under a shared 16 MiB input budget; omissions, unresolved exported values, and per-manifest failures are clearly labeled.
-- Native-library statistics retain at most 4096 .so entries and display 64 ABI directories. At most 512 selected nested APKs are read under a shared 256 MiB input budget while retaining no more than 8 MiB of central-directory data per APK; limits and failures produce clearly labeled partial results.
+- Component statistics scan at most 4096 declarations per manifest and 512 AAB module manifests under a shared 64 MiB input budget; omissions, unresolved exported values, and per-manifest failures are clearly labeled.
+- Native-library statistics retain at most 32768 .so entries and display 64 ABI directories. At most 4096 selected nested APKs are read under a shared 16 GiB input budget while retaining no more than 32 MiB of central-directory data per APK; limits and failures produce clearly labeled partial results.
 - DEX statistics count every standard entry encountered but display at most 128 naturally ordered paths; they share the native-library overview's bounded central-directory pass, so DEX contents are never extracted, decoded, or decompiled.
 
 ### Plugin interface
@@ -147,7 +147,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 
 #### v1.1.0
 
-_2026/09/01_
+_2026/09/10_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
 - `Feature` Added progressive enhancement for the host APK information dialog through host file-information capability v1: compatible hosts keep every native field and installation/manifest action, then append a bounded localized summary bound to the analyzed source SHA-256; missing, disabled, old, incompatible, or failing plugins leave the base dialog unchanged
@@ -167,8 +167,10 @@ _2026/09/01_
 - `Feature` Added detailed signing-certificate fields and verified proof-of-rotation lineages with old/current roles, capability flags, and SHA-256 fingerprints
 - `Feature` Added bounded `.idsig` staging through an exact host-derived read-only descriptor; directory enumeration and arbitrary sibling access remain unavailable
 - `Feature` Grouped requested permissions by `protectionLevel` into runtime/dangerous, signature/protected, and normal sections; runtime permissions are highlighted first with bounded one-line descriptions, while unavailable levels remain visible and labeled
+- `Fix` APK Inspector remaining invisible after installation and enablement because its Explorer Action v22 catalog omitted single-file cardinality; expose inspection through both the primary button and the overflow menu
 - `Fix` Fixed the manifest action disappearing after a locale, theme, or other activity recreation by safely replacing the previous read-only private manifest snapshot
 - `Fix` Prevented the manifest search panel from becoming unreachable when the soft keyboard compressed compact or large-text screens; the keyboard is now deferred until the focused search field is tapped
+- `Improvement` Support 262144 archive entries and 8 GiB packages, increase manifest, resource, and nested scan budgets, and inspect native-library and DEX directories in nested ZIP64 packages
 - `Improvement` Hardened Explorer Action v22 request validation and immutable private snapshots, with a 4 GiB package limit, a 40 MiB idsig limit, identity checks, and prompt host-session closure
 - `Improvement` Added official Build Tools 37 `apksigner` fixtures for valid, tampered, multi-signer, V3.1 rotation, V4.1 rotation, missing, and malformed-signature cases
 - `Improvement` Added a real-package partition-isolation matrix for production permission, manifest-component, native-library, and DEX limits plus resource-table and malformed nested-directory failures; every sample asserts unaffected sections remain complete and partial notices survive plain-text sharing

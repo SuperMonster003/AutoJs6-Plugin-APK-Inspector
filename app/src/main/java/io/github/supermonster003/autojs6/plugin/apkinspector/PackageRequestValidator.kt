@@ -117,7 +117,7 @@ internal object PackageRequestValidator {
         if (request.action != ExplorerActionPluginActions.EXECUTE) {
             return PackageRequestRejection.EXPLORER_ACTION
         }
-        if (request.actionId != ApkInspectorPlugin.ACTION_ID) {
+        if (!ApkInspectorPlugin.acceptsActionId(request.actionId)) {
             return PackageRequestRejection.EXPLORER_ACTION_ID
         }
         if (request.protocolVersion != ExplorerActionProtocol.VERSION) {

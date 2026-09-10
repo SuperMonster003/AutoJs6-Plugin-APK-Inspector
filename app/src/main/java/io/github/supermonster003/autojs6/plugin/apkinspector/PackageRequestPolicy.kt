@@ -23,7 +23,7 @@ internal data class PackageInputSeed(
 /** Validates every value crossing the exported Explorer Action and ACTION_VIEW boundaries. */
 internal object PackageRequestPolicy {
 
-    const val MAX_PACKAGE_BYTES = 4L * 1024L * 1024L * 1024L
+    const val MAX_PACKAGE_BYTES = PackageInspectionLimits.PACKAGE_BYTES
     const val MAX_DISPLAY_NAME_LENGTH = 255
 
     private val mimeTokenPattern = Regex("[a-z0-9][a-z0-9!#$&^_.+-]*")

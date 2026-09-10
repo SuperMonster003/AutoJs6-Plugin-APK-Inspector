@@ -92,7 +92,7 @@ Non, et c'est voulu. Le plugin ne demande aucune autorisation d'installation et 
 
 #### Pourquoi certains fichiers ne peuvent-ils pas être inspectés ?
 
-Raisons courantes : le fichier dépasse la limite de 4 GiB ; le cache de l'appareil manque d'espace (au moins 128 MiB doivent rester libres) ; le bundle dépasse les bornes d'analyse en nombre ou en taille d'entrées ; le fichier a été modifié par une autre application pendant la lecture ; ou le fichier est structurellement corrompu. Le message d'erreur précise la raison.
+Raisons courantes : le fichier dépasse la limite de 8 GiB ; le cache de l'appareil manque d'espace (au moins 128 MiB doivent rester libres) ; le bundle dépasse les bornes d'analyse en nombre ou en taille d'entrées ; le fichier a été modifié par une autre application pendant la lecture ; ou le fichier est structurellement corrompu. Le message d'erreur précise la raison.
 
 #### La détection de signature prouve-t-elle qu'un paquet est sûr ?
 
@@ -108,15 +108,15 @@ Le plugin ne demande aucune autorisation de stockage, de réseau ni d'installati
 
 Pour empêcher des fichiers forgés d'épuiser les ressources de l'appareil, l'analyse est bornée comme suit, et tout fichier hors borne est rejeté avec un message:
 
-- Un fichier ne peut dépasser 4 GiB, au moins 128 MiB d'espace de cache doivent rester libres pendant la copie, et chaque action traite exactement un fichier cible.
-- Au plus 16384 entrées d'archive sont analysées, au plus 512 entrées APK par bundle sont parcourues, et les noms d'entrée sont limités à 1024 caractères.
-- La taille déclarée d'une entrée ne peut dépasser 4 GiB, et le total déclaré ne peut dépasser 8 GiB.
-- L'analyse des manifestes d'APK imbriqués est plafonnée à 256 MiB, les métadonnées de bundle à 1 MiB, et l'APK temporaire servant à charger l'icône et le libellé à 512 MiB.
-- Le fichier AAB BundleConfig.pb est limité à 1 MiB. Les annotations de distribution partagent l’analyse AAB de 128 manifestes / 16 MiB et conservent au plus 128 valeurs de condition par module ; limites et métadonnées incorrectes restent isolées et signalées.
-- Le repli via les ressources lit au plus 32 MiB par table et 4 MiB par icône, avec un budget partagé de 512 MiB pour localiser table et icône dans un APK imbriqué ; une limite, une ressource incorrecte ou une référence non résolue désactive uniquement ce repli et est clairement signalée.
+- Un fichier ne peut dépasser 8 GiB, au moins 128 MiB d'espace de cache doivent rester libres pendant la copie, et chaque action traite exactement un fichier cible.
+- Au plus 262144 entrées d'archive sont analysées, au plus 4096 entrées APK par bundle sont parcourues, et les noms d'entrée sont limités à 4096 caractères.
+- La taille déclarée d'une entrée ne peut dépasser 8 GiB, et le total déclaré ne peut dépasser 64 GiB.
+- L'analyse des manifestes d'APK imbriqués est plafonnée à 16 GiB, les métadonnées de bundle à 4 MiB, et l'APK temporaire servant à charger l'icône et le libellé à 8 GiB.
+- Le fichier AAB BundleConfig.pb est limité à 4 MiB. Les annotations de distribution partagent l’analyse AAB de 512 manifestes / 64 MiB et conservent au plus 128 valeurs de condition par module ; limites et métadonnées incorrectes restent isolées et signalées.
+- Le repli via les ressources lit au plus 64 MiB par table et 8 MiB par icône, avec un budget partagé de 16 GiB pour localiser table et icône dans un APK imbriqué ; une limite, une ressource incorrecte ou une référence non résolue désactive uniquement ce repli et est clairement signalée.
 - La classification examine au plus 2048 demandes, affiche jusqu’à 512 noms sûrs et uniques et limite chaque explication chargée à 240 caractères ; les omissions et niveaux indisponibles sont clairement signalés.
-- Les statistiques de composants analysent au plus 4096 déclarations par manifeste et 128 manifestes de modules AAB avec un budget d’entrée partagé de 16 MiB ; les omissions, valeurs exported non résolues et échecs par manifeste sont clairement signalés.
-- Les statistiques natives conservent au plus 4096 entrées .so et affichent 64 répertoires ABI. Jusqu’à 512 APK imbriqués sélectionnés sont lus avec un budget partagé de 256 MiB, en retenant au plus 8 MiB de répertoire central par APK ; limites et échecs produisent des résultats partiels clairement signalés.
+- Les statistiques de composants analysent au plus 4096 déclarations par manifeste et 512 manifestes de modules AAB avec un budget d’entrée partagé de 64 MiB ; les omissions, valeurs exported non résolues et échecs par manifeste sont clairement signalés.
+- Les statistiques natives conservent au plus 32768 entrées .so et affichent 64 répertoires ABI. Jusqu’à 4096 APK imbriqués sélectionnés sont lus avec un budget partagé de 16 GiB, en retenant au plus 32 MiB de répertoire central par APK ; limites et échecs produisent des résultats partiels clairement signalés.
 - Les statistiques DEX comptent toutes les entrées standard analysées, mais affichent au plus 128 chemins triés naturellement ; elles partagent le parcours borné du répertoire central avec la vue des bibliothèques natives, de sorte que le contenu DEX n’est jamais extrait, décodé ni décompilé.
 
 ### Interface du plugin
@@ -147,7 +147,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 
 #### v1.1.0
 
-_2026/09/01_
+_2026/09/10_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
 - `Fonctionnalité` Ajout de l'enrichissement progressif de la boîte de dialogue d'informations APK hôte via la capacité v1 d'informations de fichier : les hôtes compatibles conservent tous les champs natifs et les actions d'installation/manifeste, puis ajoutent un résumé localisé et borné, lié au SHA-256 de la source analysée ; si le plugin est absent, désactivé, ancien, incompatible ou en échec, la boîte de dialogue de base reste inchangée
@@ -167,8 +167,10 @@ _2026/09/01_
 - `Fonctionnalité` Ajout des champs détaillés des certificats et des lignées de rotation vérifiées avec rôles ancien/actuel, indicateurs de capacité et empreintes SHA-256
 - `Fonctionnalité` Ajout de la copie bornée de `.idsig` via un descripteur en lecture seule dérivé exactement par l’hôte ; l’énumération des répertoires et l’accès arbitraire aux voisins restent indisponibles
 - `Fonctionnalité` Regroupement des autorisations demandées selon `protectionLevel` en exécution/dangereuses, signature/protégées et normales ; celles à l’exécution sont mises en avant avec une explication bornée sur une ligne, tandis que les niveaux indisponibles restent visibles et signalés
+- `Correctif` APK Inspector invisible après installation et activation car son catalogue Explorer Action v22 omettait la cardinalité de fichier unique; proposer l'inspection par le bouton principal et le menu supplémentaire
 - `Correctif` Correction de la disparition de l’action d’affichage du manifeste après un changement de langue, de thème ou une autre recréation d’activité, grâce au remplacement sûr de l’ancien instantané privé en lecture seule
 - `Correctif` Correction de l’inaccessibilité du panneau de recherche du manifeste lorsque le clavier logiciel réduisait un écran compact ou utilisant de grands caractères ; le clavier n’apparaît désormais qu’après toucher du champ de recherche déjà ciblé
+- `Amélioration` Prendre en charge 262144 entrées et des paquets de 8 GiB, augmenter les budgets des manifestes, ressources et analyses imbriquées, et analyser les répertoires de bibliothèques natives et DEX des paquets ZIP64 imbriqués
 - `Amélioration` Renforcement de la validation Explorer Action v22 et des instantanés privés immuables, avec limites de 4 GiB pour le paquet et 40 MiB pour idsig, contrôles d’identité et fermeture rapide de la session
 - `Amélioration` Ajout d’échantillons officiels Build Tools 37 `apksigner` couvrant signatures valides, altérées, multiples, rotations V3.1/V4.1, absences et formats incorrects
 - `Amélioration` Ajout d’une matrice d’isolation par section sur de vrais paquets, couvrant les limites de production des autorisations, composants de manifeste, bibliothèques natives et DEX, ainsi que les dépassements de table de ressources et les répertoires centraux imbriqués endommagés ; chaque échantillon vérifie que les sections non touchées restent complètes et que les avis partiels sont conservés dans le partage texte

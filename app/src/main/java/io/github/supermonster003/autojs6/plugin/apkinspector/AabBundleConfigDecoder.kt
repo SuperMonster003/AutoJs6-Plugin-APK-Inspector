@@ -87,7 +87,7 @@ internal data class AabBundleConfigSummary(
 internal object AabBundleConfigDecoder {
 
     internal data class Limits(
-        val maxInputBytes: Int = 1 * 1024 * 1024,
+        val maxInputBytes: Int = PackageInspectionLimits.METADATA_BYTES,
         val maxFields: Int = 100_000,
         val maxDepth: Int = 16,
         val maxDecodedStringChars: Int = 64 * 1024,

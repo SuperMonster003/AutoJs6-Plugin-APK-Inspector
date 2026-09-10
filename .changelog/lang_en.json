@@ -6,7 +6,7 @@
   "changelog_label_dependency": "Dependency",
   "$data": {
     "v1.1.0": {
-      "released_date": "2026/09/01",
+      "released_date": "2026/09/10",
       "hint": [
         "Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access"
       ],
@@ -30,10 +30,12 @@
         "Grouped requested permissions by `protectionLevel` into runtime/dangerous, signature/protected, and normal sections; runtime permissions are highlighted first with bounded one-line descriptions, while unavailable levels remain visible and labeled"
       ],
       "fix": [
+        "APK Inspector remaining invisible after installation and enablement because its Explorer Action v22 catalog omitted single-file cardinality; expose inspection through both the primary button and the overflow menu",
         "Fixed the manifest action disappearing after a locale, theme, or other activity recreation by safely replacing the previous read-only private manifest snapshot",
         "Prevented the manifest search panel from becoming unreachable when the soft keyboard compressed compact or large-text screens; the keyboard is now deferred until the focused search field is tapped"
       ],
       "improvement": [
+        "Support 262144 archive entries and 8 GiB packages, increase manifest, resource, and nested scan budgets, and inspect native-library and DEX directories in nested ZIP64 packages",
         "Hardened Explorer Action v22 request validation and immutable private snapshots, with a 4 GiB package limit, a 40 MiB idsig limit, identity checks, and prompt host-session closure",
         "Added official Build Tools 37 `apksigner` fixtures for valid, tampered, multi-signer, V3.1 rotation, V4.1 rotation, missing, and malformed-signature cases",
         "Added a real-package partition-isolation matrix for production permission, manifest-component, native-library, and DEX limits plus resource-table and malformed nested-directory failures; every sample asserts unaffected sections remain complete and partial notices survive plain-text sharing",

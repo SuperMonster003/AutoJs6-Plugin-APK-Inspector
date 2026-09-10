@@ -92,7 +92,7 @@ No, y es deliberado. El plugin no solicita permiso de instalación y no tiene ni
 
 #### ¿Por qué algunos archivos no se pueden inspeccionar?
 
-Motivos habituales: el archivo supera el límite de 4 GiB; la caché del dispositivo tiene poco espacio (deben quedar libres al menos 128 MiB); el bundle supera los límites de análisis en número o tamaño de entradas; otra aplicación modificó el archivo durante la lectura; o el archivo está estructuralmente dañado. El mensaje de error indica el motivo concreto.
+Motivos habituales: el archivo supera el límite de 8 GiB; la caché del dispositivo tiene poco espacio (deben quedar libres al menos 128 MiB); el bundle supera los límites de análisis en número o tamaño de entradas; otra aplicación modificó el archivo durante la lectura; o el archivo está estructuralmente dañado. El mensaje de error indica el motivo concreto.
 
 #### ¿La detección de firmas demuestra que un paquete es seguro?
 
@@ -108,15 +108,15 @@ El plugin no solicita permisos de almacenamiento, red ni instalación de paquete
 
 Para evitar que archivos manipulados agoten los recursos del dispositivo, el análisis está acotado como sigue, y los archivos que superan un límite se rechazan con un mensaje:
 
-- Un archivo puede ocupar como máximo 4 GiB, durante la copia deben quedar libres al menos 128 MiB de caché, y cada acción procesa exactamente un archivo objetivo.
-- Se analizan como máximo 16384 entradas de archivo, se examinan como máximo 512 entradas APK por bundle, y los nombres de entrada se limitan a 1024 caracteres.
-- El tamaño declarado de una entrada no puede superar 4 GiB, y el total declarado no puede superar 8 GiB.
-- El examen de manifests de APK anidados se limita a 256 MiB, los metadatos del bundle a 1 MiB, y el APK temporal usado para cargar el icono y la etiqueta a 512 MiB.
-- AAB BundleConfig.pb se limita a 1 MiB. Las anotaciones de entrega comparten el examen AAB de 128 manifests / 16 MiB y conservan como máximo 128 valores de condición por módulo; los límites y metadatos dañados quedan aislados y señalados.
-- La alternativa mediante recursos lee como máximo 32 MiB por tabla y 4 MiB por icono, con un presupuesto compartido de 512 MiB para localizar la tabla y el icono en un APK anidado; un límite, un recurso mal formado o una referencia no resuelta solo desactiva esa alternativa y se etiqueta claramente.
+- Un archivo puede ocupar como máximo 8 GiB, durante la copia deben quedar libres al menos 128 MiB de caché, y cada acción procesa exactamente un archivo objetivo.
+- Se analizan como máximo 262144 entradas de archivo, se examinan como máximo 4096 entradas APK por bundle, y los nombres de entrada se limitan a 4096 caracteres.
+- El tamaño declarado de una entrada no puede superar 8 GiB, y el total declarado no puede superar 64 GiB.
+- El examen de manifests de APK anidados se limita a 16 GiB, los metadatos del bundle a 4 MiB, y el APK temporal usado para cargar el icono y la etiqueta a 8 GiB.
+- AAB BundleConfig.pb se limita a 4 MiB. Las anotaciones de entrega comparten el examen AAB de 512 manifests / 64 MiB y conservan como máximo 128 valores de condición por módulo; los límites y metadatos dañados quedan aislados y señalados.
+- La alternativa mediante recursos lee como máximo 64 MiB por tabla y 8 MiB por icono, con un presupuesto compartido de 16 GiB para localizar la tabla y el icono en un APK anidado; un límite, un recurso mal formado o una referencia no resuelta solo desactiva esa alternativa y se etiqueta claramente.
 - La clasificación de permisos examina como máximo 2048 solicitudes, muestra hasta 512 nombres seguros y únicos, y limita cada explicación cargada a 240 caracteres; las omisiones y los niveles no disponibles se etiquetan claramente.
-- Las estadísticas de componentes examinan como máximo 4096 declaraciones por manifest y 128 manifests de módulos AAB con un presupuesto de entrada compartido de 16 MiB; las omisiones, los valores exported no resueltos y los fallos por manifest se etiquetan claramente.
-- Las estadísticas nativas conservan como máximo 4096 entradas .so y muestran 64 directorios ABI. Se leen hasta 512 APK anidados seleccionados con un presupuesto compartido de 256 MiB y se retienen como máximo 8 MiB de directorio central por APK; los límites y fallos producen resultados parciales claramente etiquetados.
+- Las estadísticas de componentes examinan como máximo 4096 declaraciones por manifest y 512 manifests de módulos AAB con un presupuesto de entrada compartido de 64 MiB; las omisiones, los valores exported no resueltos y los fallos por manifest se etiquetan claramente.
+- Las estadísticas nativas conservan como máximo 32768 entradas .so y muestran 64 directorios ABI. Se leen hasta 4096 APK anidados seleccionados con un presupuesto compartido de 16 GiB y se retienen como máximo 32 MiB de directorio central por APK; los límites y fallos producen resultados parciales claramente etiquetados.
 - Las estadísticas DEX cuentan todas las entradas estándar examinadas, pero muestran como máximo 128 rutas en orden natural; comparten el recorrido acotado del directorio central con el resumen de bibliotecas nativas, por lo que el contenido DEX nunca se extrae, decodifica ni descompila.
 
 ### Interfaz del plugin
@@ -147,7 +147,7 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 
 #### v1.1.0
 
-_2026/09/01_
+_2026/09/10_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
 - `Función` Se añadió una mejora progresiva del diálogo de información APK del host mediante la capacidad v1 de información de archivos: los hosts compatibles conservan todos los campos nativos y las acciones de instalación/manifiesto y después añaden un resumen localizado y acotado, vinculado al SHA-256 del origen analizado; si el plugin falta, está desactivado, es antiguo, incompatible o falla, el diálogo base no cambia
@@ -167,8 +167,10 @@ _2026/09/01_
 - `Función` Se añadieron campos detallados de certificados y linajes de rotación verificados con funciones antiguas/actuales, indicadores de capacidad y huellas SHA-256
 - `Función` Se añadió el almacenamiento temporal acotado de `.idsig` mediante un descriptor de solo lectura derivado exactamente por el anfitrión; no se permite enumerar directorios ni acceder a archivos adyacentes arbitrarios
 - `Función` Se agruparon los permisos solicitados por `protectionLevel` en ejecución/peligrosos, firma/protegidos y normales; los permisos de ejecución se destacan primero con explicaciones acotadas de una línea, y los niveles no disponibles siguen visibles y etiquetados
+- `Corrección` APK Inspector invisible tras instalarlo y habilitarlo porque su catálogo Explorer Action v22 omitía la cardinalidad de archivo único; ofrecer la inspección desde el botón principal y el menú adicional
 - `Corrección` Se corrigió la desaparición de la acción para ver el manifest tras cambiar el idioma, el tema u otra recreación de la actividad, sustituyendo de forma segura la instantánea privada anterior de solo lectura
 - `Corrección` Se evitó que el panel de búsqueda del manifest quedara inaccesible cuando el teclado virtual reducía las pantallas compactas o con texto grande; ahora el teclado solo aparece al tocar el campo de búsqueda ya enfocado
+- `Mejora` Admitir 262144 entradas y paquetes de 8 GiB, ampliar los presupuestos de manifiestos, recursos y análisis anidados, y analizar directorios de bibliotecas nativas y DEX en paquetes ZIP64 anidados
 - `Mejora` Se reforzaron la validación de solicitudes Explorer Action v22 y las instantáneas privadas inmutables, con límites de 4 GiB para el paquete y 40 MiB para idsig, comprobaciones de identidad y cierre inmediato de la sesión
 - `Mejora` Se añadieron muestras oficiales de `apksigner` de Build Tools 37 para firmas válidas, alteradas, múltiples, con rotación V3.1/V4.1, ausentes y mal formadas
 - `Mejora` Se añadió una matriz de aislamiento por secciones con paquetes reales que cubre los límites de producción de permisos, componentes del manifiesto, bibliotecas nativas y DEX, además de tablas de recursos excedidas y directorios centrales anidados dañados; cada muestra comprueba que las secciones no afectadas siguen completas y que los avisos parciales se conservan al compartir texto

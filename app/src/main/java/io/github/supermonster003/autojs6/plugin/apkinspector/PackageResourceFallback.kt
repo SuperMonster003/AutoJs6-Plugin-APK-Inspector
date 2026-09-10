@@ -163,17 +163,17 @@ private fun isSafeResourceToken(value: String): Boolean =
 
 internal object PackageResourceFallbackInspector {
 
-    const val MAX_RESOURCE_TABLE_BYTES = 32 * 1024 * 1024
-    const val MAX_ICON_BYTES = 4 * 1024 * 1024
-    const val MAX_NESTED_SCAN_BYTES = 512L * 1024L * 1024L
-    const val MAX_NESTED_ZIP_ENTRIES = 16_384
+    const val MAX_RESOURCE_TABLE_BYTES = 64 * 1024 * 1024
+    const val MAX_ICON_BYTES = 8 * 1024 * 1024
+    const val MAX_NESTED_SCAN_BYTES = PackageInspectionLimits.TOTAL_SCAN_BYTES
+    const val MAX_NESTED_ZIP_ENTRIES = PackageInspectionLimits.ARCHIVE_ENTRIES
 
     internal data class Limits(
         val maxResourceTableBytes: Int = MAX_RESOURCE_TABLE_BYTES,
         val maxIconBytes: Int = MAX_ICON_BYTES,
         val maxNestedScanBytes: Long = MAX_NESTED_SCAN_BYTES,
         val maxNestedZipEntries: Int = MAX_NESTED_ZIP_ENTRIES,
-        val maxEntryNameChars: Int = 1_024,
+        val maxEntryNameChars: Int = PackageInspectionLimits.ENTRY_NAME_CHARS,
         val aabDecoderLimits: AabResourceTableDecoder.Limits = AabResourceTableDecoder.Limits(),
     ) {
         init {

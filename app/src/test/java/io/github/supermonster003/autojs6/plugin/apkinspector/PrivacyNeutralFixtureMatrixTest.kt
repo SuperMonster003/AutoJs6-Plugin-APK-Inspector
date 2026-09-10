@@ -308,9 +308,9 @@ class PrivacyNeutralFixtureMatrixTest {
         const val CHECKSUM_RESOURCE = "SHA256SUMS"
         const val GENERATOR_PATH = ".python/generate_privacy_neutral_fixtures.py"
         const val SYNTHETIC_NAMESPACE = "org.example.apkinspector.fixture"
-        const val MAX_ENTRY_NAME_CHARS = 1_024
-        const val MAX_FIXTURE_BYTES = 4 * 1024
-        const val MAX_MATRIX_FIXTURE_BYTES = 64 * 1024
+        const val MAX_ENTRY_NAME_CHARS = PackageInspectionLimits.ENTRY_NAME_CHARS
+        const val MAX_FIXTURE_BYTES = 16 * 1024
+        const val MAX_MATRIX_FIXTURE_BYTES = 128 * 1024
         const val APK_SIG_BLOCK_MAGIC = "APK Sig Block 42"
         val EXPECTED_FORMATS = listOf("APK", "APKS", "XAPK", "APKM", "APKZ", "AAB")
         val EXPECTED_CATEGORIES = listOf(
@@ -323,7 +323,7 @@ class PrivacyNeutralFixtureMatrixTest {
             "NORMAL" to "SYNTHETIC_MINIMAL_PACKAGE",
             "STRUCTURALLY_DAMAGED" to
                 "ZIP_END_OF_CENTRAL_DIRECTORY_SIGNATURES_CORRUPTED",
-            "OVER_LIMIT" to "ARCHIVE_ENTRY_NAME_1025_CHARS",
+            "OVER_LIMIT" to "ARCHIVE_ENTRY_NAME_4097_CHARS",
             "DEVICE_INCOMPATIBLE" to "MIN_SDK_99",
         )
         val SHA_256_REGEX = Regex("[0-9a-f]{64}")

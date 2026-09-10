@@ -2,7 +2,7 @@
 
 ## v1.1.0
 
-_2026/09/01_
+_2026/09/10_
 
 - `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
 - `Función` Se añadió una mejora progresiva del diálogo de información APK del host mediante la capacidad v1 de información de archivos: los hosts compatibles conservan todos los campos nativos y las acciones de instalación/manifiesto y después añaden un resumen localizado y acotado, vinculado al SHA-256 del origen analizado; si el plugin falta, está desactivado, es antiguo, incompatible o falla, el diálogo base no cambia
@@ -22,8 +22,10 @@ _2026/09/01_
 - `Función` Se añadieron campos detallados de certificados y linajes de rotación verificados con funciones antiguas/actuales, indicadores de capacidad y huellas SHA-256
 - `Función` Se añadió el almacenamiento temporal acotado de `.idsig` mediante un descriptor de solo lectura derivado exactamente por el anfitrión; no se permite enumerar directorios ni acceder a archivos adyacentes arbitrarios
 - `Función` Se agruparon los permisos solicitados por `protectionLevel` en ejecución/peligrosos, firma/protegidos y normales; los permisos de ejecución se destacan primero con explicaciones acotadas de una línea, y los niveles no disponibles siguen visibles y etiquetados
+- `Corrección` APK Inspector invisible tras instalarlo y habilitarlo porque su catálogo Explorer Action v22 omitía la cardinalidad de archivo único; ofrecer la inspección desde el botón principal y el menú adicional
 - `Corrección` Se corrigió la desaparición de la acción para ver el manifest tras cambiar el idioma, el tema u otra recreación de la actividad, sustituyendo de forma segura la instantánea privada anterior de solo lectura
 - `Corrección` Se evitó que el panel de búsqueda del manifest quedara inaccesible cuando el teclado virtual reducía las pantallas compactas o con texto grande; ahora el teclado solo aparece al tocar el campo de búsqueda ya enfocado
+- `Mejora` Admitir 262144 entradas y paquetes de 8 GiB, ampliar los presupuestos de manifiestos, recursos y análisis anidados, y analizar directorios de bibliotecas nativas y DEX en paquetes ZIP64 anidados
 - `Mejora` Se reforzaron la validación de solicitudes Explorer Action v22 y las instantáneas privadas inmutables, con límites de 4 GiB para el paquete y 40 MiB para idsig, comprobaciones de identidad y cierre inmediato de la sesión
 - `Mejora` Se añadieron muestras oficiales de `apksigner` de Build Tools 37 para firmas válidas, alteradas, múltiples, con rotación V3.1/V4.1, ausentes y mal formadas
 - `Mejora` Se añadió una matriz de aislamiento por secciones con paquetes reales que cubre los límites de producción de permisos, componentes del manifiesto, bibliotecas nativas y DEX, además de tablas de recursos excedidas y directorios centrales anidados dañados; cada muestra comprueba que las secciones no afectadas siguen completas y que los avisos parciales se conservan al compartir texto

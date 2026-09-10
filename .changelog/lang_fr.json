@@ -6,7 +6,7 @@
   "changelog_label_dependency": "Dépendance",
   "$data": {
     "v1.1.0": {
-      "released_date": "2026/09/01",
+      "released_date": "2026/09/10",
       "hint": [
         "Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4"
       ],
@@ -30,10 +30,12 @@
         "Regroupement des autorisations demandées selon `protectionLevel` en exécution/dangereuses, signature/protégées et normales ; celles à l’exécution sont mises en avant avec une explication bornée sur une ligne, tandis que les niveaux indisponibles restent visibles et signalés"
       ],
       "fix": [
+        "APK Inspector invisible après installation et activation car son catalogue Explorer Action v22 omettait la cardinalité de fichier unique; proposer l'inspection par le bouton principal et le menu supplémentaire",
         "Correction de la disparition de l’action d’affichage du manifeste après un changement de langue, de thème ou une autre recréation d’activité, grâce au remplacement sûr de l’ancien instantané privé en lecture seule",
         "Correction de l’inaccessibilité du panneau de recherche du manifeste lorsque le clavier logiciel réduisait un écran compact ou utilisant de grands caractères ; le clavier n’apparaît désormais qu’après toucher du champ de recherche déjà ciblé"
       ],
       "improvement": [
+        "Prendre en charge 262144 entrées et des paquets de 8 GiB, augmenter les budgets des manifestes, ressources et analyses imbriquées, et analyser les répertoires de bibliothèques natives et DEX des paquets ZIP64 imbriqués",
         "Renforcement de la validation Explorer Action v22 et des instantanés privés immuables, avec limites de 4 GiB pour le paquet et 40 MiB pour idsig, contrôles d’identité et fermeture rapide de la session",
         "Ajout d’échantillons officiels Build Tools 37 `apksigner` couvrant signatures valides, altérées, multiples, rotations V3.1/V4.1, absences et formats incorrects",
         "Ajout d’une matrice d’isolation par section sur de vrais paquets, couvrant les limites de production des autorisations, composants de manifeste, bibliothèques natives et DEX, ainsi que les dépassements de table de ressources et les répertoires centraux imbriqués endommagés ; chaque échantillon vérifie que les sections non touchées restent complètes et que les avis partiels sont conservés dans le partage texte",

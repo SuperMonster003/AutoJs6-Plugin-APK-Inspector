@@ -14,6 +14,13 @@ import org.autojs.plugin.explorer.api.ExplorerActionValues
 class PackageRequestPolicyTest {
 
     @Test
+    fun primaryAndOverflowActionIdsUseTheSameRequestValidation() {
+        listOf(ApkInspectorPlugin.ACTION_ID, ApkInspectorPlugin.OVERFLOW_ACTION_ID).forEach { id ->
+            assertNull(PackageRequestValidator.rejectExplorer(validExplorerRequest().copy(actionId = id)))
+        }
+    }
+
+    @Test
     fun acceptsOnlySupportedPackageNames() {
         listOf("apk", "apks", "xapk", "apkm", "apkz", "aab").forEach { extension ->
             assertEquals("sample.$extension", PackageRequestPolicy.validateDisplayName("sample.$extension"))

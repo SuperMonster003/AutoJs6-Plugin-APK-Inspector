@@ -17,8 +17,8 @@
     "zipCompression": "STORED"
   },
   "limits": {
-    "archiveEntryNameCharacters": 1024,
-    "overLimitEntryNameCharacters": 1025
+    "archiveEntryNameCharacters": 4096,
+    "overLimitEntryNameCharacters": 4097
   },
   "deviceSpec": {
     "sdk": 35,
@@ -81,9 +81,9 @@
       "format": "APK",
       "category": "OVER_LIMIT",
       "file": "apk-over-limit.apk",
-      "bytes": 2676,
-      "sha256": "4571698bd2acf81fee9ff9d2d3f5878b749c7098fe2f0702370ee92d9f3247d0",
-      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "bytes": 8820,
+      "sha256": "05f2839d3110da12712adb3f1126f8ea2f6952bac304c229215bb054a6a70f94",
+      "construction": "ARCHIVE_ENTRY_NAME_4097_CHARS",
       "expected": {
         "result": "REJECTED",
         "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
@@ -141,9 +141,9 @@
       "format": "APKS",
       "category": "OVER_LIMIT",
       "file": "apks-over-limit.apks",
-      "bytes": 3094,
-      "sha256": "f7ff86ba833574cab22e066118c34a7e3fee10d2c30530daba1d3728883d16fc",
-      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "bytes": 9238,
+      "sha256": "9a74e326ca6d1c69103a10a2638c70b0931770f05ce8f165726fefdff653d8cf",
+      "construction": "ARCHIVE_ENTRY_NAME_4097_CHARS",
       "expected": {
         "result": "REJECTED",
         "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
@@ -201,9 +201,9 @@
       "format": "XAPK",
       "category": "OVER_LIMIT",
       "file": "xapk-over-limit.xapk",
-      "bytes": 3070,
-      "sha256": "308bc1923f08d48c6cf656a7e266bc8a56e347cf32dab72bf773546d4cb1dc7f",
-      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "bytes": 9214,
+      "sha256": "7a520ba19f5337cd573cea4fd3f5b1013d19f3d3dcac33916f3cee888d980307",
+      "construction": "ARCHIVE_ENTRY_NAME_4097_CHARS",
       "expected": {
         "result": "REJECTED",
         "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
@@ -261,9 +261,9 @@
       "format": "APKM",
       "category": "OVER_LIMIT",
       "file": "apkm-over-limit.apkm",
-      "bytes": 3229,
-      "sha256": "9595676699f485d01d9520f3afc220318d47a61e9383edee5c8af990cf5f991c",
-      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "bytes": 9373,
+      "sha256": "a3a1574854f58ce35ed5311950b50ddbde5c201b49443f7080ef4b2b7914a017",
+      "construction": "ARCHIVE_ENTRY_NAME_4097_CHARS",
       "expected": {
         "result": "REJECTED",
         "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
@@ -321,9 +321,9 @@
       "format": "APKZ",
       "category": "OVER_LIMIT",
       "file": "apkz-over-limit.apkz",
-      "bytes": 3001,
-      "sha256": "fc808e9329f0317e83f3dd6a8bc3437a64d70544c3a91ba6b90e130f10324297",
-      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "bytes": 9145,
+      "sha256": "3f9aaa53bf144a3ce8723af76b9693311958c059b0e43eb27121b6446a592934",
+      "construction": "ARCHIVE_ENTRY_NAME_4097_CHARS",
       "expected": {
         "result": "REJECTED",
         "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"
@@ -381,9 +381,9 @@
       "format": "AAB",
       "category": "OVER_LIMIT",
       "file": "aab-over-limit.aab",
-      "bytes": 2973,
-      "sha256": "d2b8630c0513de05af4ba05717e96d10cb9f4a2b192cbbdd8a8fd44ee732da26",
-      "construction": "ARCHIVE_ENTRY_NAME_1025_CHARS",
+      "bytes": 9117,
+      "sha256": "80f6f533df77e9bc574d4be80e9ab1ee3716ca2fadd2501e54898fb82748e066",
+      "construction": "ARCHIVE_ENTRY_NAME_4097_CHARS",
       "expected": {
         "result": "REJECTED",
         "rejection": "ARCHIVE_ENTRY_NAME_LIMIT"

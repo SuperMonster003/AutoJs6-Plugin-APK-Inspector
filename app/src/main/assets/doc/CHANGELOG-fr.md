@@ -2,7 +2,7 @@
 
 ## v1.1.0
 
-_2026/09/01_
+_2026/09/10_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
 - `Fonctionnalité` Ajout de l'enrichissement progressif de la boîte de dialogue d'informations APK hôte via la capacité v1 d'informations de fichier : les hôtes compatibles conservent tous les champs natifs et les actions d'installation/manifeste, puis ajoutent un résumé localisé et borné, lié au SHA-256 de la source analysée ; si le plugin est absent, désactivé, ancien, incompatible ou en échec, la boîte de dialogue de base reste inchangée
@@ -22,8 +22,10 @@ _2026/09/01_
 - `Fonctionnalité` Ajout des champs détaillés des certificats et des lignées de rotation vérifiées avec rôles ancien/actuel, indicateurs de capacité et empreintes SHA-256
 - `Fonctionnalité` Ajout de la copie bornée de `.idsig` via un descripteur en lecture seule dérivé exactement par l’hôte ; l’énumération des répertoires et l’accès arbitraire aux voisins restent indisponibles
 - `Fonctionnalité` Regroupement des autorisations demandées selon `protectionLevel` en exécution/dangereuses, signature/protégées et normales ; celles à l’exécution sont mises en avant avec une explication bornée sur une ligne, tandis que les niveaux indisponibles restent visibles et signalés
+- `Correctif` APK Inspector invisible après installation et activation car son catalogue Explorer Action v22 omettait la cardinalité de fichier unique; proposer l'inspection par le bouton principal et le menu supplémentaire
 - `Correctif` Correction de la disparition de l’action d’affichage du manifeste après un changement de langue, de thème ou une autre recréation d’activité, grâce au remplacement sûr de l’ancien instantané privé en lecture seule
 - `Correctif` Correction de l’inaccessibilité du panneau de recherche du manifeste lorsque le clavier logiciel réduisait un écran compact ou utilisant de grands caractères ; le clavier n’apparaît désormais qu’après toucher du champ de recherche déjà ciblé
+- `Amélioration` Prendre en charge 262144 entrées et des paquets de 8 GiB, augmenter les budgets des manifestes, ressources et analyses imbriquées, et analyser les répertoires de bibliothèques natives et DEX des paquets ZIP64 imbriqués
 - `Amélioration` Renforcement de la validation Explorer Action v22 et des instantanés privés immuables, avec limites de 4 GiB pour le paquet et 40 MiB pour idsig, contrôles d’identité et fermeture rapide de la session
 - `Amélioration` Ajout d’échantillons officiels Build Tools 37 `apksigner` couvrant signatures valides, altérées, multiples, rotations V3.1/V4.1, absences et formats incorrects
 - `Amélioration` Ajout d’une matrice d’isolation par section sur de vrais paquets, couvrant les limites de production des autorisations, composants de manifeste, bibliothèques natives et DEX, ainsi que les dépassements de table de ressources et les répertoires centraux imbriqués endommagés ; chaque échantillon vérifie que les sections non touchées restent complètes et que les avis partiels sont conservés dans le partage texte

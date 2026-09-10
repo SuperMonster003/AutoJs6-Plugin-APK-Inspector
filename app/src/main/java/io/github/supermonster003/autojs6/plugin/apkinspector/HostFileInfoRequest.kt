@@ -47,7 +47,7 @@ internal object HostFileInfoRequestPolicy {
         expectedSourceSha256: String?,
     ): HostFileInfoRequest? {
         if (version != ExplorerActionProtocol.HOST_FILE_INFO_VERSION) return null
-        if (actionId != ApkInspectorPlugin.ACTION_ID) return null
+        if (!ApkInspectorPlugin.acceptsActionId(actionId)) return null
         val acceptedDisplayName = PackageRequestPolicy.validateDisplayName(displayName) ?: return null
         if (!PackageRequestPolicy.isDeclaredSizeAccepted(size)) return null
         if (lastModified < 0L) return null

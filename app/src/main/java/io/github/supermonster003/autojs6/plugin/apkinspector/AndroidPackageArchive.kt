@@ -104,7 +104,7 @@ internal data class AndroidPackageArchive(
     }
 
     companion object {
-        internal const val MAX_DISPLAY_APK_BYTES = 512L * 1024L * 1024L
+        internal const val MAX_DISPLAY_APK_BYTES = PackageInspectionLimits.PACKAGE_BYTES
         internal const val MINIMUM_FREE_CACHE_BYTES = 128L * 1024L * 1024L
 
         internal fun createDisplayDirectory(
@@ -248,17 +248,17 @@ internal data class PackageDeviceSpec(
 
 internal object AndroidPackageArchiveInspector {
 
-    const val MAX_AAB_COMPONENT_MANIFESTS = 128
-    const val MAX_AAB_COMPONENT_MANIFEST_TOTAL_BYTES = 16L * 1024L * 1024L
-    const val MAX_AAB_BUNDLE_CONFIG_BYTES = 1 * 1024 * 1024
+    const val MAX_AAB_COMPONENT_MANIFESTS = 512
+    const val MAX_AAB_COMPONENT_MANIFEST_TOTAL_BYTES = 64L * 1024L * 1024L
+    const val MAX_AAB_BUNDLE_CONFIG_BYTES = PackageInspectionLimits.METADATA_BYTES
 
-    internal const val MAX_ARCHIVE_ENTRIES = 16_384
-    internal const val MAX_GENERIC_APK_ENTRIES = 512
-    internal const val MAX_ENTRY_NAME_CHARS = 1_024
-    internal const val MAX_DECLARED_ENTRY_BYTES = 4L * 1024L * 1024L * 1024L
-    internal const val MAX_DECLARED_TOTAL_BYTES = 8L * 1024L * 1024L * 1024L
-    private const val MAX_NESTED_APK_SCAN_BYTES = 256L * 1024L * 1024L
-    internal const val MAX_AAB_COMPONENT_MANIFEST_BYTES = 4 * 1024 * 1024
+    internal const val MAX_ARCHIVE_ENTRIES = PackageInspectionLimits.ARCHIVE_ENTRIES
+    internal const val MAX_GENERIC_APK_ENTRIES = PackageInspectionLimits.GENERIC_APKS
+    internal const val MAX_ENTRY_NAME_CHARS = PackageInspectionLimits.ENTRY_NAME_CHARS
+    internal const val MAX_DECLARED_ENTRY_BYTES = PackageInspectionLimits.PACKAGE_BYTES
+    internal const val MAX_DECLARED_TOTAL_BYTES = PackageInspectionLimits.TOTAL_DECLARED_BYTES
+    private const val MAX_NESTED_APK_SCAN_BYTES = PackageInspectionLimits.TOTAL_SCAN_BYTES
+    internal const val MAX_AAB_COMPONENT_MANIFEST_BYTES = PackageInspectionLimits.MANIFEST_BYTES
     private const val MAX_AAB_METADATA_ISSUE_DETAIL_CHARS = 240
     private const val AAB_BUNDLE_CONFIG_ENTRY = "BundleConfig.pb"
     private const val AAB_MANIFEST_SUFFIX = "/manifest/AndroidManifest.xml"

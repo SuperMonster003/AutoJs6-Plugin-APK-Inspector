@@ -50,11 +50,11 @@ internal data class NativeLibrarySummary(
  */
 internal object NativeLibraryInspector {
 
-    const val MAX_NATIVE_LIBRARY_ENTRIES = 4_096
+    const val MAX_NATIVE_LIBRARY_ENTRIES = 32_768
     const val MAX_DISPLAYED_NATIVE_ABIS = 64
-    const val MAX_SELECTED_APK_SCANS = 512
-    const val MAX_NESTED_APK_SCAN_BYTES = 256L * 1024L * 1024L
-    const val MAX_NESTED_APK_CENTRAL_DIRECTORY_BYTES = 8 * 1024 * 1024
+    const val MAX_SELECTED_APK_SCANS = PackageInspectionLimits.GENERIC_APKS
+    const val MAX_NESTED_APK_SCAN_BYTES = PackageInspectionLimits.TOTAL_SCAN_BYTES
+    const val MAX_NESTED_APK_CENTRAL_DIRECTORY_BYTES = 32 * 1024 * 1024
 
     internal data class Limits(
         val maxNativeLibraryEntries: Int = MAX_NATIVE_LIBRARY_ENTRIES,
@@ -76,7 +76,7 @@ internal object NativeLibraryInspector {
             require(maxNestedApkCentralDirectoryBytes > 0)
             require(
                 maxNestedApkCentralDirectoryBytes <=
-                    Int.MAX_VALUE - ZIP_EOCD_MAX_BYTES,
+                    Int.MAX_VALUE - ZIP_EOCD_MAX_BYTES - ZIP64_TRAILER_BYTES,
             )
             require(maxNestedApkEntries > 0)
             require(maxEntryNameBytes > 0)
@@ -300,32 +300,53 @@ internal object NativeLibraryInspector {
             readUInt16(bytes, eocdOffset + ZIP_EOCD_DIRECTORY_DISK_OFFSET)
         val entriesOnDisk =
             readUInt16(bytes, eocdOffset + ZIP_EOCD_ENTRIES_ON_DISK_OFFSET)
-        val totalEntries =
-            readUInt16(bytes, eocdOffset + ZIP_EOCD_TOTAL_ENTRIES_OFFSET)
-        if (diskNumber != 0 || centralDirectoryDisk != 0 || entriesOnDisk != totalEntries) {
+        var totalEntries =
+            readUInt16(bytes, eocdOffset + ZIP_EOCD_TOTAL_ENTRIES_OFFSET).toLong()
+        if (diskNumber != 0 || centralDirectoryDisk != 0 || entriesOnDisk.toLong() != totalEntries) {
             throw IOException("Split ZIP archives are not supported for nested APK inspection")
         }
-        val centralDirectorySize =
+        var centralDirectorySize =
             readUInt32(bytes, eocdOffset + ZIP_EOCD_DIRECTORY_SIZE_OFFSET)
-        val centralDirectoryOffset =
+        var centralDirectoryOffset =
             readUInt32(bytes, eocdOffset + ZIP_EOCD_DIRECTORY_OFFSET_OFFSET)
+        var directoryBoundary = Math.addExact(tailStart, eocdOffset.toLong())
         if (
-            totalEntries == ZIP_UINT16_MAX ||
+            totalEntries == ZIP_UINT16_MAX.toLong() ||
             centralDirectorySize == ZIP_UINT32_MAX ||
             centralDirectoryOffset == ZIP_UINT32_MAX
         ) {
-            throw IOException("ZIP64 nested APK inspection is not supported")
+            val locator = eocdOffset - 20
+            if (readUInt32(bytes, locator) != 0x07064B50L ||
+                readUInt32(bytes, locator + 4) != 0L || readUInt32(bytes, locator + 16) != 1L
+            ) {
+                throw IOException("Nested APK ZIP64 locator is malformed")
+            }
+            val recordOffset = readUInt64(bytes, locator + 8)
+            if (recordOffset < tailStart) throw PackageCodeScanLimitException()
+            if (recordOffset > tailStart + locator - 56L) {
+                throw IOException("Nested APK ZIP64 record is outside the retained input")
+            }
+            val record = (recordOffset - tailStart).toInt()
+            val recordSize = readUInt64(bytes, record + 4)
+            if (readUInt32(bytes, record) != 0x06064B50L || recordSize < 44L ||
+                recordSize != (locator - record - 12).toLong() ||
+                readUInt32(bytes, record + 16) != 0L || readUInt32(bytes, record + 20) != 0L
+            ) {
+                throw IOException("Nested APK ZIP64 record is malformed")
+            }
+            totalEntries = readUInt64(bytes, record + 32)
+            if (readUInt64(bytes, record + 24) != totalEntries) {
+                throw IOException("Split ZIP64 archives are not supported")
+            }
+            centralDirectorySize = readUInt64(bytes, record + 40)
+            centralDirectoryOffset = readUInt64(bytes, record + 48)
+            directoryBoundary = recordOffset
         }
         if (centralDirectorySize > limits.maxNestedApkCentralDirectoryBytes) {
             throw PackageCodeScanLimitException()
         }
 
-        val eocdAbsoluteOffset = Math.addExact(tailStart, eocdOffset.toLong())
-        val centralDirectoryEnd = Math.addExact(
-            centralDirectoryOffset,
-            centralDirectorySize,
-        )
-        if (centralDirectoryEnd > eocdAbsoluteOffset) {
+        if (centralDirectoryOffset > directoryBoundary - centralDirectorySize) {
             throw IOException("Nested APK central directory exceeds the EOCD boundary")
         }
         if (centralDirectoryOffset < tailStart) {
@@ -344,7 +365,7 @@ internal object NativeLibraryInspector {
             throw IOException("Nested APK central directory is outside the retained input")
         }
 
-        val entriesToRead = minOf(totalEntries, limits.maxNestedApkEntries)
+        val entriesToRead = minOf(totalEntries, limits.maxNestedApkEntries.toLong()).toInt()
         var offset = centralOffsetInTail
         repeat(entriesToRead) {
             ensureRange(bytes, offset, ZIP_CENTRAL_HEADER_BYTES)
@@ -379,7 +400,9 @@ internal object NativeLibraryInspector {
                     nameLength,
                     StandardCharsets.ISO_8859_1,
                 )
-                val declaredSize = uncompressedSize.takeUnless { it == ZIP_UINT32_MAX } ?: -1L
+                val declaredSize = if (uncompressedSize == ZIP_UINT32_MAX) {
+                    readZip64EntrySize(bytes, nameOffset + nameLength, extraLength)
+                } else uncompressedSize
                 val isDirectory = path.endsWith('/')
                 nativeAccumulator.inspectEntry(
                     path = path,
@@ -416,6 +439,9 @@ internal object NativeLibraryInspector {
             }
             offset = nextOffset
         }
+        if (totalEntries == entriesToRead.toLong() && offset != centralEndInTail) {
+            throw IOException("Nested APK central directory entry count does not match its size")
+        }
 
         return NestedApkScanOutcome(
             entryLimitReached = totalEntries > entriesToRead,
@@ -426,7 +452,7 @@ internal object NativeLibraryInspector {
         TailBuffer(
             Math.addExact(
                 limits.maxNestedApkCentralDirectoryBytes,
-                ZIP_EOCD_MAX_BYTES,
+                ZIP_EOCD_MAX_BYTES + ZIP64_TRAILER_BYTES,
             ),
         )
 
@@ -468,6 +494,31 @@ internal object NativeLibraryInspector {
     private fun readUInt32(bytes: ByteArray, offset: Int): Long {
         ensureRange(bytes, offset, 4)
         return readUInt32Unchecked(bytes, offset)
+    }
+
+    private fun readUInt64(bytes: ByteArray, offset: Int): Long {
+        val low = readUInt32(bytes, offset)
+        val high = readUInt32(bytes, offset + 4)
+        if (high > Int.MAX_VALUE) throw IOException("Nested APK ZIP64 value exceeds the supported range")
+        return low or (high shl 32)
+    }
+
+    private fun readZip64EntrySize(bytes: ByteArray, extraOffset: Int, extraLength: Int): Long {
+        val end = extraOffset + extraLength
+        var offset = extraOffset
+        while (offset < end) {
+            if (end - offset < 4) throw IOException("Nested APK ZIP extra field is truncated")
+            val id = readUInt16(bytes, offset)
+            val length = readUInt16(bytes, offset + 2)
+            offset += 4
+            if (length > end - offset) throw IOException("Nested APK ZIP extra field exceeds its boundary")
+            if (id == 1) {
+                if (length < 8) throw IOException("Nested APK ZIP64 entry size is missing")
+                return readUInt64(bytes, offset)
+            }
+            offset += length
+        }
+        throw IOException("Nested APK ZIP64 entry size is missing")
     }
 
     private fun readUInt32Unchecked(bytes: ByteArray, offset: Int): Long =
@@ -720,8 +771,8 @@ internal object NativeLibraryInspector {
     private val APK_NATIVE_PREFIX = "lib/".toByteArray(StandardCharsets.US_ASCII)
     private val SHARED_OBJECT_SUFFIX = ".so".toByteArray(StandardCharsets.US_ASCII)
 
-    private const val MAX_NESTED_APK_ENTRIES = 16_384
-    private const val MAX_ENTRY_NAME_BYTES = 1_024
+    private const val MAX_NESTED_APK_ENTRIES = PackageInspectionLimits.ARCHIVE_ENTRIES
+    private const val MAX_ENTRY_NAME_BYTES = PackageInspectionLimits.ENTRY_NAME_CHARS
 
     private const val ZIP_CENTRAL_HEADER_SIGNATURE = 0x02014B50L
     private const val ZIP_CENTRAL_HEADER_BYTES = 46
@@ -731,6 +782,7 @@ internal object NativeLibraryInspector {
     private const val ZIP_CENTRAL_COMMENT_LENGTH_OFFSET = 32
 
     private const val ZIP_EOCD_SIGNATURE = 0x06054B50L
+    private const val ZIP64_TRAILER_BYTES = 76
     private const val ZIP_EOCD_MIN_BYTES = 22
     private const val ZIP_EOCD_MAX_COMMENT_BYTES = 65_535
     private const val ZIP_EOCD_MAX_BYTES =
