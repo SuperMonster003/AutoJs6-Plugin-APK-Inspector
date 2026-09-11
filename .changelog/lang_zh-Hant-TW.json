@@ -6,7 +6,7 @@
   "changelog_label_dependency": "相依性",
   "$data": {
     "v1.1.0": {
-      "released_date": "2026/09/10",
+      "released_date": "2026/09/11",
       "hint": [
         "Explorer Action 協定 v22 與有界 V4 同層檔案存取要求 AutoJs6 版本代碼不低於 5277"
       ],
@@ -48,7 +48,8 @@
         "新增可重現的 Release 產物準備與校驗流程: 保留 `autojs6-plugin-apk-inspector-v<版本>-<CRC32>.apk` 命名規則, 為每個 APK 產生 `.sha256` 隨附檔案及排序穩定的 `SHA256SUMS`; 任何命名、CRC32、SHA-256 或清單不一致都會被拒絕",
         "統一 README 版式與 Gradle 平台版本管理方式",
         "精簡外掛描述並規範多語言資源中的標點符號",
-        "將外部檢視入口統一命名為 External Viewer"
+        "將外部檢視入口統一命名為 External Viewer",
+        "建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告"
       ]
     },
     "v1.0.1": {

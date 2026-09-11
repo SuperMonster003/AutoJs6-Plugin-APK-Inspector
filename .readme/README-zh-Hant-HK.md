@@ -147,7 +147,7 @@ required host build: 5277
 
 #### v1.1.0
 
-_2026/09/10_
+_2026/09/11_
 
 - `提示` Explorer Action 協議 v22 與有界 V4 同級檔案存取要求 AutoJs6 版本代碼不低於 5277
 - `新增` 透過宿主檔案資訊能力 v1 漸進增強宿主 APK 資訊對話框: 相容宿主完整保留全部原生欄位及安裝/清單操作, 再附加與已分析來源檔案 SHA-256 綁定的有界本地化摘要; 插件缺失、停用、版本過舊、不相容或失敗時, 基礎對話框保持不變
@@ -184,6 +184,7 @@ _2026/09/10_
 - `優化` 統一 README 版式與 Gradle 平台版本管理方式
 - `優化` 精簡插件描述並規範多語言資源中的標點符號
 - `優化` 將外部檢視入口統一命名為 External Viewer
+- `優化` 建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告
 
 #### v1.0.1
 
@@ -233,3 +234,6 @@ README 與 CHANGELOG 均由 .python/generate_markdown.py 依據 .readme/ 與 .ch
 
 - AutoJs6 文檔: https://docs.autojs6.com
 - Android 安全檔案分享: https://developer.android.com/training/secure-file-sharing
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/docs/16kb.md)

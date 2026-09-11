@@ -6,7 +6,7 @@
   "changelog_label_dependency": "Dependencia",
   "$data": {
     "v1.1.0": {
-      "released_date": "2026/09/10",
+      "released_date": "2026/09/11",
       "hint": [
         "Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4"
       ],
@@ -48,7 +48,8 @@
         "Se añadió un flujo reproducible de preparación y verificación de artefactos de lanzamiento: conserva la regla de nombre `autojs6-plugin-apk-inspector-v<versión>-<CRC32>.apk`, genera un archivo `.sha256` por APK y un `SHA256SUMS` ordenado de forma determinista, y rechaza cualquier discrepancia de nombre, CRC32, SHA-256 o manifiesto",
         "Unificar el diseño del README y la gestión de versiones de la plataforma Gradle",
         "Simplificar la descripción del complemento y normalizar la puntuación de los recursos multilingües",
-        "Renombrar la entrada de visualización externa como External Viewer para unificar la semántica del visor"
+        "Renombrar la entrada de visualización externa como External Viewer para unificar la semántica del visor",
+        "La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON"
       ]
     },
     "v1.0.1": {

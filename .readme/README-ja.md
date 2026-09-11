@@ -147,7 +147,7 @@ required host build: 5277
 
 #### v1.1.0
 
-_2026/09/10_
+_2026/09/11_
 
 - `ヒント` Explorer Actionプロトコルv22と上限付きV4サイドカーアクセスにはAutoJs6バージョンコード5277以降が必要です
 - `機能` ホストファイル情報 capability v1 によるホスト APK 情報ダイアログの段階的拡張を追加: 対応ホストはすべての標準項目とインストール/manifest 操作を保ったまま, 解析元の SHA-256 に結び付いた上限付きローカライズ概要を追加します; プラグインが未導入, 無効, 旧版, 非互換, または失敗した場合, 基本ダイアログは変わりません
@@ -184,6 +184,7 @@ _2026/09/10_
 - `改善` README のレイアウトと Gradle プラットフォームのバージョン管理方式を統一
 - `改善` プラグインの説明を簡潔にし, 多言語リソースの句読点を統一
 - `改善` 外部表示エントリを External Viewer に改名し, ビューアーの意味を統一
+- `改善` 意図しないネイティブ依存関係をビルド時に拒否し, JSON レポートを生成
 
 #### v1.0.1
 
@@ -233,3 +234,6 @@ READMEとCHANGELOGは, .readme/ と .changelog/ のJSON言語ソースとテン�
 
 - AutoJs6ドキュメント: https://docs.autojs6.com
 - Androidの安全なファイル共有: https://developer.android.com/training/secure-file-sharing
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/docs/16kb.md)

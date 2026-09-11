@@ -147,7 +147,7 @@ required host build: 5277
 
 #### v1.1.0
 
-_2026/09/10_
+_2026/09/11_
 
 - `힌트` Explorer Action 프로토콜 v22와 제한된 V4 사이드카 접근에는 AutoJs6 버전 코드 5277 이상이 필요합니다
 - `기능` 호스트 파일 정보 capability v1을 통한 호스트 APK 정보 대화상자 점진적 확장 추가: 호환 호스트는 모든 기본 필드와 설치/manifest 작업을 그대로 유지하면서 분석한 원본 SHA-256에 결합된 제한형 현지화 요약을 추가합니다; 플러그인이 없거나 비활성화되거나 구버전이거나 호환되지 않거나 실패하면 기본 대화상자는 바뀌지 않습니다
@@ -184,6 +184,7 @@ _2026/09/10_
 - `개선` README 레이아웃과 Gradle 플랫폼 버전 관리 방식을 통일
 - `개선` 플러그인 설명을 간결하게 다듬고 다국어 리소스의 문장 부호를 통일
 - `개선` 외부 보기 진입점을 External Viewer로 변경해 뷰어 의미를 통일
+- `개선` 빌드 시 의도하지 않은 네이티브 의존성을 거부하고 JSON 보고서 생성
 
 #### v1.0.1
 
@@ -233,3 +234,6 @@ README와 CHANGELOG는 .readme/ 와 .changelog/ 의 JSON 언어 소스와 템플
 
 - AutoJs6 문서: https://docs.autojs6.com
 - Android 안전한 파일 공유: https://developer.android.com/training/secure-file-sharing
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/docs/16kb.md)

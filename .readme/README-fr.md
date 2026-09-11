@@ -147,7 +147,7 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 
 #### v1.1.0
 
-_2026/09/10_
+_2026/09/11_
 
 - `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
 - `Fonctionnalité` Ajout de l'enrichissement progressif de la boîte de dialogue d'informations APK hôte via la capacité v1 d'informations de fichier : les hôtes compatibles conservent tous les champs natifs et les actions d'installation/manifeste, puis ajoutent un résumé localisé et borné, lié au SHA-256 de la source analysée ; si le plugin est absent, désactivé, ancien, incompatible ou en échec, la boîte de dialogue de base reste inchangée
@@ -184,6 +184,7 @@ _2026/09/10_
 - `Amélioration` Uniformiser la mise en page du README et la gestion des versions de la plateforme Gradle
 - `Amélioration` Simplifier la description du plugin et normaliser la ponctuation des ressources multilingues
 - `Amélioration` Renommer l'entrée de visualisation externe en External Viewer pour unifier la sémantique de la visionneuse
+- `Amélioration` La vérification de compilation rejette les dépendances natives involontaires et produit un rapport JSON
 
 #### v1.0.1
 
@@ -233,3 +234,6 @@ Les fichiers README et CHANGELOG sont générés par .python/generate_markdown.p
 
 - Documentation AutoJs6: https://docs.autojs6.com
 - Partage de fichiers sécurisé Android: https://developer.android.com/training/secure-file-sharing
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/docs/16kb.md)

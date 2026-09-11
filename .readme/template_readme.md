@@ -116,3 +116,6 @@ required host build: {{ required_host_build }}
 
 - {{ text_link_autojs6_docs }}: {{ docs_autojs6_url }}
 - {{ text_link_android_secure_file_sharing }}: https://developer.android.com/training/secure-file-sharing
+
+
+[16 KB page alignment and build verification](https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/docs/16kb.md)

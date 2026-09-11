@@ -6,7 +6,7 @@
   "changelog_label_dependency": "依存関係",
   "$data": {
     "v1.1.0": {
-      "released_date": "2026/09/10",
+      "released_date": "2026/09/11",
       "hint": [
         "Explorer Actionプロトコルv22と上限付きV4サイドカーアクセスにはAutoJs6バージョンコード5277以降が必要です"
       ],
@@ -48,7 +48,8 @@
         "再現可能な Release 成果物の準備・検証フローを追加しました。`autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` の命名規則を維持し、APK ごとの `.sha256` と決定的にソートされた `SHA256SUMS` を生成して、名前、CRC32、SHA-256、マニフェストの不一致を拒否します",
         "README のレイアウトと Gradle プラットフォームのバージョン管理方式を統一",
         "プラグインの説明を簡潔にし, 多言語リソースの句読点を統一",
-        "外部表示エントリを External Viewer に改名し, ビューアーの意味を統一"
+        "外部表示エントリを External Viewer に改名し, ビューアーの意味を統一",
+        "意図しないネイティブ依存関係をビルド時に拒否し, JSON レポートを生成"
       ]
     },
     "v1.0.1": {

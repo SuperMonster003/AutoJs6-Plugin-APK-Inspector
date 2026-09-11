@@ -6,7 +6,7 @@
   "changelog_label_dependency": "Dependency",
   "$data": {
     "v1.1.0": {
-      "released_date": "2026/09/10",
+      "released_date": "2026/09/11",
       "hint": [
         "Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access"
       ],
@@ -48,7 +48,8 @@
         "Added a reproducible release-artifact preparation and verification flow: it preserves the `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk` naming rule, writes a `.sha256` sidecar for every APK plus a deterministically sorted `SHA256SUMS`, and rejects any naming, CRC32, SHA-256, or manifest mismatch",
         "Standardize the README layout and Gradle platform version management",
         "Refine the plugin description and normalize punctuation in multilingual resources",
-        "Rename the external viewing entry to External Viewer for consistent viewer semantics"
+        "Rename the external viewing entry to External Viewer for consistent viewer semantics",
+        "Build verification rejects accidental native dependencies and produces a JSON report"
       ]
     },
     "v1.0.1": {

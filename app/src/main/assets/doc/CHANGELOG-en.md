@@ -2,7 +2,7 @@
 
 ## v1.1.0
 
-_2026/09/10_
+_2026/09/11_
 
 - `Hint` Requires AutoJs6 version code 5277 or later for Explorer Action protocol v22 and bounded V4 sidecar access
 - `Feature` Added progressive enhancement for the host APK information dialog through host file-information capability v1: compatible hosts keep every native field and installation/manifest action, then append a bounded localized summary bound to the analyzed source SHA-256; missing, disabled, old, incompatible, or failing plugins leave the base dialog unchanged
@@ -39,6 +39,7 @@ _2026/09/10_
 - `Improvement` Standardize the README layout and Gradle platform version management
 - `Improvement` Refine the plugin description and normalize punctuation in multilingual resources
 - `Improvement` Rename the external viewing entry to External Viewer for consistent viewer semantics
+- `Improvement` Build verification rejects accidental native dependencies and produces a JSON report
 
 ## v1.0.1
 
