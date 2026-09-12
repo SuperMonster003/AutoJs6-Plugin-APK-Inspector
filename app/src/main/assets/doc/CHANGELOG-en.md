@@ -1,5 +1,11 @@
 # Release history
 
+## v1.1.1
+
+_2026/09/12_
+
+- `Feature` Added a 16 KB page-size readiness check for directly inspected APK and AAB files: only the ELF header and program-header table of each 64-bit native library (`arm64-v8a` / `x86_64` / `riscv64`, at most 64 KiB per entry) are read to verify that every `PT_LOAD` segment is aligned to at least 16 KB; when the manifest declares `extractNativeLibs="false"`, the ZIP data offsets of stored libraries are verified as well. The verdict (ready / not ready / unverified / no 64-bit libraries / not evaluated for nested container APKs) appears in the native-library section and in the host file-information summary, and a not-ready verdict is listed under findings
+
 ## v1.1.0
 
 _2026/09/11_

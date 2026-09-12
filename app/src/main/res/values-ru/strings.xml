@@ -179,4 +179,21 @@
     <string name="dex_file_apk_partial">[i] Ошибок сканирования DEX выбранных APK: %1$d | не просканировано: %2$d. Результаты частичные.</string>
     <string name="dex_file_nested_limit">[i] Достигнут предел вложенных APK (общий ввод APK: %1$s; центральный каталог на APK: %2$s). Результаты частичные.</string>
     <string name="dex_file_invalid_entries">[i] Пропущено недопустимых или неразрешённых записей DEX: %1$d.</string>
+    <string name="page_size_heading">Готовность к страницам 16 КБ (выравнивание 64-битных ELF)</string>
+    <string name="page_size_state_ready">Готов: все %1$d 64-битных библиотек имеют выравнивание PT_LOAD не менее 16 КБ</string>
+    <string name="page_size_state_not_ready">Не готов: библиотек с выравниванием ниже 16 КБ: %1$d | несжатых записей с невыровненным смещением в ZIP: %2$d</string>
+    <string name="page_size_state_unverified">Не проверено: нечитаемых библиотек: %1$d | пропущено из-за лимита безопасности: %2$d</string>
+    <string name="page_size_state_no_64bit">64-битных нативных библиотек нет; размер страницы не влияет на этот пакет.</string>
+    <string name="page_size_state_not_evaluated">Для APK, вложенных в контейнер, оценка не выполняется; проверьте выбранный APK-файл напрямую.</string>
+    <string name="page_size_line">- %1$s | библиотек: %2$d | выровнено: %3$d | не выровнено: %4$d | нечитаемых: %5$d</string>
+    <string name="page_size_examples">  например %1$s</string>
+    <string name="page_size_zip_offsets">extractNativeLibs=\"false\": несжатые 64-битные библиотеки, смещение данных которых в ZIP не выровнено по 16 КБ: %1$d</string>
+    <string name="page_size_extract_native_libs">extractNativeLibs: %1$s</string>
+    <string name="page_size_entry_limit">[i] Лимит проверки размера страницы: %2$d библиотек | пропущено: %1$d. Результаты неполные.</string>
+    <string name="finding_page_size_not_ready">[i] Не готов для устройств со страницами 16 КБ: %1$d 64-битных нативных библиотек или несжатых записей имеют выравнивание ниже 16 КБ.</string>
+    <string name="page_size_short_ready">Страницы 16 КБ: готов</string>
+    <string name="page_size_short_not_ready">Страницы 16 КБ: не готов (%1$d)</string>
+    <string name="page_size_short_unverified">Страницы 16 КБ: не проверено</string>
+    <string name="page_size_short_no_64bit">Страницы 16 КБ: нет 64-битных библиотек</string>
+    <string name="page_size_short_not_evaluated">Страницы 16 КБ: не оценивалось</string>
 </resources>

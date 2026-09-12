@@ -36,6 +36,7 @@ internal data class AndroidPackageArchive(
     val aabBundleConfig: AabBundleConfigSummary? = null,
     val aabModuleMetadata: List<AabModuleMetadata> = emptyList(),
     val aabModuleMetadataOmittedCount: Int = 0,
+    val pageSizeReadiness: PageSizeReadinessSummary = PageSizeReadinessSummary.NOT_EVALUATED,
 ) {
 
     val baseApk: ArchiveApkEntry?
@@ -222,6 +223,8 @@ internal data class ManifestSummary(
     val usesSplits: List<String>,
     val declaredPermissionProtectionLevels: Map<String, Int> = emptyMap(),
     val manifestComponents: ManifestComponentSummary = ManifestComponentSummary(),
+    /** `android:extractNativeLibs` of `<application>`; null when the manifest does not declare it. */
+    val extractNativeLibs: Boolean? = null,
 )
 
 internal data class PackageDeviceSpec(
@@ -301,6 +304,12 @@ internal object AndroidPackageArchiveInspector {
                     nativeLibraries = codeSummary.nativeLibraries,
                     dexFiles = codeSummary.dexFiles,
                     problems = validateSelected(listOf(entry), device),
+                    pageSizeReadiness = PageSizeReadinessInspector.inspectApk(
+                        file = file,
+                        zip = zip,
+                        entries = entries,
+                        extractNativeLibs = summary.extractNativeLibs,
+                    ),
                 )
             }
 
@@ -359,6 +368,7 @@ internal object AndroidPackageArchiveInspector {
                     aabBundleConfig = inspectAabBundleConfig(zip, entries),
                     aabModuleMetadata = manifestInspection.moduleMetadata,
                     aabModuleMetadataOmittedCount = manifestInspection.omittedMetadataCount,
+                    pageSizeReadiness = PageSizeReadinessInspector.inspectAab(zip = zip, entries = entries),
                 )
             }
 
@@ -1059,6 +1069,7 @@ internal object ManifestSummaryParser {
             applicationLabel = applicationAttributes.value("label")?.takeIf(String::isNotBlank),
             applicationIcon = applicationAttributes.value("icon")?.takeIf(String::isNotBlank),
             applicationRoundIcon = applicationAttributes.value("roundIcon")?.takeIf(String::isNotBlank),
+            extractNativeLibs = applicationAttributes.value("extractNativeLibs")?.let { value -> value.toBooleanFlexible() },
             requestedPermissions = permissionTag.findAll(xml)
                 .mapNotNull { match -> parseAttributes(match.groupValues[1]).value("name") }
                 .filter(String::isNotBlank)

@@ -1,5 +1,11 @@
 # Historial de versiones
 
+## v1.1.1
+
+_2026/09/12_
+
+- `Función` Se añadió una comprobación de preparación para páginas de 16 KB en los archivos APK / AAB inspeccionados directamente: solo se leen la cabecera ELF y la tabla de cabeceras de programa de cada biblioteca nativa de 64 bits (`arm64-v8a` / `x86_64` / `riscv64`, como máximo 64 KiB por entrada) para verificar que cada segmento `PT_LOAD` esté alineado a al menos 16 KB; si el manifiesto declara `extractNativeLibs="false"`, también se verifican los desplazamientos de datos ZIP de las bibliotecas sin comprimir. El veredicto (listo / no listo / sin verificar / sin bibliotecas de 64 bits / no evaluado para APK anidados en un contenedor) aparece en la sección de bibliotecas nativas y en el resumen de información de archivo del anfitrión, y un veredicto de no listo se incluye en los hallazgos
+
 ## v1.1.0
 
 _2026/09/11_

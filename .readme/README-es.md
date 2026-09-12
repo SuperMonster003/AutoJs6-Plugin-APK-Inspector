@@ -145,6 +145,12 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 
 ### Historial de versiones
 
+#### v1.1.1
+
+_2026/09/12_
+
+- `Función` Se añadió una comprobación de preparación para páginas de 16 KB en los archivos APK / AAB inspeccionados directamente: solo se leen la cabecera ELF y la tabla de cabeceras de programa de cada biblioteca nativa de 64 bits (`arm64-v8a` / `x86_64` / `riscv64`, como máximo 64 KiB por entrada) para verificar que cada segmento `PT_LOAD` esté alineado a al menos 16 KB; si el manifiesto declara `extractNativeLibs="false"`, también se verifican los desplazamientos de datos ZIP de las bibliotecas sin comprimir. El veredicto (listo / no listo / sin verificar / sin bibliotecas de 64 bits / no evaluado para APK anidados en un contenedor) aparece en la sección de bibliotecas nativas y en el resumen de información de archivo del anfitrión, y un veredicto de no listo se incluye en los hallazgos
+
 #### v1.1.0
 
 _2026/09/11_
@@ -192,19 +198,6 @@ _2026/08/08_
 
 - `Corrección` Corregido que el anfitrión no pudiera vincularse al servicio del plugin tras activarlo en el centro de plugins; la acción «Inspeccionar paquete Android» ahora funciona inmediatamente después de activarlo
 - `Mejora` Nombre y descripción del plugin simplificados, con una documentación de usuario más natural de leer
-
-#### v1.0.0
-
-_2026/08/02_
-
-- `Aviso` Primera versión pública; requiere AutoJs6 con código de versión 5269 o superior
-- `Función` Toca un archivo APK, APKS, XAPK, APKM, APKZ o AAB en el gestor de archivos de AutoJs6 para abrir un informe de inspección de solo lectura (ID de plugin `apk-inspector`, ID de acción `inspect-android-package`)
-- `Función` El informe muestra el nombre y el icono de la aplicación, el nombre del paquete, la versión, el rango de SDK, los permisos solicitados, los splits y recursos OBB, los problemas estructurales y la presencia de los esquemas de firma V1-V3
-- `Función` Los manifests APK de texto y binarios, los manifests protobuf de AAB y los metadatos `toc.pb` de bundletool se decodifican automáticamente, con un visor aparte para el manifest formateado
-- `Función` Otras aplicaciones pueden entregar un paquete mediante «Abrir con» (ACTION_VIEW) usando los tipos MIME dedicados de paquetes Android
-- `Función` Antes de la inspección, el archivo se copia a una instantánea privada de solo lectura con cálculo de SHA-256 (límite de 4 GiB); el plugin no solicita permisos de almacenamiento, red ni instalación
-- `Función` Incluye 10 idiomas para la interfaz, las instrucciones, el README y el CHANGELOG: chino simplificado, chino tradicional (Hong Kong y Taiwán), inglés, francés, español, japonés, coreano, ruso y árabe
-- `Dependencia` Añadido Gson 2.13.2
 
 ##### Historial completo
 

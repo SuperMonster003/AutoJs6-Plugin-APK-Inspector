@@ -333,7 +333,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         val components = listOf(
             packageComponents,
             formatManifestComponents(archive),
-            formatNativeLibraries(archive.nativeLibraries),
+            formatNativeLibraries(archive.nativeLibraries, archive.pageSizeReadiness),
             formatDexFiles(archive.dexFiles),
         ).joinToString("\n\n")
 
@@ -351,6 +351,14 @@ class ApkInspectorActivity : AppCompatActivity() {
             }
             resourceFallbackIssues.forEach { issue ->
                 add(getString(resourceFallbackIssueString(issue)))
+            }
+            if (archive.pageSizeReadiness.state == PageSizeReadinessState.NOT_READY) {
+                add(
+                    getString(
+                        R.string.finding_page_size_not_ready,
+                        archive.pageSizeReadiness.unalignedCount + archive.pageSizeReadiness.zipMisalignedCount,
+                    ),
+                )
             }
         }.distinct().ifEmpty { listOf(getString(R.string.finding_none)) }.joinToString("\n")
 
@@ -1235,7 +1243,10 @@ class ApkInspectorActivity : AppCompatActivity() {
         }.joinToString("\n")
     }
 
-    private fun formatNativeLibraries(summary: NativeLibrarySummary): String =
+    private fun formatNativeLibraries(
+        summary: NativeLibrarySummary,
+        readiness: PageSizeReadinessSummary,
+    ): String =
         buildList {
             add(getString(R.string.native_library_heading))
             if (summary.totalLibraryCount == 0) {
@@ -1276,6 +1287,7 @@ class ApkInspectorActivity : AppCompatActivity() {
                     )
                 }
             }
+            addAll(formatPageSizeReadiness(readiness))
             if (summary.omittedLibraryCount > 0) {
                 add(
                     getString(
@@ -1329,6 +1341,63 @@ class ApkInspectorActivity : AppCompatActivity() {
                 )
             }
         }.joinToString("\n")
+
+    private fun formatPageSizeReadiness(readiness: PageSizeReadinessSummary): List<String> =
+        buildList {
+            add(getString(R.string.page_size_heading))
+            add(
+                when (readiness.state) {
+                    PageSizeReadinessState.READY ->
+                        getString(R.string.page_size_state_ready, readiness.libraryCount)
+                    PageSizeReadinessState.NOT_READY ->
+                        getString(
+                            R.string.page_size_state_not_ready,
+                            readiness.unalignedCount,
+                            readiness.zipMisalignedCount,
+                        )
+                    PageSizeReadinessState.UNVERIFIED ->
+                        getString(
+                            R.string.page_size_state_unverified,
+                            readiness.unreadableCount,
+                            readiness.omittedLibraryCount,
+                        )
+                    PageSizeReadinessState.NO_64BIT_LIBRARIES ->
+                        getString(R.string.page_size_state_no_64bit)
+                    PageSizeReadinessState.NOT_EVALUATED ->
+                        getString(R.string.page_size_state_not_evaluated)
+                },
+            )
+            readiness.abis.forEach { abi ->
+                add(
+                    getString(
+                        R.string.page_size_line,
+                        abi.abi,
+                        abi.libraryCount,
+                        abi.alignedCount,
+                        abi.unalignedCount,
+                        abi.unreadableCount,
+                    ),
+                )
+                if (abi.examples.isNotEmpty()) {
+                    add(getString(R.string.page_size_examples, abi.examples.joinToString(", ")))
+                }
+            }
+            if (readiness.zipOffsetsChecked) {
+                add(getString(R.string.page_size_zip_offsets, readiness.zipMisalignedCount))
+            }
+            readiness.extractNativeLibs?.let { declared ->
+                add(getString(R.string.page_size_extract_native_libs, declared.toString()))
+            }
+            if (readiness.omittedLibraryCount > 0) {
+                add(
+                    getString(
+                        R.string.page_size_entry_limit,
+                        readiness.omittedLibraryCount,
+                        PageSizeReadinessInspector.MAX_LIBRARIES,
+                    ),
+                )
+            }
+        }
 
     private fun formatDexFiles(summary: DexFileSummary): String =
         buildList {

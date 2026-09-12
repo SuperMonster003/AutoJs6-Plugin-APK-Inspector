@@ -179,4 +179,21 @@
     <string name="dex_file_apk_partial">[i] 所选 APK DEX 扫描失败: %1$d | 未扫描: %2$d. 当前结果不完整.</string>
     <string name="dex_file_nested_limit">[i] 已达到嵌套 APK 扫描上限 (共享 APK 输入: %1$s; 每个 APK 的中央目录: %2$s). 当前结果不完整.</string>
     <string name="dex_file_invalid_entries">[i] 已忽略无效或无法解析的 DEX 条目: %1$d.</string>
+    <string name="page_size_heading">16 KB 页大小就绪状态 (64 位 ELF 对齐)</string>
+    <string name="page_size_state_ready">就绪: 全部 %1$d 个 64 位库的 PT_LOAD 对齐不低于 16 KB</string>
+    <string name="page_size_state_not_ready">未就绪: 对齐低于 16 KB 的库: %1$d | ZIP 数据偏移未对齐的未压缩条目: %2$d</string>
+    <string name="page_size_state_unverified">未验证: 无法读取的库: %1$d | 因安全上限省略: %2$d</string>
+    <string name="page_size_state_no_64bit">没有 64 位原生库, 页大小不会影响此软件包.</string>
+    <string name="page_size_state_not_evaluated">容器内嵌套的 APK 不做评估; 请直接检查所选的 APK 文件.</string>
+    <string name="page_size_line">- %1$s: %2$d 个库 | 已对齐: %3$d | 未对齐: %4$d | 无法读取: %5$d</string>
+    <string name="page_size_examples">  例如 %1$s</string>
+    <string name="page_size_zip_offsets">extractNativeLibs=\"false\": ZIP 数据偏移未按 16 KB 对齐的未压缩 64 位库: %1$d</string>
+    <string name="page_size_extract_native_libs">extractNativeLibs: %1$s</string>
+    <string name="page_size_entry_limit">[i] 页大小检查上限: %2$d 个库 | 已省略: %1$d. 当前结果不完整.</string>
+    <string name="finding_page_size_not_ready">[i] 未就绪于 16 KB 页大小设备: %1$d 个 64 位原生库或未压缩条目的对齐低于 16 KB.</string>
+    <string name="page_size_short_ready">16 KB 页: 就绪</string>
+    <string name="page_size_short_not_ready">16 KB 页: 未就绪 (%1$d)</string>
+    <string name="page_size_short_unverified">16 KB 页: 未验证</string>
+    <string name="page_size_short_no_64bit">16 KB 页: 无 64 位库</string>
+    <string name="page_size_short_not_evaluated">16 KB 页: 未评估</string>
 </resources>

@@ -179,4 +179,21 @@
     <string name="dex_file_apk_partial">[i] 已選 APK DEX 掃描失敗: %1$d | 未掃描: %2$d. 目前結果並不完整.</string>
     <string name="dex_file_nested_limit">[i] 已達到巢狀 APK 掃描上限 (共用 APK 輸入: %1$s; 每個 APK 的中央目錄: %2$s). 目前結果並不完整.</string>
     <string name="dex_file_invalid_entries">[i] 已忽略無效或無法解析的 DEX 項目: %1$d.</string>
+    <string name="page_size_heading">16 KB 頁面大小就緒狀態 (64 位元 ELF 對齊)</string>
+    <string name="page_size_state_ready">就緒: 全部 %1$d 個 64 位元函式庫的 PT_LOAD 對齊不低於 16 KB</string>
+    <string name="page_size_state_not_ready">未就緒: 對齊低於 16 KB 的函式庫: %1$d | ZIP 資料偏移未對齊的未壓縮項目: %2$d</string>
+    <string name="page_size_state_unverified">未驗證: 無法讀取的函式庫: %1$d | 因安全上限省略: %2$d</string>
+    <string name="page_size_state_no_64bit">沒有 64 位元原生函式庫, 頁面大小不會影響此套件.</string>
+    <string name="page_size_state_not_evaluated">容器內嵌套的 APK 不做評估; 請直接檢查所選的 APK 檔案.</string>
+    <string name="page_size_line">- %1$s: %2$d 個函式庫 | 已對齊: %3$d | 未對齊: %4$d | 無法讀取: %5$d</string>
+    <string name="page_size_examples">  例如 %1$s</string>
+    <string name="page_size_zip_offsets">extractNativeLibs=\"false\": ZIP 資料偏移未按 16 KB 對齊的未壓縮 64 位元函式庫: %1$d</string>
+    <string name="page_size_extract_native_libs">extractNativeLibs: %1$s</string>
+    <string name="page_size_entry_limit">[i] 頁面大小檢查上限: %2$d 個函式庫 | 已省略: %1$d. 目前結果不完整.</string>
+    <string name="finding_page_size_not_ready">[i] 未就緒於 16 KB 頁面大小裝置: %1$d 個 64 位元原生函式庫或未壓縮項目的對齊低於 16 KB.</string>
+    <string name="page_size_short_ready">16 KB 頁面: 就緒</string>
+    <string name="page_size_short_not_ready">16 KB 頁面: 未就緒 (%1$d)</string>
+    <string name="page_size_short_unverified">16 KB 頁面: 未驗證</string>
+    <string name="page_size_short_no_64bit">16 KB 頁面: 無 64 位元函式庫</string>
+    <string name="page_size_short_not_evaluated">16 KB 頁面: 未評估</string>
 </resources>

@@ -145,6 +145,12 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 
 ### Release history
 
+#### v1.1.1
+
+_2026/09/12_
+
+- `Feature` Added a 16 KB page-size readiness check for directly inspected APK and AAB files: only the ELF header and program-header table of each 64-bit native library (`arm64-v8a` / `x86_64` / `riscv64`, at most 64 KiB per entry) are read to verify that every `PT_LOAD` segment is aligned to at least 16 KB; when the manifest declares `extractNativeLibs="false"`, the ZIP data offsets of stored libraries are verified as well. The verdict (ready / not ready / unverified / no 64-bit libraries / not evaluated for nested container APKs) appears in the native-library section and in the host file-information summary, and a not-ready verdict is listed under findings
+
 #### v1.1.0
 
 _2026/09/11_
@@ -192,19 +198,6 @@ _2026/08/08_
 
 - `Fix` Fixed the host being unable to bind the plugin service after enabling it in the plugin center; the "Inspect Android package" action now works immediately after enabling
 - `Improvement` Streamlined the plugin name and description and made the user documentation read more naturally
-
-#### v1.0.0
-
-_2026/08/02_
-
-- `Hint` First public release; requires AutoJs6 version code 5269 or later
-- `Feature` Tap an APK, APKS, XAPK, APKM, APKZ, or AAB file in the AutoJs6 file manager to open a read-only inspection report (plugin ID `apk-inspector`, action ID `inspect-android-package`)
-- `Feature` The report shows the app name and icon, package name, version, SDK range, requested permissions, splits and OBB assets, structural problems, and V1-V3 signature scheme presence
-- `Feature` Text and binary APK manifests, AAB protobuf manifests, and bundletool `toc.pb` metadata are decoded automatically, with a separate viewer for the formatted manifest
-- `Feature` Other apps can hand a package over through the system "Open with" dialog (ACTION_VIEW) using dedicated Android package MIME types
-- `Feature` Before inspection the file is copied into a read-only private snapshot with SHA-256 calculation (4 GiB limit); the plugin requests no storage, network, or package installation permission
-- `Feature` Ships with 10 languages for UI text, instructions, README, and CHANGELOG: Simplified Chinese, Traditional Chinese (Hong Kong and Taiwan), English, French, Spanish, Japanese, Korean, Russian, and Arabic
-- `Dependency` Added Gson 2.13.2
 
 ##### Full history
 

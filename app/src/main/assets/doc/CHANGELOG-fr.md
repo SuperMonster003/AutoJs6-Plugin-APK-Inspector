@@ -1,5 +1,11 @@
 # Historique des versions
 
+## v1.1.1
+
+_2026/09/12_
+
+- `Fonctionnalité` Ajout d'un contrôle de compatibilité avec les pages de 16 Ko pour les fichiers APK / AAB inspectés directement : seuls l'en-tête ELF et la table des en-têtes de programme de chaque bibliothèque native 64 bits (`arm64-v8a` / `x86_64` / `riscv64`, au plus 64 Kio par entrée) sont lus pour vérifier que chaque segment `PT_LOAD` est aligné sur au moins 16 Ko ; si le manifeste déclare `extractNativeLibs="false"`, les décalages de données ZIP des bibliothèques non compressées sont également vérifiés. Le verdict (prêt / non prêt / non vérifié / aucune bibliothèque 64 bits / non évalué pour les APK imbriqués dans un conteneur) apparaît dans la section des bibliothèques natives et dans le résumé d'informations de fichier de l'hôte, et un verdict non prêt est listé dans les constats
+
 ## v1.1.0
 
 _2026/09/11_

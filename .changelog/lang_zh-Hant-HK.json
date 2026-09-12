@@ -5,6 +5,12 @@
   "changelog_label_improvement": "優化",
   "changelog_label_dependency": "依賴",
   "$data": {
+    "v1.1.1": {
+      "released_date": "2026/09/12",
+      "feature": [
+        "新增直接檢查的 APK / AAB 檔案的 16 KB 頁大小就緒檢查: 僅讀取每個 64 位原生庫 (`arm64-v8a` / `x86_64` / `riscv64`, 每個條目至多 64 KiB) 的 ELF 頭與程序頭表, 核對全部 `PT_LOAD` 段對齊不低於 16 KB; 清單聲明 `extractNativeLibs=\"false\"` 時同時核對未壓縮庫的 ZIP 數據偏移. 結論 (就緒 / 未就緒 / 未驗證 / 無 64 位庫 / 容器內嵌套 APK 不評估) 顯示在原生庫分區與宿主檔案資訊摘要中, 未就緒時同時列入發現分區"
+      ]
+    },
     "v1.1.0": {
       "released_date": "2026/09/11",
       "hint": [

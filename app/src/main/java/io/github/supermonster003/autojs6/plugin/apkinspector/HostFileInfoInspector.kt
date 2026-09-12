@@ -112,7 +112,7 @@ internal object HostFileInfoInspector {
                 )
             }
             add(formatPermissionCounts(context, permissionAnalysis))
-            add(formatNativeLibraries(context, archive.nativeLibraries))
+            add(formatNativeLibraries(context, archive.nativeLibraries, archive.pageSizeReadiness))
             add(formatDexFiles(context, archive.dexFiles))
             add(
                 "${context.getString(R.string.section_findings)}: " +
@@ -180,6 +180,7 @@ internal object HostFileInfoInspector {
     private fun formatNativeLibraries(
         context: Context,
         summary: NativeLibrarySummary,
+        readiness: PageSizeReadinessSummary,
     ): String {
         val summaryText = if (summary.totalLibraryCount == 0) {
             context.getString(R.string.native_library_none)
@@ -198,9 +199,20 @@ internal object HostFileInfoInspector {
             }
             "${group.abi} (${context.getString(status)})"
         }
+        val pageSize = when (readiness.state) {
+            PageSizeReadinessState.READY -> context.getString(R.string.page_size_short_ready)
+            PageSizeReadinessState.NOT_READY -> context.getString(
+                R.string.page_size_short_not_ready,
+                readiness.unalignedCount + readiness.zipMisalignedCount,
+            )
+            PageSizeReadinessState.UNVERIFIED -> context.getString(R.string.page_size_short_unverified)
+            PageSizeReadinessState.NO_64BIT_LIBRARIES -> context.getString(R.string.page_size_short_no_64bit)
+            PageSizeReadinessState.NOT_EVALUATED -> context.getString(R.string.page_size_short_not_evaluated)
+        }
         return buildString {
             append(context.getString(R.string.native_library_heading)).append(": ").append(summaryText)
             if (abis.isNotEmpty()) append(" | ").append(abis)
+            append(" | ").append(pageSize)
         }
     }
 

@@ -179,4 +179,21 @@
     <string name="dex_file_apk_partial">[i] Analyses DEX des APK sélectionnés en échec : %1$d | non analysées : %2$d. Les résultats sont partiels.</string>
     <string name="dex_file_nested_limit">[i] Limite d’APK imbriqués atteinte (entrée APK partagée : %1$s ; répertoire central par APK : %2$s). Les résultats sont partiels.</string>
     <string name="dex_file_invalid_entries">[i] Entrées DEX non valides ou non résolues ignorées : %1$d.</string>
+    <string name="page_size_heading">Compatibilité pages de 16 Ko (alignement ELF 64 bits)</string>
+    <string name="page_size_state_ready">Prêt : les %1$d bibliothèques 64 bits ont un alignement PT_LOAD d\'au moins 16 Ko</string>
+    <string name="page_size_state_not_ready">Non prêt : bibliothèques alignées sous 16 Ko : %1$d | entrées non compressées à un décalage ZIP non aligné : %2$d</string>
+    <string name="page_size_state_unverified">Non vérifié : bibliothèques illisibles : %1$d | omises par la limite de sécurité : %2$d</string>
+    <string name="page_size_state_no_64bit">Aucune bibliothèque native 64 bits ; la taille de page n\'affecte pas ce paquet.</string>
+    <string name="page_size_state_not_evaluated">Non évalué pour les APK imbriqués dans un conteneur ; inspectez directement le fichier APK sélectionné.</string>
+    <string name="page_size_line">- %1$s | bibliothèques : %2$d | alignées : %3$d | non alignées : %4$d | illisibles : %5$d</string>
+    <string name="page_size_examples">  p. ex. %1$s</string>
+    <string name="page_size_zip_offsets">extractNativeLibs=\"false\" : bibliothèques 64 bits non compressées dont le décalage des données ZIP n\'est pas aligné sur 16 Ko : %1$d</string>
+    <string name="page_size_extract_native_libs">extractNativeLibs : %1$s</string>
+    <string name="page_size_entry_limit">[i] Limite du contrôle de taille de page : %2$d bibliothèques | omises : %1$d. Les résultats sont partiels.</string>
+    <string name="finding_page_size_not_ready">[i] Non prêt pour les appareils à pages de 16 Ko : %1$d bibliothèques natives 64 bits ou entrées non compressées ont un alignement inférieur à 16 Ko.</string>
+    <string name="page_size_short_ready">Pages de 16 Ko : prêt</string>
+    <string name="page_size_short_not_ready">Pages de 16 Ko : non prêt (%1$d)</string>
+    <string name="page_size_short_unverified">Pages de 16 Ko : non vérifié</string>
+    <string name="page_size_short_no_64bit">Pages de 16 Ko : aucune bibliothèque 64 bits</string>
+    <string name="page_size_short_not_evaluated">Pages de 16 Ko : non évalué</string>
 </resources>

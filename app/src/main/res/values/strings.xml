@@ -179,4 +179,21 @@
     <string name="dex_file_apk_partial">[i] Selected APK DEX scans failed: %1$d | not scanned: %2$d. Results are partial.</string>
     <string name="dex_file_nested_limit">[i] Nested APK scan limit reached (shared APK input: %1$s; central directory per APK: %2$s). Results are partial.</string>
     <string name="dex_file_invalid_entries">[i] Invalid or unresolved DEX entries ignored: %1$d.</string>
+    <string name="page_size_heading">16 KB page-size readiness (64-bit ELF alignment)</string>
+    <string name="page_size_state_ready">Ready: all %1$d 64-bit libraries have PT_LOAD alignment of at least 16 KB</string>
+    <string name="page_size_state_not_ready">Not ready: libraries below 16 KB alignment: %1$d | stored entries at misaligned ZIP offsets: %2$d</string>
+    <string name="page_size_state_unverified">Unverified: unreadable libraries: %1$d | omitted by the safety limit: %2$d</string>
+    <string name="page_size_state_no_64bit">No 64-bit native libraries; the page size cannot affect this package.</string>
+    <string name="page_size_state_not_evaluated">Not evaluated for APKs nested in a container; inspect the selected APK file directly.</string>
+    <string name="page_size_line">- %1$s | libraries: %2$d | aligned: %3$d | unaligned: %4$d | unreadable: %5$d</string>
+    <string name="page_size_examples">  e.g. %1$s</string>
+    <string name="page_size_zip_offsets">extractNativeLibs=\"false\": stored 64-bit libraries whose ZIP data offset is not 16 KB aligned: %1$d</string>
+    <string name="page_size_extract_native_libs">extractNativeLibs: %1$s</string>
+    <string name="page_size_entry_limit">[i] Page-size check limit: %2$d libraries | omitted: %1$d. Results are partial.</string>
+    <string name="finding_page_size_not_ready">[i] Not ready for 16 KB page-size devices: %1$d 64-bit native libraries or stored entries are below 16 KB alignment.</string>
+    <string name="page_size_short_ready">16 KB pages: ready</string>
+    <string name="page_size_short_not_ready">16 KB pages: not ready (%1$d)</string>
+    <string name="page_size_short_unverified">16 KB pages: unverified</string>
+    <string name="page_size_short_no_64bit">16 KB pages: no 64-bit libraries</string>
+    <string name="page_size_short_not_evaluated">16 KB pages: not evaluated</string>
 </resources>

@@ -179,4 +179,21 @@
     <string name="dex_file_apk_partial">[i] فشل فحص DEX لملفات APK المحددة: %1$d | غير مفحوص: %2$d. النتائج جزئية.</string>
     <string name="dex_file_nested_limit">[i] تم بلوغ حد فحص APK المتداخل (إدخال APK المشترك: %1$s؛ الدليل المركزي لكل APK: %2$s). النتائج جزئية.</string>
     <string name="dex_file_invalid_entries">[i] تم تجاهل مدخلات DEX غير الصالحة أو غير المحلولة: %1$d.</string>
+    <string name="page_size_heading">الجاهزية لصفحات 16 كيلوبايت (محاذاة ELF 64 بت)</string>
+    <string name="page_size_state_ready">جاهز: جميع مكتبات 64 بت (%1$d) لها محاذاة PT_LOAD لا تقل عن 16 كيلوبايت</string>
+    <string name="page_size_state_not_ready">غير جاهز: مكتبات محاذاتها أقل من 16 كيلوبايت: %1$d | مدخلات غير مضغوطة بإزاحة ZIP غير محاذاة: %2$d</string>
+    <string name="page_size_state_unverified">غير مُتحقق: مكتبات غير قابلة للقراءة: %1$d | محذوفة بسبب حد الأمان: %2$d</string>
+    <string name="page_size_state_no_64bit">لا توجد مكتبات أصلية 64 بت؛ حجم الصفحة لا يؤثر على هذه الحزمة.</string>
+    <string name="page_size_state_not_evaluated">لا يتم تقييم ملفات APK المتداخلة داخل حاوية؛ افحص ملف APK المحدد مباشرة.</string>
+    <string name="page_size_line">- %1$s | المكتبات: %2$d | محاذاة: %3$d | غير محاذاة: %4$d | غير قابلة للقراءة: %5$d</string>
+    <string name="page_size_examples">  مثال: %1$s</string>
+    <string name="page_size_zip_offsets">extractNativeLibs=\"false\": مكتبات 64 بت غير مضغوطة إزاحة بياناتها في ZIP غير محاذاة على 16 كيلوبايت: %1$d</string>
+    <string name="page_size_extract_native_libs">extractNativeLibs: %1$s</string>
+    <string name="page_size_entry_limit">[i] حد فحص حجم الصفحة: %2$d مكتبة | المحذوف: %1$d. النتائج جزئية.</string>
+    <string name="finding_page_size_not_ready">[i] غير جاهز لأجهزة صفحات 16 كيلوبايت: %1$d من المكتبات الأصلية 64 بت أو المدخلات غير المضغوطة محاذاتها أقل من 16 كيلوبايت.</string>
+    <string name="page_size_short_ready">صفحات 16 كيلوبايت: جاهز</string>
+    <string name="page_size_short_not_ready">صفحات 16 كيلوبايت: غير جاهز (%1$d)</string>
+    <string name="page_size_short_unverified">صفحات 16 كيلوبايت: غير مُتحقق</string>
+    <string name="page_size_short_no_64bit">صفحات 16 كيلوبايت: لا مكتبات 64 بت</string>
+    <string name="page_size_short_not_evaluated">صفحات 16 كيلوبايت: لم يُقيَّم</string>
 </resources>
