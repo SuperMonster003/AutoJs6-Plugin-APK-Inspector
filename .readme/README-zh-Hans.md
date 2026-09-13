@@ -7,7 +7,7 @@
     </picture>
   </p>
 
-  <p>无需安装即可检查 APK, APKS, XAPK, APKM, APKZ 和 AAB 文件</p>
+  <p>检查安装包及其内容</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -145,6 +145,13 @@ required host build: 5277
 
 ### 版本记录
 
+#### v1.2.0
+
+_2026/09/13_
+
+- `新增` 界面提供本地发行历史, 支持多语言及英语回退
+- `优化` 校验发行签名配置, 预期 APK 集合与可复现文档
+
 #### v1.1.1
 
 _2026/09/12_
@@ -191,13 +198,6 @@ _2026/09/11_
 - `优化` 精简插件描述并规范多语言资源中的标点符号
 - `优化` 将外部查看入口统一命名为 External Viewer
 - `优化` 构建阶段阻止意外引入原生依赖, 并输出 JSON 校验报告
-
-#### v1.0.1
-
-_2026/08/08_
-
-- `修复` 修复插件在插件中心启用后宿主无法绑定服务的问题; 现在启用后 “检查 Android 软件包” 动作立即可用
-- `优化` 精简插件名称与描述, 使用户文档表述更自然易读
 
 ##### 完整记录
 

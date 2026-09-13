@@ -5,6 +5,15 @@
   "changelog_label_improvement": "改善",
   "changelog_label_dependency": "依存関係",
   "$data": {
+    "v1.2.0": {
+      "released_date": "2026/09/13",
+      "feature": [
+        "画面からローカルのリリース履歴を表示し, 各言語と英語へのフォールバックに対応"
+      ],
+      "improvement": [
+        "リリース署名の設定, APK の構成, ドキュメントの再生成結果を検証"
+      ]
+    },
     "v1.1.1": {
       "released_date": "2026/09/12",
       "feature": [

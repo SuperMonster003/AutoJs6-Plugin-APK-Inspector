@@ -5,6 +5,15 @@
   "changelog_label_improvement": "개선",
   "changelog_label_dependency": "의존성",
   "$data": {
+    "v1.2.0": {
+      "released_date": "2026/09/13",
+      "feature": [
+        "화면에서 현지화된 로컬 릴리스 기록을 표시하고 영어 대체 제공"
+      ],
+      "improvement": [
+        "릴리스 서명 설정, 예상 APK 구성 및 문서 재생성 결과 검증"
+      ]
+    },
     "v1.1.1": {
       "released_date": "2026/09/12",
       "feature": [

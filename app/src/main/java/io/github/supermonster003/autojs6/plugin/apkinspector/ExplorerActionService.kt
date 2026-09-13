@@ -16,7 +16,7 @@ import org.autojs.plugin.explorer.api.IExplorerActionPlugin
 class ExplorerActionService : Service() {
 
     private val binder = object : IExplorerActionPlugin.Stub() {
-        override fun getInfo() = apkInspectorPluginInfo()
+        override fun getInfo() = apkInspectorPluginInfo().apply { supportedAbis = emptyArray() }
 
         override fun getActionCatalog() = apkInspectorActionCatalog()
 

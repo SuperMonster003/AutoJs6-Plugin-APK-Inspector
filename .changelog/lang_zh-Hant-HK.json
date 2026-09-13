@@ -5,6 +5,15 @@
   "changelog_label_improvement": "優化",
   "changelog_label_dependency": "依賴",
   "$data": {
+    "v1.2.0": {
+      "released_date": "2026/09/13",
+      "feature": [
+        "介面提供本地發行歷史, 支援多語言及英語回退"
+      ],
+      "improvement": [
+        "校驗發行簽署設定, 預期 APK 集合與可重現文件"
+      ]
+    },
     "v1.1.1": {
       "released_date": "2026/09/12",
       "feature": [

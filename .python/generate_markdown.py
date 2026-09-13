@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+CHECK_MODE = False
+CHECK_ERRORS = []
+GENERATED_PATHS = set()
+
 import json
 import re
 from pathlib import Path
@@ -144,6 +148,11 @@ def build_readme_values(code, languages, changelogs):
 
 
 def write_text(path: Path, text: str):
+    GENERATED_PATHS.add(path)
+    if CHECK_MODE:
+        if not path.is_file() or path.read_bytes() != text.encode("utf-8"):
+            CHECK_ERRORS.append(str(path.relative_to(ROOT)))
+        return
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(text, encoding="utf-8", newline="\n")
     print(f"Generated {path.relative_to(ROOT)}")
@@ -181,5 +190,51 @@ def main():
     generate_readmes(languages, changelogs)
 
 
-if __name__ == "__main__":
+
+def validate_release_sources():
+    import xml.etree.ElementTree as ET
+    version_text = (ROOT / "version.properties").read_text(encoding="utf-8-sig")
+    version = re.search(r"(?m)^VERSION_NAME=(.+)$", version_text).group(1).strip().split("-")[0]
+    shape = None
+    for code in LANGUAGE_CODES:
+        path = CHANGELOG_DIR / f"lang_{code}.json"
+        data = json.loads(path.read_text(encoding="utf-8"))["$data"]
+        if next(iter(data)) != f"v{version}":
+            raise ValueError(f"Current changelog version mismatch: {path}")
+        latest = data[f"v{version}"]
+        actual = [(key, len(value) if isinstance(value, list) else value) for key, value in latest.items()]
+        if shape is None:
+            shape = actual
+        elif actual != shape:
+            raise ValueError(f"Current changelog language shape mismatch: {path}")
+    res = ROOT / "app/src/main/res"
+    qualifiers = ["", "en", "ar", "es", "fr", "ja", "ko", "ru", "zh", "zh-rHK", "zh-rTW"]
+    reference = None
+    for qualifier in qualifiers:
+        path = res / ("values" + ("-" + qualifier if qualifier else "")) / "strings.xml"
+        entries = {item.attrib["name"]: "".join(item.itertext()) for item in ET.parse(path).getroot() if item.tag == "string"}
+        if "plugin_description" not in entries:
+            raise ValueError(f"Missing localized plugin description: {path}")
+        if list(entries) != sorted(entries):
+            raise ValueError(f"Unsorted strings: {path}")
+        if reference is None:
+            reference = entries
+        elif qualifier == "en" and any(value != reference[name] for name, value in entries.items() if name in reference):
+            raise ValueError("Default and explicit English strings differ")
+
+
+def cli():
+    import argparse
+    global CHECK_MODE
+    parser = argparse.ArgumentParser(description="Generate localized documentation or check it without writing")
+    parser.add_argument("--check", action="store_true")
+    CHECK_MODE = parser.parse_args().check
+    validate_release_sources()
     main()
+    if CHECK_ERRORS:
+        raise SystemExit("Generated documentation differs: " + ", ".join(CHECK_ERRORS))
+    print(f"{'Checked' if CHECK_MODE else 'Generated'} {len(GENERATED_PATHS)} documentation artifacts")
+
+
+if __name__ == "__main__":
+    cli()

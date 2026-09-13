@@ -48,8 +48,8 @@ time, locale, Android SDK, and zlib version.
   central directory signature (including the nested APK record in container formats). The payload
   remains attributable to its format while a ZIP reader cannot recover an embedded archive after
   rejecting the outer structure.
-- **Over limit:** contains one 1,025-character archive path. This is exactly one character beyond
-  APK Inspector's production limit of 1,024 characters and exercises the real early rejection path
+- **Over limit:** contains one 4,097-character archive path. This is exactly one character beyond
+  APK Inspector's production limit of 4,096 characters and exercises the real early rejection path
   without committing multi-gigabyte data or a decompression bomb.
 - **Device incompatible:** keeps valid structure but declares `minSdkVersion=99` against the matrix
   baseline of API 35. APK and split-container inspections therefore report `INCOMPATIBLE`; AAB

@@ -54,3 +54,7 @@ app/build/
 build-logic/build/
 build-logic/*/build/
 /test-fixtures/**/build/
+
+*.keystore
+
+*.pre-platform-versions.bak
