@@ -2,6 +2,7 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="actionOverflowButtonStyle">@style/Widget.PluginOverflowButton</item>
         <item name="colorPrimary">@color/theme_primary</item>
         <item name="colorOnPrimary">@color/theme_on_primary</item>
         <item name="colorPrimaryContainer">@color/theme_primary_container</item>
@@ -35,6 +36,11 @@
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowBackground">?attr/colorSurface</item>
         <item name="windowActionModeOverlay">true</item>
+    </style>
+
+    <style name="Widget.PluginOverflowButton" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:minWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
     </style>
 
 </resources>
