@@ -5,6 +5,15 @@
   "changelog_label_improvement": "优化",
   "changelog_label_dependency": "依赖",
   "$data": {
+    "v1.2.0": {
+      "released_date": "2026/09/13",
+      "feature": [
+        "界面提供本地发行历史, 支持多语言及英语回退"
+      ],
+      "improvement": [
+        "校验发行签名配置, 预期 APK 集合与可复现文档"
+      ]
+    },
     "v1.1.1": {
       "released_date": "2026/09/12",
       "feature": [

@@ -7,7 +7,7 @@
     </picture>
   </p>
 
-  <p>APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사</p>
+  <p>설치 패키지와 내용 검사</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -145,6 +145,13 @@ required host build: 5277
 
 ### 릴리스 기록
 
+#### v1.2.0
+
+_2026/09/13_
+
+- `기능` 화면에서 현지화된 로컬 릴리스 기록을 표시하고 영어 대체 제공
+- `개선` 릴리스 서명 설정, 예상 APK 구성 및 문서 재생성 결과 검증
+
 #### v1.1.1
 
 _2026/09/12_
@@ -191,13 +198,6 @@ _2026/09/11_
 - `개선` 플러그인 설명을 간결하게 다듬고 다국어 리소스의 문장 부호를 통일
 - `개선` 외부 보기 진입점을 External Viewer로 변경해 뷰어 의미를 통일
 - `개선` 빌드 시 의도하지 않은 네이티브 의존성을 거부하고 JSON 보고서 생성
-
-#### v1.0.1
-
-_2026/08/08_
-
-- `수정` 플러그인 센터에서 활성화한 뒤 호스트가 플러그인 서비스에 바인딩하지 못하던 문제를 수정. 이제 활성화 직후 "Android 패키지 검사" 동작을 바로 사용할 수 있습니다
-- `개선` 플러그인 이름과 설명을 간결하게 다듬고 사용자 문서를 더 자연스럽게 개선
 
 ##### 전체 기록
 

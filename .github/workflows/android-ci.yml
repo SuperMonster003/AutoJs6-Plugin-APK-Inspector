@@ -43,7 +43,7 @@ jobs:
         run: python -m unittest discover -s .python -p "test_*.py"
 
       - name: Build debug APK and run JVM tests
-        run: ./gradlew --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest
+        run: ./gradlew --max-workers=2 -Pautojs.gradle.build.number.auto.increment.enabled=false -Pautojs.gradle.build.time.update.enabled=false --no-daemon --stacktrace :app:assembleDebug :app:testDebugUnitTest
 
       - name: Verify generated Markdown is current
         shell: bash

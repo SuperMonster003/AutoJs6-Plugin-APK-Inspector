@@ -1,7 +1,7 @@
 {
   "$name": "Français",
   "text_current_lowercase": "actuel",
-  "text_plugin_synopsis": "Inspecte les fichiers APK, APKS, XAPK, APKM, APKZ et AAB sans les installer",
+  "text_plugin_synopsis": "Inspecte les paquets d'installation et leur contenu",
   "h3_languages_with_ascii": "Langues (Languages)",
   "p_languages_all_supported_for_readme": "Ce README est disponible dans les langues suivantes",
   "h3_introduction": "Présentation",

@@ -1,7 +1,7 @@
 {
   "$name": "한국어",
   "text_current_lowercase": "현재",
-  "text_plugin_synopsis": "APK, APKS, XAPK, APKM, APKZ, AAB 파일을 설치하지 않고 검사",
+  "text_plugin_synopsis": "설치 패키지와 내용 검사",
   "h3_languages_with_ascii": "언어 (Languages)",
   "p_languages_all_supported_for_readme": "이 README는 다음 언어로 제공됩니다",
   "h3_introduction": "소개",

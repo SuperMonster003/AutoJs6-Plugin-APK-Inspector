@@ -5,6 +5,15 @@
   "changelog_label_improvement": "Amélioration",
   "changelog_label_dependency": "Dépendance",
   "$data": {
+    "v1.2.0": {
+      "released_date": "2026/09/13",
+      "feature": [
+        "Historique local accessible depuis l'interface, avec traductions et repli en anglais"
+      ],
+      "improvement": [
+        "Vérification de la signature complète, des APK attendus et de la reproductibilité de la documentation"
+      ]
+    },
     "v1.1.1": {
       "released_date": "2026/09/12",
       "feature": [

@@ -7,7 +7,7 @@
     </picture>
   </p>
 
-  <p>無須安裝即可檢查 APK, APKS, XAPK, APKM, APKZ 和 AAB 檔案</p>
+  <p>檢查安裝套件及其內容</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -145,6 +145,13 @@ required host build: 5277
 
 ### 版本記錄
 
+#### v1.2.0
+
+_2026/09/13_
+
+- `新增` 介面提供本地發行歷史, 支援多語言及英語回退
+- `優化` 校驗發行簽章設定, 預期 APK 集合與可重現文件
+
 #### v1.1.1
 
 _2026/09/12_
@@ -191,13 +198,6 @@ _2026/09/11_
 - `優化` 精簡外掛描述並規範多語言資源中的標點符號
 - `優化` 將外部檢視入口統一命名為 External Viewer
 - `優化` 建置階段阻止意外引入原生相依套件, 並輸出 JSON 校驗報告
-
-#### v1.0.1
-
-_2026/08/08_
-
-- `修復` 修復外掛在外掛中心啟用後主程式無法繫結服務的問題; 現在啟用後「檢查 Android 套件」動作立即可用
-- `優化` 精簡外掛名稱與描述, 使用者文件表述更自然易讀
 
 ##### 完整記錄
 

@@ -7,7 +7,7 @@
     </picture>
   </p>
 
-  <p>Inspecciona archivos APK, APKS, XAPK, APKM, APKZ y AAB sin instalarlos</p>
+  <p>Inspecciona paquetes de instalación y su contenido</p>
 
   <p>
     <a href="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/releases"><img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/SuperMonster003/AutoJs6-Plugin-APK-Inspector?label=Release"/></a>
@@ -145,6 +145,13 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 
 ### Historial de versiones
 
+#### v1.2.0
+
+_2026/09/13_
+
+- `Función` Historial de versiones local desde la interfaz con traducciones y alternativa en inglés
+- `Mejora` Comprobación de la firma completa, los APK esperados y la documentación reproducible de cada versión
+
 #### v1.1.1
 
 _2026/09/12_
@@ -191,13 +198,6 @@ _2026/09/11_
 - `Mejora` Simplificar la descripción del complemento y normalizar la puntuación de los recursos multilingües
 - `Mejora` Renombrar la entrada de visualización externa como External Viewer para unificar la semántica del visor
 - `Mejora` La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON
-
-#### v1.0.1
-
-_2026/08/08_
-
-- `Corrección` Corregido que el anfitrión no pudiera vincularse al servicio del plugin tras activarlo en el centro de plugins; la acción «Inspeccionar paquete Android» ahora funciona inmediatamente después de activarlo
-- `Mejora` Nombre y descripción del plugin simplificados, con una documentación de usuario más natural de leer
 
 ##### Historial completo
 

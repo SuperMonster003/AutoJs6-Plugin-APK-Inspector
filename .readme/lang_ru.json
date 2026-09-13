@@ -1,7 +1,7 @@
 {
   "$name": "Русский",
   "text_current_lowercase": "текущий",
-  "text_plugin_synopsis": "Проверка файлов APK, APKS, XAPK, APKM, APKZ и AAB без установки",
+  "text_plugin_synopsis": "Анализ установочных пакетов и их содержимого",
   "h3_languages_with_ascii": "Языки (Languages)",
   "p_languages_all_supported_for_readme": "Этот README доступен на следующих языках",
   "h3_introduction": "О проекте",

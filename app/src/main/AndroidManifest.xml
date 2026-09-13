@@ -91,6 +91,7 @@
             android:permission="org.autojs.permission.PLUGIN">
             <intent-filter>
                 <action android:name="org.autojs.plugin.EXPLORER_ACTION" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 
