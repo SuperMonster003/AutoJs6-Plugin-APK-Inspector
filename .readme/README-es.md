@@ -145,6 +145,12 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 
 ### Historial de versiones
 
+#### v1.2.1
+
+_2026/09/15_
+
+- `Mejora` compileSdk y targetSdk suben a 37 (Android 17); el comportamiento del plugin no depende del nuevo objetivo
+
 #### v1.2.0
 
 _2026/09/13_
@@ -157,47 +163,6 @@ _2026/09/13_
 _2026/09/12_
 
 - `Función` Se añadió una comprobación de preparación para páginas de 16 KB en los archivos APK / AAB inspeccionados directamente: solo se leen la cabecera ELF y la tabla de cabeceras de programa de cada biblioteca nativa de 64 bits (`arm64-v8a` / `x86_64` / `riscv64`, como máximo 64 KiB por entrada) para verificar que cada segmento `PT_LOAD` esté alineado a al menos 16 KB; si el manifiesto declara `extractNativeLibs="false"`, también se verifican los desplazamientos de datos ZIP de las bibliotecas sin comprimir. El veredicto (listo / no listo / sin verificar / sin bibliotecas de 64 bits / no evaluado para APK anidados en un contenedor) aparece en la sección de bibliotecas nativas y en el resumen de información de archivo del anfitrión, y un veredicto de no listo se incluye en los hallazgos
-
-#### v1.1.0
-
-_2026/09/11_
-
-- `Aviso` Requiere AutoJs6 con código de versión 5277 o posterior para el protocolo Explorer Action v22 y el acceso acotado al archivo V4
-- `Función` Se añadió una mejora progresiva del diálogo de información APK del host mediante la capacidad v1 de información de archivos: los hosts compatibles conservan todos los campos nativos y las acciones de instalación/manifiesto y después añaden un resumen localizado y acotado, vinculado al SHA-256 del origen analizado; si el plugin falta, está desactivado, es antiguo, incompatible o falla, el diálogo base no cambia
-- `Función` Se añadieron diseños adaptables para fuentes de 1,5×/2,0×, orientación horizontal y pantallas de 320 dp: encabezado apilado cuando falta espacio, títulos compactos completos, ajuste sin elipsis de SHA-256 y permisos largos, y búsqueda del manifest sin extracción IME a pantalla completa
-- `Función` Se añadió accesibilidad TalkBack y RTL al informe y al visor de manifest: encabezados semánticos compatibles, acciones con iconos etiquetadas, objetivos personalizados de 48 dp, anuncios de resultados dinámicos, diseño según el idioma y navegación árabe reflejada
-- `Función` Se añadieron al visor de manifest de solo lectura números de línea, resaltado XML adaptado al tema Material y búsqueda acotada sin distinguir mayúsculas, con coincidencias resaltadas, navegación anterior/siguiente circular y restauración del estado
-- `Función` Se añadieron temas Material 3 claro/oscuro que siguen el sistema para el informe y el visor del manifiesto, colores dinámicos Material You en Android 12 y versiones posteriores e iconos de las barras del sistema adaptados al contraste
-- `Función` Se añadieron resúmenes acotados de metadatos del contenedor para SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` y APKMirror APKM `info.json`, que muestran la herramienta/versión del formato, la versión de la app declarada en los metadatos y una entrada de icono existente; los metadatos dañados o mayores de 1 MiB quedan aislados y señalados
-- `Función` Se añadió simulación de configuración dentro de los informes APKS, XAPK, APKM y APKZ: al cambiar idioma, densidad de pantalla y ABI, se repite localmente la selección acotada de splits sobre la misma instantánea privada y se muestran el estado compatible/no válido y los APK añadidos o eliminados respecto al dispositivo real; el informe principal sigue basándose en el dispositivo real
-- `Función` Se añadieron metadatos acotados de configuración y entrega AAB: se decodifican los ajustes bundletool/type/split/compression/optimization de BundleConfig.pb y se anotan módulos base, feature, asset, ML, AI y SDK con entrega durante la instalación, condicional, bajo demanda, fast-follow, fusión y extracción; los metadatos dañados, demasiado grandes u omitidos quedan aislados y señalados
-- `Función` Se añadió una alternativa acotada para la etiqueta y el icono ráster mediante resources.pb de AAB y resources.arsc de APK, resueltos según el idioma y la densidad actuales sin extraer APK anidados demasiado grandes; los fallos de tabla, icono y límite de examen permanecen aislados y claramente etiquetados
-- `Función` Se añadió la copia mediante pulsación prolongada de los valores principales del paquete y el envío del informe de texto exacto mediante el panel de Android; el contenido permanece en memoria, no solicita permiso de almacenamiento ni crea archivos
-- `Función` Se añadió un resumen DEX acotado que enumera en orden natural los archivos classes*.dex estándar de splits APK seleccionados y módulos AAB, con tamaños sin comprimir por archivo y total, compartiendo el recorrido del directorio central de bibliotecas nativas sin extraer, decodificar ni descompilar el contenido DEX
-- `Función` Se añadió un resumen acotado de bibliotecas nativas que agrupa los archivos .so de splits APK seleccionados y módulos AAB por ABI y tamaño sin comprimir, marcando las ABI preferidas, alternativas compatibles y no compatibles sin extraer su contenido
-- `Función` Se añadieron estadísticas acotadas de componentes del manifest para actividades/alias, servicios, receptores de difusión y proveedores de contenido en splits APK seleccionados y módulos AAB examinados, agrupadas por estado android:exported explícito y con etiquetas para resultados parciales
-- `Función` Se añadió verificación criptográfica en el dispositivo para los esquemas APK V2, V3, V3.1, V4 y V4.1, incluidos resúmenes de contenido, pruebas del firmante, raíces fs-verity, árboles Merkle incrustados y coincidencia con el esquema complementario
-- `Función` Se añadieron campos detallados de certificados y linajes de rotación verificados con funciones antiguas/actuales, indicadores de capacidad y huellas SHA-256
-- `Función` Se añadió el almacenamiento temporal acotado de `.idsig` mediante un descriptor de solo lectura derivado exactamente por el anfitrión; no se permite enumerar directorios ni acceder a archivos adyacentes arbitrarios
-- `Función` Se agruparon los permisos solicitados por `protectionLevel` en ejecución/peligrosos, firma/protegidos y normales; los permisos de ejecución se destacan primero con explicaciones acotadas de una línea, y los niveles no disponibles siguen visibles y etiquetados
-- `Corrección` APK Inspector invisible tras instalarlo y habilitarlo porque su catálogo Explorer Action v22 omitía la cardinalidad de archivo único; ofrecer la inspección desde el botón principal y el menú adicional
-- `Corrección` Se corrigió la desaparición de la acción para ver el manifest tras cambiar el idioma, el tema u otra recreación de la actividad, sustituyendo de forma segura la instantánea privada anterior de solo lectura
-- `Corrección` Se evitó que el panel de búsqueda del manifest quedara inaccesible cuando el teclado virtual reducía las pantallas compactas o con texto grande; ahora el teclado solo aparece al tocar el campo de búsqueda ya enfocado
-- `Mejora` Admitir 262144 entradas y paquetes de 8 GiB, ampliar los presupuestos de manifiestos, recursos y análisis anidados, y analizar directorios de bibliotecas nativas y DEX en paquetes ZIP64 anidados
-- `Mejora` Se reforzaron la validación de solicitudes Explorer Action v22 y las instantáneas privadas inmutables, con límites de 4 GiB para el paquete y 40 MiB para idsig, comprobaciones de identidad y cierre inmediato de la sesión
-- `Mejora` Se añadieron muestras oficiales de `apksigner` de Build Tools 37 para firmas válidas, alteradas, múltiples, con rotación V3.1/V4.1, ausentes y mal formadas
-- `Mejora` Se añadió una matriz de aislamiento por secciones con paquetes reales que cubre los límites de producción de permisos, componentes del manifiesto, bibliotecas nativas y DEX, además de tablas de recursos excedidas y directorios centrales anidados dañados; cada muestra comprueba que las secciones no afectadas siguen completas y que los avisos parciales se conservan al compartir texto
-- `Mejora` Se añadió una matriz de referencia reproducible para la selección de bundletool 1.18.2: `build-apks` procesa un AAB mínimo anonimizado y el `ExtractApksCommand` compartido por `install-apks` registra los APK de instalación para tres perfiles de idioma/densidad/ABI; las pruebas unitarias verifican cada conjunto simulado, la ausencia de duplicados y la estabilidad entre ejecuciones
-- `Mejora` Se añadió una matriz reproducible de revisión de capturas con 36 casos: vertical de 411/320 dp y horizontal compacta, fuentes 1,0x/1,5x/2,0x, temas claro/oscuro y LTR/RTL; su ejecutor ADB conserva el estado del dispositivo, audita la accesibilidad de los controles, el orden de lectura y los objetivos táctiles de 48 dp, y genera pruebas PNG/XML y una hoja de contactos
-- `Mejora` Se añadió una matriz determinista de 24 muestras sin datos privados que cubre APK/APKS/XAPK/APKM/APKZ/AAB con entradas normales, estructuralmente dañadas, fuera de límite e incompatibles con el dispositivo; un generador de biblioteca estándar, un manifiesto SHA-256 y pruebas de contrato JVM verifican la reproducción byte a byte, los resultados del analizador, el tamaño compacto y la ausencia de código, material de firma y datos de usuario
-- `Mejora` Se añadieron matrices exhaustivas de pruebas unitarias de rechazo seguro para la validación de solicitudes de paquetes, la preparación en caché privada, las protecciones de archivos Android y el análisis de bloques de firma APK; se ejercita cada motivo de rechazo enumerado, incluidos metadatos malformados, rutas inseguras, límites de recursos, estructuras truncadas y cancelación
-- `Mejora` Se añadieron pruebas de regresión de seguridad con Robolectric para ambas actividades de entrada exportadas, que cubren acciones suplantadas, permisos URI excesivos, declaraciones superiores a 4 GiB y cancelación concurrente del ciclo de vida; las solicitudes rechazadas nunca inician la inspección ni abren contenido sobredimensionado, y las sesiones del host Explorer se cierran exactamente una vez
-- `Mejora` Se añadió un flujo de CI Android de GitHub Actions con privilegios mínimos y acciones externas fijadas mediante SHA completos inmutables: Ubuntu 24.04 con JDK 21 compila el APK de depuración, ejecuta toda la suite JVM y regenera el Markdown de los 10 idiomas; cualquier diferencia rastreada o salida inesperada sin seguimiento hace fallar la comprobación
-- `Mejora` Se añadió un flujo reproducible de preparación y verificación de artefactos de lanzamiento: conserva la regla de nombre `autojs6-plugin-apk-inspector-v<versión>-<CRC32>.apk`, genera un archivo `.sha256` por APK y un `SHA256SUMS` ordenado de forma determinista, y rechaza cualquier discrepancia de nombre, CRC32, SHA-256 o manifiesto
-- `Mejora` Unificar el diseño del README y la gestión de versiones de la plataforma Gradle
-- `Mejora` Simplificar la descripción del complemento y normalizar la puntuación de los recursos multilingües
-- `Mejora` Renombrar la entrada de visualización externa como External Viewer para unificar la semántica del visor
-- `Mejora` La verificación de compilación rechaza dependencias nativas accidentales y genera un informe JSON
 
 ##### Historial completo
 
@@ -217,7 +182,7 @@ Compilación release:
 .\gradlew.bat :app:verifyReleaseArtifacts
 ```
 
-Los parámetros de compilación y firma provienen de version.properties y sign.properties; el mínimo actual es Android 7.0 (SDK 24) con SDK objetivo 36.
+Los parámetros de compilación y firma provienen de version.properties y sign.properties; el mínimo actual es Android 7.0 (SDK 24) con SDK objetivo 37.
 
 `prepareReleaseArtifacts` compila y copia los APK de lanzamiento en releases/, conserva la regla de nombre `autojs6-plugin-apk-inspector-v<versión>-<CRC32>.apk` y genera un archivo `.sha256` por APK junto con un `SHA256SUMS` ordenado; `verifyReleaseArtifacts` comprueba de forma independiente el CRC32 del nombre, el SHA-256 real, los archivos auxiliares y el manifiesto.
 

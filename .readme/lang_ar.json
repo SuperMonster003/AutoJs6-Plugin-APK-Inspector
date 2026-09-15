@@ -88,7 +88,7 @@
   "h5_for_more_release_history": "السجل الكامل",
   "h3_build": "البناء",
   "text_release_build": "بناء Release",
-  "p_build_params": "تُضبط معاملات البناء والتوقيع في version.properties وsign.properties؛ والحد الأدنى الحالي هو Android 7.0 (SDK 24) مع SDK مستهدف 36",
+  "p_build_params": "تُضبط معاملات البناء والتوقيع في version.properties وsign.properties؛ والحد الأدنى الحالي هو Android 7.0 (SDK 24) مع SDK مستهدف 37",
   "p_release_artifacts": "تُنشئ `prepareReleaseArtifacts` ملفات APK للإصدار وتنسخها إلى releases/ مع الإبقاء على قاعدة الاسم `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk`، ثم تكتب ملف `.sha256` مرافقاً لكل APK وملف `SHA256SUMS` مرتباً؛ وتتحقق `verifyReleaseArtifacts` بشكل مستقل من CRC32 في الاسم وSHA-256 الفعلي والملفات المرافقة والقائمة الإجمالية",
   "p_resource_layout": "تُولَّد ملفات README وCHANGELOG بواسطة .python/generate_markdown.py من مصادر JSON والقوالب في .readme/ و.changelog/ (بعشر لغات). لتعديل الوثائق، حرر مصادر JSON ثم أعد تشغيل السكربت بدلًا من تعديل Markdown المولد",
   "h3_links": "روابط",
