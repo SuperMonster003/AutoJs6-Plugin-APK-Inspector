@@ -145,6 +145,12 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 
 ### Historique des versions
 
+#### v1.2.1
+
+_2026/09/15_
+
+- `Amélioration` compileSdk et targetSdk passent à 37 (Android 17) ; le comportement du plugin ne dépend pas de la nouvelle cible
+
 #### v1.2.0
 
 _2026/09/13_
@@ -157,47 +163,6 @@ _2026/09/13_
 _2026/09/12_
 
 - `Fonctionnalité` Ajout d'un contrôle de compatibilité avec les pages de 16 Ko pour les fichiers APK / AAB inspectés directement : seuls l'en-tête ELF et la table des en-têtes de programme de chaque bibliothèque native 64 bits (`arm64-v8a` / `x86_64` / `riscv64`, au plus 64 Kio par entrée) sont lus pour vérifier que chaque segment `PT_LOAD` est aligné sur au moins 16 Ko ; si le manifeste déclare `extractNativeLibs="false"`, les décalages de données ZIP des bibliothèques non compressées sont également vérifiés. Le verdict (prêt / non prêt / non vérifié / aucune bibliothèque 64 bits / non évalué pour les APK imbriqués dans un conteneur) apparaît dans la section des bibliothèques natives et dans le résumé d'informations de fichier de l'hôte, et un verdict non prêt est listé dans les constats
-
-#### v1.1.0
-
-_2026/09/11_
-
-- `Note` Nécessite AutoJs6 avec le code de version 5277 ou ultérieur pour le protocole Explorer Action v22 et l’accès borné au fichier V4
-- `Fonctionnalité` Ajout de l'enrichissement progressif de la boîte de dialogue d'informations APK hôte via la capacité v1 d'informations de fichier : les hôtes compatibles conservent tous les champs natifs et les actions d'installation/manifeste, puis ajoutent un résumé localisé et borné, lié au SHA-256 de la source analysée ; si le plugin est absent, désactivé, ancien, incompatible ou en échec, la boîte de dialogue de base reste inchangée
-- `Fonctionnalité` Ajout de mises en page adaptatives pour les polices 1,5×/2,0×, le paysage et les écrans de 320 dp : en-tête empilé si nécessaire, titres compacts complets, retour à la ligne sans ellipse des SHA-256 et autorisations longues, et recherche du manifeste sans extraction IME plein écran
-- `Fonctionnalité` Ajout de l’accessibilité TalkBack et RTL au rapport et à la visionneuse de manifeste : titres sémantiques compatibles, actions par icône nommées, cibles personnalisées de 48 dp, annonces des résultats dynamiques, disposition suivant la langue et navigation arabe inversée
-- `Fonctionnalité` Ajout, dans la visionneuse de manifeste en lecture seule, des numéros de ligne, de la coloration XML adaptée au thème Material et d’une recherche bornée insensible à la casse, avec surlignage, navigation précédent/suivant en boucle et restauration de l’état
-- `Fonctionnalité` Ajout de thèmes Material 3 clair/sombre suivant le système pour le rapport et la visionneuse du manifeste, de couleurs dynamiques Material You sous Android 12 ou version ultérieure et d’icônes de barres système adaptées au contraste
-- `Fonctionnalité` Ajout de résumés bornés des métadonnées de conteneur pour SAI APKS `meta.sai_v1/v2.json`, XAPK `manifest.json` et APKMirror APKM `info.json`, affichant l’outil/version de format, la version d’application déclarée dans les métadonnées et une entrée d’icône existante ; les métadonnées endommagées ou supérieures à 1 Mio restent isolées et signalées
-- `Fonctionnalité` Ajout d’une simulation de configuration dans les rapports APKS, XAPK, APKM et APKZ : changez la langue, la densité d’écran et l’ABI pour réexécuter localement la sélection bornée des splits sur le même instantané privé, avec état compatible/non valide et APK ajoutés ou retirés par rapport à l’appareil réel ; le rapport principal reste basé sur l’appareil réel
-- `Fonctionnalité` Ajout de métadonnées bornées de configuration et de distribution AAB : décodage des réglages bundletool/type/split/compression/optimisation de BundleConfig.pb et annotation des modules base, feature, asset, ML, AI et SDK pour les distributions à l’installation, conditionnelle, à la demande, fast-follow, fusionnée et amovible ; les métadonnées incorrectes, trop volumineuses ou omises restent isolées et signalées
-- `Fonctionnalité` Ajout d’un repli borné pour le libellé et l’icône matricielle via resources.pb (AAB) et resources.arsc (APK), résolus selon la langue et la densité actuelles sans extraire les APK imbriqués trop volumineux ; les échecs de table, d’icône et de limite de parcours restent isolés et clairement signalés
-- `Fonctionnalité` Ajout de la copie par appui long des principales valeurs du paquet et du partage du rapport texte exact via la feuille de partage Android ; le contenu reste en mémoire, sans autorisation de stockage ni création de fichier
-- `Fonctionnalité` Ajout d’une vue DEX bornée qui liste dans l’ordre naturel les fichiers classes*.dex standard des splits APK sélectionnés et modules AAB, avec les tailles non compressées par fichier et totale, en partageant le parcours du répertoire central des bibliothèques natives sans extraire, décoder ni décompiler le contenu DEX
-- `Fonctionnalité` Ajout d’une vue bornée des bibliothèques natives regroupant les fichiers .so des splits APK sélectionnés et modules AAB par ABI et taille non compressée, avec marquage des ABI préférées, compatibles de repli et non prises en charge sans extraire leur contenu
-- `Fonctionnalité` Ajout de statistiques bornées des composants du manifeste pour les activités/alias, services, récepteurs de diffusion et fournisseurs de contenu dans les splits APK sélectionnés et modules AAB analysés, regroupées par état android:exported explicite avec signalement des résultats partiels
-- `Fonctionnalité` Ajout de la vérification cryptographique sur l’appareil des schémas APK V2, V3, V3.1, V4 et V4.1, y compris les condensats, preuves du signataire, racines fs-verity, arbres de Merkle intégrés et correspondance avec le schéma complémentaire
-- `Fonctionnalité` Ajout des champs détaillés des certificats et des lignées de rotation vérifiées avec rôles ancien/actuel, indicateurs de capacité et empreintes SHA-256
-- `Fonctionnalité` Ajout de la copie bornée de `.idsig` via un descripteur en lecture seule dérivé exactement par l’hôte ; l’énumération des répertoires et l’accès arbitraire aux voisins restent indisponibles
-- `Fonctionnalité` Regroupement des autorisations demandées selon `protectionLevel` en exécution/dangereuses, signature/protégées et normales ; celles à l’exécution sont mises en avant avec une explication bornée sur une ligne, tandis que les niveaux indisponibles restent visibles et signalés
-- `Correctif` APK Inspector invisible après installation et activation car son catalogue Explorer Action v22 omettait la cardinalité de fichier unique; proposer l'inspection par le bouton principal et le menu supplémentaire
-- `Correctif` Correction de la disparition de l’action d’affichage du manifeste après un changement de langue, de thème ou une autre recréation d’activité, grâce au remplacement sûr de l’ancien instantané privé en lecture seule
-- `Correctif` Correction de l’inaccessibilité du panneau de recherche du manifeste lorsque le clavier logiciel réduisait un écran compact ou utilisant de grands caractères ; le clavier n’apparaît désormais qu’après toucher du champ de recherche déjà ciblé
-- `Amélioration` Prendre en charge 262144 entrées et des paquets de 8 GiB, augmenter les budgets des manifestes, ressources et analyses imbriquées, et analyser les répertoires de bibliothèques natives et DEX des paquets ZIP64 imbriqués
-- `Amélioration` Renforcement de la validation Explorer Action v22 et des instantanés privés immuables, avec limites de 4 GiB pour le paquet et 40 MiB pour idsig, contrôles d’identité et fermeture rapide de la session
-- `Amélioration` Ajout d’échantillons officiels Build Tools 37 `apksigner` couvrant signatures valides, altérées, multiples, rotations V3.1/V4.1, absences et formats incorrects
-- `Amélioration` Ajout d’une matrice d’isolation par section sur de vrais paquets, couvrant les limites de production des autorisations, composants de manifeste, bibliothèques natives et DEX, ainsi que les dépassements de table de ressources et les répertoires centraux imbriqués endommagés ; chaque échantillon vérifie que les sections non touchées restent complètes et que les avis partiels sont conservés dans le partage texte
-- `Amélioration` Ajout d’une matrice de référence reproductible pour la sélection bundletool 1.18.2 : `build-apks` traite un AAB minimal anonymisé, puis l’`ExtractApksCommand` partagé par `install-apks` enregistre les APK d’installation pour trois profils langue/densité/ABI ; les tests unitaires vérifient chaque ensemble simulé, l’absence de doublons et la stabilité entre exécutions
-- `Amélioration` Ajout d’une matrice reproductible de revue de captures d’écran comportant 36 cas : portraits 411/320 dp et paysage compact, polices 1,0x/1,5x/2,0x, thèmes clair/sombre et LTR/RTL ; son pilote ADB préserve l’état de l’appareil, audite l’accessibilité des contrôles, l’ordre de lecture et les cibles tactiles de 48 dp, puis produit des preuves PNG/XML et une planche-contact
-- `Amélioration` Ajout d’une matrice déterministe de 24 échantillons sans données privées couvrant APK/APKS/XAPK/APKM/APKZ/AAB avec des entrées normales, structurellement endommagées, hors limite et incompatibles avec l’appareil ; un générateur fondé sur la bibliothèque standard, un manifeste SHA-256 et des tests de contrat JVM vérifient la reproduction octet par octet, les résultats d’analyse, la taille compacte et l’absence de code, de matériel de signature et de données utilisateur
-- `Amélioration` Ajout de matrices exhaustives de tests unitaires à refus systématique pour la validation des requêtes de paquet, la mise en cache privée, les garde-fous des archives Android et l’analyse des blocs de signature APK ; chaque motif de rejet énuméré est exercé, notamment les métadonnées malformées, les chemins non sûrs, les limites de ressources, les structures tronquées et l’annulation
-- `Amélioration` Ajout de tests de régression de sécurité Robolectric pour les deux activités d’entrée exportées, couvrant les actions usurpées, les autorisations URI excessives, les déclarations dépassant 4 Gio et l’annulation concurrente du cycle de vie ; les requêtes rejetées ne lancent jamais l’inspection ni n’ouvrent de contenu surdimensionné, et les sessions hôtes Explorer se ferment exactement une fois
-- `Amélioration` Ajout d’un workflow CI Android GitHub Actions à privilèges minimaux, dont les actions externes sont figées par des SHA complets immuables : Ubuntu 24.04 avec JDK 21 compile l’APK de débogage, exécute toute la suite JVM et régénère le Markdown des 10 langues ; toute dérive suivie ou sortie non suivie inattendue fait échouer le contrôle
-- `Amélioration` Ajout d’un flux reproductible de préparation et de vérification des artefacts de publication : il conserve la règle de nommage `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk`, produit un fichier `.sha256` par APK ainsi qu’un `SHA256SUMS` trié de manière déterministe, et rejette toute incohérence de nom, CRC32, SHA-256 ou manifeste
-- `Amélioration` Uniformiser la mise en page du README et la gestion des versions de la plateforme Gradle
-- `Amélioration` Simplifier la description du plugin et normaliser la ponctuation des ressources multilingues
-- `Amélioration` Renommer l'entrée de visualisation externe en External Viewer pour unifier la sémantique de la visionneuse
-- `Amélioration` La vérification de compilation rejette les dépendances natives involontaires et produit un rapport JSON
 
 ##### Historique complet
 
@@ -217,7 +182,7 @@ Compilation release:
 .\gradlew.bat :app:verifyReleaseArtifacts
 ```
 
-Les paramètres de compilation et de signature proviennent de version.properties et sign.properties ; le minimum actuel est Android 7.0 (SDK 24) avec un SDK cible 36.
+Les paramètres de compilation et de signature proviennent de version.properties et sign.properties ; le minimum actuel est Android 7.0 (SDK 24) avec un SDK cible 37.
 
 `prepareReleaseArtifacts` compile et copie les APK de publication dans releases/, conserve la règle de nommage `autojs6-plugin-apk-inspector-v<version>-<CRC32>.apk`, puis écrit un fichier `.sha256` par APK et un `SHA256SUMS` trié ; `verifyReleaseArtifacts` contrôle indépendamment le CRC32 du nom, le SHA-256 réel, les fichiers associés et le manifeste.
 

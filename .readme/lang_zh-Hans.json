@@ -88,7 +88,7 @@
   "h5_for_more_release_history": "完整记录",
   "h3_build": "构建",
   "text_release_build": "Release 构建",
-  "p_build_params": "构建与签名参数由 version.properties 与 sign.properties 控制; 当前最低支持 Android 7.0 (SDK 24), 目标 SDK 36",
+  "p_build_params": "构建与签名参数由 version.properties 与 sign.properties 控制; 当前最低支持 Android 7.0 (SDK 24), 目标 SDK 37",
   "p_release_artifacts": "`prepareReleaseArtifacts` 会构建 Release APK 并复制到 releases/, 保留 `autojs6-plugin-apk-inspector-v<版本>-<CRC32>.apk` 命名规则, 随后为每个 APK 生成 `.sha256` 伴随文件及排序稳定的 `SHA256SUMS`; `verifyReleaseArtifacts` 会独立核对文件名 CRC32、实际 SHA-256、伴随文件与汇总清单",
   "p_resource_layout": "README 与 CHANGELOG 均由 .python/generate_markdown.py 依据 .readme/ 与 .changelog/ 下的 JSON 语言资源和模板生成 (共 10 种语言). 修改文档请编辑对应 JSON 后重新运行脚本, 不要直接改动生成的 Markdown",
   "h3_links": "相关链接",
