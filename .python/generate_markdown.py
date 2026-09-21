@@ -150,7 +150,7 @@ def build_readme_values(code, languages, changelogs):
 def write_text(path: Path, text: str):
     GENERATED_PATHS.add(path)
     if CHECK_MODE:
-        if not path.is_file() or path.read_bytes() != text.encode("utf-8"):
+        if not path.is_file() or path.read_bytes().replace(b"\r\n", b"\n") != text.encode("utf-8"):
             CHECK_ERRORS.append(str(path.relative_to(ROOT)))
         return
     path.parent.mkdir(parents=True, exist_ok=True)
