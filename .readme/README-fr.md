@@ -145,6 +145,13 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 
 ### Historique des versions
 
+#### v1.2.2
+
+_2026/10/02_
+
+- `Amélioration` Harmonisation de la reconnaissance des formats et de la compatibilité des APK fractionnés avec chaque appareil, avec conservation de la vérification des signatures et du rapport complet en lecture seule
+- `Dépendance` Ajout de AutoJs6 package-archive-parser (hôte build 5299)
+
 #### v1.2.1
 
 _2026/09/19_
@@ -158,12 +165,6 @@ _2026/09/13_
 
 - `Fonctionnalité` Historique local accessible depuis l'interface, avec traductions et repli en anglais
 - `Amélioration` Vérification de la signature complète, des APK attendus et de la reproductibilité de la documentation
-
-#### v1.1.1
-
-_2026/09/12_
-
-- `Fonctionnalité` Ajout d'un contrôle de compatibilité avec les pages de 16 Ko pour les fichiers APK / AAB inspectés directement : seuls l'en-tête ELF et la table des en-têtes de programme de chaque bibliothèque native 64 bits (`arm64-v8a` / `x86_64` / `riscv64`, au plus 64 Kio par entrée) sont lus pour vérifier que chaque segment `PT_LOAD` est aligné sur au moins 16 Ko ; si le manifeste déclare `extractNativeLibs="false"`, les décalages de données ZIP des bibliothèques non compressées sont également vérifiés. Le verdict (prêt / non prêt / non vérifié / aucune bibliothèque 64 bits / non évalué pour les APK imbriqués dans un conteneur) apparaît dans la section des bibliothèques natives et dans le résumé d'informations de fichier de l'hôte, et un verdict non prêt est listé dans les constats
 
 ##### Historique complet
 

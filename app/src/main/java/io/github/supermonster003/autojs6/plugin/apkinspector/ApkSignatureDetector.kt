@@ -5,9 +5,6 @@ import java.io.File
 import java.io.IOException
 import java.io.RandomAccessFile
 import java.nio.charset.StandardCharsets
-import java.util.Locale
-import java.util.jar.JarEntry
-import java.util.jar.JarFile
 
 /**
  * Detects the presence of APK signature schemes without pulling the full Android apksig verifier
@@ -176,24 +173,8 @@ object ApkSignatureDetector {
                 ((this[offset + 3].toLong() and 0xFF) shl 24)
     }
 
-    fun hasV1Signature(apkFile: File): Boolean {
-        JarFile(apkFile).use { jar ->
-            var hasManifest = false
-            var hasSF = false
-            var hasSignatureBlock = false
-            for (entry: JarEntry in jar.entries()) {
-                val n = entry.name.uppercase(Locale.ROOT)
-                when {
-                    n == "META-INF/MANIFEST.MF" -> hasManifest = true
-                    n.startsWith("META-INF/") && n.endsWith(".SF") -> hasSF = true
-                    n.startsWith("META-INF/") &&
-                            (n.endsWith(".RSA") || n.endsWith(".DSA") || n.endsWith(".EC")) -> hasSignatureBlock = true
-                }
-                if (hasManifest && hasSF && hasSignatureBlock) return true
-            }
-        }
-        return false
-    }
+    fun hasV1Signature(apkFile: File): Boolean =
+        org.autojs.plugin.packagearchive.ApkSignatureDetector.hasV1Signature(apkFile)
 
     private fun reject(
         rejection: ApkSignatureParseRejection,

@@ -1,5 +1,7 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.PackageInspectionLimits
+
 import java.io.EOFException
 import java.io.IOException
 import java.nio.ByteBuffer

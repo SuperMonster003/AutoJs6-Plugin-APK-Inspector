@@ -116,3 +116,12 @@
 验收证据: `LargePackageInspectionTest`, `ExplorerActionCatalogTest`, `NativeLibrarySummaryTest`, `PrivacyNeutralFixtureMatrixTest` 和宿主 `ApkInspectorIntegrationTest`. 本地构建及实机日志存放在两侧 `app/build/inspection-fixes/`.
 
 实机结果: 菜单入口可见, 六类扩展名和启用状态刷新测试通过; 微信 APK 报告显示 `com.tencent.mm`, `8.0.48 (2589)`, V2/V3 签名验证通过. 对应截图与联合测试日志位于宿主 `app/build/inspection-fixes/`.
+
+## 共享解析组件迁移 (3-Setup Installer 原 P8 条目, 2026-10-02)
+
+- [x] 消费宿主 `package-archive-parser` 的固定 Release AAR, SHA-256 `1441bbcee8468362b0ee41f7b3d5ab47eb87b4df78a1388bb1134223055f46e7`; 公共与 Explorer 契约 AAR 原字节保留, 三份二进制均在配置阶段按锁核验.
+- [x] 删除重复 APK/AAB 清单二进制解码, bundletool TOC 与预算定义, 原 Archive 选包实现改为共享解析结果上的只读报告适配. 同格式/设备输入使用同一选包结果; 保留 Inspector 专有组件, 保护级别, 图标, AAB 分发, 签名密码学验证, 原生库, DEX 和 16 KiB 分析.
+- [x] 保留严格签名块异常校验及明确授权的 `.idsig` 边界; V1 存在性检测复用共享实现, 不调用隐式检查旁边 `.idsig` 的共享便捷方法. 保留原显示快照空间/字节限制, 不对外暴露安装准备或暂存功能.
+- [x] 原有消费方测试迁移到共享类型, 新增六格式结果一致性/只读来源, AAB XML 命名空间与树预算, sidecar 授权回归. 本地完整 JVM 231 项通过, QV770340J7/API 33 的契约两项与六格式 Android 解析一项共 3/3 通过, 未安装测试夹具或改用户默认项.
+
+对应版本为 1.2.2, 本地 build 42; Explorer Action v22, host file-information v1 和最低宿主 5277 保持. 详细差异, 签名 Release 与设备收尾见 [共享解析迁移证据](docs/development/shared-parser-migration-evidence.md). 此项属于既有安装器 P8 的跨仓库迁移, 不引入安装能力, 不表示已公开发布.

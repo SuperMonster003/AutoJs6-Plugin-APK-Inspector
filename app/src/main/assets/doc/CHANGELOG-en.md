@@ -1,5 +1,12 @@
 # Release history
 
+## v1.2.2
+
+_2026/10/02_
+
+- `Improvement` Align package-format recognition and device split compatibility while preserving signature verification and the complete read-only report
+- `Dependency` Added AutoJs6 package-archive-parser (host build 5299)
+
 ## v1.2.1
 
 _2026/09/19_

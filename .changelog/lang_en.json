@@ -5,6 +5,15 @@
   "changelog_label_improvement": "Improvement",
   "changelog_label_dependency": "Dependency",
   "$data": {
+    "v1.2.2": {
+      "released_date": "2026/10/02",
+      "improvement": [
+        "Align package-format recognition and device split compatibility while preserving signature verification and the complete read-only report"
+      ],
+      "dependency": [
+        "Added AutoJs6 package-archive-parser (host build 5299)"
+      ]
+    },
     "v1.2.1": {
       "released_date": "2026/09/19",
       "improvement": [
