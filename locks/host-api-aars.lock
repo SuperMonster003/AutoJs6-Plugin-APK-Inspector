@@ -1,0 +1,8 @@
+# Bundled host release artifacts; provenance is recorded in libs/README.md.
+format=1
+common-plugin-api.file=common-plugin-api.aar
+common-plugin-api.sha256=f9ff9676543f45b2ff2b64bb832d377dbd5b7003acf3bb4239e98556c68b246f
+explorer-action-api.file=explorer-action-api.aar
+explorer-action-api.sha256=057ae2bd927d6f8e0b84f2a30c5d6b80584b4950288c7bb2a06ef489f86ad816
+package-archive-parser.file=package-archive-parser.aar
+package-archive-parser.sha256=1441bbcee8468362b0ee41f7b3d5ab47eb87b4df78a1388bb1134223055f46e7

@@ -5,6 +5,15 @@
   "changelog_label_improvement": "改善",
   "changelog_label_dependency": "依存関係",
   "$data": {
+    "v1.2.2": {
+      "released_date": "2026/10/02",
+      "improvement": [
+        "パッケージ形式の認識とデバイスに適合する分割 APK の判定を統一し, 署名検証と完全な読み取り専用レポートを維持"
+      ],
+      "dependency": [
+        "AutoJs6 package-archive-parser を追加 (ホスト build 5299)"
+      ]
+    },
     "v1.2.1": {
       "released_date": "2026/09/19",
       "improvement": [

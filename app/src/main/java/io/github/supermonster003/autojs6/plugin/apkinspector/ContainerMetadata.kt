@@ -1,5 +1,8 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.PackageInspectionLimits
+import org.autojs.plugin.packagearchive.AndroidPackageSubtype
+
 import com.google.gson.Strictness
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken

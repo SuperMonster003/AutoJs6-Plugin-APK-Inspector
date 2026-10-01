@@ -1,5 +1,8 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.PackageDeviceSpec
+import org.autojs.plugin.packagearchive.ArchiveProblem
+
 /** A user-selected subset of the device properties that influence APK targeting. */
 internal data class PackageSimulationConfiguration(
     val languageTag: String,

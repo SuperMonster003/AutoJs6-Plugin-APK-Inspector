@@ -1,5 +1,7 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.PackageDeviceSpec
+
 import com.reandroid.arsc.chunk.TableBlock
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals

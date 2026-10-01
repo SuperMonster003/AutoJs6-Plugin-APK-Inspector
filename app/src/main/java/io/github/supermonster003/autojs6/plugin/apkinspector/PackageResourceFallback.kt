@@ -1,5 +1,9 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.PackageInspectionLimits
+import org.autojs.plugin.packagearchive.PackageDeviceSpec
+import org.autojs.plugin.packagearchive.AndroidPackageFormat
+
 import com.reandroid.arsc.chunk.TableBlock
 import com.reandroid.arsc.model.ResourceEntry
 import com.reandroid.arsc.value.Entry

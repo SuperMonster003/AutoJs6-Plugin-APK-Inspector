@@ -1,5 +1,7 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.PackageInspectionLimits
+
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface

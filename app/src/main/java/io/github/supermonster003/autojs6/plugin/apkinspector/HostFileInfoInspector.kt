@@ -1,5 +1,8 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.PackageDeviceSpec
+import org.autojs.plugin.packagearchive.AndroidPackageFormat
+
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager

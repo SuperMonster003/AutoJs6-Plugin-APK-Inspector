@@ -191,8 +191,8 @@ class AabModuleMetadataParserTest {
     }
 
     private fun featureModule(
-        conditions: List<AabManifestDisplayDecoder.XmlElement>,
-    ): AabManifestDisplayDecoder.XmlElement = distElement(
+        conditions: List<AabModuleManifest.Element>,
+    ): AabModuleManifest.Element = distElement(
         "module",
         attributes = listOf(distAttribute("type", "feature")),
         children = listOf(
@@ -209,8 +209,8 @@ class AabModuleMetadataParserTest {
     )
 
     private fun manifest(
-        vararg children: AabManifestDisplayDecoder.XmlElement,
-    ): AabManifestDisplayDecoder.XmlElement = element(
+        vararg children: AabModuleManifest.Element,
+    ): AabModuleManifest.Element = element(
         namespace = "",
         name = "manifest",
         children = children.toList(),
@@ -218,31 +218,30 @@ class AabModuleMetadataParserTest {
 
     private fun distElement(
         name: String,
-        attributes: List<AabManifestDisplayDecoder.XmlAttribute> = emptyList(),
-        children: List<AabManifestDisplayDecoder.XmlElement> = emptyList(),
-    ): AabManifestDisplayDecoder.XmlElement = element(DISTRIBUTION_NAMESPACE, name, attributes, children)
+        attributes: List<AabModuleManifest.Attribute> = emptyList(),
+        children: List<AabModuleManifest.Element> = emptyList(),
+    ): AabModuleManifest.Element = element(DISTRIBUTION_NAMESPACE, name, attributes, children)
 
     private fun element(
         namespace: String,
         name: String,
-        attributes: List<AabManifestDisplayDecoder.XmlAttribute> = emptyList(),
-        children: List<AabManifestDisplayDecoder.XmlElement> = emptyList(),
-    ): AabManifestDisplayDecoder.XmlElement = AabManifestDisplayDecoder.XmlElement(
+        attributes: List<AabModuleManifest.Attribute> = emptyList(),
+        children: List<AabModuleManifest.Element> = emptyList(),
+    ): AabModuleManifest.Element = AabModuleManifest.Element(
         namespaceUri = namespace,
         name = name,
-        namespaces = emptyList(),
         attributes = attributes,
-        children = children.map { child -> AabManifestDisplayDecoder.XmlNode.Element(child) },
+        children = children,
     )
 
-    private fun distAttribute(name: String, value: String): AabManifestDisplayDecoder.XmlAttribute =
+    private fun distAttribute(name: String, value: String): AabModuleManifest.Attribute =
         attribute(name, value, DISTRIBUTION_NAMESPACE)
 
     private fun attribute(
         name: String,
         value: String,
         namespace: String = "",
-    ): AabManifestDisplayDecoder.XmlAttribute = AabManifestDisplayDecoder.XmlAttribute(
+    ): AabModuleManifest.Attribute = AabModuleManifest.Attribute(
         namespaceUri = namespace,
         name = name,
         value = value,

@@ -1,5 +1,8 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.BundletoolTocDecoder
+import org.autojs.plugin.packagearchive.PackageDeviceSpec
+
 import com.google.gson.Gson
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals

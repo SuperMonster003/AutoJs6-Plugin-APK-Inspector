@@ -5,6 +5,15 @@
   "changelog_label_improvement": "優化",
   "changelog_label_dependency": "依賴",
   "$data": {
+    "v1.2.2": {
+      "released_date": "2026/10/02",
+      "improvement": [
+        "統一安裝包格式識別與裝置分包相容性判斷, 保留簽名驗證和完整唯讀檢查報告"
+      ],
+      "dependency": [
+        "附加 AutoJs6 package-archive-parser (宿主 build 5299)"
+      ]
+    },
     "v1.2.1": {
       "released_date": "2026/09/19",
       "improvement": [

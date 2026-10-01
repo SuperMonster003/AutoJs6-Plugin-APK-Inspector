@@ -1,5 +1,9 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.AabManifestDisplayDecoder
+import org.autojs.plugin.packagearchive.PackageDeviceSpec
+import org.autojs.plugin.packagearchive.AndroidPackageFormat
+
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull

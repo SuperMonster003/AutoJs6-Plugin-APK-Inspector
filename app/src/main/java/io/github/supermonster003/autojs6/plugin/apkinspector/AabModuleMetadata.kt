@@ -86,9 +86,8 @@ internal data class AabModuleMetadata(
 }
 
 /**
- * Extracts Play Feature Delivery declarations from an already bounded AAPT2 manifest tree.
- * Namespace-aware tree access avoids reparsing rendered XML and keeps declarations separate from
- * ordinary Android manifest elements with similar local names.
+ * Extracts Inspector-only Play Feature Delivery declarations from shared decoded XML.
+ * Namespace-aware tree access keeps distribution declarations separate from Android elements.
  */
 internal object AabModuleMetadataParser {
 
@@ -98,7 +97,7 @@ internal object AabModuleMetadataParser {
     )
 
     fun parse(
-        root: AabManifestDisplayDecoder.XmlElement,
+        root: AabModuleManifest.Element,
         moduleName: String,
         limits: Limits = Limits(),
     ): AabModuleMetadata {
@@ -208,7 +207,7 @@ internal object AabModuleMetadataParser {
     }
 
     private fun parseCondition(
-        element: AabManifestDisplayDecoder.XmlElement,
+        element: AabModuleManifest.Element,
         collector: ConditionCollector,
     ) {
         if (element.namespaceUri != DISTRIBUTION_NAMESPACE) {
@@ -283,12 +282,12 @@ internal object AabModuleMetadataParser {
         }
     }
 
-    private fun AabManifestDisplayDecoder.XmlElement.requiredAttribute(name: String): String =
+    private fun AabModuleManifest.Element.requiredAttribute(name: String): String =
         attribute(DISTRIBUTION_NAMESPACE, name)
             ?.takeIf(String::isNotBlank)
             ?: throw malformed("dist:${this.name} is missing dist:$name")
 
-    private fun AabManifestDisplayDecoder.XmlElement.attribute(
+    private fun AabModuleManifest.Element.attribute(
         namespace: String,
         name: String,
     ): String? = attributes.singleOrNull { attribute ->
@@ -299,18 +298,16 @@ internal object AabModuleMetadataParser {
         null
     }
 
-    private fun AabManifestDisplayDecoder.XmlElement.attributeWithLegacyFallback(name: String): String? =
+    private fun AabModuleManifest.Element.attributeWithLegacyFallback(name: String): String? =
         attribute(DISTRIBUTION_NAMESPACE, name) ?: attribute("", name)
 
-    private fun AabManifestDisplayDecoder.XmlElement.elementChildren(): List<AabManifestDisplayDecoder.XmlElement> =
-        children.mapNotNull { child ->
-            (child as? AabManifestDisplayDecoder.XmlNode.Element)?.value
-        }
+    private fun AabModuleManifest.Element.elementChildren(): List<AabModuleManifest.Element> =
+        children
 
-    private fun AabManifestDisplayDecoder.XmlElement.singleOptionalChild(
+    private fun AabModuleManifest.Element.singleOptionalChild(
         namespace: String,
         name: String,
-    ): AabManifestDisplayDecoder.XmlElement? {
+    ): AabModuleManifest.Element? {
         val matching = elementChildren().filter { child ->
             child.namespaceUri == namespace && child.name == name
         }

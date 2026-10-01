@@ -5,6 +5,15 @@
   "changelog_label_improvement": "تحسين",
   "changelog_label_dependency": "تبعية",
   "$data": {
+    "v1.2.2": {
+      "released_date": "2026/10/02",
+      "improvement": [
+        "توحيد التعرف على صيغ الحزم وتوافق حزم APK المقسمة مع الجهاز مع الحفاظ على التحقق من التوقيع والتقرير الكامل للقراءة فقط"
+      ],
+      "dependency": [
+        "إضافة AutoJs6 package-archive-parser (المضيف build 5299)"
+      ]
+    },
     "v1.2.1": {
       "released_date": "2026/09/19",
       "improvement": [

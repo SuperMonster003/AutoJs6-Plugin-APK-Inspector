@@ -5,6 +5,15 @@
   "changelog_label_improvement": "Улучшение",
   "changelog_label_dependency": "Зависимость",
   "$data": {
+    "v1.2.2": {
+      "released_date": "2026/10/02",
+      "improvement": [
+        "Унифицированы распознавание форматов пакетов и проверка совместимости раздельных APK с устройством, с сохранением проверки подписей и полного отчета только для чтения"
+      ],
+      "dependency": [
+        "Добавлен AutoJs6 package-archive-parser (хост build 5299)"
+      ]
+    },
     "v1.2.1": {
       "released_date": "2026/09/19",
       "improvement": [

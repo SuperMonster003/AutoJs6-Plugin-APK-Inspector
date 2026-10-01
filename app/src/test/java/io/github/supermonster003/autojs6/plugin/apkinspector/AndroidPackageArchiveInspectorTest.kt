@@ -1,5 +1,10 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
+import org.autojs.plugin.packagearchive.PackageDeviceSpec
+import org.autojs.plugin.packagearchive.AndroidPackageFormat
+import org.autojs.plugin.packagearchive.AndroidPackageSubtype
+import org.autojs.plugin.packagearchive.ArchiveProblemCode
+
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue

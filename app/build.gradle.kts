@@ -1,6 +1,8 @@
 import com.android.build.api.variant.FilterConfiguration
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Exec
+import java.security.MessageDigest
+import java.util.Properties
 
 plugins {
     id("io.github.supermonster003.autojs6-native-alignment")
@@ -16,12 +18,37 @@ val globalApplicationId = "io.github.supermonster003.autojs6.plugin.apkinspector
 val buildTypeDebug = "debug"
 val buildTypeRelease = "release"
 
+// These release snapshots keep clean clones self-contained and detect unreviewed replacement.
+val hostApiNames = listOf("common-plugin-api", "explorer-action-api", "package-archive-parser")
+val hostApiLock = Properties().apply {
+    rootProject.file("locks/host-api-aars.lock").useLines { lines ->
+        lines.map(String::trim).filter { it.isNotEmpty() && !it.startsWith('#') }.forEach { line ->
+            val parts = line.split('=', limit = 2)
+            require(parts.size == 2 && put(parts[0], parts[1]) == null) { "Invalid or duplicate AAR lock entry" }
+        }
+    }
+}
+require(hostApiLock.getProperty("format") == "1" && hostApiLock.stringPropertyNames() ==
+    setOf("format") + hostApiNames.flatMap { listOf("$it.file", "$it.sha256") }) { "Unexpected AAR lock fields" }
+val hostApiAars = hostApiNames.map { name ->
+    require(hostApiLock.getProperty("$name.file") == "$name.aar") { "Only the named release AAR is allowed" }
+    val expected = hostApiLock.getProperty("$name.sha256")
+    require(expected.matches(Regex("[0-9a-f]{64}"))) { "Invalid AAR SHA-256: $name" }
+    rootProject.file("libs/$name.aar").also { file ->
+        require(file.isFile) { "Missing bundled release AAR: $name" }
+        val actual = MessageDigest.getInstance("SHA-256").digest(file.readBytes()).joinToString("") { "%02x".format(it) }
+        require(actual == expected) { "Bundled AAR SHA-256 mismatch: $name" }
+    }
+}
+
 android {
     namespace = globalApplicationId
     compileSdk = versions.sdkVersionCompile
 
     defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = if (providers.gradleProperty("releaseSmoke").isPresent) {
+            "$globalApplicationId.release.ReleaseContractInstrumentation"
+        } else "androidx.test.runner.AndroidJUnitRunner"
         applicationId = globalApplicationId
         minSdk = versions.sdkVersionMin
         targetSdk = versions.sdkVersionTarget
@@ -81,6 +108,9 @@ android {
     sourceSets.named("main") {
         kotlin.directories += "src/main/java"
     }
+    sourceSets.named("androidTest") {
+        assets.srcDir("src/test/resources/privacy-neutral-fixtures")
+    }
 
     packaging {
         resources.pickFirsts.addAll(
@@ -129,8 +159,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-parcelize-runtime:2.2.21")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.9.0")
 
-    implementation(files("$rootDir/libs/common-plugin-api.aar"))
-    implementation(files("$rootDir/libs/explorer-action-api.aar"))
+    implementation(files(hostApiAars))
 
     implementation(libs.activity.ktx)
     implementation(libs.appcompat)
