@@ -6,9 +6,10 @@
   "changelog_label_dependency": "Dependencia",
   "$data": {
     "v1.2.2": {
-      "released_date": "2026/10/02",
+      "released_date": "2026/10/05",
       "improvement": [
-        "Unifica el reconocimiento de formatos y la compatibilidad de APK divididos con el dispositivo, conservando la verificación de firmas y el informe completo de solo lectura"
+        "Unifica el reconocimiento de formatos y la compatibilidad de APK divididos con el dispositivo, conservando la verificación de firmas y el informe completo de solo lectura",
+        "Los iconos de información de la aplicación de Android comparten las imágenes y los fondos claros y oscuros de Icon Studio, conservando las imágenes transparentes del centro de plugins y las opciones del lanzador"
       ],
       "dependency": [
         "Se agrega AutoJs6 package-archive-parser (host build 5299)"

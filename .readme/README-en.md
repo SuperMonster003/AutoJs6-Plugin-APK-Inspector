@@ -147,9 +147,10 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 
 #### v1.2.2
 
-_2026/10/02_
+_2026/10/05_
 
 - `Improvement` Align package-format recognition and device split compatibility while preserving signature verification and the complete read-only report
+- `Improvement` Android App info icons share Icon Studio artwork and light/dark backgrounds while preserving transparent Plugin Center artwork and existing launcher choices
 - `Dependency` Added AutoJs6 package-archive-parser (host build 5299)
 
 #### v1.2.1

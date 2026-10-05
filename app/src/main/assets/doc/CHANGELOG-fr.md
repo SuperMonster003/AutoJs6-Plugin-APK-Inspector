@@ -2,9 +2,10 @@
 
 ## v1.2.2
 
-_2026/10/02_
+_2026/10/05_
 
 - `Amélioration` Harmonisation de la reconnaissance des formats et de la compatibilité des APK fractionnés avec chaque appareil, avec conservation de la vérification des signatures et du rapport complet en lecture seule
+- `Amélioration` Les icônes des informations d'application Android utilisent les illustrations et les fonds clairs et sombres d'Icon Studio, en conservant les images transparentes du centre de plugins et les choix du lanceur
 - `Dépendance` Ajout de AutoJs6 package-archive-parser (hôte build 5299)
 
 ## v1.2.1

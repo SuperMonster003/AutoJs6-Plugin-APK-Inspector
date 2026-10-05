@@ -6,9 +6,10 @@
   "changelog_label_dependency": "相依性",
   "$data": {
     "v1.2.2": {
-      "released_date": "2026/10/02",
+      "released_date": "2026/10/05",
       "improvement": [
-        "統一安裝套件格式識別與裝置分包相容性判斷, 保留簽章驗證和完整唯讀檢查報告"
+        "統一安裝套件格式識別與裝置分包相容性判斷, 保留簽章驗證和完整唯讀檢查報告",
+        "Android 系統應用程式資訊圖示與圖示工作台共用圖稿及明暗底色, 保留外掛程式中心透明圖稿與現有啟動器選項"
       ],
       "dependency": [
         "附加 AutoJs6 package-archive-parser (宿主 build 5299)"

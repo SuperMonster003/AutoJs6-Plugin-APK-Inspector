@@ -6,9 +6,10 @@
   "changelog_label_dependency": "依存関係",
   "$data": {
     "v1.2.2": {
-      "released_date": "2026/10/02",
+      "released_date": "2026/10/05",
       "improvement": [
-        "パッケージ形式の認識とデバイスに適合する分割 APK の判定を統一し, 署名検証と完全な読み取り専用レポートを維持"
+        "パッケージ形式の認識とデバイスに適合する分割 APK の判定を統一し, 署名検証と完全な読み取り専用レポートを維持",
+        "Android のアプリ情報アイコンに Icon Studio と共通の図案と明暗の背景色を使用し, プラグインセンターの透明な図案と既存のランチャー設定を維持"
       ],
       "dependency": [
         "AutoJs6 package-archive-parser を追加 (ホスト build 5299)"

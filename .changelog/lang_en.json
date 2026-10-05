@@ -6,9 +6,10 @@
   "changelog_label_dependency": "Dependency",
   "$data": {
     "v1.2.2": {
-      "released_date": "2026/10/02",
+      "released_date": "2026/10/05",
       "improvement": [
-        "Align package-format recognition and device split compatibility while preserving signature verification and the complete read-only report"
+        "Align package-format recognition and device split compatibility while preserving signature verification and the complete read-only report",
+        "Android App info icons share Icon Studio artwork and light/dark backgrounds while preserving transparent Plugin Center artwork and existing launcher choices"
       ],
       "dependency": [
         "Added AutoJs6 package-archive-parser (host build 5299)"

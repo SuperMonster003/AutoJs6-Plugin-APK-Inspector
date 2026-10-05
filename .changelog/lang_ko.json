@@ -6,9 +6,10 @@
   "changelog_label_dependency": "의존성",
   "$data": {
     "v1.2.2": {
-      "released_date": "2026/10/02",
+      "released_date": "2026/10/05",
       "improvement": [
-        "패키지 형식 인식과 기기별 분할 APK 호환성 판단을 통일하고 서명 검증과 전체 읽기 전용 보고서를 유지"
+        "패키지 형식 인식과 기기별 분할 APK 호환성 판단을 통일하고 서명 검증과 전체 읽기 전용 보고서를 유지",
+        "Android 앱 정보 아이콘에 Icon Studio의 그림과 밝은 배경 및 어두운 배경을 사용하고 플러그인 센터의 투명 그림과 기존 런처 옵션을 유지"
       ],
       "dependency": [
         "AutoJs6 package-archive-parser 추가 (호스트 build 5299)"
