@@ -135,7 +135,7 @@
     <string name="manifest_search_match_position">%2$d개 중 %1$d번째</string>
     <string name="manifest_search_match_position_truncated">최소 %2$d개 중 %1$d번째</string>
     <string name="manifest_search_no_matches">일치 항목 없음</string>
-    <string name="manifest_title">Android Manifest</string>
+    <string name="manifest_title">Android 매니페스트</string>
     <string name="native_library_abi_limit">[i] ABI 표시 한도: %2$d | 생략한 ABI 디렉터리: %1$d.</string>
     <string name="native_library_apk_partial">[i] 선택된 APK 네이티브 스캔 실패: %1$d | 미스캔: %2$d. 결과는 일부만 반영합니다.</string>
     <string name="native_library_entry_limit">[i] 네이티브 라이브러리 항목 한도: %2$d | 생략: %1$d. 결과는 일부만 반영합니다.</string>

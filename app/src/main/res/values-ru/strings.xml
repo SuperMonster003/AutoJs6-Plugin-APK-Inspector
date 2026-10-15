@@ -130,12 +130,12 @@
     <string name="lineage_role_current">Текущий</string>
     <string name="lineage_role_intermediate">Промежуточный</string>
     <string name="lineage_role_original">Исходный</string>
-    <string name="manifest_compact_title">Manifest</string>
+    <string name="manifest_compact_title">Манифест</string>
     <string name="manifest_search_hint">Найти текст</string>
     <string name="manifest_search_match_position">Совпадение %1$d из %2$d</string>
     <string name="manifest_search_match_position_truncated">Совпадение %1$d как минимум из %2$d</string>
     <string name="manifest_search_no_matches">Совпадений нет</string>
-    <string name="manifest_title">Manifest Android</string>
+    <string name="manifest_title">Манифест Android</string>
     <string name="native_library_abi_limit">[i] Предел отображения ABI: %2$d | пропущено каталогов ABI: %1$d.</string>
     <string name="native_library_apk_partial">[i] Ошибок сканирования выбранных APK: %1$d | не просканировано: %2$d. Результаты частичные.</string>
     <string name="native_library_entry_limit">[i] Предел записей нативных библиотек: %2$d | пропущено: %1$d. Результаты частичные.</string>

@@ -130,12 +130,12 @@
     <string name="lineage_role_current">Actual</string>
     <string name="lineage_role_intermediate">Intermedio</string>
     <string name="lineage_role_original">Original</string>
-    <string name="manifest_compact_title">Manifest</string>
+    <string name="manifest_compact_title">Manifiesto</string>
     <string name="manifest_search_hint">Buscar texto</string>
     <string name="manifest_search_match_position">Coincidencia %1$d de %2$d</string>
     <string name="manifest_search_match_position_truncated">Coincidencia %1$d de al menos %2$d</string>
     <string name="manifest_search_no_matches">Sin coincidencias</string>
-    <string name="manifest_title">Manifest de Android</string>
+    <string name="manifest_title">Manifiesto de Android</string>
     <string name="native_library_abi_limit">[i] Límite de ABI mostradas: %2$d | directorios ABI omitidos: %1$d.</string>
     <string name="native_library_apk_partial">[i] Exámenes nativos de APK seleccionados fallidos: %1$d | no examinados: %2$d. Los resultados son parciales.</string>
     <string name="native_library_entry_limit">[i] Límite de entradas de bibliotecas nativas: %2$d | omitidas: %1$d. Los resultados son parciales.</string>
