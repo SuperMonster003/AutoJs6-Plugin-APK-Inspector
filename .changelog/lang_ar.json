@@ -5,6 +5,12 @@
   "changelog_label_improvement": "تحسين",
   "changelog_label_dependency": "تبعية",
   "$data": {
+    "v1.2.3": {
+      "released_date": "2026/11/07",
+      "improvement": [
+        "في قائمة الملف في AutoJs6 6.8.1 والإصدارات الأحدث, يقع \"فحص حزمة Android\" ضمن القائمة من المستوى الأول \"APK Inspector\" (دون تغيير في إصدارات AutoJs6 الأقدم)"
+      ]
+    },
     "v1.2.2": {
       "released_date": "2026/10/05",
       "improvement": [

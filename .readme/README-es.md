@@ -66,7 +66,7 @@ El informe tiene cuatro secciones: «Detalles del paquete» muestra el nombre de
 
 1. Descarga e instala APK Inspector y actívalo en el centro de plugins de AutoJs6 (se requiere AutoJs6 con código de versión 5277 o superior).
 2. Abre el gestor de archivos de AutoJs6 y localiza el paquete que quieras examinar (APK, APKS, XAPK, APKM, APKZ o AAB).
-3. Toca el archivo o elige «Inspeccionar paquete Android» en su menú; el informe aparece tras un instante.
+3. Toca el archivo o elige "Inspeccionar paquete Android" en su menú (desde AutoJs6 6.8.1, dentro del menú de primer nivel "APK Inspector"); el informe aparece tras un instante.
 4. Recorre el informe de arriba abajo: icono y nombre de la aplicación, detalles del paquete, componentes, permisos solicitados y hallazgos de seguridad y compatibilidad.
 5. Para APKS, XAPK, APKM o APKZ, elige el idioma, la densidad de pantalla y la ABI, y aplica la simulación para comparar los APK seleccionados con el dispositivo real.
 6. Mantén pulsada una fila de «Detalles del paquete» para copiar su valor o toca «Compartir informe» en la barra para enviar el texto exacto de la pantalla mediante el panel de Android.
@@ -145,6 +145,12 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 
 ### Historial de versiones
 
+#### v1.2.3
+
+_2026/11/07_
+
+- `Mejora` En el menú de archivos de AutoJs6 6.8.1 y posteriores, "Inspeccionar paquete Android" está en el menú de primer nivel "APK Inspector" (sin cambios en versiones anteriores de AutoJs6)
+
 #### v1.2.2
 
 _2026/10/05_
@@ -159,13 +165,6 @@ _2026/09/19_
 
 - `Corrección` Advertencias de lectura de SDK XML v4 con AGP 9.1 y comprobaciones de alineación nativa de APK activadas por error al ensamblar pruebas unitarias JVM, mediante los plugins de compilación compartidos 1.8.3
 - `Mejora` compileSdk y targetSdk suben a 37 (Android 17); el comportamiento del plugin no depende del nuevo objetivo
-
-#### v1.2.0
-
-_2026/09/13_
-
-- `Función` Historial de versiones local desde la interfaz con traducciones y alternativa en inglés
-- `Mejora` Comprobación de la firma completa, los APK esperados y la documentación reproducible de cada versión
 
 ##### Historial completo
 

@@ -5,6 +5,12 @@
   "changelog_label_improvement": "Mejora",
   "changelog_label_dependency": "Dependencia",
   "$data": {
+    "v1.2.3": {
+      "released_date": "2026/11/07",
+      "improvement": [
+        "En el menú de archivos de AutoJs6 6.8.1 y posteriores, \"Inspeccionar paquete Android\" está en el menú de primer nivel \"APK Inspector\" (sin cambios en versiones anteriores de AutoJs6)"
+      ]
+    },
     "v1.2.2": {
       "released_date": "2026/10/05",
       "improvement": [

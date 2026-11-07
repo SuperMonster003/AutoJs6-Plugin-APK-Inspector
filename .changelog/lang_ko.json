@@ -5,6 +5,12 @@
   "changelog_label_improvement": "개선",
   "changelog_label_dependency": "의존성",
   "$data": {
+    "v1.2.3": {
+      "released_date": "2026/11/07",
+      "improvement": [
+        "AutoJs6 6.8.1 이상의 파일 메뉴에서 \"Android 패키지 검사\" 항목이 최상위 메뉴 \"APK Inspector\" 아래에 표시됨 (이전 버전의 AutoJs6 에서는 위치가 바뀌지 않음)"
+      ]
+    },
     "v1.2.2": {
       "released_date": "2026/10/05",
       "improvement": [

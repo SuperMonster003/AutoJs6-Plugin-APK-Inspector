@@ -23,6 +23,11 @@ internal object ApkInspectorPlugin {
         "io.github.supermonster003.autojs6.plugin.apkinspector.ExplorerActionActivity"
     const val ACTION_PRIORITY = 120
 
+    // First-level menu of the plugin's actions in the host's file menu (AutoJs6 6.8.1+): the display name, as in
+    // the Plugin Center. Older hosts ignore it, so the catalog keeps its protocol version.
+    const val MENU_GROUP_LABEL_RESOURCE_NAME = "app_name"
+    const val MENU_GROUP_LABEL_FALLBACK = "APK Inspector"
+
     val MIME_TYPES = emptyArray<String>()
     val EXTENSIONS = arrayOf("aab", "apk", "apkm", "apks", "apkz", "xapk")
 
@@ -85,6 +90,8 @@ internal fun apkInspectorActionCatalog(): Bundle {
     }
     return Bundle().apply {
         putInt(ExplorerActionCatalogKeys.PROTOCOL_VERSION, ExplorerActionProtocol.VERSION)
+        putString(ExplorerMenuGroupKeys.RESOURCE_NAME, ApkInspectorPlugin.MENU_GROUP_LABEL_RESOURCE_NAME)
+        putString(ExplorerMenuGroupKeys.FALLBACK, ApkInspectorPlugin.MENU_GROUP_LABEL_FALLBACK)
         putParcelableArrayList(ExplorerActionCatalogKeys.ACTIONS, arrayListOf(
             action(ApkInspectorPlugin.ACTION_ID, ExplorerActionValues.PLACEMENT_PRIMARY),
             action(ApkInspectorPlugin.OVERFLOW_ACTION_ID, ExplorerActionValues.PLACEMENT_OVERFLOW),

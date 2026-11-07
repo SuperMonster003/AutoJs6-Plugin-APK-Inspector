@@ -36,7 +36,7 @@
   "usage_steps": [
     "Download and install APK Inspector, then enable it in the AutoJs6 plugin center (AutoJs6 version code {{ required_host_build }} or later is required).",
     "Open the AutoJs6 file manager and locate the package file you want to examine (APK, APKS, XAPK, APKM, APKZ, or AAB).",
-    "Tap the file, or choose \"Inspect Android package\" from its menu; the inspection report appears after a moment.",
+    "Tap the file, or choose \"Inspect Android package\" from its menu (under the top-level menu \"APK Inspector\" since AutoJs6 6.8.1); the inspection report appears after a moment.",
     "Read the report from top to bottom: app icon and name, package details, components, requested permissions, and security and compatibility findings.",
     "For APKS, XAPK, APKM, or APKZ, choose a language, screen density, and ABI, then apply the simulation to compare the selected APKs with the actual device.",
     "Long-press a row in \"Package details\" to copy its value, or tap \"Share report\" in the toolbar to send the exact on-screen text through the Android Sharesheet.",

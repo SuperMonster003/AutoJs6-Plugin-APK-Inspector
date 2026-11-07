@@ -5,6 +5,12 @@
   "changelog_label_improvement": "優化",
   "changelog_label_dependency": "依賴",
   "$data": {
+    "v1.2.3": {
+      "released_date": "2026/11/07",
+      "improvement": [
+        "AutoJs6 6.8.1 及以上版本的檔案選單中, \"檢查 Android 套件\" 位於一級選單 \"APK Inspector\" 之下 (舊版本 AutoJs6 中位置不變)"
+      ]
+    },
     "v1.2.2": {
       "released_date": "2026/10/05",
       "improvement": [

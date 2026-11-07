@@ -5,6 +5,12 @@
   "changelog_label_improvement": "Улучшение",
   "changelog_label_dependency": "Зависимость",
   "$data": {
+    "v1.2.3": {
+      "released_date": "2026/11/07",
+      "improvement": [
+        "В меню файла AutoJs6 6.8.1 и новее пункт \"Проверить пакет Android\" находится в меню первого уровня \"APK Inspector\" (в более ранних версиях AutoJs6 без изменений)"
+      ]
+    },
     "v1.2.2": {
       "released_date": "2026/10/05",
       "improvement": [

@@ -1,5 +1,11 @@
 # Historial de versiones
 
+## v1.2.3
+
+_2026/11/07_
+
+- `Mejora` En el menú de archivos de AutoJs6 6.8.1 y posteriores, "Inspeccionar paquete Android" está en el menú de primer nivel "APK Inspector" (sin cambios en versiones anteriores de AutoJs6)
+
 ## v1.2.2
 
 _2026/10/05_

@@ -66,7 +66,7 @@ The report has four sections: "Package details" shows the app name, icon, packag
 
 1. Download and install APK Inspector, then enable it in the AutoJs6 plugin center (AutoJs6 version code 5277 or later is required).
 2. Open the AutoJs6 file manager and locate the package file you want to examine (APK, APKS, XAPK, APKM, APKZ, or AAB).
-3. Tap the file, or choose "Inspect Android package" from its menu; the inspection report appears after a moment.
+3. Tap the file, or choose "Inspect Android package" from its menu (under the top-level menu "APK Inspector" since AutoJs6 6.8.1); the inspection report appears after a moment.
 4. Read the report from top to bottom: app icon and name, package details, components, requested permissions, and security and compatibility findings.
 5. For APKS, XAPK, APKM, or APKZ, choose a language, screen density, and ABI, then apply the simulation to compare the selected APKs with the actual device.
 6. Long-press a row in "Package details" to copy its value, or tap "Share report" in the toolbar to send the exact on-screen text through the Android Sharesheet.
@@ -145,6 +145,12 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 
 ### Release history
 
+#### v1.2.3
+
+_2026/11/07_
+
+- `Improvement` "Inspect Android package" now sits under the top-level menu "APK Inspector" in the file menu of AutoJs6 6.8.1 and later (unchanged in older AutoJs6 versions)
+
 #### v1.2.2
 
 _2026/10/05_
@@ -159,13 +165,6 @@ _2026/09/19_
 
 - `Fix` SDK XML v4 parsing warnings with AGP 9.1 and APK native alignment checks incorrectly triggered by JVM unit-test assembly tasks, using shared build plugins 1.8.3
 - `Improvement` Raise compileSdk and targetSdk to 37 (Android 17); the plugin's behavior does not depend on the new target
-
-#### v1.2.0
-
-_2026/09/13_
-
-- `Feature` Local release history is available from the interface, with localized text and an English fallback
-- `Improvement` Release packages are checked for a complete signing configuration, exact APK contents and reproducible documentation
 
 ##### Full history
 

@@ -66,7 +66,7 @@ Le rapport comprend quatre sections : « Détails du paquet » affiche le nom de
 
 1. Téléchargez et installez APK Inspector, puis activez-le dans le centre de plugins d'AutoJs6 (code de version AutoJs6 5277 ou ultérieur requis).
 2. Ouvrez le gestionnaire de fichiers d'AutoJs6 et repérez le paquet à examiner (APK, APKS, XAPK, APKM, APKZ ou AAB).
-3. Touchez le fichier, ou choisissez « Inspecter le paquet Android » dans son menu ; le rapport apparaît après un instant.
+3. Touchez le fichier, ou choisissez "Inspecter le paquet Android" dans son menu (depuis AutoJs6 6.8.1, dans le menu de premier niveau "APK Inspector"); le rapport apparaît après un instant.
 4. Parcourez le rapport de haut en bas : icône et nom de l'application, détails du paquet, composants, autorisations demandées, constats de sécurité et de compatibilité.
 5. Pour un APKS, XAPK, APKM ou APKZ, choisissez la langue, la densité d’écran et l’ABI, puis appliquez la simulation pour comparer les APK sélectionnés à l’appareil réel.
 6. Appuyez longuement sur une ligne des « Détails du paquet » pour copier sa valeur, ou touchez « Partager le rapport » dans la barre d’outils pour envoyer le texte exact affiché via la feuille de partage Android.
@@ -145,6 +145,12 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 
 ### Historique des versions
 
+#### v1.2.3
+
+_2026/11/07_
+
+- `Amélioration` Dans le menu de fichier d'AutoJs6 6.8.1 et versions ultérieures, "Inspecter le paquet Android" se trouve dans le menu de premier niveau "APK Inspector" (inchangé dans les versions antérieures d'AutoJs6)
+
 #### v1.2.2
 
 _2026/10/05_
@@ -159,13 +165,6 @@ _2026/09/19_
 
 - `Correctif` Avertissements de lecture SDK XML v4 avec AGP 9.1 et contrôles d'alignement natif des APK déclenchés par erreur lors de l'assemblage des tests unitaires JVM, avec les plugins de compilation partagés 1.8.3
 - `Amélioration` compileSdk et targetSdk passent à 37 (Android 17) ; le comportement du plugin ne dépend pas de la nouvelle cible
-
-#### v1.2.0
-
-_2026/09/13_
-
-- `Fonctionnalité` Historique local accessible depuis l'interface, avec traductions et repli en anglais
-- `Amélioration` Vérification de la signature complète, des APK attendus et de la reproductibilité de la documentation
 
 ##### Historique complet
 
