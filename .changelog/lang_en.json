@@ -7,6 +7,9 @@
   "$data": {
     "v1.2.3": {
       "released_date": "2026/11/07",
+      "fix": [
+        "\"Inspect Android package\" in the file menu showing in English in all languages"
+      ],
       "improvement": [
         "\"Inspect Android package\" now sits under the top-level menu \"APK Inspector\" in the file menu of AutoJs6 6.8.1 and later (unchanged in older AutoJs6 versions)"
       ]

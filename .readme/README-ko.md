@@ -149,6 +149,7 @@ required host build: 5277
 
 _2026/11/07_
 
+- `수정` 파일 메뉴의 "Android 패키지 검사" 항목이 영어 이외의 언어에서도 영어 "Inspect Android package" 로 표시되는 문제
 - `개선` AutoJs6 6.8.1 이상의 파일 메뉴에서 "Android 패키지 검사" 항목이 최상위 메뉴 "APK Inspector" 아래에 표시됨 (이전 버전의 AutoJs6 에서는 위치가 바뀌지 않음)
 
 #### v1.2.2

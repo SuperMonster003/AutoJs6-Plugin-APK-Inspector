@@ -4,6 +4,7 @@
 
 _2026/11/07_
 
+- `修復` 檔案選單中 "檢查 Android 套件" 在英文以外的語言下仍顯示為英文 "Inspect Android package" 的問題
 - `優化` AutoJs6 6.8.1 及以上版本的檔案選單中, "檢查 Android 套件" 位於第一層選單 "APK Inspector" 之下 (舊版 AutoJs6 中位置不變)
 
 ## v1.2.2

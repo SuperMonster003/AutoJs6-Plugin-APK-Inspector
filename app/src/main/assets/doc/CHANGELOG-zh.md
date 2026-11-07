@@ -4,6 +4,7 @@
 
 _2026/11/07_
 
+- `修复` 文件菜单中 "检查 Android 软件包" 在英文以外的语言下仍显示为英文 "Inspect Android package" 的问题
 - `优化` AutoJs6 6.8.1 及以上版本的文件菜单中, "检查 Android 软件包" 位于一级菜单 "APK Inspector" 之下 (旧版本 AutoJs6 中位置不变)
 
 ## v1.2.2

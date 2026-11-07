@@ -7,6 +7,9 @@
   "$data": {
     "v1.2.3": {
       "released_date": "2026/11/07",
+      "fix": [
+        "ファイルメニューの \"Androidパッケージを検査\" が英語以外の言語でも英語の \"Inspect Android package\" と表示される問題"
+      ],
       "improvement": [
         "AutoJs6 6.8.1 以降のファイルメニューでは, \"Androidパッケージを検査\" を最上位メニュー \"APK Inspector\" の中に表示 (以前の AutoJs6 では位置は変わらない)"
       ]

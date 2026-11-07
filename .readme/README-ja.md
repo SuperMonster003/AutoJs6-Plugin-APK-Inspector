@@ -149,6 +149,7 @@ required host build: 5277
 
 _2026/11/07_
 
+- `修正` ファイルメニューの "Androidパッケージを検査" が英語以外の言語でも英語の "Inspect Android package" と表示される問題
 - `改善` AutoJs6 6.8.1 以降のファイルメニューでは, "Androidパッケージを検査" を最上位メニュー "APK Inspector" の中に表示 (以前の AutoJs6 では位置は変わらない)
 
 #### v1.2.2

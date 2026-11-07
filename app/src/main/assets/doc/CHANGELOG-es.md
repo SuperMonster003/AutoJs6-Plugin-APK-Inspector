@@ -4,6 +4,7 @@
 
 _2026/11/07_
 
+- `Corrección` "Inspeccionar paquete Android" se mostraba en inglés ("Inspect Android package") en el menú de archivos en todos los idiomas
 - `Mejora` En el menú de archivos de AutoJs6 6.8.1 y posteriores, "Inspeccionar paquete Android" está en el menú de primer nivel "APK Inspector" (sin cambios en versiones anteriores de AutoJs6)
 
 ## v1.2.2

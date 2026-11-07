@@ -4,6 +4,7 @@
 
 _2026/11/07_
 
+- `Fix` "Inspect Android package" in the file menu showing in English in all languages
 - `Improvement` "Inspect Android package" now sits under the top-level menu "APK Inspector" in the file menu of AutoJs6 6.8.1 and later (unchanged in older AutoJs6 versions)
 
 ## v1.2.2
