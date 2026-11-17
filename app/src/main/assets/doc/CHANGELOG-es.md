@@ -1,5 +1,11 @@
 # Historial de versiones
 
+## v1.2.4
+
+_2026/11/17_
+
+- `Mejora` Icono del plugin rediseñado como una figura de un solo color sobre fondo transparente, bien visible en los temas claro y oscuro
+
 ## v1.2.3
 
 _2026/11/07_

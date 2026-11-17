@@ -3,6 +3,7 @@
 <div align="center">
   <p>
     <picture>
+      <source srcset="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap-night/ic_launcher.png?raw=true" media="(prefers-color-scheme: dark)" />
       <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
     </picture>
   </p>
@@ -145,6 +146,12 @@ required host build: 5277
 
 ### 版本记录
 
+#### v1.2.4
+
+_2026/11/17_
+
+- `优化` 插件图标重新设计为透明背景的单色图案, 在亮色与暗色主题下都清晰可辨
+
 #### v1.2.3
 
 _2026/11/07_
@@ -159,13 +166,6 @@ _2026/10/05_
 - `优化` 统一安装包格式识别与设备分包兼容性判断, 保留签名验证和完整只读检查报告
 - `优化` Android 系统应用信息图标与图标工作台共用图稿和亮暗底色, 保留插件中心透明图稿及现有启动器选项
 - `依赖` 附加 AutoJs6 package-archive-parser (宿主 build 5299)
-
-#### v1.2.1
-
-_2026/09/19_
-
-- `修复` AGP 9.1 构建时的 SDK XML v4 解析警告, 以及 JVM 单元测试误触发 APK 原生库对齐检查的问题 (共享构建插件 1.8.3)
-- `优化` compileSdk/targetSdk 升级至 37 (Android 17)
 
 ##### 完整记录
 

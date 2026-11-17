@@ -3,6 +3,7 @@
 <div align="center">
   <p>
     <picture>
+      <source srcset="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap-night/ic_launcher.png?raw=true" media="(prefers-color-scheme: dark)" />
       <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
     </picture>
   </p>
@@ -145,6 +146,12 @@ required host build: 5277
 
 ### リリース履歴
 
+#### v1.2.4
+
+_2026/11/17_
+
+- `改善` プラグインのアイコンを透明な背景の単色の図案に作り直し, ライトテーマとダークテーマのどちらでも見やすく
+
 #### v1.2.3
 
 _2026/11/07_
@@ -159,13 +166,6 @@ _2026/10/05_
 - `改善` パッケージ形式の認識とデバイスに適合する分割 APK の判定を統一し, 署名検証と完全な読み取り専用レポートを維持
 - `改善` Android のアプリ情報アイコンに Icon Studio と共通の図案と明暗の背景色を使用し, プラグインセンターの透明な図案と既存のランチャー設定を維持
 - `依存関係` AutoJs6 package-archive-parser を追加 (ホスト build 5299)
-
-#### v1.2.1
-
-_2026/09/19_
-
-- `修正` 共有ビルドプラグイン 1.8.3 により, AGP 9.1 での SDK XML v4 解析警告と, JVM 単体テストの組み立て時に APK ネイティブライブラリのアラインメント検証が誤って実行される問題
-- `改善` compileSdk と targetSdk を 37 (Android 17) に引き上げ, プラグインの動作は新しいターゲットの影響を受けない
 
 ##### 全履歴
 

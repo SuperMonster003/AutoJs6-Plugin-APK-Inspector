@@ -3,6 +3,7 @@
 <div align="center">
   <p>
     <picture>
+      <source srcset="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap-night/ic_launcher.png?raw=true" media="(prefers-color-scheme: dark)" />
       <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
     </picture>
   </p>
@@ -145,6 +146,12 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 
 ### Historial de versiones
 
+#### v1.2.4
+
+_2026/11/17_
+
+- `Mejora` Icono del plugin rediseñado como una figura de un solo color sobre fondo transparente, bien visible en los temas claro y oscuro
+
 #### v1.2.3
 
 _2026/11/07_
@@ -159,13 +166,6 @@ _2026/10/05_
 - `Mejora` Unifica el reconocimiento de formatos y la compatibilidad de APK divididos con el dispositivo, conservando la verificación de firmas y el informe completo de solo lectura
 - `Mejora` Los iconos de información de la aplicación de Android comparten las imágenes y los fondos claros y oscuros de Icon Studio, conservando las imágenes transparentes del centro de plugins y las opciones del lanzador
 - `Dependencia` Se agrega AutoJs6 package-archive-parser (host build 5299)
-
-#### v1.2.1
-
-_2026/09/19_
-
-- `Corrección` Advertencias de lectura de SDK XML v4 con AGP 9.1 y comprobaciones de alineación nativa de APK activadas por error al ensamblar pruebas unitarias JVM, mediante los plugins de compilación compartidos 1.8.3
-- `Mejora` compileSdk y targetSdk suben a 37 (Android 17); el comportamiento del plugin no depende del nuevo objetivo
 
 ##### Historial completo
 

@@ -3,6 +3,7 @@
 <div align="center">
   <p>
     <picture>
+      <source srcset="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap-night/ic_launcher.png?raw=true" media="(prefers-color-scheme: dark)" />
       <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
     </picture>
   </p>
@@ -145,6 +146,12 @@ required host build: 5277
 
 ### 릴리스 기록
 
+#### v1.2.4
+
+_2026/11/17_
+
+- `개선` 플러그인 아이콘을 투명 배경의 단색 그림으로 새로 디자인하여 밝은 테마와 어두운 테마 모두에서 잘 보이도록 함
+
 #### v1.2.3
 
 _2026/11/07_
@@ -159,13 +166,6 @@ _2026/10/05_
 - `개선` 패키지 형식 인식과 기기별 분할 APK 호환성 판단을 통일하고 서명 검증과 전체 읽기 전용 보고서를 유지
 - `개선` Android 앱 정보 아이콘에 Icon Studio의 그림과 밝은 배경 및 어두운 배경을 사용하고 플러그인 센터의 투명 그림과 기존 런처 옵션을 유지
 - `의존성` AutoJs6 package-archive-parser 추가 (호스트 build 5299)
-
-#### v1.2.1
-
-_2026/09/19_
-
-- `수정` 공유 빌드 플러그인 1.8.3을 통해 AGP 9.1의 SDK XML v4 파싱 경고 및 JVM 단위 테스트 조립 작업에서 APK 네이티브 라이브러리 정렬 검사가 잘못 실행되는 문제 해결
-- `개선` compileSdk 와 targetSdk 를 37 (Android 17) 로 올리며, 플러그인 동작은 새 대상 버전의 영향을 받지 않음
 
 ##### 전체 기록
 

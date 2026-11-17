@@ -1,5 +1,11 @@
 # Release history
 
+## v1.2.4
+
+_2026/11/17_
+
+- `Improvement` Redesigned the plugin icon as a single-color glyph on a transparent background that stays clear in both light and dark themes
+
 ## v1.2.3
 
 _2026/11/07_

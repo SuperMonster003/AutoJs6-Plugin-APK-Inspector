@@ -3,6 +3,7 @@
 <div align="center">
   <p>
     <picture>
+      <source srcset="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap-night/ic_launcher.png?raw=true" media="(prefers-color-scheme: dark)" />
       <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
     </picture>
   </p>
@@ -145,6 +146,12 @@ required host build: 5277
 
 ### История версий
 
+#### v1.2.4
+
+_2026/11/17_
+
+- `Улучшение` Значок плагина перерисован в виде одноцветного изображения на прозрачном фоне и хорошо различим в светлой и тёмной темах
+
 #### v1.2.3
 
 _2026/11/07_
@@ -159,13 +166,6 @@ _2026/10/05_
 - `Улучшение` Унифицированы распознавание форматов пакетов и проверка совместимости раздельных APK с устройством, с сохранением проверки подписей и полного отчета только для чтения
 - `Улучшение` Значки в сведениях о приложении Android используют изображения и светлый и тёмный фон Icon Studio, сохраняя прозрачные изображения центра плагинов и существующие варианты значков лаунчера
 - `Зависимость` Добавлен AutoJs6 package-archive-parser (хост build 5299)
-
-#### v1.2.1
-
-_2026/09/19_
-
-- `Исправление` Предупреждения чтения SDK XML v4 с AGP 9.1 и ошибочный запуск проверки выравнивания нативных библиотек APK при сборке модульных тестов JVM, устраненные общими плагинами сборки 1.8.3
-- `Улучшение` Подняты compileSdk и targetSdk до 37 (Android 17); поведение плагина не зависит от нового целевого уровня
 
 ##### Полная история
 

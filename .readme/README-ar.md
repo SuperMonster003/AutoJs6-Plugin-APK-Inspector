@@ -3,6 +3,7 @@
 <div align="center">
   <p>
     <picture>
+      <source srcset="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap-night/ic_launcher.png?raw=true" media="(prefers-color-scheme: dark)" />
       <img src="https://github.com/SuperMonster003/AutoJs6-Plugin-APK-Inspector/blob/master/app/src/main/res/mipmap/ic_launcher.png?raw=true" alt="autojs6-plugin-apk-inspector-ic-launcher" border="0" width="128" />
     </picture>
   </p>
@@ -145,6 +146,12 @@ required host build: 5277
 
 ### سجل الإصدارات
 
+#### v1.2.4
+
+_2026/11/17_
+
+- `تحسين` أُعيد تصميم أيقونة الملحق كرسم بلون واحد على خلفية شفافة يظهر بوضوح في السمتين الفاتحة والداكنة
+
 #### v1.2.3
 
 _2026/11/07_
@@ -159,13 +166,6 @@ _2026/10/05_
 - `تحسين` توحيد التعرف على صيغ الحزم وتوافق حزم APK المقسمة مع الجهاز مع الحفاظ على التحقق من التوقيع والتقرير الكامل للقراءة فقط
 - `تحسين` تستخدم أيقونات معلومات التطبيق في Android صور Icon Studio وخلفياته الفاتحة والداكنة مع الحفاظ على الصور الشفافة في مركز الملحقات وخيارات المشغل الحالية
 - `تبعية` إضافة AutoJs6 package-archive-parser (المضيف build 5299)
-
-#### v1.2.1
-
-_2026/09/19_
-
-- `إصلاح` تحذيرات قراءة SDK XML v4 مع AGP 9.1 وتشغيل فحص محاذاة مكتبات APK الأصلية خطأ عند تجميع اختبارات JVM, باستخدام إضافات البناء المشتركة 1.8.3
-- `تحسين` رفع compileSdk و targetSdk إلى 37 (Android 17)؛ لا يعتمد سلوك المكون الإضافي على الهدف الجديد
 
 ##### السجل الكامل
 
