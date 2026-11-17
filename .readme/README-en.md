@@ -148,7 +148,7 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 
 #### v1.2.4
 
-_2026/11/17_
+_2026/11/18_
 
 - `Improvement` Redesigned the plugin icon as a single-color glyph on a transparent background that stays clear in both light and dark themes
 

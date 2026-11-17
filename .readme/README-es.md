@@ -148,7 +148,7 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 
 #### v1.2.4
 
-_2026/11/17_
+_2026/11/18_
 
 - `Mejora` Icono del plugin rediseñado como una figura de un solo color sobre fondo transparente, bien visible en los temas claro y oscuro
 
