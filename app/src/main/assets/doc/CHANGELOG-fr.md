@@ -1,5 +1,14 @@
 # Historique des versions
 
+## v1.2.6
+
+###### 2026/11/20
+
+* `Amélioration` L'historique des versions est désormais une page à part au lieu d'une boîte de dialogue affichant le texte brut, et se développe ou se réduit par version: une version réduite affiche sa date et le nombre d'entrées par catégorie, une version développée ne nomme chaque catégorie qu'une fois; toutes les versions peuvent être développées ou réduites d'un coup, la plus récente s'ouvre développée et le sous-titre affiche le nom du plugin
+* `Amélioration` Réécriture des instructions affichées dans le Centre des plugins en quatre parties: prise en main, fonctionnalités principales, prérequis et questions fréquentes
+* `Dépendance` Ajout de Jetpack Compose BOM 2026.09.00 (page Historique des versions)
+* `Dépendance` Mise à niveau des plugins de compilation partagés version 1.9.0 -> 1.9.1
+
 ## v1.2.5
 
 ###### 2026/11/19
