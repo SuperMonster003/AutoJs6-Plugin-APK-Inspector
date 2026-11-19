@@ -1,5 +1,11 @@
 # Historique des versions
 
+## v1.2.5
+
+_2026/11/19_
+
+- `Correctif` Le plugin plantait avant d'afficher le rapport d'inspection, depuis "Inspecter le paquet Android" dans le menu de fichier comme à l'ouverture d'un paquet depuis une autre application (1.1.0 - 1.2.4)
+
 ## v1.2.4
 
 _2026/11/18_

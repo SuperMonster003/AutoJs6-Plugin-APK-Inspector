@@ -1,5 +1,11 @@
 # Release history
 
+## v1.2.5
+
+_2026/11/19_
+
+- `Fix` The plugin crashing before showing the inspection report, both from "Inspect Android package" in the file menu and when opening a package from another app (1.1.0 - 1.2.4)
+
 ## v1.2.4
 
 _2026/11/18_

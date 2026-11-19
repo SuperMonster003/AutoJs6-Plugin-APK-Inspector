@@ -1,5 +1,11 @@
 # Historial de versiones
 
+## v1.2.5
+
+_2026/11/19_
+
+- `Corrección` El plugin se cerraba inesperadamente antes de mostrar el informe de inspección, tanto desde "Inspeccionar paquete Android" en el menú de archivos como al abrir un paquete desde otra aplicación (1.1.0 - 1.2.4)
+
 ## v1.2.4
 
 _2026/11/18_

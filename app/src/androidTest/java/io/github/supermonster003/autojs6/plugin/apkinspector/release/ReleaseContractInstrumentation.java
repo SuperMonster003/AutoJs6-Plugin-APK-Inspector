@@ -95,14 +95,30 @@ public final class ReleaseContractInstrumentation extends Instrumentation {
                 } finally { parcel.recycle(); }
             } finally { context.unbindService(connection); }
             passed++;
+
+            // The AppCompat screens inflate their window through LayoutInflater.Factory2. A renamed
+            // framework class copy (ARSCLib's android.util.AttributeSet, 1.1.0 - 1.2.4) broke that
+            // override in R8 builds and crashed this process with AbstractMethodError here.
+            for (String screen : new String[] {
+                    "io.github.supermonster003.autojs6.plugin.apkinspector.ApkInspectorActivity",
+                    "io.github.supermonster003.autojs6.plugin.apkinspector.ManifestViewerActivity",
+            }) {
+                Activity started = startActivitySync(new Intent(Intent.ACTION_MAIN)
+                        .setClassName(context.getPackageName(), screen)
+                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                check(started != null && screen.equals(started.getClass().getName()), "Screen did not start: " + screen);
+                runOnMainSync(started::finish);
+                waitForIdleSync();
+            }
+            passed++;
             result.putString("releaseFailures", "0");
-            result.putString("stream", "Release APK/Wake and service metadata/Parcelable checks passed.\n");
+            result.putString("stream", "Release APK/Wake, service metadata/Parcelable and screen inflation checks passed.\n");
         } catch (Throwable failure) {
             result.putString("releaseFailures", "1");
             result.putString("stream", failure.getClass().getName() + ": " + failure.getMessage() + "\n");
         }
         result.putString("releaseChecks", Integer.toString(passed));
-        finish(passed == 2 ? Activity.RESULT_OK : Activity.RESULT_CANCELED, result);
+        finish(passed == 3 ? Activity.RESULT_OK : Activity.RESULT_CANCELED, result);
     }
 
     private static void check(boolean condition, String message) {

@@ -146,6 +146,12 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 
 ### Release history
 
+#### v1.2.5
+
+_2026/11/19_
+
+- `Fix` The plugin crashing before showing the inspection report, both from "Inspect Android package" in the file menu and when opening a package from another app (1.1.0 - 1.2.4)
+
 #### v1.2.4
 
 _2026/11/18_
@@ -158,14 +164,6 @@ _2026/11/07_
 
 - `Fix` "Inspect Android package" in the file menu showing in English in all languages
 - `Improvement` "Inspect Android package" now sits under the top-level menu "APK Inspector" in the file menu of AutoJs6 6.8.1 and later (unchanged in older AutoJs6 versions)
-
-#### v1.2.2
-
-_2026/10/05_
-
-- `Improvement` Align package-format recognition and device split compatibility while preserving signature verification and the complete read-only report
-- `Improvement` Android App info icons share Icon Studio artwork and light/dark backgrounds while preserving transparent Plugin Center artwork and existing launcher choices
-- `Dependency` Added AutoJs6 package-archive-parser (host build 5299)
 
 ##### Full history
 

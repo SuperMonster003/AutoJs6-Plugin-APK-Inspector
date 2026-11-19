@@ -5,6 +5,12 @@
   "changelog_label_improvement": "Amélioration",
   "changelog_label_dependency": "Dépendance",
   "$data": {
+    "v1.2.5": {
+      "released_date": "2026/11/19",
+      "fix": [
+        "Le plugin plantait avant d'afficher le rapport d'inspection, depuis \"Inspecter le paquet Android\" dans le menu de fichier comme à l'ouverture d'un paquet depuis une autre application (1.1.0 - 1.2.4)"
+      ]
+    },
     "v1.2.4": {
       "released_date": "2026/11/18",
       "improvement": [

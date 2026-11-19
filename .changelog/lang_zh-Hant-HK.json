@@ -5,6 +5,12 @@
   "changelog_label_improvement": "優化",
   "changelog_label_dependency": "依賴",
   "$data": {
+    "v1.2.5": {
+      "released_date": "2026/11/19",
+      "fix": [
+        "外掛程式在顯示檢查報告前崩潰退出的問題, 檔案選單的 \"檢查 Android 套件\" 與從其他應用程式開啟套件均受影響 (1.1.0 - 1.2.4)"
+      ]
+    },
     "v1.2.4": {
       "released_date": "2026/11/18",
       "improvement": [
