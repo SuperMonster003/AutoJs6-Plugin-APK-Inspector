@@ -1,44 +1,110 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.widget.ScrollView
-import android.widget.TextView
+import android.content.Context
+import android.content.Intent
 import java.io.IOException
+import java.util.Locale
 
-internal fun releaseHistoryCandidates(language: String, country: String, script: String): List<String> {
-    val code = when {
-        language == "zh" && country == "HK" -> "zh-Hant-HK"
-        language == "zh" && (country == "TW" || script == "Hant") -> "zh-Hant-TW"
-        language == "zh" -> "zh-Hans"
-        language in setOf("en", "ar", "es", "fr", "ja", "ko", "ru") -> language
-        else -> "en"
-    }
-    return listOf("doc/CHANGELOG-$code.md", "doc/CHANGELOG-en.md").distinct()
+/** Opens the release history page; the top bar menu leads here instead of the old dialog with the raw markdown. */
+internal fun Context.openReleaseHistory() {
+    startActivity(Intent(this, ReleaseHistoryActivity::class.java))
 }
 
-internal fun loadReleaseHistory(candidates: List<String>, loader: (String) -> String): String? {
+/**
+ * Returns the releases of the first candidate asset that holds at least one, so a missing, blank or unparsable
+ * localized changelog falls back to the English one; empty when none of them does (the page shows its empty state).
+ */
+internal fun loadReleaseHistory(candidates: List<String>, loader: (String) -> String): List<ReleaseHistoryEntry> {
     for (path in candidates) {
-        try { loader(path).takeIf { it.isNotBlank() }?.let { return it } } catch (_: IOException) { }
+        val markdown = try { loader(path) } catch (_: IOException) { continue }
+        val entries = ReleaseHistoryParser.parse(markdown)
+        if (entries.isNotEmpty()) return entries
     }
-    return null
+    return emptyList()
 }
 
-internal fun Activity.showReleaseHistory() {
-    val locale = resources.configuration.locales[0]
-    val history = loadReleaseHistory(releaseHistoryCandidates(locale.language, locale.country, locale.script)) { path ->
-        assets.open(path).bufferedReader(Charsets.UTF_8).use { it.readText() }
-    } ?: getString(R.string.release_history_unavailable)
-    val content = TextView(this).apply {
-        text = history
-        textSize = 14f
-        setTextIsSelectable(true)
-        val padding = (20 * resources.displayMetrics.density).toInt()
-        setPadding(padding, padding, padding, padding)
+/** Maps the UI locale to the bundled changelog asset shipped for it. */
+internal object ReleaseHistoryAssetPolicy {
+    fun assetFor(locale: Locale): String = when (locale.language.lowercase(Locale.ROOT)) {
+        "zh" -> when {
+            locale.script.equals("Hans", ignoreCase = true) -> "CHANGELOG-zh-Hans.md"
+            locale.country.equals("HK", ignoreCase = true) ||
+                locale.country.equals("MO", ignoreCase = true) -> "CHANGELOG-zh-Hant-HK.md"
+            locale.script.equals("Hant", ignoreCase = true) ||
+                locale.country.equals("TW", ignoreCase = true) -> "CHANGELOG-zh-Hant-TW.md"
+            else -> "CHANGELOG-zh-Hans.md"
+        }
+        "ar", "es", "fr", "ja", "ko", "ru" -> "CHANGELOG-${locale.language.lowercase(Locale.ROOT)}.md"
+        else -> FALLBACK
     }
-    AlertDialog.Builder(this)
-        .setTitle(R.string.release_history)
-        .setView(ScrollView(this).apply { addView(content) })
-        .setPositiveButton(android.R.string.ok, null)
-        .show()
+
+    /** The asset paths to try in order: the one for [locale], then English. */
+    fun candidatesFor(locale: Locale): List<String> =
+        listOf(assetFor(locale), FALLBACK).distinct().map { "doc/$it" }
+
+    private const val FALLBACK = "CHANGELOG-en.md"
+}
+
+internal data class ReleaseHistoryItem(val tag: String?, val text: String)
+
+internal data class ReleaseHistoryEntry(
+    val version: String,
+    val date: String?,
+    val items: List<ReleaseHistoryItem>,
+) {
+    /** The items by category, each category once, in the order the categories first appear (untagged: tag null). */
+    val groups: List<ReleaseHistoryGroup>
+        get() = items.groupBy { it.tag }.map { (tag, grouped) -> ReleaseHistoryGroup(tag, grouped.map { it.text }) }
+
+    /** How many items each category has, in the same order; untagged items are not counted. */
+    val categoryCounts: List<Pair<String, Int>>
+        get() = groups.mapNotNull { group -> group.tag?.let { it to group.items.size } }
+}
+
+internal data class ReleaseHistoryGroup(val tag: String?, val items: List<String>)
+
+/**
+ * Parses the narrow markdown dialect used by the bundled changelogs: `# vX.Y.Z` or `## vX.Y.Z` version
+ * headings, `###### date` lines, and `` * `tag` text `` bullets. Anything else (the section title, the
+ * separator lines) is ignored.
+ */
+internal object ReleaseHistoryParser {
+    private val BULLET_PATTERN = Regex("^\\*\\s+(?:`([^`]+)`\\s*)?(.*)$")
+    private val VERSION_PATTERN = Regex("^#{1,2}\\s+(v\\S+)\\s*$")
+
+    fun parse(markdown: String): List<ReleaseHistoryEntry> {
+        val entries = mutableListOf<ReleaseHistoryEntry>()
+        var version: String? = null
+        var date: String? = null
+        var items = mutableListOf<ReleaseHistoryItem>()
+
+        fun flush() {
+            val flushedVersion = version ?: return
+            entries.add(ReleaseHistoryEntry(flushedVersion, date, items.toList()))
+        }
+
+        for (rawLine in markdown.lineSequence()) {
+            val line = rawLine.trim()
+            val versionMatch = VERSION_PATTERN.matchEntire(line)
+            when {
+                versionMatch != null -> {
+                    flush()
+                    version = versionMatch.groupValues[1]
+                    date = null
+                    items = mutableListOf()
+                }
+                line.startsWith("###### ") -> date = line.removePrefix("###### ").trim()
+                line.startsWith("* ") && version != null -> {
+                    val match = BULLET_PATTERN.matchEntire(line) ?: continue
+                    val tag = match.groupValues[1].takeIf { it.isNotEmpty() }
+                    val text = match.groupValues[2].trim()
+                    if (tag != null || text.isNotEmpty()) {
+                        items.add(ReleaseHistoryItem(tag, text))
+                    }
+                }
+            }
+        }
+        flush()
+        return entries
+    }
 }

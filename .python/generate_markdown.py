@@ -104,12 +104,12 @@ def format_changelog_items(changelog, limit=None, heading_level=2):
         lines = [
             f"{heading} {version_name}",
             "",
-            f"_{item['released_date']}_",
+            f"###### {item['released_date']}",
             "",
         ]
         for category in ["hint", "feature", "fix", "improvement", "dependency"]:
             for text in item.get(category, []):
-                lines.append(f"- `{values[f'changelog_label_{category}']}` {text}")
+                lines.append(f"* `{values[f'changelog_label_{category}']}` {text}")
         chunks.append("\n".join(lines).rstrip())
     return "\n\n".join(chunks).rstrip() + "\n"
 

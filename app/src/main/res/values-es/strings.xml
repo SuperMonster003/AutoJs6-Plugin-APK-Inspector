@@ -173,7 +173,11 @@
     <string name="permission_runtime_description_fallback">Este permiso puede acceder a datos o acciones sensibles después de la aprobación del usuario.</string>
     <string name="plugin_description">Inspecciona paquetes de instalación y su contenido</string>
     <string name="release_history">Historial de versiones</string>
-    <string name="release_history_unavailable">El historial de versiones no está disponible</string>
+    <string name="release_history_collapse_all">Contraer todo</string>
+    <string name="release_history_collapsed">Contraído</string>
+    <string name="release_history_expand_all">Expandir todo</string>
+    <string name="release_history_expanded">Expandido</string>
+    <string name="release_history_load_failed">No se pudo cargar el historial de versiones</string>
     <string name="report_field_copied">Copiado al portapapeles</string>
     <string name="report_field_copy_description">%1$s. Mantén pulsado para copiar este valor.</string>
     <string name="report_share_subject">Informe de inspección de APK: %1$s</string>

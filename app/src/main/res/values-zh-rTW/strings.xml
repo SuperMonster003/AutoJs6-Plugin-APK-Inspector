@@ -173,7 +173,11 @@
     <string name="permission_runtime_description_fallback">此權限經使用者核准後, 可存取敏感資料或執行敏感操作.</string>
     <string name="plugin_description">檢查安裝套件及其內容</string>
     <string name="release_history">發行歷史</string>
-    <string name="release_history_unavailable">發行歷史暫不可用</string>
+    <string name="release_history_collapse_all">收起全部</string>
+    <string name="release_history_collapsed">已收起</string>
+    <string name="release_history_expand_all">展開全部</string>
+    <string name="release_history_expanded">已展開</string>
+    <string name="release_history_load_failed">無法載入發行歷史</string>
     <string name="report_field_copied">已複製到剪貼簿</string>
     <string name="report_field_copy_description">%1$s.長按可複製此值.</string>
     <string name="report_share_subject">APK 檢查報告: %1$s</string>

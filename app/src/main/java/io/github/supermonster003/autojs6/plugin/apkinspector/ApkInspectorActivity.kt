@@ -72,7 +72,7 @@ class ApkInspectorActivity : AppCompatActivity() {
         binding.toolbar.menu.findItem(R.id.action_share_report).isEnabled = false
         binding.toolbar.setOnMenuItemClickListener { item ->
             if (item.itemId == R.id.action_release_history) {
-                showReleaseHistory()
+                openReleaseHistory()
                 return@setOnMenuItemClickListener true
             }
             if (item.itemId != R.id.action_share_report) return@setOnMenuItemClickListener false

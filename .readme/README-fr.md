@@ -148,22 +148,22 @@ Les capacités ci-dessus et les éléments cochés de la Roadmap reflètent l'ex
 
 #### v1.2.5
 
-_2026/11/19_
+###### 2026/11/19
 
-- `Correctif` Le plugin plantait avant d'afficher le rapport d'inspection, depuis "Inspecter le paquet Android" dans le menu de fichier comme à l'ouverture d'un paquet depuis une autre application (1.1.0 - 1.2.4)
+* `Correctif` Le plugin plantait avant d'afficher le rapport d'inspection, depuis "Inspecter le paquet Android" dans le menu de fichier comme à l'ouverture d'un paquet depuis une autre application (1.1.0 - 1.2.4)
 
 #### v1.2.4
 
-_2026/11/18_
+###### 2026/11/18
 
-- `Amélioration` Icône du plugin redessinée en un motif monochrome sur fond transparent, bien lisible avec les thèmes clair et sombre
+* `Amélioration` Icône du plugin redessinée en un motif monochrome sur fond transparent, bien lisible avec les thèmes clair et sombre
 
 #### v1.2.3
 
-_2026/11/07_
+###### 2026/11/07
 
-- `Correctif` "Inspecter le paquet Android" affiché en anglais ("Inspect Android package") dans le menu de fichier quelle que soit la langue
-- `Amélioration` Dans le menu de fichier d'AutoJs6 6.8.1 et versions ultérieures, "Inspecter le paquet Android" se trouve dans le menu de premier niveau "APK Inspector" (inchangé dans les versions antérieures d'AutoJs6)
+* `Correctif` "Inspecter le paquet Android" affiché en anglais ("Inspect Android package") dans le menu de fichier quelle que soit la langue
+* `Amélioration` Dans le menu de fichier d'AutoJs6 6.8.1 et versions ultérieures, "Inspecter le paquet Android" se trouve dans le menu de premier niveau "APK Inspector" (inchangé dans les versions antérieures d'AutoJs6)
 
 ##### Historique complet
 

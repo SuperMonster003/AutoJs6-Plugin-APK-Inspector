@@ -148,22 +148,22 @@ The capabilities above and the checked Roadmap items reflect what is implemented
 
 #### v1.2.5
 
-_2026/11/19_
+###### 2026/11/19
 
-- `Fix` The plugin crashing before showing the inspection report, both from "Inspect Android package" in the file menu and when opening a package from another app (1.1.0 - 1.2.4)
+* `Fix` The plugin crashing before showing the inspection report, both from "Inspect Android package" in the file menu and when opening a package from another app (1.1.0 - 1.2.4)
 
 #### v1.2.4
 
-_2026/11/18_
+###### 2026/11/18
 
-- `Improvement` Redesigned the plugin icon as a single-color glyph on a transparent background that stays clear in both light and dark themes
+* `Improvement` Redesigned the plugin icon as a single-color glyph on a transparent background that stays clear in both light and dark themes
 
 #### v1.2.3
 
-_2026/11/07_
+###### 2026/11/07
 
-- `Fix` "Inspect Android package" in the file menu showing in English in all languages
-- `Improvement` "Inspect Android package" now sits under the top-level menu "APK Inspector" in the file menu of AutoJs6 6.8.1 and later (unchanged in older AutoJs6 versions)
+* `Fix` "Inspect Android package" in the file menu showing in English in all languages
+* `Improvement` "Inspect Android package" now sits under the top-level menu "APK Inspector" in the file menu of AutoJs6 6.8.1 and later (unchanged in older AutoJs6 versions)
 
 ##### Full history
 

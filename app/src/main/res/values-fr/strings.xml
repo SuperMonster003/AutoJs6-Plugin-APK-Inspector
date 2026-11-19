@@ -173,7 +173,11 @@
     <string name="permission_runtime_description_fallback">Cette autorisation peut accéder à des données ou actions sensibles après l\'approbation de l\'utilisateur.</string>
     <string name="plugin_description">Inspecte les paquets d\'installation et leur contenu</string>
     <string name="release_history">Historique des versions</string>
-    <string name="release_history_unavailable">L\'historique des versions est indisponible</string>
+    <string name="release_history_collapse_all">Tout réduire</string>
+    <string name="release_history_collapsed">Réduit</string>
+    <string name="release_history_expand_all">Tout développer</string>
+    <string name="release_history_expanded">Développé</string>
+    <string name="release_history_load_failed">Impossible de charger l\'historique des versions</string>
     <string name="report_field_copied">Copié dans le presse-papiers</string>
     <string name="report_field_copy_description">%1$s. Appuyez longuement pour copier cette valeur.</string>
     <string name="report_share_subject">Rapport d\'inspection APK : %1$s</string>

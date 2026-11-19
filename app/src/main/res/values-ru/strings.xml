@@ -173,7 +173,11 @@
     <string name="permission_runtime_description_fallback">Это разрешение может предоставлять доступ к конфиденциальным данным или действиям после одобрения пользователем.</string>
     <string name="plugin_description">Анализ установочных пакетов и их содержимого</string>
     <string name="release_history">История выпусков</string>
-    <string name="release_history_unavailable">История выпусков недоступна</string>
+    <string name="release_history_collapse_all">Свернуть всё</string>
+    <string name="release_history_collapsed">Свёрнуто</string>
+    <string name="release_history_expand_all">Развернуть всё</string>
+    <string name="release_history_expanded">Развёрнуто</string>
+    <string name="release_history_load_failed">Не удалось загрузить историю выпусков</string>
     <string name="report_field_copied">Скопировано в буфер обмена</string>
     <string name="report_field_copy_description">%1$s. Нажмите и удерживайте, чтобы скопировать значение.</string>
     <string name="report_share_subject">Отчёт о проверке APK: %1$s</string>

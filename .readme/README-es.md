@@ -148,22 +148,22 @@ Las capacidades anteriores y los elementos marcados de la Roadmap reflejan lo im
 
 #### v1.2.5
 
-_2026/11/19_
+###### 2026/11/19
 
-- `Corrección` El plugin se cerraba inesperadamente antes de mostrar el informe de inspección, tanto desde "Inspeccionar paquete Android" en el menú de archivos como al abrir un paquete desde otra aplicación (1.1.0 - 1.2.4)
+* `Corrección` El plugin se cerraba inesperadamente antes de mostrar el informe de inspección, tanto desde "Inspeccionar paquete Android" en el menú de archivos como al abrir un paquete desde otra aplicación (1.1.0 - 1.2.4)
 
 #### v1.2.4
 
-_2026/11/18_
+###### 2026/11/18
 
-- `Mejora` Icono del plugin rediseñado como una figura de un solo color sobre fondo transparente, bien visible en los temas claro y oscuro
+* `Mejora` Icono del plugin rediseñado como una figura de un solo color sobre fondo transparente, bien visible en los temas claro y oscuro
 
 #### v1.2.3
 
-_2026/11/07_
+###### 2026/11/07
 
-- `Corrección` "Inspeccionar paquete Android" se mostraba en inglés ("Inspect Android package") en el menú de archivos en todos los idiomas
-- `Mejora` En el menú de archivos de AutoJs6 6.8.1 y posteriores, "Inspeccionar paquete Android" está en el menú de primer nivel "APK Inspector" (sin cambios en versiones anteriores de AutoJs6)
+* `Corrección` "Inspeccionar paquete Android" se mostraba en inglés ("Inspect Android package") en el menú de archivos en todos los idiomas
+* `Mejora` En el menú de archivos de AutoJs6 6.8.1 y posteriores, "Inspeccionar paquete Android" está en el menú de primer nivel "APK Inspector" (sin cambios en versiones anteriores de AutoJs6)
 
 ##### Historial completo
 

@@ -173,7 +173,11 @@
     <string name="permission_runtime_description_fallback">This permission can access sensitive data or actions after user approval.</string>
     <string name="plugin_description">Inspect installation packages and their contents</string>
     <string name="release_history">Release history</string>
-    <string name="release_history_unavailable">Release history is unavailable</string>
+    <string name="release_history_collapse_all">Collapse all</string>
+    <string name="release_history_collapsed">Collapsed</string>
+    <string name="release_history_expand_all">Expand all</string>
+    <string name="release_history_expanded">Expanded</string>
+    <string name="release_history_load_failed">Unable to load the release history</string>
     <string name="report_field_copied">Copied to clipboard</string>
     <string name="report_field_copy_description">%1$s. Long press to copy this value.</string>
     <string name="report_share_subject">APK inspection report: %1$s</string>

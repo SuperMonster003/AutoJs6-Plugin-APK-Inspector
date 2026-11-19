@@ -173,7 +173,11 @@
     <string name="permission_runtime_description_fallback">يمكن لهذا الإذن الوصول إلى بيانات أو إجراءات حساسة بعد موافقة المستخدم.</string>
     <string name="plugin_description">فحص حزم التثبيت ومحتوياتها</string>
     <string name="release_history">سجل الإصدارات</string>
-    <string name="release_history_unavailable">سجل الإصدارات غير متاح</string>
+    <string name="release_history_collapse_all">طيّ الكل</string>
+    <string name="release_history_collapsed">مطوي</string>
+    <string name="release_history_expand_all">توسيع الكل</string>
+    <string name="release_history_expanded">موسَّع</string>
+    <string name="release_history_load_failed">تعذر تحميل سجل الإصدارات</string>
     <string name="report_field_copied">تم النسخ إلى الحافظة</string>
     <string name="report_field_copy_description">%1$s. اضغط مطولًا لنسخ هذه القيمة.</string>
     <string name="report_share_subject">تقرير فحص APK: %1$s</string>
