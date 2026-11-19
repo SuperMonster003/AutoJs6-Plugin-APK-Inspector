@@ -93,5 +93,50 @@
   "p_resource_layout": "README 与 CHANGELOG 均由 .python/generate_markdown.py 依据 .readme/ 与 .changelog/ 下的 JSON 语言资源和模板生成 (共 10 种语言). 修改文档请编辑对应 JSON 后重新运行脚本, 不要直接改动生成的 Markdown",
   "h3_links": "相关链接",
   "text_link_autojs6_docs": "AutoJs6 文档",
-  "text_link_android_secure_file_sharing": "Android 安全文件共享"
+  "text_link_android_secure_file_sharing": "Android 安全文件共享",
+  "instruction_p_what": "APK 检查器在安装前检查 APK, APKS, XAPK, APKM, APKZ 与 AAB 安装包, 显示应用名称, 版本, 权限, 组件与签名等信息, 并判断能否在当前设备上安装. 检查全程只读, 不安装软件包, 也不修改原文件.",
+  "instruction_h3_start": "开始使用",
+  "instruction_start_steps": [
+    "在 AutoJs6 的 \"插件中心\" 中确认本插件已启用.",
+    "打开 AutoJs6 的文件管理器, 找到要检查的安装包.",
+    "点按该文件, 或在文件菜单中选择 \"检查 Android 软件包\" (AutoJs6 6.8.1 及以上版本中位于一级菜单 \"APK Inspector\" 之下).",
+    "在检查报告中从上到下查看 \"软件包详情\", \"组件\", \"请求的权限\" 与 \"安全与兼容性发现\"."
+  ],
+  "instruction_h3_features": "主要功能",
+  "instruction_features": [
+    "**软件包详情**: 显示包名, 版本, 最低与目标 SDK, 并与当前设备对照; 长按字段可复制其值.",
+    "**签名验证**: 验证 V2, V3 等签名方案, 并显示签名证书的指纹.",
+    "**请求的权限**: 按运行时, 签名与普通三组列出权限, 运行时权限置顶并附简短说明.",
+    "**组件**: 汇总 activity, service, receiver 与 provider, 并标出是否导出.",
+    "**安全与兼容性发现**: 指出缺失基础包, 分包重复, 版本或包名不一致等问题, 并区分阻断性问题与提示.",
+    "**设备配置模拟**: 检查 APKS 等集合包时切换语言, 屏幕密度与 ABI, 点按 \"应用模拟配置\" 后对照所选分包与当前设备的差异.",
+    "**查看清单**: 以带行号与语法高亮的 XML 阅读 AndroidManifest, 可用 \"在清单中查找\" 搜索文本.",
+    "**分享报告**: 通过系统分享面板发送与屏幕一致的文本报告, 不创建文件."
+  ],
+  "instruction_h3_requirements": "运行要求",
+  "instruction_requirements": [
+    "Android 7.0 或更高版本.",
+    "AutoJs6 6.8.0 或更高版本.",
+    "不需要存储, 网络与安装权限; 插件只读取在文件管理器中选中的那个文件."
+  ],
+  "instruction_h3_faq": "常见问题",
+  "instruction_faq": [
+    {
+      "q": "本插件不提供安装功能的原因",
+      "a": "插件只用于在安装前查看安装包的内容, 所以不申请安装权限, 界面中也没有安装入口. 安装请使用系统安装器或 AutoJs6 自身的安装流程."
+    },
+    {
+      "q": "部分文件无法检查的原因",
+      "a": "常见原因有: 文件超过 {{ max_input_size }}, 设备缓存空间少于 {{ min_free_cache }}, 文件在读取时被其他应用改动, 或文件本身已损坏. 报告页的错误提示会说明具体原因."
+    },
+    {
+      "q": "签名验证通过的含义",
+      "a": "有效的签名只说明文件自签署后未被修改, 不能证明签名者或应用本身可信. 请再与官方渠道公布的证书指纹或 SHA-256 对照."
+    },
+    {
+      "q": "AAB 文件无法直接安装的原因",
+      "a": "AAB 是面向应用商店的分发格式, Android 设备不能直接安装. 插件可以显示它的清单与模块结构; 安装前需先用 bundletool 等工具转换为 APK 或 APKS."
+    }
+  ],
+  "instruction_p_more": "更多说明见 [项目主页]({{ repo_url }})."
 }
