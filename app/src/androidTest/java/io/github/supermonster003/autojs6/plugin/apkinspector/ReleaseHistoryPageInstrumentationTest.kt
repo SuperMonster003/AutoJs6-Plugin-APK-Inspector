@@ -1,10 +1,12 @@
 package io.github.supermonster003.autojs6.plugin.apkinspector
 
 import android.app.Activity
+import android.os.ParcelFileDescriptor
 import android.view.KeyEvent
 import androidx.appcompat.widget.Toolbar
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
+import androidx.compose.ui.test.ComposeTimeoutException
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertContentDescriptionEquals
@@ -24,9 +26,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
 import org.junit.After
-import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -166,10 +168,28 @@ class ReleaseHistoryPageInstrumentationTest {
         return generateSequence(node) { it.parent }.firstNotNullOfOrNull { it.config.getOrNull(SemanticsProperties.TestTag) } ?: UNTAGGED
     }
 
+    /** The window with input focus as `dumpsys window` reports it; for failure messages only (it connects UiAutomation). */
+    private fun focusedWindow(): String = runCatching {
+        ParcelFileDescriptor.AutoCloseInputStream(instrumentation.uiAutomation.executeShellCommand("dumpsys window"))
+            .bufferedReader().useLines { lines -> lines.map(String::trim).filter { it.startsWith("mCurrentFocus=") }.distinct().joinToString() }
+            .ifEmpty { "mCurrentFocus not in dumpsys" }
+    }.getOrElse { "dumpsys failed: $it" }
+
+    /** Keys go to the focused window: while a system dialog (an ANR, say) has focus, every Tab would be lost. */
+    private fun awaitWindowFocus(scenario: ActivityScenario<*>, visited: List<String> = emptyList()) {
+        var focused = false
+        try {
+            compose.waitUntil(TIMEOUT) { scenario.onActivity { focused = it.hasWindowFocus() }; focused }
+        } catch (timeout: ComposeTimeoutException) {
+            fail("the page has no window focus after $TIMEOUT ms; visited: $visited; ${focusedWindow()}")
+        }
+    }
+
     /** Presses Tab until focus returns to a control seen before; every focused control must be on screen. */
-    private fun tabCycle(): List<String> {
+    private fun tabCycle(scenario: ActivityScenario<*>): List<String> {
         val visited = mutableListOf<String>()
         repeat(MAX_TABS) {
+            awaitWindowFocus(scenario, visited)
             key(KeyEvent.KEYCODE_TAB)
             val tag = focusedTag() ?: return@repeat
             if (tag in visited) return visited
@@ -185,11 +205,15 @@ class ReleaseHistoryPageInstrumentationTest {
             compose.waitUntil(TIMEOUT) { exists("$TAG.list") }
             val versions = versions(scenario)
             assertTrue("releases: ${versions.size}", versions.size > 2)
+            awaitWindowFocus(scenario)
             leaveTouchMode()
-            val visited = tabCycle()
-            assertTrue(visited.toString(), "$TAG.navigation" in visited)
-            assertTrue("nothing focusable without a name: $visited", UNTAGGED !in visited)
-            assertEquals(versions.map { "$TAG.entry.$it" }, visited.filter { it.startsWith("$TAG.entry.") })
+            val visited = tabCycle(scenario)
+            fun expect(ok: Boolean, what: String) { if (!ok) fail("$what; visited: $visited; ${focusedWindow()}") }
+            expect("$TAG.navigation" in visited, "Tab never reached the back button")
+            expect(UNTAGGED !in visited, "something focusable has no name")
+            val expected = versions.map { "$TAG.entry.$it" }
+            val entries = visited.filter { it.startsWith("$TAG.entry.") }
+            expect(entries == expected, "the releases in Tab order: expected $expected, got $entries")
         }
     }
 
